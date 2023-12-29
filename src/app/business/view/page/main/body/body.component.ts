@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {MatDrawer} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-body',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./body.component.css']
 })
 export class BodyComponent {
+  showFiller = false;
 
+  @ViewChild(MatDrawer)
+  private readonly drawerComponent?: MatDrawer;
+
+  toggleSidenavOpened(){
+    this.drawerComponent?.toggle();
+  }
 }

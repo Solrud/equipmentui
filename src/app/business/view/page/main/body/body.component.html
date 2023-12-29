@@ -1,1 +1,29 @@
-<p>body works!</p>
+<mat-drawer-container class="example-container" autosize>
+
+  <!--  Контент внутри сайд навигации  -->
+  <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
+    <p>Auto-resizing sidenav</p>
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+    <button (click)="showFiller = !showFiller" mat-raised-button>
+      Toggle extra text
+    </button>
+  </mat-drawer>
+
+  <!-- Контент Body  -->
+  <div class="example-sidenav-content d-flex flex-column">
+    <div>
+      <app-general-buttons class="d-flex flex-grow-1" (openSidenav)="drawer.toggle()"></app-general-buttons>
+    </div>
+
+<!--    <div class="div-1"></div>-->
+  </div>
+
+
+
+
+
+
+
+
+
+</mat-drawer-container>
