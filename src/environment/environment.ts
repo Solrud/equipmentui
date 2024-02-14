@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   frontendURL: "https://localhost:4200",
-  backendURL: "https://testbazis.avi.motor.loc:7700",
+  backendURL: "https://testbazis:8698/equipment",
   authURL: 'https://localhost:3333/api',
   loginUrl: 'https://localhost:3333',
   defaultLocale: 'ru'

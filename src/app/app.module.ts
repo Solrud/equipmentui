@@ -63,6 +63,12 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     {provide: GRUPPA_URL_TOKEN, useValue: environment.backendURL + '/gruppa'},
     {provide: KOMPL_URL_TOKEN, useValue: environment.backendURL + '/kompl'},
     {provide: MODEL_URL_TOKEN, useValue: environment.backendURL + '/model'},
+    {provide: OBORUD_EKZ_URL_TOKEN, useValue: environment.backendURL + '/oborud-ekz'},
+
+    //?
+    // {provide: OBORUD_URL_TOKEN, useValue: environment.backendURL + '/oborud'},
+
+
     {provide: PODR_URL_TOKEN, useValue: environment.backendURL + '/podr'},
     {provide: PROIZV_URL_TOKEN, useValue: environment.backendURL + '/proizv'},
     {provide: UCH_URL_TOKEN, useValue: environment.backendURL + '/uch'},

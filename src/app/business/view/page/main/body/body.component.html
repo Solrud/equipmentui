@@ -3,9 +3,9 @@
   <!--  Контент внутри сайд навигации  -->
   <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
     <p>Auto-resizing sidenav</p>
-    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
-    <button (click)="showFiller = !showFiller" mat-raised-button>
-      Toggle extra text
+    <p *ngIf="showFiller">Tested</p>
+    <button (click)="showFiller = !showFiller; test()" mat-raised-button>
+      Toggle test
     </button>
   </mat-drawer>
 
