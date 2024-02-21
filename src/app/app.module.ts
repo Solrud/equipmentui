@@ -11,6 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTableModule} from '@angular/material/table';
 
 import {MultiTranslateHttpLoader} from "ngx-translate-multi-http-loader";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
@@ -22,10 +24,12 @@ import {
   GRUPPA_URL_TOKEN,
   KOMPL_URL_TOKEN,
   MODEL_URL_TOKEN,
-  OBORUD_EKZ_URL_TOKEN,
+  OBORUD_EKZ_URL_TOKEN, OBORUD_VID_URL_TOKEN,
   PODR_URL_TOKEN,
   PROIZV_URL_TOKEN, UCH_URL_TOKEN
 } from "./app.constant";
+import { NavbarComponent } from './business/view/page/main/navbar/navbar.component';
+import { TableComponent } from './business/view/page/main/table/table.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -42,7 +46,9 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     HeaderComponent,
     BodyComponent,
     FooterComponent,
-    GeneralButtonsComponent
+    GeneralButtonsComponent,
+    NavbarComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
@@ -57,18 +63,17 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
       }
     }),
     MatSidenavModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTabsModule,
+    MatTableModule
   ],
   providers: [
     {provide: GRUPPA_URL_TOKEN, useValue: environment.backendURL + '/gruppa'},
     {provide: KOMPL_URL_TOKEN, useValue: environment.backendURL + '/kompl'},
     {provide: MODEL_URL_TOKEN, useValue: environment.backendURL + '/model'},
     {provide: OBORUD_EKZ_URL_TOKEN, useValue: environment.backendURL + '/oborud-ekz'},
-
-    //?
+    {provide: OBORUD_VID_URL_TOKEN, useValue: environment.backendURL + '/oborud-vid'},
     // {provide: OBORUD_URL_TOKEN, useValue: environment.backendURL + '/oborud'},
-
-
     {provide: PODR_URL_TOKEN, useValue: environment.backendURL + '/podr'},
     {provide: PROIZV_URL_TOKEN, useValue: environment.backendURL + '/proizv'},
     {provide: UCH_URL_TOKEN, useValue: environment.backendURL + '/uch'},

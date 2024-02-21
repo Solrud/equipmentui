@@ -5,6 +5,7 @@ import {SearchPageUchService} from "../SearchService/impl/SearchPage/search-page
 import {SearchListUchService} from "../SearchService/impl/SearchList/search-list-uch.service";
 import {CRUDUchService} from "../CRUDService/impl/cruduch.service";
 import {UchSearchDTO} from "../../model/search/impl/UchSearchDTO";
+import {SearchAllUchService} from "../SearchService/impl/SearchAll/search-all-uch.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import {UchSearchDTO} from "../../model/search/impl/UchSearchDTO";
 export class UchService {
   constructor(private crudUchService: CRUDUchService,
               private searchListUchService: SearchListUchService,
-              private searchPageUchService: SearchPageUchService) { }
+              private searchPageUchService: SearchPageUchService,
+              private searchAllUchService: SearchAllUchService) { }
 
   create(gruppaDTO: UchDTO[]): Observable<boolean>{
     return this.crudUchService.create(gruppaDTO);
@@ -30,8 +32,12 @@ export class UchService {
     return this.crudUchService.create(gruppaDTO);
   }
 
-  searchList(searchObject: any = ''): Observable<UchDTO[]>{
-    return this.searchListUchService.searchList(searchObject);
+  searchAll(): Observable<UchDTO[]>{
+    return this.searchAllUchService.searchAll();
+  }
+
+  searchList(): Observable<UchDTO[]>{
+    return this.searchListUchService.searchList();
   }
 
   searchPage(UchSearchDTO: UchSearchDTO){

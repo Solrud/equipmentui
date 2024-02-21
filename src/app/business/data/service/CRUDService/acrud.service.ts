@@ -29,4 +29,6 @@ export abstract class ACRUDService<D extends IBaseDTO> extends ABaseService impl
   delete(d: D): Observable<D> {
     return this.httpClient.post<D>(this.baseUrl + '/save-all', d)
   }
+
+
 }

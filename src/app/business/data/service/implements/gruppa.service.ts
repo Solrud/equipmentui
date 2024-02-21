@@ -5,6 +5,7 @@ import {CRUDGruppaService} from "../CRUDService/impl/crudgruppa.service";
 import {SearchListGruppaService} from "../SearchService/impl/SearchList/search-list-gruppa.service";
 import {SearchPageGruppaService} from "../SearchService/impl/SearchPage/search-page-gruppa.service";
 import {GruppaSearchDTO} from "../../model/search/impl/GruppaSearchDTO";
+import {SearchAllGruppaService} from "../SearchService/impl/SearchAll/search-all-gruppa.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class GruppaService {
 
   constructor(private crudGruppaService: CRUDGruppaService,
               private searchListGruppaService: SearchListGruppaService,
-              private searchPageGruppaService: SearchPageGruppaService) { }
+              private searchPageGruppaService: SearchPageGruppaService,
+              private searchAllGruppaService: SearchAllGruppaService) { }
 
   create(gruppaDTO: GruppaDTO[]): Observable<boolean>{
     return this.crudGruppaService.create(gruppaDTO);
@@ -29,6 +31,10 @@ export class GruppaService {
 
   delete(gruppaDTO: GruppaDTO[]): Observable<boolean>{
     return this.crudGruppaService.create(gruppaDTO);
+  }
+
+  searchAll(): Observable<GruppaDTO[]>{
+    return this.searchAllGruppaService.searchAll();
   }
 
   searchList(): Observable<GruppaDTO[]>{

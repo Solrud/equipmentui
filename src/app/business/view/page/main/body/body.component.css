@@ -13,9 +13,14 @@
 .example-sidenav-content {
   display: flex;
   height: 100%;
-  background-color: var(--color-white);
+  background-color: #ffffff;
 }
 
 .example-sidenav {
   padding: 20px;
+  background-color: #c6c6c6;
+  width: 800px;
+}
+.mat-drawer-content{
+  margin-right: 500px;
 }

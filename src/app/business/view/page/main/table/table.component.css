@@ -1,0 +1,25 @@
+mat-table {
+  /*width: 100%;*/
+  border: #a0a0a0 1px solid;
+}
+.mat-mdc-table {
+  width: 100%;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.mat-column-name {
+  max-height: 100px;
+}
+.example-container {
+  height: 400px;
+  overflow: auto;
+  border: #a0a0a0 1px solid;
+}
+
+table {
+  width: 100%;
+}
+th{
+  border-bottom: #a0a0a0 1px solid;
+}

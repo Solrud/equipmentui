@@ -5,6 +5,7 @@ import {SearchPageOborudEkzService} from "../SearchService/impl/SearchPage/searc
 import {Observable} from "rxjs";
 import {OborudEkzDTO} from "../../model/dto/impl/OborudEkzDTO";
 import {OborudEkzSearchDTO} from "../../model/search/impl/OborudEkzSearchDTO";
+import {SearchAllOborudEkzService} from "../SearchService/impl/SearchAll/search-all-oborud-ekz.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import {OborudEkzSearchDTO} from "../../model/search/impl/OborudEkzSearchDTO";
 export class OborudEkzService {
   constructor(private crudOborudEkzService: CRUDOborudEkzService,
               private searchListOborudEkzService: SearchListOborudEkzService,
-              private searchPageOborudEkzService: SearchPageOborudEkzService) { }
+              private searchPageOborudEkzService: SearchPageOborudEkzService,
+              private searchAllOborudEkzService: SearchAllOborudEkzService) { }
 
   create(oborudEkzDTO: OborudEkzDTO[]): Observable<boolean>{
     return this.crudOborudEkzService.create(oborudEkzDTO);
@@ -30,8 +32,12 @@ export class OborudEkzService {
     return this.crudOborudEkzService.create(oborudEkzDTO);
   }
 
-  searchList(searchObject: any = ''): Observable<OborudEkzDTO[]>{
-    return this.searchListOborudEkzService.searchList(searchObject);
+  searchAll(): Observable<OborudEkzDTO[]>{
+    return this.searchAllOborudEkzService.searchAll();
+  }
+
+  searchList(): Observable<OborudEkzDTO[]>{
+    return this.searchListOborudEkzService.searchList();
   }
 
   searchPage(oborudEkzSearchDTO: OborudEkzSearchDTO){

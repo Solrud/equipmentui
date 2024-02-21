@@ -12,3 +12,5 @@ export class CRUDGruppaService extends ACRUDService<any>{
     super(baseUrl, httpClient);
   }
 }
+
+//ToDo сделать доп сервис чтобы был тип GruppaDTO | GruppaDTO[], а не any

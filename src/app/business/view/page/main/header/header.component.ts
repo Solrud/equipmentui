@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {UserRoleAuth} from "../../../../../app.constant";
 
 @Component({
   selector: 'app-header',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  currentApptRoleList: UserRoleAuth[];
+  selectedCurrentRole: UserRoleAuth;
+
 
 }
+//ToDo выбор роли из списка

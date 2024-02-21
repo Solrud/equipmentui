@@ -1,22 +1,22 @@
 i{
-  font-size: 2.2rem;
+  font-size: 2.3rem;
 }
 i:hover{
   color: #404040;
   cursor: pointer;
 }
 .i-add{
-  color: #0d828d
+  color: #32a800
 }
 .i-edit{
-  color: #3B4E79;
+  color: #0032a7;
 }
 .i-delete{
-  color: #af0011
+  color: #e00013
 }
 button{
   /*--mdc-protected-button-container-height: 33px;*/
   font-size: 20px;
-  padding: 10px 20px;
-  margin: 4px;
+  padding: 0px 30px;
+  /*margin: 4px;*/
 }

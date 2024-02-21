@@ -1,0 +1,84 @@
+<div *ngIf="selectedSpavochnik != null">
+  {{selectedSpavochnik}}
+  <div [ngSwitch]="selectedSpavochnik">
+    <div *ngSwitchDefault>
+      <span> Что то пошло не так, таблицы нет</span>
+    </div>
+
+    <div *ngSwitchCase="tableType.KOMPL">
+      <span> Комплекс на месте)</span>
+    </div>
+
+    <div *ngSwitchCase="tableType.GRUPPA">
+      <span> Комплекс на месте)</span>
+    </div>
+
+    <div *ngSwitchCase="tableType.MODEL">
+
+
+    </div>
+
+    <div *ngSwitchCase="tableType.OBORUD_EKZ">
+      <div *ngIf="dataTableSource">
+        <section class="example-container mat-elevation-z8" tabindex="0">
+          <table mat-table [dataSource]="dataTableSource">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="akt">
+              <th mat-header-cell *matHeaderCellDef> Акт </th>
+              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> id </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="invNom">
+              <th mat-header-cell *matHeaderCellDef> Инвент. номер </th>
+              <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="model">
+              <th mat-header-cell *matHeaderCellDef> Модели </th>
+              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="naim">
+              <th mat-header-cell *matHeaderCellDef> Наименование </th>
+              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="podr">
+              <th mat-header-cell *matHeaderCellDef> Подразделение  </th>
+              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="proizv">
+              <th mat-header-cell *matHeaderCellDef> Производитель </th>
+              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="serNom">
+              <th mat-header-cell *matHeaderCellDef> Серийный ном. </th>
+              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="uch">
+              <th mat-header-cell *matHeaderCellDef> Участок </th>
+              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="fieldColumnList; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: fieldColumnList;"></tr>
+          </table>
+        </section>
+      </div>
+    </div>
+  </div>
+
+</div>
+

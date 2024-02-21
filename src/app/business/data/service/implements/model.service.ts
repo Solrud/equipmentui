@@ -5,6 +5,7 @@ import {ModelSearchDTO} from "../../model/search/impl/ModelSearchDTO";
 import {SearchListModelService} from "../SearchService/impl/SearchList/search-list-model.service";
 import {SearchPageModelService} from "../SearchService/impl/SearchPage/search-page-model.service";
 import {CRUDModelService} from "../CRUDService/impl/crudmodel.service";
+import {SearchAllModelService} from "../SearchService/impl/SearchAll/search-all-model.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import {CRUDModelService} from "../CRUDService/impl/crudmodel.service";
 export class ModelService {
   constructor(private crudModelService: CRUDModelService,
               private searchListModelService: SearchListModelService,
-              private searchPageModelService: SearchPageModelService) {
+              private searchPageModelService: SearchPageModelService,
+              private searchAllModelService: SearchAllModelService) {
   }
 
   create(modelDTO: ModelDTO[]): Observable<boolean> {
@@ -31,8 +33,12 @@ export class ModelService {
     return this.crudModelService.create(modelDTO);
   }
 
-  searchList(searchObject: any = ''): Observable<ModelDTO[]> {
-    return this.searchListModelService.searchList(searchObject);
+  searchAll(): Observable<ModelDTO[]>{
+    return this.searchAllModelService.searchAll();
+  }
+
+  searchList(): Observable<ModelDTO[]> {
+    return this.searchListModelService.searchList();
   }
 
   searchPage(modelSearchDTO: ModelSearchDTO) {

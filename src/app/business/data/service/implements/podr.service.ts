@@ -5,6 +5,7 @@ import {PodrDTO} from "../../model/dto/impl/PodrDTO";
 import {SearchPagePodrService} from "../SearchService/impl/SearchPage/search-page-podr.service";
 import {SearchListPodrService} from "../SearchService/impl/SearchList/search-list-podr.service";
 import {CRUDPodrService} from "../CRUDService/impl/crudpodr.service";
+import {SearchAllPodrService} from "../SearchService/impl/SearchAll/search-all-podr.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import {CRUDPodrService} from "../CRUDService/impl/crudpodr.service";
 export class PodrService {
   constructor(private crudPodrService: CRUDPodrService,
               private searchListPodrService: SearchListPodrService,
-              private searchPagePodrService: SearchPagePodrService) { }
+              private searchPagePodrService: SearchPagePodrService,
+              private searchAllPodrService: SearchAllPodrService) { }
 
   create(podrDTO: PodrDTO[]): Observable<boolean>{
     return this.crudPodrService.create(podrDTO);
@@ -30,8 +32,12 @@ export class PodrService {
     return this.crudPodrService.create(podrDTO);
   }
 
-  searchList(searchObject: any = ''): Observable<PodrDTO[]>{
-    return this.searchListPodrService.searchList(searchObject);
+  searchAll(): Observable<PodrDTO[]>{
+    return this.searchAllPodrService.searchAll();
+  }
+
+  searchList(): Observable<PodrDTO[]>{
+    return this.searchListPodrService.searchList();
   }
 
   searchPage(podrSearchDTO: PodrSearchDTO){
