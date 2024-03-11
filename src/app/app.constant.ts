@@ -35,3 +35,15 @@ export enum UserRoleAuth {
   ADMIN = 'EQUIPMENT_ADMIN',
   VIEW = 'EQUIPMENT_VIEW',
 }
+
+export class TableData{
+  fieldColumnList: string[];
+  dataTableNavSource: object[];
+
+  constructor(fieldColumnList: string[] = [], dataTableNavSource: object[] = []) {
+    this.fieldColumnList = fieldColumnList;
+    this.dataTableNavSource = dataTableNavSource;
+  }
+}
+
+export const initNavBar = TableType.MODEL;

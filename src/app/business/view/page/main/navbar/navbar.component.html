@@ -1,45 +1,28 @@
-<!--<mat-tab-group animationDuration="0ms" mat-stretch-tabs="false" mat-align-tabs="start">-->
-<!--  <mat-tab label="Комплекс">Комплекс</mat-tab>-->
-<!--  <mat-tab label="Группа">Группа</mat-tab>-->
-<!--  <mat-tab label="Модель">Модель</mat-tab>-->
-<!--  <mat-tab label="Экземпляр">Экземпляр</mat-tab>-->
-<!--</mat-tab-group>-->
+<div class="d-flex flex-row group-tabs-config">
+<!--  <button (click)="onClickNavTab(tableType.KOMPL)">{{tableType.KOMPL}}</button>-->
 
+  <div class="tabs-config" (click)="onClickNavKompl()"
+       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.KOMPL, 'add-border-bottom': selectedSpravochnik != tableType.KOMPL}">
 
+    {{tableType.KOMPL}}
 
+  </div>
+  <div class="tabs-config" (click)="onClickNavGruppa()"
+       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.GRUPPA, 'add-border-bottom': selectedSpravochnik != tableType.GRUPPA}">
 
+    {{tableType.GRUPPA}}
 
-<!--Бутстраповские вкладки-->
-<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs d-flex gap-0">
-  <li [ngbNavItem]="1"  >
-    <button ngbNavLink (click)="onClickNavTab(tableType.KOMPL)">Комплекс</button>
-    <ng-template ngbNavContent>
-      <app-table [selectedSpavochnik]="selectedSpravochnik"></app-table>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="2"  >
-    <button ngbNavLink (click)="onClickNavTab(tableType.GRUPPA)">Группа</button>
-    <ng-template ngbNavContent>
-      <app-table [selectedSpavochnik]="selectedSpravochnik"></app-table>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="3" >
-    <button ngbNavLink (click)="onClickNavTab(tableType.MODEL)">Модель</button>
-    <ng-template ngbNavContent>
-      <app-table [selectedSpavochnik]="selectedSpravochnik"></app-table>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="4" [destroyOnHide]="true" >
-    <button ngbNavLink (click)="onClickNavTab(tableType.OBORUD_EKZ)">Экземпляр</button>
-    <ng-template ngbNavContent>
-      <app-table [selectedSpavochnik]="selectedSpravochnik"></app-table>
-    </ng-template>
-  </li>
-</ul>
+  </div>
+  <div class="tabs-config" (click)="onClickNavModel()"
+       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.MODEL, 'add-border-bottom': selectedSpravochnik != tableType.MODEL}">
 
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+    {{tableType.MODEL}}
 
+  </div>
+  <div class="tabs-config" (click)="onClickNavOborudEkz()"
+       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.OBORUD_EKZ, 'add-border-bottom': selectedSpravochnik != tableType.OBORUD_EKZ}">
 
-<pre>Active: {{ active }}</pre>
+    {{tableType.OBORUD_EKZ}}
 
-
+  </div>
+</div>

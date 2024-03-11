@@ -1,6 +1,6 @@
 .header-config{
   display: flex;
-  height: 4rem;
+  height: 3.1rem;
   justify-content: center;
   align-items: center;
   color: var(--color-white);
@@ -8,7 +8,7 @@
   /*background: -webkit-linear-gradient(to left, rgba(147, 243, 226, 0.6), rgba(71, 116, 200, 0.5), rgba(147, 243, 226, 0.6));  !*!* Chrome 10-25, Safari 5.1-6 *!*!*/
   /*background: linear-gradient(to left, rgba(147, 243, 226, 0.6), rgba(71, 116, 200, 0.5), rgba(147, 243, 226, 0.6)); !*!* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*!*/
   border: 1px solid black;
-  background: linear-gradient(90deg, #e2651c, #db1b74, #691595);
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(97,186,255,1) 0%, rgba(166,239,253,1) 50% );
   /*background: #73C8A9;  !* fallback for old browsers *!*/
   /*background: -webkit-linear-gradient(to right, #373B44, #73C8A9);  !* Chrome 10-25, Safari 5.1-6 *!*/
   /*background: linear-gradient(to right, #373B44, #73C8A9); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
@@ -18,13 +18,13 @@
 .footer-config{
   display: flex;
   flex-direction: row;
-  height: 3rem;
+  height: 2.2rem;
   align-items: center;
   background: #3f51b5;  /*!* fallback for old browsers *!*/
   /*background: -webkit-linear-gradient(to left, rgba(147, 243, 226, 0.6), rgba(71, 116, 200, 0.5), rgba(147, 243, 226, 0.6));  !*!* Chrome 10-25, Safari 5.1-6 *!*!*/
   /*background: linear-gradient(to left, rgba(147, 243, 226, 0.6), rgba(71, 116, 200, 0.5), rgba(147, 243, 226, 0.6)); !*!* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*!*/
   border: 1px solid black;
-  background: linear-gradient(90deg, #e2651c, #db1b74, #691595);
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(97,186,255,1) 0%, rgba(166,239,253,1) 90.1% );
   color: var(--color-white);
   /*background: #73C8A9;  !* fallback for old browsers *!*/
   /*background: -webkit-linear-gradient(to right, #373B44, #73C8A9);  !* Chrome 10-25, Safari 5.1-6 *!*/

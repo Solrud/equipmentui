@@ -1,22 +1,23 @@
 i{
-  font-size: 2.3rem;
+  font-size: 2.1rem;
 }
-i:hover{
-  color: #404040;
-  cursor: pointer;
-}
-.i-add{
-  color: #32a800
-}
-.i-edit{
-  color: #0032a7;
-}
-.i-delete{
-  color: #e00013
-}
+/*i:hover{*/
+/*  color: #404040;*/
+/*  cursor: pointer;*/
+/*}*/
+/*.i-add{*/
+/*  color: #32a800*/
+/*}*/
+/*.i-edit{*/
+/*  color: #0032a7;*/
+/*}*/
+/*.i-delete{*/
+/*  color: #e00013*/
+/*}*/
 button{
+  /*height: 20px;*/
   /*--mdc-protected-button-container-height: 33px;*/
   font-size: 20px;
-  padding: 0px 30px;
+  /*padding: 0px 30px;*/
   /*margin: 4px;*/
 }

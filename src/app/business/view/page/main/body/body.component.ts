@@ -1,12 +1,8 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDrawer} from "@angular/material/sidenav";
-import {GruppaService} from "../../../../data/service/implements/gruppa.service";
 import {TableType} from "../../../../../app.constant";
-import {EventType} from "@angular/router";
 import {EventService} from "../../../../data/service/OptionalService/event.service";
-import {KomplService} from "../../../../data/service/implements/kompl.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
-import {concatMap, debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'app-body',
@@ -20,6 +16,7 @@ export class BodyComponent implements OnInit{
   tabMatIndex = 0;
 
   selectedSpavochnik: string;
+  isTableDataNotEmpty: boolean = false;
 
   @ViewChild(MatDrawer)
   private readonly drawerComponent?: MatDrawer;
@@ -28,23 +25,14 @@ export class BodyComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    // EventService.selectedSpravTable.subscribe(result => {
-    //   const valuesEnum = Object.values(TableType);
-    //   if(valuesEnum.includes(result)){
-    //     this.tabMatIndex =  valuesEnum.indexOf(result);
-    //     console.log('есть номер ', result, 'номер у него ->', valuesEnum.indexOf(result))
-    //
-    //     this.test();
-    //   } else {
-    //     console.log('нет', result)
-    //   }
-    // })
+    this._isTableDataNotEmpty();
   }
 
-  //
-  // get tableType{
-  //   return TableType;
-  // }
+  _isTableDataNotEmpty(){
+    EventService.tableDataSource$.subscribe(result => {
+      result.dataTableNavSource.length > 0 && result.fieldColumnList.length > 0 ? this.isTableDataNotEmpty = true : this.isTableDataNotEmpty = false;
+    })
+  }
 
   toggleSidenavOpened(){
     this.drawerComponent?.toggle();
@@ -57,9 +45,6 @@ export class BodyComponent implements OnInit{
   }
 
   onClickChooseTable(type: string){
-    console.log('СРАБОТАЛ КЛИК', type)
-    // EventService.selectedSpravTable.next(TableType[type]);
-
     this.selectedSpavochnik = type;
   }
 }

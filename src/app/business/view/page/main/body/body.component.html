@@ -3,45 +3,27 @@
   <!--  Контент внутри сайд навигации  -->
   <mat-drawer opened="true" #drawer class="example-sidenav" mode="side" position="end">
     <p>Auto-resizing sidenav</p>
-    <p *ngIf="showFiller">Tested</p>
-    <button (click)="showFiller = !showFiller" mat-raised-button>tyyy</button>
-    <app-table></app-table>
+    <p *ngIf="showFiller">
+    </p>
+    <button (click)="showFiller = !showFiller" mat-raised-button>tik!</button>
+<!--    <app-table></app-table>-->
   </mat-drawer>
 
   <!-- Контент Body  -->
   <div class="example-sidenav-content d-flex flex-column">
     <!-- Кнопки редактирования -->
     <div>
-      <app-general-buttons class="d-flex flex-grow-1 mt-4" (openSidenav)="drawer.toggle()"></app-general-buttons>
+      <app-general-buttons class="d-flex mt-4 mb-3" (openSidenav)="drawer.toggle()"></app-general-buttons>
     </div>
 
-    <!-- Вкладки таблиц -->
-<!--    <mat-tab-group [(selectedIndex)]="tabMatIndex" class="ms-5" animationDuration="0ms" mat-stretch-tabs="false" mat-align-tabs="start">-->
-<!--      <mat-tab class="custom-mat-tab" *ngFor="let type of tableType" >-->
-<!--      <mat-tab class="custom-mat-tab" label="komplex">-->
-<!--        <ng-template mat-tab-label>-->
-<!--          <span (click)="onClickChooseTable(tabTyp.KOMPL)">{{tabTyp.KOMPL}}</span>-->
-<!--        </ng-template>-->
-<!--        <ng-template matTabContent>-->
-<!--          <app-table [selectedSpavochnik]="selectedSpavochnik"></app-table>-->
-<!--        </ng-template>-->
+    <!-- Вкладки навигации таблиц -->
+    <app-navbar></app-navbar>
 
-<!--      </mat-tab>-->
-
-<!--      <mat-tab class="custom-mat-tab" label="ekz obob">-->
-<!--        <ng-template mat-tab-label (click)="onClickChooseTable(tabTyp.OBORUD_EKZ)">-->
-<!--          <span (click)="onClickChooseTable(tabTyp.OBORUD_EKZ)">{{tabTyp.OBORUD_EKZ}}</span>-->
-<!--        </ng-template>-->
-<!--        <ng-template matTabContent>-->
-<!--          <app-table [selectedSpavochnik]="selectedSpavochnik"></app-table>-->
-<!--        </ng-template>-->
-<!--      </mat-tab>-->
-
-<!--    </mat-tab-group>-->
-
-  <app-navbar></app-navbar>
+    <!-- Таблица -->
+    <div *ngIf="isTableDataNotEmpty">
+      <app-table></app-table>
+    </div>
 
 
   </div>
-<!--    <div class="div-1"></div>-->
 </mat-drawer-container>

@@ -24,3 +24,7 @@
 .mat-drawer-content{
   margin-right: 500px;
 }
+
+app-general-buttons{
+  height: 45px;
+}

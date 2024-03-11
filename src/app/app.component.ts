@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {environment} from "../environment/environment";
+import {EventService} from "./business/data/service/OptionalService/event.service";
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import {environment} from "../environment/environment";
 })
 export class AppComponent implements OnInit{
   title = 'equipmentui';
+  // toShowSpinner = false;
 
   constructor(private translateService: TranslateService) {
   }

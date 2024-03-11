@@ -5,9 +5,6 @@ import {GruppaService} from "../../../../data/service/implements/gruppa.service"
 import {KomplService} from "../../../../data/service/implements/kompl.service";
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
-import {PodrService} from "../../../../data/service/implements/podr.service";
-import {ProizvService} from "../../../../data/service/implements/proizv.service";
-import {UchService} from "../../../../data/service/implements/uch.service";
 
 @Component({
   selector: 'app-table',
@@ -18,93 +15,59 @@ export class TableComponent implements OnInit, OnChanges{
   // @Input()
   // selectedSpravochnik: string;
 
-  //даные, столбцы
-  dataTableSource = []
-  fieldColumnList: string[]
-
   tableType = TableType
 
-  @Input()
-  selectedSpavochnik: string | null = null;
+  //даные, столбцы
+  // @Input()
+  selectedSpavochnik: TableType | string | null = null;
+  // @Input()
+  fieldColumnList = [];
+  // @Input()
+  dataTableSource = [];
 
   constructor(
     private gruppaService: GruppaService,
     private komplService: KomplService,
     private modelService: ModelService,
     private oborudEkzService: OborudEkzService,
-    private podrService: PodrService,
-    private proizvService: ProizvService,
-    private uchService: UchService
   ) { }
 
   ngOnInit(): void {
-    // EventService.selectedSpravTable.pipe().subscribe(result => {
-    //   result ? this.selectedSpavochnik = result : this.selectedSpavochnik = null;
-    //
-    //   this.onLoadingDataTable();
-    // })
+    EventService.selectedSpravTable$.subscribe(result => {
+      result ? this.selectedSpavochnik = result : null;
+    });
+
+    EventService.tableDataSource$.subscribe(result => {
+
+      if (result.dataTableNavSource.length > 0 && result.fieldColumnList.length > 0){
+        this.dataTableSource = result.dataTableNavSource;
+        this.fieldColumnList = result.fieldColumnList;
+        // for (let i of result.dataTableNavSource){
+        //   this.dataTableSource.push(i);
+        // }
+        //  for (let i of result.fieldColumnList){
+        //   this.fieldColumnList.push(i);
+        // }
+
+      } else {
+        console.log('пустой дата сурс в табличке')
+      }
+
+      console.log(this.fieldColumnList);
+      console.log(this.dataTableSource);
+    })
 
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if(changes['selectedSpavochnik'].previousValue == undefined){
-    // if(changes['selectedSpavochnik'].currentValue != changes['selectedSpavochnik'].previousValue){
-    if(true){
-      console.log('changes ', changes['selectedSpavochnik'])
-      console.log('\x1b[33m%s\x1b[0m','current ' + this.selectedSpavochnik)
-      this.onLoadingDataTable();
 
-    }
-
-    //TODO ПОЧЕМУ 3 РАЗА ПРИХОДЯТ CHANGES
   }
 
 
-  onLoadingDataTable(){
-    console.log('onLoadingTable ==', this.selectedSpavochnik)
-    switch (this.selectedSpavochnik) {
-      case TableType.OBORUD_EKZ:
-        this.fieldColumnList = ['akt', 'id', 'invNom', 'model', 'naim', 'podr', 'proizv', 'serNom', 'uch'];
-
-        this.dataTableSource = [];
-        this.oborudEkzService.searchAll().subscribe(result => {
-          console.log(result);
-
-          for(let stackOf100 of result){
-            this.dataTableSource.push(stackOf100);
-          }
-          console.log('TYT DATASOURCE -V-')
-          console.log(this.dataTableSource)
-        })
-        break;
-
-      case TableType.MODEL:
-        console.log('попала в модель')
-        this.fieldColumnList = ['akt', 'ekzemplary', 'id', 'kod', 'naim', 'obozn', 'tip'];
-        this.modelService.searchAll().subscribe(result => {
-          console.log(result);
-
-          this.dataTableSource = [];
-          for(let stackOf100 of result){
-            this.dataTableSource.push(stackOf100);
-          }
-        })
-        break;
-      case TableType.GRUPPA:
-        // this.fieldColumnList = ['akt', 'id', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
-
-
-        break;
-      case TableType.KOMPL:
-        // this.fieldColumnList = ['akt', 'id', 'kod', 'naim'];
-        break;
-
-      default:
-
-        break;
-    }
-    //toDo загрузка таблиц по нав табам + позже круг загрузки
+  isDataSourceFull(): boolean{
+    return !!(this.dataTableSource.length > 0 && this.dataTableSource);
   }
+
 }
 
