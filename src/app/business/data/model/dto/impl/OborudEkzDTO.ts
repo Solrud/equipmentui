@@ -12,4 +12,5 @@ export class OborudEkzDTO extends ABaseDTO{
   proizv: ProizvDTO;
   podr: PodrDTO;
   uch: UchDTO;
+  akt: number;
 }

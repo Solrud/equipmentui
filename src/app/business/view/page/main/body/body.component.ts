@@ -3,6 +3,7 @@ import {MatDrawer} from "@angular/material/sidenav";
 import {TableType} from "../../../../../app.constant";
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
+import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
 
 @Component({
   selector: 'app-body',
@@ -22,7 +23,8 @@ export class BodyComponent implements OnInit{
   private readonly drawerComponent?: MatDrawer;
 
   constructor(private oborudEkzService: OborudEkzService,
-              private eventService: EventService) {
+              private eventService: EventService,
+              private openDialogService: OpenDialogService) {
   }
 
   ngOnInit(): void {
@@ -47,5 +49,9 @@ export class BodyComponent implements OnInit{
 
   onClickChooseTable(type: string){
     this.selectedSpavochnik = type;
+  }
+
+  openTestDialog(){
+    this.openDialogService.openEquipmentDialog();
   }
 }

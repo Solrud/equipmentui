@@ -1,0 +1,8 @@
+.modal-config{
+  --bs-modal-width: 40%;
+}
+.modal-backdrop.show {
+  background-color: rgb(0, 0, 0) ;
+  opacity: 50%;
+  filter: blur(10px);
+}

@@ -2,27 +2,27 @@
 <!--  <button (click)="onClickNavTab(tableType.KOMPL)">{{tableType.KOMPL}}</button>-->
 
   <div class="tabs-config" (click)="onClickNavKompl()"
-       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.KOMPL, 'add-border-bottom': selectedSpravochnik != tableType.KOMPL}">
+       [class.actived-tab]="selectedSpravochnik == tableType.KOMPL" [class.add-border-bottom]="selectedSpravochnik != tableType.KOMPL">
 
-    {{tableType.KOMPL}}
+    {{'TITLE.KOMPL' | translate }}
 
   </div>
   <div class="tabs-config" (click)="onClickNavGruppa()"
-       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.GRUPPA, 'add-border-bottom': selectedSpravochnik != tableType.GRUPPA}">
+       [class.actived-tab]="selectedSpravochnik == tableType.GRUPPA" [class.add-border-bottom]="selectedSpravochnik != tableType.GRUPPA">
 
-    {{tableType.GRUPPA}}
+    {{'TITLE.GRUPPA' | translate}}
 
   </div>
   <div class="tabs-config" (click)="onClickNavModel()"
-       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.MODEL, 'add-border-bottom': selectedSpravochnik != tableType.MODEL}">
+       [class.actived-tab]="selectedSpravochnik == tableType.MODEL" [class.add-border-bottom]="selectedSpravochnik != tableType.MODEL">
 
-    {{tableType.MODEL}}
+    {{'TITLE.MODEL' | translate}}
 
   </div>
   <div class="tabs-config" (click)="onClickNavOborudEkz()"
-       [ngClass]="{'actived-tab': selectedSpravochnik == tableType.OBORUD_EKZ, 'add-border-bottom': selectedSpravochnik != tableType.OBORUD_EKZ}">
+       [class.actived-tab]="selectedSpravochnik == tableType.OBORUD_EKZ" [class.add-border-bottom]="selectedSpravochnik != tableType.OBORUD_EKZ">
 
-    {{tableType.OBORUD_EKZ}}
+    {{'TITLE.OBORUD_EKZ' | translate}}
 
   </div>
 </div>

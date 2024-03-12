@@ -12,9 +12,6 @@ import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.s
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit, OnChanges{
-  // @Input()
-  // selectedSpravochnik: string;
-
   tableType = TableType
 
   //даные, столбцы
@@ -37,17 +34,9 @@ export class TableComponent implements OnInit, OnChanges{
     });
 
     this.eventService.tableDataSource$.subscribe(result => {
-      console.log(result)
-      if (result.dataTableNavSource.length > 0 && result.fieldColumnList.length > 0){
-        this.dataTableSource = result.dataTableNavSource;
-        this.fieldColumnList = result.fieldColumnList;
 
-
-      } else {
-        this.dataTableSource = [];
-        this.fieldColumnList = [];
-        console.log('пустой дата сурс в табличке')
-      }
+      this.dataTableSource = result.dataTableNavSource.length > 0 ? result.dataTableNavSource : []
+      this.fieldColumnList = result.fieldColumnList.length > 0 ? result.fieldColumnList : []
 
       console.log(this.fieldColumnList);
       console.log(this.dataTableSource);
@@ -62,7 +51,7 @@ export class TableComponent implements OnInit, OnChanges{
 
 
   isDataSourceFull(): boolean{
-    return !!(this.dataTableSource.length > 0 && this.dataTableSource);
+    return this.dataTableSource.length > 0;
   }
 
 }

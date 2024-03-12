@@ -1,11 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {TableData, TableType} from "../../../../../app.constant";
+import {
+  FIELD_COLUMN_GRUPPA_LIST,
+  FIELD_COLUMN_KOMPL_LIST,
+  FIELD_COLUMN_MODEL_LIST,
+  FIELD_COLUMN_OBORUD_EKZ_LIST,
+  TableType
+} from "../../../../../app.constant";
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {KomplService} from "../../../../data/service/implements/kompl.service";
 import {GruppaService} from "../../../../data/service/implements/gruppa.service";
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +28,8 @@ export class NavbarComponent implements OnInit{
 
   isFirstTimeInitNav: boolean = true;
 
-  searchTable
+  dataSearch: GruppaSearchDTO;
+
   constructor(
     private komplService: KomplService,
     private gruppaService: GruppaService,
@@ -32,6 +39,7 @@ export class NavbarComponent implements OnInit{
     ) {}
 
   ngOnInit(): void {
+    if (!this.dataSearch) this.dataSearch = new GruppaSearchDTO();
     this.eventService.selectedSpravTable$.subscribe((result: TableType) => {
       this.selectedSpravochnik = result;
 
@@ -61,19 +69,13 @@ export class NavbarComponent implements OnInit{
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
-      console.log('111111searchAll Komplex');
       this.komplService.searchAll().subscribe( result => {
-        console.log('2222222searchAll Komplex');
         this.dataTableNavSource = result;
 
-
-        this.fieldColumnList = ['akt', 'id', 'kod', 'naim'];
+        this.fieldColumnList = FIELD_COLUMN_KOMPL_LIST;
 
         this._nextDataTable();
-      }),
-        error => {
-        console.log(error)
-        }
+      })
     }
   }
 
@@ -87,12 +89,24 @@ export class NavbarComponent implements OnInit{
       this.dataTableNavSource = [];
 
 
-      this.gruppaService.searchAll().subscribe( result => {
-        console.log('searchAll Gruppa');
 
-        this.dataTableNavSource = result;
 
-        this.fieldColumnList = ['akt', 'id', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
+//ToDo сделать диалоги с полями форм филдами и группой
+// думать про архитектуру
+// <mat-paginator> сделать
+
+
+
+      this.gruppaService.searchPage(this.dataSearch).subscribe(result => {
+        this.dataTableNavSource = result.map( data => {
+          return {
+            ...data,
+            'modely': data.modely.map( item => item?.naim),
+            'vid': data.vid?.naim
+          }
+        })
+
+        this.fieldColumnList = FIELD_COLUMN_GRUPPA_LIST;
 
         this._nextDataTable();
       })
@@ -107,9 +121,14 @@ export class NavbarComponent implements OnInit{
       this.modelService.searchAll().subscribe( result => {
         console.log('searchAll Model');
 
-        this.dataTableNavSource = result;
+        this.dataTableNavSource = result.map( data => {
+          return {
+            ...data,
+            'ekzemplary': data.ekzemplary.map( item => item.naim),
+          }
+        });
 
-        this.fieldColumnList = ['akt', 'ekzemplary', 'id', 'kod', 'naim', 'obozn', 'tip'];
+        this.fieldColumnList = FIELD_COLUMN_MODEL_LIST;
 
         this._nextDataTable();
       })
@@ -126,11 +145,18 @@ export class NavbarComponent implements OnInit{
       this.oborudEkzService.searchAll().subscribe( result => {
         console.log('searchAll OborudEkz');
 
-        this.dataTableNavSource = result;
-        this.fieldColumnList = ['akt', 'id', 'invNom', 'model', 'naim', 'podr', 'proizv', 'serNom', 'uch'];
+        this.dataTableNavSource = result.map( data => {
+          return {
+            ...data,
+            'model': data.model?.naim,
+            'podr': data.podr?.naim,
+            'proizv': data.proizv?.naim,
+            'uch': data.uch?.naim
+          }
+        });
+        this.fieldColumnList = FIELD_COLUMN_OBORUD_EKZ_LIST;
 
-
-          this._nextDataTable();
+        this._nextDataTable();
       }
       )
     }
