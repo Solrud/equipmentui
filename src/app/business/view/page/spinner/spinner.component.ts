@@ -17,7 +17,7 @@ export class SpinnerComponent implements AfterViewInit, OnDestroy{
 
   ngAfterViewInit(): void {
     this.elementRef.nativeElement.style.display = 'none';
-    this.loadingSubscription = this.spinnerService.spinnerVisibility.pipe(debounceTime(0)).subscribe( (status: boolean) => {
+    this.loadingSubscription = this.spinnerService.spinnerVisibility.pipe(debounceTime(300)).subscribe( (status: boolean) => {
         this.elementRef.nativeElement.style.display = status ? 'block' : 'none';
         this.changeDetectorRef.detectChanges();
       }

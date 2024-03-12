@@ -1,6 +1,53 @@
-.spinner{
+/*.spinner{*/
+/*  position: absolute;*/
+/*  top: calc(50% - 100px);*/
+/*  left: calc(50% - 45px);*/
+/*  z-index: 1200;*/
+/*}*/
+@keyframes pulse {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: .25;
+    transform: scale(.75);
+  }
+}
+
+.spinner-box {
   position: absolute;
-  top: calc(50% - 100px);
-  left: calc(50% - 100px);
+  top: calc(40% - 150px);
+  left: calc(50% - 150px);
   z-index: 1200;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.pulse-container {
+  width: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pulse-bubble {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+.pulse-bubble-1 {
+  animation: pulse .4s ease 0s infinite alternate;
+}
+.pulse-bubble-2 {
+  animation: pulse .4s ease .2s infinite alternate;
+}
+.pulse-bubble-3 {
+  animation: pulse .4s ease .4s infinite alternate;
 }

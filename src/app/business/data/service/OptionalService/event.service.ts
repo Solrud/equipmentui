@@ -7,17 +7,23 @@ import {initNavBar, TableData, TableType} from "../../../../app.constant";
 })
 export class EventService {
 
-  static selectedSpravTable$: BehaviorSubject<TableType> = new BehaviorSubject<TableType>(initNavBar);
+  selectedSpravTable$: BehaviorSubject<TableType> = new BehaviorSubject<TableType>(initNavBar);
 
-  static tableDataSource$ = new BehaviorSubject(new TableData());
+  selectSpravTab$(navTab: TableType){
+    this.selectedSpravTable$.next(navTab);
+  }
 
+  tableDataSource$ = new BehaviorSubject(new TableData());
+  pushTableDataSource$(columnList: string[], dataTableList: object[]){
+    this.tableDataSource$.next(new TableData(columnList, dataTableList))
+  }
 
   spinnerVisibility = new BehaviorSubject(false);
-  showSpinner(): void {
+  showSpinner$(): void {
     console.log('спиннер есть');
     this.spinnerVisibility.next(true);
   }
-  hideSpinner(): void {
+  hideSpinner$(): void {
     console.log('спиннера нету');
     this.spinnerVisibility.next(false);
   }

@@ -21,7 +21,8 @@ export class BodyComponent implements OnInit{
   @ViewChild(MatDrawer)
   private readonly drawerComponent?: MatDrawer;
 
-  constructor(private oborudEkzService: OborudEkzService) {
+  constructor(private oborudEkzService: OborudEkzService,
+              private eventService: EventService) {
   }
 
   ngOnInit(): void {
@@ -29,7 +30,7 @@ export class BodyComponent implements OnInit{
   }
 
   _isTableDataNotEmpty(){
-    EventService.tableDataSource$.subscribe(result => {
+    this.eventService.tableDataSource$.subscribe(result => {
       result.dataTableNavSource.length > 0 && result.fieldColumnList.length > 0 ? this.isTableDataNotEmpty = true : this.isTableDataNotEmpty = false;
     })
   }

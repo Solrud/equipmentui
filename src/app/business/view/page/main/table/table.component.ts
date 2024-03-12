@@ -26,30 +26,26 @@ export class TableComponent implements OnInit, OnChanges{
   dataTableSource = [];
 
   constructor(
-    private gruppaService: GruppaService,
-    private komplService: KomplService,
-    private modelService: ModelService,
-    private oborudEkzService: OborudEkzService,
+    private eventService: EventService
   ) { }
 
   ngOnInit(): void {
-    EventService.selectedSpravTable$.subscribe(result => {
+    console.log('ngOnInit TABLE.COMPONENT')
+    this.eventService.selectedSpravTable$.subscribe(result => {
       result ? this.selectedSpavochnik = result : null;
+      console.log(result)
     });
 
-    EventService.tableDataSource$.subscribe(result => {
-
+    this.eventService.tableDataSource$.subscribe(result => {
+      console.log(result)
       if (result.dataTableNavSource.length > 0 && result.fieldColumnList.length > 0){
         this.dataTableSource = result.dataTableNavSource;
         this.fieldColumnList = result.fieldColumnList;
-        // for (let i of result.dataTableNavSource){
-        //   this.dataTableSource.push(i);
-        // }
-        //  for (let i of result.fieldColumnList){
-        //   this.fieldColumnList.push(i);
-        // }
+
 
       } else {
+        this.dataTableSource = [];
+        this.fieldColumnList = [];
         console.log('пустой дата сурс в табличке')
       }
 

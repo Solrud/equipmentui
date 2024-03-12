@@ -5,6 +5,7 @@ import {KomplService} from "../../../../data/service/implements/kompl.service";
 import {GruppaService} from "../../../../data/service/implements/gruppa.service";
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-navbar',
@@ -26,11 +27,12 @@ export class NavbarComponent implements OnInit{
     private komplService: KomplService,
     private gruppaService: GruppaService,
     private modelService: ModelService,
-    private oborudEkzService: OborudEkzService
+    private oborudEkzService: OborudEkzService,
+    private eventService: EventService
     ) {}
 
   ngOnInit(): void {
-    EventService.selectedSpravTable$.subscribe((result: TableType) => {
+    this.eventService.selectedSpravTable$.subscribe((result: TableType) => {
       this.selectedSpravochnik = result;
 
       switch (result){
@@ -51,30 +53,27 @@ export class NavbarComponent implements OnInit{
     })
   }
 
-  //ToDo этот комопнент будет смарт для таблицы.
-  // На каждую вкладку отдельный метод (а не свитч-кейс как в app-table),
-  // отправляет в каждом методе свой запрос на сервер,
-  // в компонент таблицу пойдут дамп данные с апи, заголовки для таблицы.
-
-  //ToDo mat-spinner сделать поверх страницы, отображать посередине
+  //ToDo Сделать постраничную таблику
 
   onClickNavKompl(){
     if (this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav){
 
-      !this.isFirstTimeInitNav ? EventService.selectedSpravTable$.next(TableType.KOMPL) : this.isFirstTimeInitNav = false;
+      !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
+      console.log('111111searchAll Komplex');
       this.komplService.searchAll().subscribe( result => {
-        console.log('searchAll Komplex');
+        console.log('2222222searchAll Komplex');
+        this.dataTableNavSource = result;
 
-        for(let stack of result){
-          this.dataTableNavSource.push(stack);
-        }
 
         this.fieldColumnList = ['akt', 'id', 'kod', 'naim'];
 
         this._nextDataTable();
-      })
+      }),
+        error => {
+        console.log(error)
+        }
     }
   }
 
@@ -83,15 +82,15 @@ export class NavbarComponent implements OnInit{
   onClickNavGruppa(){
     if (this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav){
 
-      !this.isFirstTimeInitNav ? EventService.selectedSpravTable$.next(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
+      !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
+
+
       this.gruppaService.searchAll().subscribe( result => {
         console.log('searchAll Gruppa');
 
-        for(let stack of result){
-          this.dataTableNavSource.push(stack);
-        }
+        this.dataTableNavSource = result;
 
         this.fieldColumnList = ['akt', 'id', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
 
@@ -102,16 +101,11 @@ export class NavbarComponent implements OnInit{
 
   onClickNavModel(){
     if (this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav){
-      !this.isFirstTimeInitNav ? EventService.selectedSpravTable$.next(TableType.MODEL) : this.isFirstTimeInitNav = false;
+      !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
       this.modelService.searchAll().subscribe( result => {
         console.log('searchAll Model');
-
-
-        // for(let stack of result){
-        //   this.dataTableNavSource.push(stack);
-        // }
 
         this.dataTableNavSource = result;
 
@@ -126,15 +120,11 @@ export class NavbarComponent implements OnInit{
   onClickNavOborudEkz(){
     if (this.selectedSpravochnik != TableType.OBORUD_EKZ || this.isFirstTimeInitNav){
 
-      !this.isFirstTimeInitNav ? EventService.selectedSpravTable$.next(TableType.OBORUD_EKZ) : this.isFirstTimeInitNav = false;
+      !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.OBORUD_EKZ) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
       this.oborudEkzService.searchAll().subscribe( result => {
         console.log('searchAll OborudEkz');
-
-        // for(let stack of result){
-        //   this.dataTableNavSource.push(stack);
-        // }
 
         this.dataTableNavSource = result;
         this.fieldColumnList = ['akt', 'id', 'invNom', 'model', 'naim', 'podr', 'proizv', 'serNom', 'uch'];
@@ -146,7 +136,11 @@ export class NavbarComponent implements OnInit{
     }
   }
 
+  // isResponseNotEmpty(fields: [], data: []){
+  //   if ()
+  // }
+
   _nextDataTable(){
-    EventService.tableDataSource$.next(new TableData(this.fieldColumnList, this.dataTableNavSource));
+    this.eventService.pushTableDataSource$(this.fieldColumnList, this.dataTableNavSource);
   }
 }
