@@ -75,4 +75,13 @@
     </div>
   </div>
 </div>
-<h2 *ngIf="fieldColumnList.length <= 0 && dataTableSource.length <= 0" class="mt-3 d-flex justify-content-center text-danger">Нет данных в таблице</h2>
+<h3 *ngIf="fieldColumnList.length <= 0 && dataTableSource.length <= 0" class="mt-3 d-flex justify-content-center text-danger">Нет данных в таблице</h3>
+<!--<div *ngIf="dataTableSource">-->
+<!--  <mat-paginator showFirstLastButtons-->
+<!--                 [pageIndex]="taskSearch.pageNumber"-->
+<!--                 [pageSize]="this.pageSizeNew"-->
+<!--                 [length]="totalFoundedTasks"-->
+<!--                 [pageSizeOptions]="[5, 25, 50]"-->
+<!--                 (page)="onClickPageChanged($event)">-->
+<!--  </mat-paginator>-->
+<!--</div>-->

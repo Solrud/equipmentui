@@ -35,6 +35,7 @@ import {TableComponent} from './business/view/page/main/table/table.component';
 import { FormsModule } from '@angular/forms';
 import {SpinnerInterceptorService} from "./business/data/service/OptionalService/spinner-interceptor.service";
 import { SpinnerComponent } from './business/view/page/spinner/spinner.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -73,7 +74,8 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     MatTabsModule,
     MatTableModule,
     MatProgressSpinnerModule,
-    FormsModule
+    FormsModule,
+    MatPaginatorModule
   ],
   providers: [
     {provide: GRUPPA_URL_TOKEN, useValue: environment.backendURL + '/gruppa'},

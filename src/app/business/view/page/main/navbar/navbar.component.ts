@@ -6,6 +6,8 @@ import {GruppaService} from "../../../../data/service/implements/gruppa.service"
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {GruppaDTO} from "../../../../data/model/dto/impl/GruppaDTO";
+import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +24,8 @@ export class NavbarComponent implements OnInit{
 
   isFirstTimeInitNav: boolean = true;
 
-  searchTable
+  dataSearch: GruppaSearchDTO;
+
   constructor(
     private komplService: KomplService,
     private gruppaService: GruppaService,
@@ -32,6 +35,7 @@ export class NavbarComponent implements OnInit{
     ) {}
 
   ngOnInit(): void {
+    if (!this.dataSearch) this.dataSearch = new GruppaSearchDTO();
     this.eventService.selectedSpravTable$.subscribe((result: TableType) => {
       this.selectedSpravochnik = result;
 
@@ -61,19 +65,14 @@ export class NavbarComponent implements OnInit{
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
-      console.log('111111searchAll Komplex');
       this.komplService.searchAll().subscribe( result => {
-        console.log('2222222searchAll Komplex');
         this.dataTableNavSource = result;
 
 
         this.fieldColumnList = ['akt', 'id', 'kod', 'naim'];
 
         this._nextDataTable();
-      }),
-        error => {
-        console.log(error)
-        }
+      })
     }
   }
 
@@ -87,10 +86,16 @@ export class NavbarComponent implements OnInit{
       this.dataTableNavSource = [];
 
 
-      this.gruppaService.searchAll().subscribe( result => {
-        console.log('searchAll Gruppa');
 
-        this.dataTableNavSource = result;
+
+      this.gruppaService.searchPage(this.dataSearch).subscribe(result => {
+        console.log(result);
+        this.dataTableNavSource = result.map( data => {
+          return { ...data,
+            'modely': data.modely.map( item => item.naim),
+            'vid': data.vid.naim
+          }
+        })
 
         this.fieldColumnList = ['akt', 'id', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
 
