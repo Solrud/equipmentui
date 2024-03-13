@@ -1,53 +1,69 @@
-/*.spinner{*/
+/*.loader {*/
+/*  width: 128px;*/
+/*  height: 128px;*/
+/*  border-radius: 50%;*/
 /*  position: absolute;*/
 /*  top: calc(50% - 100px);*/
 /*  left: calc(50% - 45px);*/
 /*  z-index: 1200;*/
+/*  animation: rotate 1s linear infinite*/
 /*}*/
-@keyframes pulse {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: .25;
-    transform: scale(.75);
-  }
-}
+/*.loader::before , .loader::after {*/
+/*  content: "";*/
+/*  box-sizing: border-box;*/
+/*  position: absolute;*/
+/*  inset: 0px;*/
+/*  border-radius: 50%;*/
+/*  border: 12px solid #0d6efd;;*/
+/*  animation: prixClipFix 2s linear infinite ;*/
+/*}*/
+/*.loader::after{*/
+/*  inset: 8px;*/
+/*  transform: rotate3d(90, 90, 0, 180deg );*/
+/*  border-color: #FF3D00;*/
+/*}*/
 
-.spinner-box {
-  position: absolute;
-  top: calc(40% - 150px);
-  left: calc(50% - 150px);
-  z-index: 1200;
-  width: 300px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-}
+/*@keyframes rotate {*/
+/*  0%   {transform: rotate(0deg)}*/
+/*  100%   {transform: rotate(360deg)}*/
+/*}*/
 
-.pulse-container {
-  width: 120px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.pulse-bubble {
-  width: 30px;
-  height: 30px;
+/*@keyframes prixClipFix {*/
+/*  0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}*/
+/*  50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}*/
+/*  75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}*/
+/*}*/
+.loader {
+  width: 118px;
+  height: 118px;
   border-radius: 50%;
-  background-color: black;
+  position: absolute;
+  top: calc(50% - 100px);
+  left: calc(50% - 45px);
+  z-index: 1200;
+  animation: rotate 1s linear infinite
+}
+.loader::before , .loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0px;
+  border-radius: 50%;
+  border: 11px solid #3d3d3d;
+  animation: prixClipFix 2s linear infinite ;
+}
+.loader::after{
+  transform: rotate3d(90, 90, 0, 180deg );
+  border-color: #0d6efd;
 }
 
-.pulse-bubble-1 {
-  animation: pulse .4s ease 0s infinite alternate;
+@keyframes rotate {
+  0%   {transform: rotate(0deg)}
+  100%   {transform: rotate(360deg)}
 }
-.pulse-bubble-2 {
-  animation: pulse .4s ease .2s infinite alternate;
-}
-.pulse-bubble-3 {
-  animation: pulse .4s ease .4s infinite alternate;
+
+@keyframes prixClipFix {
+  0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+  50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+  75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
 }

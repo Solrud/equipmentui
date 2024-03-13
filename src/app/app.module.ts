@@ -36,6 +36,9 @@ import { FormsModule } from '@angular/forms';
 import {SpinnerInterceptorService} from "./business/data/service/OptionalService/spinner-interceptor.service";
 import { SpinnerComponent } from './business/view/page/spinner/spinner.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { EquipmentDialogComponent } from './business/view/dialog/equipment-dialog/equipment-dialog.component';
+import { SpravochnikDialogComponent } from './business/view/dialog/spravochnik-dialog/spravochnik-dialog.component';
+import { InformationDialogComponent } from './business/view/dialog/information-dialog/information-dialog.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -55,7 +58,10 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     GeneralButtonsComponent,
     NavbarComponent,
     TableComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    EquipmentDialogComponent,
+    SpravochnikDialogComponent,
+    InformationDialogComponent
   ],
   imports: [
     BrowserModule,

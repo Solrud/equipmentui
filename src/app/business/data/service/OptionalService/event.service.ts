@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {initNavBar, TableData, TableType} from "../../../../app.constant";
+import {INIT_NAV_BAR, TableData, TableType} from "../../../../app.constant";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  selectedSpravTable$: BehaviorSubject<TableType> = new BehaviorSubject<TableType>(initNavBar);
+  selectedSpravTable$ = new BehaviorSubject(INIT_NAV_BAR);
 
   selectSpravTab$(navTab: TableType){
     this.selectedSpravTable$.next(navTab);

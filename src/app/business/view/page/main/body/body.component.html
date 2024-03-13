@@ -5,7 +5,7 @@
     <p>Auto-resizing sidenav</p>
     <p *ngIf="showFiller">
     </p>
-    <button (click)="showFiller = !showFiller" mat-raised-button>tik!</button>
+    <button color="primary" (click)="showFiller = !showFiller; openTestDialog()" mat-raised-button>openTestModalDialog!</button>
 <!--    <app-table></app-table>-->
   </mat-drawer>
 
@@ -20,8 +20,7 @@
     <app-navbar></app-navbar>
 
     <!-- Таблица -->
-
-      <app-table></app-table>
+    <app-table></app-table>
 
 
 

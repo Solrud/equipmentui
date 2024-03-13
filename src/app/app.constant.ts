@@ -10,15 +10,6 @@ export const PROIZV_URL_TOKEN = new InjectionToken<string>('url');
 export const UCH_URL_TOKEN = new InjectionToken<string>('url');
 
 
-
-
-// export enum TableType {
-//   OBORUD_EKZ = 'OBORUD_EKZEMPLYAR',
-//   MODEL = 'MODEL',
-//   GRUPPA = 'GRUPPA',
-//   KOMPL = 'KOMPLEX'
-// }
-
 export const DEFAULT_PAGE_NUMBER = 0;
 export const DEFAULT_PAGE_SIZE = 20;
 export const DEFAULT_SORT_COLUMN = 'id';
@@ -33,7 +24,6 @@ export enum TableType {
   PROIZV = 'Производитель',
   UCH = 'Участки'
 }
-
 
 export enum UserRoleAuth {
   ADMIN = 'EQUIPMENT_ADMIN',
@@ -50,4 +40,9 @@ export class TableData{
   }
 }
 
-export const initNavBar = TableType.GRUPPA;
+export const INIT_NAV_BAR = TableType.GRUPPA;
+
+export const FIELD_COLUMN_KOMPL_LIST = ['id', 'akt', 'kod', 'naim'];
+export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'akt', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
+export const FIELD_COLUMN_MODEL_LIST = ['id', 'akt', 'ekzemplary', 'kod', 'naim', 'obozn', 'tip'];
+export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'akt', 'invNom', 'model', 'naim', 'podr', 'proizv', 'serNom', 'uch'];
