@@ -3,8 +3,9 @@
 }
 
 .mh-config{
-    max-height: 710px !important;
-    overflow: auto !important;
+  /*max-width: 1200px;*/
+  max-height: 710px !important;
+  overflow: auto !important;
 }
 
 .column-config{

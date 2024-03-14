@@ -41,12 +41,6 @@ export class BodyComponent implements OnInit{
     this.drawerComponent?.toggle();
   }
 
-  test() {
-    this.oborudEkzService.searchAll().subscribe(res => {
-      console.log(res)
-    })
-  }
-
   onClickChooseTable(type: string){
     this.selectedSpavochnik = type;
   }

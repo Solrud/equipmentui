@@ -12,6 +12,7 @@ import {GruppaService} from "../../../../data/service/implements/gruppa.service"
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
 import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
+import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +29,9 @@ export class NavbarComponent implements OnInit{
 
   isFirstTimeInitNav: boolean = true;
 
-  dataSearch: GruppaSearchDTO;
+  dataSearchGruppa: GruppaSearchDTO;
+  dataSearchModel: ModelSearchDTO;
+
 
   constructor(
     private komplService: KomplService,
@@ -39,7 +42,10 @@ export class NavbarComponent implements OnInit{
     ) {}
 
   ngOnInit(): void {
-    if (!this.dataSearch) this.dataSearch = new GruppaSearchDTO();
+    if (!this.dataSearchGruppa) this.dataSearchGruppa = new GruppaSearchDTO();
+    if (!this.dataSearchModel) this.dataSearchModel = new ModelSearchDTO();
+
+
     this.eventService.selectedSpravTable$.subscribe((result: TableType) => {
       this.selectedSpravochnik = result;
 
@@ -61,7 +67,16 @@ export class NavbarComponent implements OnInit{
     })
   }
 
-  //ToDo Сделать постраничную таблику
+
+
+  //ToDo
+  // сделать диалоги с полями форм филдами и группой
+  // постраничность, <mat-paginator> сделать
+  // перенести нав бар из отдельного компонента в боди
+  // думать про архитектуру
+  // DTO<any> переделать
+  // в конце концов не забыть про i18n
+
 
   onClickNavKompl(){
     if (this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav){
@@ -87,17 +102,7 @@ export class NavbarComponent implements OnInit{
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
-
-
-
-
-//ToDo сделать диалоги с полями форм филдами и группой
-// думать про архитектуру
-// <mat-paginator> сделать
-
-
-
-      this.gruppaService.searchPage(this.dataSearch).subscribe(result => {
+      this.gruppaService.searchPage(this.dataSearchGruppa).subscribe(result => {
         this.dataTableNavSource = result.map( data => {
           return {
             ...data,
@@ -118,7 +123,7 @@ export class NavbarComponent implements OnInit{
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
-      this.modelService.searchAll().subscribe( result => {
+      this.modelService.searchPage(this.dataSearchModel).subscribe( result => {
         console.log('searchAll Model');
 
         this.dataTableNavSource = result.map( data => {

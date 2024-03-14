@@ -11,7 +11,7 @@ import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.s
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit, OnChanges{
+export class TableComponent implements OnInit{
   tableType = TableType
 
   //даные, столбцы
@@ -28,30 +28,29 @@ export class TableComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {
     console.log('ngOnInit TABLE.COMPONENT')
+    this._initSelectedSpravochnik();
+    this._initTableDataSource();
+  }
+
+  _initSelectedSpravochnik(){
     this.eventService.selectedSpravTable$.subscribe(result => {
       result ? this.selectedSpavochnik = result : null;
-      console.log(result)
     });
+  }
 
+  _initTableDataSource(){
     this.eventService.tableDataSource$.subscribe(result => {
-
       this.dataTableSource = result.dataTableNavSource.length > 0 ? result.dataTableNavSource : []
       this.fieldColumnList = result.fieldColumnList.length > 0 ? result.fieldColumnList : []
-
-      console.log(this.fieldColumnList);
-      console.log(this.dataTableSource);
     })
-
-
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-  }
-
 
   isDataSourceFull(): boolean{
     return this.dataTableSource.length > 0;
+  }
+
+  onClickPageChanged(){
+
   }
 
 }
