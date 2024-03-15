@@ -1,10 +1,15 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {TableType} from "../../../../../app.constant";
 import {GruppaService} from "../../../../data/service/implements/gruppa.service";
 import {KomplService} from "../../../../data/service/implements/kompl.service";
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
+import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
+import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO";
+import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
+import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-table',
@@ -15,12 +20,20 @@ export class TableComponent implements OnInit{
   tableType = TableType
 
   //даные, столбцы
-  // @Input()
+  @Input()
   selectedSpavochnik: TableType | string | null = null;
-  // @Input()
+  @Input()
   fieldColumnList = [];
-  // @Input()
+  @Input()
   dataTableSource = [];
+  @Input()
+  dataSearch: GruppaSearchDTO | KomplSearchDTO | ModelSearchDTO | OborudEkzSearchDTO | null;
+  // dataSearch: GruppaSearchDTO | KomplSearchDTO | ModelSearchDTO | OborudEkzSearchDTO;
+  @Input()
+  totalFoundedElements: number;
+
+  @Output()
+  pagingEvent: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
 
   constructor(
     private eventService: EventService
@@ -29,7 +42,12 @@ export class TableComponent implements OnInit{
   ngOnInit(): void {
     console.log('ngOnInit TABLE.COMPONENT')
     this._initSelectedSpravochnik();
-    this._initTableDataSource();
+    // this._initTableDataSource();
+
+    console.log(this.selectedSpavochnik)
+    console.log(this.fieldColumnList)
+    console.log(this.dataTableSource)
+    console.log(this.dataSearch)
   }
 
   _initSelectedSpravochnik(){
@@ -49,8 +67,8 @@ export class TableComponent implements OnInit{
     return this.dataTableSource.length > 0;
   }
 
-  onClickPageChanged(){
-
+  onClickPageChanged(pageEvent: PageEvent){
+    this.pagingEvent.emit(pageEvent);
   }
 
 }

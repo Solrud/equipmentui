@@ -21,8 +21,8 @@ import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO"
 })
 export class NavbarComponent implements OnInit{
   tableType = TableType;
-  selectedSpravochnik: TableType;
 
+  selectedSpravochnik: TableType;
   //Данные передающиеся в инпут таблицы
   dataTableNavSource = [];
   fieldColumnList = [];
@@ -31,7 +31,6 @@ export class NavbarComponent implements OnInit{
 
   dataSearchGruppa: GruppaSearchDTO;
   dataSearchModel: ModelSearchDTO;
-
 
   constructor(
     private komplService: KomplService,
@@ -66,17 +65,6 @@ export class NavbarComponent implements OnInit{
       }
     })
   }
-
-
-
-  //ToDo
-  // сделать диалоги с полями форм филдами и группой
-  // постраничность, <mat-paginator> сделать
-  // перенести нав бар из отдельного компонента в боди
-  // думать про архитектуру
-  // DTO<any> переделать
-  // в конце концов не забыть про i18n
-
 
   onClickNavKompl(){
     if (this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav){
@@ -123,7 +111,7 @@ export class NavbarComponent implements OnInit{
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
 
       this.dataTableNavSource = [];
-      this.modelService.searchPage(this.dataSearchModel).subscribe( result => {
+      this.modelService.searchAll().subscribe( result => {
         console.log('searchAll Model');
 
         this.dataTableNavSource = result.map( data => {

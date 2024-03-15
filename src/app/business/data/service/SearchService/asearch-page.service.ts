@@ -16,6 +16,6 @@ export abstract class ASearchPageService<D extends IBaseDTO, S extends IBaseSear
   }
 
   searchPage(s: S): Observable<any>{
-    return this.httpClient.post<any>(this.baseUrl + '/search', s);
+    return this.httpClient.post<any>(this.baseUrl + '/searchPage', s);
   }
 }
