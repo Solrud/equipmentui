@@ -1,12 +1,17 @@
 <div *ngIf="selectedSpavochnik != null && fieldColumnList.length > 0" class="mh-config">
-  <table *ngIf="isDataSourceFull(); else ifDataSourceEmpty" class="table table-striped table-hover table-bordered table-sm" >
+  <table *ngIf="isDataSourceFull(); else ifDataSourceEmpty" class="table table-bordered table-responsive table-sm" >
     <thead>
     <tr class="tr-columns-config sticky-top border-top-0">
       <th class="text-nowrap column-config" *ngFor="let field of fieldColumnList">{{'TABLE.' + field.toUpperCase() | translate}}</th>
     </tr>
     </thead>
     <tbody class="">
-    <tr *ngFor="let data of dataTableSource; index as i" class=" pointer">
+    <tr *ngFor="let data of dataTableSource; index as i"
+        (click)="onSelectElementTable(data)"
+        [class.active-element]="data == selectedElement"
+        [class.striped-con]="i % 2 == 0"
+        [class.deleted-element]="!data['akt']"
+        class="pointer">
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data[field]">
             <i class="bi bi-dash"></i>
@@ -27,7 +32,7 @@
                  [pageIndex]="dataSearch.pageNumber"
                  [pageSize]="dataSearch.pageSize"
                  [length]="totalFoundedElements"
-                 [pageSizeOptions]="[10, 20, 50, 100]"
+                 [pageSizeOptions]="[10, 20, 50, 100, totalFoundedElements]"
                  (page)="onClickPageChanged($event)">
   </mat-paginator>
 </div>

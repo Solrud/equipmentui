@@ -10,6 +10,7 @@ import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO"
 import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
 import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
 import {PageEvent} from "@angular/material/paginator";
+import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
 
 @Component({
   selector: 'app-table',
@@ -19,7 +20,6 @@ import {PageEvent} from "@angular/material/paginator";
 export class TableComponent implements OnInit{
   tableType = TableType
 
-  //даные, столбцы
   @Input()
   selectedSpavochnik: TableType | string | null = null;
   @Input()
@@ -27,13 +27,14 @@ export class TableComponent implements OnInit{
   @Input()
   dataTableSource = [];
   @Input()
-  dataSearch: GruppaSearchDTO | KomplSearchDTO | ModelSearchDTO | OborudEkzSearchDTO | null;
-  // dataSearch: GruppaSearchDTO | KomplSearchDTO | ModelSearchDTO | OborudEkzSearchDTO;
+  dataSearch: ABaseSearchDTO | null;
   @Input()
   totalFoundedElements: number;
 
   @Output()
   pagingEvent: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
+
+  selectedElement: any;
 
   constructor(
     private eventService: EventService
@@ -41,20 +42,17 @@ export class TableComponent implements OnInit{
 
   ngOnInit(): void {
     console.log('ngOnInit TABLE.COMPONENT')
-    this._initSelectedSpravochnik();
-    // this._initTableDataSource();
 
+    console.log('TABLE.selectedSpavochnik')
     console.log(this.selectedSpavochnik)
+    console.log('TABLE.fieldColumnList')
     console.log(this.fieldColumnList)
+    console.log('TABLE.dataTableSource')
     console.log(this.dataTableSource)
+    console.log('TABLE.dataSearch')
     console.log(this.dataSearch)
   }
 
-  _initSelectedSpravochnik(){
-    this.eventService.selectedSpravTable$.subscribe(result => {
-      result ? this.selectedSpavochnik = result : null;
-    });
-  }
 
   _initTableDataSource(){
     this.eventService.tableDataSource$.subscribe(result => {
@@ -69,6 +67,11 @@ export class TableComponent implements OnInit{
 
   onClickPageChanged(pageEvent: PageEvent){
     this.pagingEvent.emit(pageEvent);
+  }
+
+  onSelectElementTable(selectedElement: any){
+    this.selectedElement = selectedElement;
+    this.eventService.selectElementTable$(selectedElement);
   }
 
 }
