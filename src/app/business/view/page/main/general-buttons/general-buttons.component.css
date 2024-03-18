@@ -1,5 +1,5 @@
 i{
-  font-size: 2.1rem;
+  font-size: 1.8rem;
 }
 /*i:hover{*/
 /*  color: #404040;*/
@@ -15,14 +15,11 @@ i{
 /*  color: #e00013*/
 /*}*/
 button{
-  /*height: 20px;*/
-  /*--mdc-protected-button-container-height: 33px;*/
-  font-size: 20px;
-  /*padding: 0px 30px;*/
-  /*margin: 4px;*/
+  font-size: 17px;
 }
 
 .i-arrow-config{
+  font-size: 2.4rem !important;
   transition: all 210ms ease;
   color: #0d6efd;
 }.i-arrow-config:hover{

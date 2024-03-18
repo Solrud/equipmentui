@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
-import {EquipmentDialogComponent} from "../../../view/dialog/equipment-dialog/equipment-dialog.component";
+import {RelationshipCardDialogComponent} from "../../../view/dialog/relationship-card-dialog/relationship-card-dialog.component";
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +8,19 @@ import {EquipmentDialogComponent} from "../../../view/dialog/equipment-dialog/eq
 export class OpenDialogService {
 
   constructor(private modalService: NgbModal,
-              private configModalDialog: NgbModalConfig) { }
-
-
-  openEquipmentDialog(){
-    const openEquipmentDialog = this.modalService.open(EquipmentDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
-
-    return openEquipmentDialog;
+              private configModalDialog: NgbModalConfig) {
+    configModalDialog.backdrop = 'static';
+    configModalDialog.keyboard = false;
   }
 
-  openSpravochnikDialog(){
+
+  openRelationshipCardDialog(){
+    const openRelationshipCardDialog = this.modalService.open(RelationshipCardDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
+
+    return openRelationshipCardDialog;
+  }
+
+  openDialog(){
 
   }
 

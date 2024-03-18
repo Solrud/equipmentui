@@ -1,36 +1,31 @@
-<!--<div class="col-4 d-flex ps-5 mb-3">-->
-<!--  <div class="d-flex gap-4">-->
-<!--    <button class="btn btn-lg d-flex flex-row align-items-center">-->
-<!--      <i class="bi bi-file-earmark-plus-fill i-add"></i>-->
-<!--      Добавить-->
-<!--    </button>-->
-<!--    <i class="bi bi-pencil-square i-edit"></i>-->
-<!--    <i class="bi bi-file-earmark-x i-delete"></i>-->
-<!--    <button class="btn btn-primary mt-3 mb-3" type="submit">Отчёт</button>-->
-<!--  </div>-->
-<!--&lt;!&ndash;  <button class="btn btn-sm btn-outline-primary" (click)="onClickOpenSideNav()">Открыть сайд нав</button>&ndash;&gt;-->
-
-<!--</div>-->
-<!--<div class="col-8 d-flex justify-content-end pe-5">-->
-<!--  &lt;!&ndash;  <span>ssss</span>&ndash;&gt;-->
-<!--  <i class="bi bi-arrow-left-square-fill" (click)="onClickOpenSideNav()"></i>-->
-<!--</div>-->
-
 <div class="d-flex flex-row justify-content-between w-100">
   <div class="d-flex gap-4 ms-5">
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center">
+    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+            [disabled]="!selectedNavBar">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
       &nbsp; Добавить
     </button>
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center">
+    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+            [disabled]="!selectedElementTable">
       <i class="bi bi-pencil-square i-edit"></i>
       &nbsp; Изменить
     </button>
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center">
+    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+            [disabled]="!selectedElementTable">
       <i class="bi bi-file-earmark-x i-delete"></i>
       &nbsp; Удалить
     </button>
-    <button class="btn btn-primary" type="submit">Отчёт</button>
+    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+            [class.visually-hidden]="selectedNavBar != tableType.OBORUD_EKZ"
+            [disabled]="true">
+      <i class="bi bi-reply-all-fill i-delete"></i>
+    </button>
+
+    <button class="btn btn-primary" type="submit" [disabled]="true">
+      Отчёт
+    </button>
   </div>
+
+
   <i class="bi bi-arrow-{{sideNavArrow}}-square-fill me-5 i-arrow-config align-self-center" (click)="onClickOpenSideNav()"></i>
 </div>

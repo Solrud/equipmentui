@@ -6,6 +6,7 @@ import {CRUDKomplService} from "../CRUDService/impl/crudkompl.service";
 import {SearchListKomplService} from "../SearchService/impl/SearchList/search-list-kompl.service";
 import {SearchPageKomplService} from "../SearchService/impl/SearchPage/search-page-kompl.service";
 import {SearchAllKomplService} from "../SearchService/impl/SearchAll/search-all-kompl.service";
+import {KomplSearchDTO} from "../../model/search/impl/KomplSearchDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,7 @@ export class KomplService {
     return this.searchListKomplService.searchList();
   }
 
-  searchPage(gruppaSearchDTO: GruppaSearchDTO){
-    return this.searchPageKomplService.searchPage(gruppaSearchDTO);
+  searchPage(komplSearchDTO: KomplSearchDTO){
+    return this.searchPageKomplService.searchPage(komplSearchDTO);
   }
 }

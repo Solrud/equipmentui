@@ -36,9 +36,9 @@ import { FormsModule } from '@angular/forms';
 import {SpinnerInterceptorService} from "./business/data/service/OptionalService/spinner-interceptor.service";
 import { SpinnerComponent } from './business/view/page/spinner/spinner.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { EquipmentDialogComponent } from './business/view/dialog/equipment-dialog/equipment-dialog.component';
-import { SpravochnikDialogComponent } from './business/view/dialog/spravochnik-dialog/spravochnik-dialog.component';
 import { InformationDialogComponent } from './business/view/dialog/information-dialog/information-dialog.component';
+import { RelationshipCardDialogComponent } from './business/view/dialog/relationship-card-dialog/relationship-card-dialog.component';
+import { EditEntityCardDialogComponent } from './business/view/dialog/edit-entity-card-dialog/edit-entity-card-dialog.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -59,9 +59,9 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     NavbarComponent,
     TableComponent,
     SpinnerComponent,
-    EquipmentDialogComponent,
-    SpravochnikDialogComponent,
-    InformationDialogComponent
+    InformationDialogComponent,
+    RelationshipCardDialogComponent,
+    EditEntityCardDialogComponent
   ],
   imports: [
     BrowserModule,

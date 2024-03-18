@@ -49,4 +49,4 @@ export const INIT_NAV_BAR = TableType.GRUPPA;
 export const FIELD_COLUMN_KOMPL_LIST = ['id', 'kod', 'naim'];
 export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'kod', 'naim', 'kodKlass'];
 export const FIELD_COLUMN_MODEL_LIST = ['id', 'kod', 'naim', 'obozn'];
-export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'akt', 'invNom', 'model', 'naim', 'podr', 'proizv', 'serNom', 'uch'];
+export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'model', 'naim', 'podr', 'proizv', 'serNom', 'uch'];
