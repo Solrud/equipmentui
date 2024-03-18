@@ -37,10 +37,6 @@ export class ModelService {
     return this.searchAllModelService.searchAll();
   }
 
-  searchList(): Observable<ModelDTO[]> {
-    return this.searchListModelService.searchList();
-  }
-
   searchPage(modelSearchDTO: ModelSearchDTO) {
     return this.searchPageModelService.searchPage(modelSearchDTO);
   }
