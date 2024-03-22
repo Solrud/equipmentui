@@ -7,7 +7,7 @@ import {GruppaDTO} from "./GruppaDTO";
 export class OborudEkzDTO extends ABaseDTO{
   model: GruppaDTO;
   serNom: string;
-  invNum: string;
+  invNom: string;
   naim: string;
   proizv: ProizvDTO;
   podr: PodrDTO;

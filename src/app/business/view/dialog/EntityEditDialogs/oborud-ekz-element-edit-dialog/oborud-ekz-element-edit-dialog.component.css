@@ -1,10 +1,23 @@
 .ddm-config {
-  max-height: 400px;
-  max-width: 400px;
+  max-height: 300px;
+  max-width: 350px;
   overflow-y: auto;
+
+  z-index: 99999999;
+}
+input{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 /*.ngb-menu-config{*/
 /*  position: absolute;*/
 /*  top: 0;*/
 /*  z-index: 9999999999999999;*/
 /*}*/
+/*.dropdown-item{*/
+/*  width: 10px;*/
+/*}*/
+
+.test{
+
+}
