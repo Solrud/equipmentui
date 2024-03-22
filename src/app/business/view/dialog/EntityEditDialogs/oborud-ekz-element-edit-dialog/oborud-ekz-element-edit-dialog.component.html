@@ -23,10 +23,8 @@
       </div>
     </div>
     <!--    ячейка 2-->
-    <div class="d-inline-block"
-         container="body"
-         ngbDropdown
-         #ddmProizv="ngbDropdown"
+    <div class="d-flex flex-column flex-grow-1 col-6 "  container="body"
+         ngbDropdown #ddmProizv="ngbDropdown"
     >
       <label for="proizv" class="form-label">Производитель</label>
       <div class="form-group input-group">
@@ -42,7 +40,7 @@
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
-      <div class="px-3 ngb-menu-config" ngbDropdownMenu  *ngIf="proizvListDDM && proizvListDDM.length > 0">
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu *ngIf="proizvListDDM && proizvListDDM.length > 0">
         <p *ngIf="proizvListDDM.length > 0">Выберите один из элем-ов:</p>
         <p *ngIf="proizvListDDM.length == 0">Список эл-ов пуст :(:</p>
         <div class="dropdown-divider"></div>
