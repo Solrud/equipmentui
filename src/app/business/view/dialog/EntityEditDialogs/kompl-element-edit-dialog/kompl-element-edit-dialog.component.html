@@ -1,0 +1,48 @@
+<div class="modal-header d-flex justify-content-center">
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.CREATE">Создание комплекса</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.EDIT">Редактирование комплекса</h2>
+</div>
+
+<form class="modal-body d-flex flex-column gap-1"
+      [formGroup]="fgKomplElement">
+  <div class="d-flex justify-content-end">
+    <label for="kod" class=" m-0 me-2 align-self-center">Код</label>
+    <input class="form-control w-25 border-dark"
+           id="kod"
+           type="text"
+           autocomplete="off"
+           formControlName="kod"
+           [required]="fcFieldIsRequired('kod', true)"
+           readonly>
+  </div>
+  <div>
+    <label for="naim" class="form-label">Наименование</label>
+    <div class="form-group input-group">
+      <input class="form-control border-dark"
+             id="naim"
+             formControlName="naim"
+             autocomplete="off"
+             [required]="fcFieldIsRequired('naim', true)"
+             type="text">
+      <button class="btn btn-light border-dark"
+              (click)="fgKomplElement.controls['naim'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+  </div>
+</form>
+
+<div class="modal-footer ">
+  <button type="button" class="btn btn-primary"
+          (click)="onClickCreateKompl()"
+          [hidden]="dialogMode != DialogMode.CREATE"
+          [disabled]="fgKomplElement.invalid">Создать</button>
+  <button type="button" class="btn btn-primary"
+          (click)="onClickUpdateKompl()"
+          [hidden]="dialogMode != DialogMode.EDIT"
+          [disabled]="fgKomplElement.invalid">Редактировать</button>
+  <button type="button" class="btn btn-secondary"
+          ngbAutofocus
+          (click)="onClickCloseModal()">Отмена</button>
+</div>

@@ -6,6 +6,7 @@ import {SearchPagePodrService} from "../SearchService/impl/SearchPage/search-pag
 import {SearchListPodrService} from "../SearchService/impl/SearchList/search-list-podr.service";
 import {CRUDPodrService} from "../CRUDService/impl/crudpodr.service";
 import {SearchAllPodrService} from "../SearchService/impl/SearchAll/search-all-podr.service";
+import {OborudVidDTO} from "../../model/dto/impl/OborudVid";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class PodrService {
               private searchPagePodrService: SearchPagePodrService,
               private searchAllPodrService: SearchAllPodrService) { }
 
-  create(podrDTO: PodrDTO[]): Observable<boolean>{
+  create(podrDTO: PodrDTO): Observable<boolean>{
     return this.crudPodrService.create(podrDTO);
   }
 
@@ -24,12 +25,12 @@ export class PodrService {
     return this.crudPodrService.read(id);
   }
 
-  update(podrDTO: PodrDTO[]): Observable<boolean>{
-    return this.crudPodrService.create(podrDTO);
+  update(podrDTO: PodrDTO): Observable<boolean>{
+    return this.crudPodrService.update(podrDTO);
   }
 
-  delete(podrDTO: PodrDTO[]): Observable<boolean>{
-    return this.crudPodrService.create(podrDTO);
+  delete(id: number): Observable<boolean>{
+    return this.crudPodrService.delete(id);
   }
 
   searchAll(): Observable<PodrDTO[]>{
@@ -42,5 +43,13 @@ export class PodrService {
 
   searchPage(podrSearchDTO: PodrSearchDTO){
     return this.searchPagePodrService.searchPage(podrSearchDTO);
+  }
+
+  createList(podrDTO: PodrDTO[]): Observable<boolean>{
+    return this.crudPodrService.createList(podrDTO);
+  }
+
+  updateList(podrDTO: PodrDTO[]): Observable<boolean>{
+    return this.crudPodrService.updateList(podrDTO);
   }
 }

@@ -25,6 +25,25 @@ export enum TableType {
   UCH = 'Участки'
 }
 
+export enum DialogMode {
+  VIEW,
+  CREATE,
+  COPY,
+  EDIT,
+  AGREE,
+  RETURN,
+  CHANGE_ACTIVITY,
+  DELETE
+}
+
+export enum DialogResult {
+  ACCEPT,
+  CANCEL,
+  EXIT,
+  STOP,
+  RETURN
+}
+
 export enum UserRoleAuth {
   ADMIN = 'EQUIPMENT_ADMIN',
   VIEW = 'EQUIPMENT_VIEW',
@@ -40,7 +59,7 @@ export class TableData{
   }
 }
 
-export const INIT_NAV_BAR = TableType.GRUPPA;
+export const INIT_NAV_BAR = TableType.OBORUD_EKZ;
 
 // export const FIELD_COLUMN_KOMPL_LIST = ['id', 'akt', 'kod', 'naim'];
 // export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'akt', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
@@ -49,4 +68,6 @@ export const INIT_NAV_BAR = TableType.GRUPPA;
 export const FIELD_COLUMN_KOMPL_LIST = ['id', 'kod', 'naim'];
 export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'kod', 'naim', 'kodKlass'];
 export const FIELD_COLUMN_MODEL_LIST = ['id', 'kod', 'naim', 'obozn'];
-export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'model', 'naim', 'podr', 'proizv', 'serNom', 'uch'];
+export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'naim', 'proizv', 'serNom'];
+
+export const DELAY_TIME = 300;

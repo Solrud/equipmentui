@@ -32,7 +32,7 @@ export class TableComponent implements OnInit{
   totalFoundedElements: number;
 
   @Output()
-  pagingEvent: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
+  dataSearchNew: EventEmitter<ABaseSearchDTO> = new EventEmitter<ABaseSearchDTO>();
 
   selectedElement: any;
 
@@ -41,16 +41,15 @@ export class TableComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    console.log('ngOnInit TABLE.COMPONENT')
-
-    console.log('TABLE.selectedSpavochnik')
-    console.log(this.selectedSpavochnik)
-    console.log('TABLE.fieldColumnList')
-    console.log(this.fieldColumnList)
-    console.log('TABLE.dataTableSource')
-    console.log(this.dataTableSource)
-    console.log('TABLE.dataSearch')
-    console.log(this.dataSearch)
+    // console.log('ngOnInit TABLE.COMPONENT')
+    // console.log('TABLE.selectedSpavochnik')
+    // console.log(this.selectedSpavochnik)
+    // console.log('TABLE.fieldColumnList')
+    // console.log(this.fieldColumnList)
+    // console.log('TABLE.dataTableSource')
+    // console.log(this.dataTableSource)
+    // console.log('TABLE.dataSearch')
+    // console.log(this.dataSearch)
   }
 
 
@@ -66,13 +65,26 @@ export class TableComponent implements OnInit{
   }
 
   onClickPageChanged(pageEvent: PageEvent){
-    this.pagingEvent.emit(pageEvent);
+    this.dataSearch.pageSize !== pageEvent.pageSize ?
+      this.dataSearch.pageNumber = 0 : this.dataSearch.pageNumber = pageEvent.pageIndex;
+    this.dataSearch.pageSize = pageEvent.pageSize;
+    this.dataSearchNew.emit(this.dataSearch);
   }
 
   onSelectElementTable(selectedElement: any){
+    // console.log(selectedElement)
     this.selectedElement = selectedElement;
     this.eventService.selectElementTable$(selectedElement);
   }
+// pageEvent.pageSize = Кол-во элементов на 1 странице таблицы
+  // pageEvent.length = Общее число всех элементов таблицы
+  // pageEvent.pageIndex = На какой сранице сейчас пользователь
+  // pageEvent.previousPageIndex = Предыдущая страница с которой перешел пользователь
 
+
+  // numberOfElements = Кол-во элементов на 1 странице таблицы
+  // number = На какой странице сейчас пользователь
+  // totalElements = Общее число всех элементов таблицы
+  // totalPages = Общее число страниц таблицы
 }
 

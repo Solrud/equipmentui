@@ -1,0 +1,111 @@
+<div class="modal-header d-flex justify-content-center">
+  <h2 class="m-0 text-center text-decoration-underline" *ngIf="dialogMode == DialogMode.CREATE">Создание группы</h2>
+  <h2 class="m-0 text-center text-decoration-underline" *ngIf="dialogMode == DialogMode.EDIT">Редактирование группы</h2>
+</div>
+
+<form class="modal-body d-flex flex-column gap-2"
+      [formGroup]="fgGruppaElement">
+  <div class="d-flex justify-content-end">
+    <label for="kod" class="form-label m-0 me-2 align-self-center">Код</label>
+    <input class="form-control w-25 border-dark"
+           id="kod"
+           type="text"
+           readonly
+           autocomplete="off"
+           formControlName="kod"
+           [required]="fcFieldIsRequired('kod', true)">
+  </div>
+  <div>
+    <label for="naim" class="form-label">Наименование</label>
+    <div class="form-group input-group">
+      <input class="form-control border-dark"
+             id="naim"
+             type="text"
+             autocomplete="off"
+             formControlName="naim"
+             [required]="fcFieldIsRequired('naim', true)">
+      <button class="btn btn-light border-dark"
+              (click)="fgGruppaElement.controls['naim'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+  </div>
+  <div>
+    <label for="kodKlass" class="form-label">Код Классифиации</label>
+    <div class="form-group input-group">
+      <input class="form-control border-dark"
+             id="kodKlass"
+             type="text"
+             autocomplete="off"
+             formControlName="kodKlass"
+             [required]="fcFieldIsRequired('kodKlass', true)">
+      <button class="btn btn-light border-dark"
+              (click)="fgGruppaElement.controls['kodKlass'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+  <div class="d-flex flex-row">
+    <div class="col-2 pe-2">
+      <label for="vid" class="form-label">Вид</label>
+      <input class="form-control border-dark"
+             id="vid"
+             formControlName="vid"
+             autocomplete="off"
+             type="text"
+             readonly
+             [required]="fcFieldIsRequired('vid', true)">
+
+    </div>
+    <div class="col-4 pe-2">
+      <label for="gruppa" class="form-label">Группа</label>
+      <input class="form-control border-dark"
+             id="gruppa"
+             formControlName="gruppa"
+             autocomplete="off"
+             type="text"
+             readonly
+             [required]="fcFieldIsRequired('gruppa', true)">
+
+    </div>
+    <div class="col-2 pe-2">
+      <label for="py" class="form-label">ПУ</label>
+      <input class="form-control border-dark"
+             id="py"
+             formControlName="py"
+             autocomplete="off"
+             type="text"
+             readonly
+             [required]="fcFieldIsRequired('py', true)">
+
+    </div>
+    <div class="col-4">
+      <label for="gabarity" class="form-label">Габариты</label>
+      <input class="form-control border-dark"
+             id="gabarity"
+             formControlName="gabarity"
+             autocomplete="off"
+             readonly
+             type="text"
+             [required]="fcFieldIsRequired('gabarity', true)">
+    </div>
+  </div>
+
+</form>
+
+<div class="modal-footer ">
+  <button type="button"
+          class="btn btn-primary"
+          [hidden]="dialogMode != DialogMode.CREATE"
+          (click)="onClickCreateGruppa()"
+          [disabled]="fgGruppaElement.invalid">Создать</button>
+  <button type="button"
+          class="btn btn-primary"
+          [hidden]="dialogMode != DialogMode.EDIT"
+          (click)="onClickUpdateGruppa()"
+          [disabled]="fgGruppaElement.invalid">Редактировать</button>
+  <button type="button"
+          class="btn btn-secondary"
+          (click)="onClickCloseModal()">Отмена</button>
+</div>

@@ -11,32 +11,39 @@
   <div class="example-sidenav-content d-flex flex-column">
     <!-- Кнопки редактирования -->
     <div>
-      <app-general-buttons class="d-flex mt-4 mb-3" (openSidenav)="drawer.toggle()"></app-general-buttons>
+      <app-general-buttons class="d-flex mt-4 mb-3"
+                           (openSidenav)="drawer.toggle()"
+                           (researchPage)="onReSearchPage()"
+      ></app-general-buttons>
     </div>
 
     <!-- Вкладки навигации таблиц -->
     <div class="d-flex flex-row group-tabs-config">
       <!--  <button (click)="onClickNavTab(tableType.KOMPL)">{{tableType.KOMPL}}</button>-->
 
-      <div class="tabs-config" (click)="onClickNavKompl()"
+      <div class="tabs-config"
+           (click)="onClickNavKompl()"
            [class.actived-tab]="selectedSpravochnik == tableType.KOMPL" [class.add-border-bottom]="selectedSpravochnik != tableType.KOMPL">
 
         {{'TITLE.KOMPL' | translate }}
 
       </div>
-      <div class="tabs-config" (click)="onClickNavGruppa()"
+      <div class="tabs-config"
+           (click)="onClickNavGruppa()"
            [class.actived-tab]="selectedSpravochnik == tableType.GRUPPA" [class.add-border-bottom]="selectedSpravochnik != tableType.GRUPPA">
 
         {{'TITLE.GRUPPA' | translate}}
 
       </div>
-      <div class="tabs-config" (click)="onClickNavModel()"
+      <div class="tabs-config"
+           (click)="onClickNavModel()"
            [class.actived-tab]="selectedSpravochnik == tableType.MODEL" [class.add-border-bottom]="selectedSpravochnik != tableType.MODEL">
 
         {{'TITLE.MODEL' | translate}}
 
       </div>
-      <div class="tabs-config" (click)="onClickNavOborudEkz()"
+      <div class="tabs-config"
+           (click)="onClickNavOborudEkz()"
            [class.actived-tab]="selectedSpravochnik == tableType.OBORUD_EKZ" [class.add-border-bottom]="selectedSpravochnik != tableType.OBORUD_EKZ">
 
         {{'TITLE.OBORUD_EKZ' | translate}}
@@ -52,7 +59,7 @@
                [dataSearch]="dataSearch"
                [totalFoundedElements]="totalFoundedElements"
 
-               (pagingEvent)="onChangePage($event)"
+               (dataSearchNew)="onChangePage($event)"
     ></app-table>
 
 

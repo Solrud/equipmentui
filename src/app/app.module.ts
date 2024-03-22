@@ -32,13 +32,20 @@ import {
 } from "./app.constant";
 import {NavbarComponent} from './business/view/page/main/navbar/navbar.component';
 import {TableComponent} from './business/view/page/main/table/table.component';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SpinnerInterceptorService} from "./business/data/service/OptionalService/spinner-interceptor.service";
 import { SpinnerComponent } from './business/view/page/spinner/spinner.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { InformationDialogComponent } from './business/view/dialog/information-dialog/information-dialog.component';
-import { RelationshipCardDialogComponent } from './business/view/dialog/relationship-card-dialog/relationship-card-dialog.component';
-import { EditEntityCardDialogComponent } from './business/view/dialog/edit-entity-card-dialog/edit-entity-card-dialog.component';
+import { KomplElementEditDialogComponent } from './business/view/dialog/EntityEditDialogs/kompl-element-edit-dialog/kompl-element-edit-dialog.component';
+import { GruppaElementEditDialogComponent } from './business/view/dialog/EntityEditDialogs/gruppa-element-edit-dialog/gruppa-element-edit-dialog.component';
+import { ModelElementEditDialogComponent } from './business/view/dialog/EntityEditDialogs/model-element-edit-dialog/model-element-edit-dialog.component';
+import { OborudEkzElementEditDialogComponent } from './business/view/dialog/EntityEditDialogs/oborud-ekz-element-edit-dialog/oborud-ekz-element-edit-dialog.component';
+import { KomplRelationshipDialogComponent } from './business/view/dialog/TableRelationshipDialogs/kompl-relationship-dialog/kompl-relationship-dialog.component';
+import { GruppaRelationshipDialogComponent } from './business/view/dialog/TableRelationshipDialogs/gruppa-relationship-dialog/gruppa-relationship-dialog.component';
+import { ModelRelationshipDialogComponent } from './business/view/dialog/TableRelationshipDialogs/model-relationship-dialog/model-relationship-dialog.component';
+import { OborudEkzRelationshipDialogComponent } from './business/view/dialog/TableRelationshipDialogs/oborud-ekz-relationship-dialog/oborud-ekz-relationship-dialog.component';
+import { ConfirmDialogComponent } from './business/view/dialog/confirm-dialog/confirm-dialog.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -60,8 +67,15 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     TableComponent,
     SpinnerComponent,
     InformationDialogComponent,
-    RelationshipCardDialogComponent,
-    EditEntityCardDialogComponent
+    KomplElementEditDialogComponent,
+    GruppaElementEditDialogComponent,
+    ModelElementEditDialogComponent,
+    OborudEkzElementEditDialogComponent,
+    KomplRelationshipDialogComponent,
+    GruppaRelationshipDialogComponent,
+    ModelRelationshipDialogComponent,
+    OborudEkzRelationshipDialogComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +95,8 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     MatTableModule,
     MatProgressSpinnerModule,
     FormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    ReactiveFormsModule
   ],
   providers: [
     {provide: GRUPPA_URL_TOKEN, useValue: environment.backendURL + '/gruppa'},

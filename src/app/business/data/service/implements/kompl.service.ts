@@ -7,6 +7,7 @@ import {SearchListKomplService} from "../SearchService/impl/SearchList/search-li
 import {SearchPageKomplService} from "../SearchService/impl/SearchPage/search-page-kompl.service";
 import {SearchAllKomplService} from "../SearchService/impl/SearchAll/search-all-kompl.service";
 import {KomplSearchDTO} from "../../model/search/impl/KomplSearchDTO";
+import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class KomplService {
               private searchPageKomplService: SearchPageKomplService,
               private searchAllKomplService: SearchAllKomplService) { }
 
-  create(komplDTO: KomplDTO[]): Observable<boolean>{
+  create(komplDTO: KomplDTO): Observable<boolean>{
     return this.crudKomplService.create(komplDTO);
   }
 
@@ -26,12 +27,12 @@ export class KomplService {
     return this.crudKomplService.read(id);
   }
 
-  update(komplDTO: KomplDTO[]): Observable<boolean>{
-    return this.crudKomplService.create(komplDTO);
+  update(komplDTO: KomplDTO): Observable<boolean>{
+    return this.crudKomplService.update(komplDTO);
   }
 
-  delete(komplDTO: KomplDTO[]): Observable<boolean>{
-    return this.crudKomplService.create(komplDTO);
+  delete(id: number): Observable<boolean>{
+    return this.crudKomplService.delete(id);
   }
 
   searchAll(): Observable<KomplDTO[]>{
@@ -44,5 +45,13 @@ export class KomplService {
 
   searchPage(komplSearchDTO: KomplSearchDTO){
     return this.searchPageKomplService.searchPage(komplSearchDTO);
+  }
+
+  createList(komplDTO: KomplDTO[]): Observable<boolean>{
+    return this.crudKomplService.createList(komplDTO);
+  }
+
+  updateList(komplDTO: KomplDTO[]): Observable<boolean>{
+    return this.crudKomplService.updateList(komplDTO);
   }
 }

@@ -1,18 +1,40 @@
 <div class="d-flex flex-row justify-content-between w-100">
   <div class="d-flex gap-4 ms-5">
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
-            [disabled]="!selectedNavBar">
+            [disabled]="!selectedNavBar"
+            (click)="onClickAddNewElement()">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
       &nbsp; Добавить
     </button>
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
-            [disabled]="!selectedElementTable">
+            [disabled]="!selectedElementTable"
+            (click)="onClickEditElement()">
       <i class="bi bi-pencil-square i-edit"></i>
       &nbsp; Изменить
     </button>
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
-            [disabled]="!selectedElementTable">
-      <i class="bi bi-file-earmark-x i-delete"></i>
+            [disabled]="!selectedElementTable"
+            (click)="onClickChangeActivityElement()">
+      <span class = "d-flex flex-row align-items-center"
+            *ngIf="selectedElementTable && selectedElementTable['akt'] == 1">
+        <i class="bi bi-file-earmark-x "></i>
+      &nbsp; Сделать неактивным
+      </span>
+      <span class = "d-flex flex-row align-items-center"
+            *ngIf="selectedElementTable && selectedElementTable['akt'] == 0">
+        <i class="bi bi-file-earmark-check"></i>
+      &nbsp; Сделать активным
+      </span>
+      <span class = "d-flex flex-row align-items-center"
+            *ngIf="!selectedElementTable">
+        <i class="bi bi-file-earmark-diff "></i>
+      &nbsp; Изменить активность
+      </span>
+    </button>
+    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+            [disabled]="!selectedElementTable"
+            (click)="onClickDeleteElement()">
+      <i class="bi bi-trash"></i>
       &nbsp; Удалить
     </button>
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
@@ -21,11 +43,14 @@
       <i class="bi bi-reply-all-fill i-delete"></i>
     </button>
 
-    <button class="btn btn-primary" type="submit" [disabled]="true">
+    <button class="btn btn-primary" type="submit"
+            [disabled]="true"
+            (click)="onClickReport()">
       Отчёт
     </button>
   </div>
 
 
-  <i class="bi bi-arrow-{{sideNavArrow}}-square-fill me-5 i-arrow-config align-self-center" (click)="onClickOpenSideNav()"></i>
+  <i class="bi bi-arrow-{{sideNavArrow}}-square-fill me-5 i-arrow-config align-self-center"
+     (click)="onClickOpenSideNav()"></i>
 </div>

@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {OborudEkzDTO} from "../../model/dto/impl/OborudEkzDTO";
 import {OborudEkzSearchDTO} from "../../model/search/impl/OborudEkzSearchDTO";
 import {SearchAllOborudEkzService} from "../SearchService/impl/SearchAll/search-all-oborud-ekz.service";
+import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class OborudEkzService {
               private searchPageOborudEkzService: SearchPageOborudEkzService,
               private searchAllOborudEkzService: SearchAllOborudEkzService) { }
 
-  create(oborudEkzDTO: OborudEkzDTO[]): Observable<boolean>{
+  create(oborudEkzDTO: OborudEkzDTO): Observable<boolean>{
     return this.crudOborudEkzService.create(oborudEkzDTO);
   }
 
@@ -24,12 +25,12 @@ export class OborudEkzService {
     return this.crudOborudEkzService.read(id);
   }
 
-  update(oborudEkzDTO: OborudEkzDTO[]): Observable<boolean>{
-    return this.crudOborudEkzService.create(oborudEkzDTO);
+  update(oborudEkzDTO: OborudEkzDTO): Observable<boolean>{
+    return this.crudOborudEkzService.update(oborudEkzDTO);
   }
 
-  delete(oborudEkzDTO: OborudEkzDTO[]): Observable<boolean>{
-    return this.crudOborudEkzService.create(oborudEkzDTO);
+  delete(id: number): Observable<boolean>{
+    return this.crudOborudEkzService.delete(id);
   }
 
   searchAll(): Observable<OborudEkzDTO[]>{
@@ -42,5 +43,13 @@ export class OborudEkzService {
 
   searchPage(oborudEkzSearchDTO: OborudEkzSearchDTO){
     return this.searchPageOborudEkzService.searchPage(oborudEkzSearchDTO);
+  }
+
+  createList(oborudEkzDTO: OborudEkzDTO[]): Observable<boolean>{
+    return this.crudOborudEkzService.createList(oborudEkzDTO);
+  }
+
+  updateList(oborudEkzDTO: OborudEkzDTO[]): Observable<boolean>{
+    return this.crudOborudEkzService.updateList(oborudEkzDTO);
   }
 }

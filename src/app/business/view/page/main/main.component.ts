@@ -12,20 +12,7 @@ import {tap} from "rxjs/operators";
 export class MainComponent implements OnInit{
 
   ngOnInit(): void {
-    // EventService.selectedSpravTable.subscribe(result =>{
-    //   if(result) {
-    //     EventService.selectedSpravTable.next('tesst');
-    //   }
-    // }
-    // )
-
 
   }
-
-  // te(){
-  //   EventService.selectedSpravTable.next('kkkkkkkkk');
-  //
-  //
-  //
-  // }
 }
+

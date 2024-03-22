@@ -17,7 +17,7 @@ export class GruppaService {
               private searchPageGruppaService: SearchPageGruppaService,
               private searchAllGruppaService: SearchAllGruppaService) { }
 
-  create(gruppaDTO: GruppaDTO[]): Observable<boolean>{
+  create(gruppaDTO: GruppaDTO): Observable<boolean>{
     return this.crudGruppaService.create(gruppaDTO);
   }
 
@@ -25,12 +25,12 @@ export class GruppaService {
     return this.crudGruppaService.read(id);
   }
 
-  update(gruppaDTO: GruppaDTO[]): Observable<boolean>{
-    return this.crudGruppaService.create(gruppaDTO);
+  update(gruppaDTO: GruppaDTO): Observable<boolean>{
+    return this.crudGruppaService.update(gruppaDTO);
   }
 
-  delete(gruppaDTO: GruppaDTO[]): Observable<boolean>{
-    return this.crudGruppaService.create(gruppaDTO);
+  delete(id: number): Observable<boolean>{
+    return this.crudGruppaService.delete(id);
   }
 
   searchAll(): Observable<GruppaDTO[]>{
@@ -43,5 +43,13 @@ export class GruppaService {
 
   searchPage(gruppaSearchDTO: GruppaSearchDTO){
     return this.searchPageGruppaService.searchPage(gruppaSearchDTO);
+  }
+
+  createList(gruppaDTO: GruppaDTO[]): Observable<boolean>{
+    return this.crudGruppaService.createList(gruppaDTO);
+  }
+
+  updateList(gruppaDTO: GruppaDTO[]): Observable<boolean>{
+    return this.crudGruppaService.updateList(gruppaDTO);
   }
 }
