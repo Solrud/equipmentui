@@ -50,7 +50,8 @@
         <div class="ddm-config">
           <h2 *ngIf="proizvListDDM && proizvListDDM.length == 0"
              ngbDropdownItem class="text-center">😔</h2>
-          <button class="text-wrap" *ngFor="let proizv of proizvListDDM" (click)="onClickSelectDDIProizv(proizv)"
+          <button class="text-wrap" *ngFor="let proizv of proizvListDDM"
+                  (click)="onClickSelectDDIProizv(proizv)"
                   ngbDropdownItem>
             {{proizv.naim}}
           </button>

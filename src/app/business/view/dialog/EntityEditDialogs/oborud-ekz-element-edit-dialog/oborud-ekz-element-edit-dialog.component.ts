@@ -10,7 +10,7 @@ import {PodrService} from "../../../../data/service/implements/podr.service";
 import {ProizvDTO} from "../../../../data/model/dto/impl/ProizvDTO";
 import {PodrDTO} from "../../../../data/model/dto/impl/PodrDTO";
 import {UchDTO} from "../../../../data/model/dto/impl/UchDTO";
-import {debounceTime} from "rxjs/operators";
+import {debounceTime, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-oborud-ekz-element-edit-dialog',
@@ -25,7 +25,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   newOborudEkz: OborudEkzDTO; //новый экз для сохранения
 
-  readonly validatorMinLength: ValidatorFn = Validators.minLength(100);
+  readonly validatorMinLength: ValidatorFn = Validators.minLength(1000000000);
 
   proizvListDDM: ProizvDTO[];
   proizvList: ProizvDTO[];
@@ -114,6 +114,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   //добавляет или удаляет валидаторы у указанного контрола
   changeValidators(controlName: string, validators: ValidatorFn[], deleteValidators: boolean = false): void {
+    console.log('valid')
     deleteValidators ?
       this.fgOborudEkzElement.get(controlName).removeValidators(validators) :
       this.fgOborudEkzElement.get(controlName).setValidators(validators);
@@ -122,26 +123,42 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   _observeFcProizv(){
     this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
-      debounceTime(DELAY_TIME)
+      tap( (val) => {
+        console.log(val)
+        this.changeValidators('proizv', [Validators.required, this.validatorMinLength], false);
+      })
+    , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
-      console.log(inputValue)
-      console.log(typeof inputValue )
-      if (inputValue && inputValue.length > 0){
-        this.proizvListDDM = this.proizvList.filter(docTyp => docTyp.naim.includes(inputValue));
-      } else {
-        this.proizvListDDM = this.proizvList;
-      }
-      if (inputValue && inputValue.length > 0) {
-        let isInputValueInProizvList = this.proizvList.some(obj => obj.naim.toLowerCase() == inputValue.toLowerCase());
-        if (isInputValueInProizvList) {
-          this.changeValidators('proizv', [this.validatorMinLength], true);
+        if (inputValue && inputValue.length > 0){
+          this.proizvListDDM = this.proizvList.filter(docTyp => docTyp.naim.includes(inputValue));
         } else {
-          this.changeValidators('proizv', [this.validatorMinLength], false);
+          this.proizvListDDM = this.proizvList;
         }
-      }
-      if (inputValue == "" || !inputValue || inputValue.length == 0)
-        this.changeValidators('proizv', [this.validatorMinLength], false);
     })
+
+
+
+    // this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
+    //   debounceTime(DELAY_TIME)
+    // ).subscribe( inputValue => {
+    //   console.log(inputValue)
+    //   console.log(typeof inputValue )
+    //   if (inputValue && inputValue.length > 0){
+    //     this.proizvListDDM = this.proizvList.filter(docTyp => docTyp.naim.includes(inputValue));
+    //   } else {
+    //     this.proizvListDDM = this.proizvList;
+    //   }
+    //   if (inputValue && inputValue.length > 0) {
+    //     let isInputValueInProizvList = this.proizvList.some(obj => obj.naim.toLowerCase() == inputValue.toLowerCase());
+    //     if (isInputValueInProizvList) {
+    //       this.changeValidators('proizv', [this.validatorMinLength], true);
+    //     } else {
+    //       this.changeValidators('proizv', [this.validatorMinLength], false);
+    //     }
+    //   }
+    //   if (inputValue == "" || !inputValue || inputValue.length == 0)
+    //     this.changeValidators('proizv', [this.validatorMinLength], false);
+    // })
 
   }
 
@@ -162,6 +179,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   onClickSelectDDIProizv(proizv: ProizvDTO){
     this.fgOborudEkzElement.controls['proizv'].setValue(proizv.naim);
     this.newProizv = proizv;
+    this.changeValidators('proizv', [this.validatorMinLength], true);
     console.log(proizv);
   }
 
