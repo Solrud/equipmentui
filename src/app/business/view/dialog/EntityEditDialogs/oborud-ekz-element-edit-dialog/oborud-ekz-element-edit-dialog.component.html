@@ -111,16 +111,20 @@
                  (click)="ddmPodr.open()"
                  (input)="ddmPodr.open()">
           <button class="btn btn-light border-dark"
-                  (click)="fgOborudEkzElement.controls['podr'].setValue(null)">
+                  (click)="fgOborudEkzElement.controls['podr'].setValue(null); this.newProizv = null">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        <div class="px-3 ngb-menu-config" ngbDropdownMenu *ngIf="podrListDDM && podrListDDM.length > 0" appendTo="body">
-          <p *ngIf="podrListDDM.length > 0">Выберите один из элем-ов:</p>
-          <p *ngIf="podrListDDM.length == 0">Список эл-ов пуст :(:</p>
+        <div class="px-3 ngb-menu-config"
+             ngbDropdownMenu>
+          <p *ngIf="podrListDDM && podrListDDM.length > 0">Выберите один из элем-ов:</p>
+          <p *ngIf="podrListDDM && podrListDDM.length == 0">Ничего не найдено</p>
           <div class="dropdown-divider"></div>
           <div class="ddm-config">
-            <button class="text-wrap" *ngFor="let podr of podrListDDM" (click)="onClickSelectDDIPodr(podr)"
+            <h2 *ngIf="podrListDDM && podrListDDM.length == 0"
+                ngbDropdownItem class="text-center">😔</h2>
+            <button class="text-wrap" *ngFor="let podr of podrListDDM"
+                    (click)="onClickSelectDDIPodr(podr)"
                     ngbDropdownItem>
               {{podr.naim}}
             </button>

@@ -35,3 +35,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /*.modal-header{*/
 /*  background-color: rgb(179, 226, 221);*/
 /*}*/
+
+.ng-invalid[required], .ng-invalid.required {
+  border-left: 4px solid #c9503e !important;
+}
+.ng-valid[required], .ng-valid.required, select.required:disabled, select[required]:disabled {
+  border-left: 4px solid #30cba7 !important;
+}
