@@ -1,0 +1,128 @@
+<div class="modal-header d-flex justify-content-center">
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.CREATE">Создание экземпляра оборудования</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.EDIT">Редактирование экземпляра оборудования</h2>
+</div>
+
+<form class="modal-body d-flex flex-column gap-1"
+      [formGroup]="fgOborudEkzElement">
+  <!--  ряд 2-->
+  <div class="d-flex flex-row gap-2">
+    <!--    ячейка 1-->
+    <div class="d-flex flex-column flex-grow-1 col-6">
+      <label for="naim" class="form-label">Наименование</label>
+      <div class="input-group">
+        <input class="form-control border-dark"
+               id="naim"
+               type="text"
+               formControlName="naim"
+               [required]="fcFieldIsRequired('naim', true)">
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['naim'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+    <!--    ячейка 2-->
+    <div class="d-inline-block"
+         container="body"
+         ngbDropdown
+         #ddmProizv="ngbDropdown"
+    >
+      <label for="proizv" class="form-label">Производитель</label>
+      <div class="form-group input-group">
+        <input class="form-control border-dark"
+               id="proizv"
+               type="text"
+               formControlName="proizv"
+               [required]="fcFieldIsRequired('proizv', true)"
+               (click)="ddmProizv.open()"
+               (input)="ddmProizv.open()">
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['proizv'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu  *ngIf="proizvListDDM && proizvListDDM.length > 0">
+        <p *ngIf="proizvListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="proizvListDDM.length == 0">Список эл-ов пуст :(:</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <button *ngFor="let proizv of proizvListDDM" (click)="onClickSelectDDI(proizv)"
+                  ngbDropdownItem>
+            {{proizv.naim}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  ряд 3-->
+  <div class="d-flex flex-row gap-2">
+    <div class="d-flex flex-column flex-grow-1 col-6">
+      <!--    часть 1 ячайка 1-->
+      <div class="d-flex flex-column flex-grow-1">
+        <label for="invNom" class="form-label">Индивидуальный номер</label>
+        <div class="form-group input-group">
+          <input class="form-control border-dark"
+                 id="invNom"
+                 type="text"
+                 formControlName="invNom"
+                 [required]="fcFieldIsRequired('invNom', true)">
+          <button class="btn btn-light border-dark"
+                  (click)="fgOborudEkzElement.controls['invNom'].setValue(null)">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+      <!--    часть 1 ячейка 2-->
+      <div class="d-flex flex-column flex-grow-1">
+        <label for="serNom" class="form-label">Серийный номер</label>
+        <div class="form-group input-group">
+          <input class="form-control border-dark"
+                 id="serNom"
+                 type="text"
+                 formControlName="serNom"
+                 [required]="fcFieldIsRequired('serNom', true)">
+          <button class="btn btn-light border-dark"
+                  (click)="fgOborudEkzElement.controls['serNom'].setValue(null)">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-grow-1 col-6">
+      <!--    часть 2 ячейка 1-->
+      <div class="d-flex flex-column flex-grow-1">
+        <label for="podr" class="form-label">Подразделение</label>
+        <input class="form-control border-dark"
+               id="podr"
+               type="text"
+               formControlName="podr"
+               [required]="fcFieldIsRequired('podr', true)">
+      </div>
+      <!--    часть 2 ячейка 2-->
+      <div class="d-flex flex-column flex-grow-1">
+        <label for="uch" class="form-label">Участок</label>
+        <input class="form-control border-dark"
+               id="uch"
+               type="text"
+               formControlName="uch"
+               [required]="fcFieldIsRequired('uch', true)">
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary"
+          (click)="onClickCloseModal()"
+          [hidden]="dialogMode != DialogMode.CREATE"
+          [disabled]="fgOborudEkzElement.invalid">Создать</button>
+  <button type="button" class="btn btn-primary"
+          (click)="onClickCloseModal()"
+          [hidden]="dialogMode != DialogMode.EDIT"
+          [disabled]="fgOborudEkzElement.invalid">Редактировать</button>
+  <button type="button" class="btn btn-secondary"
+          ngbAutofocus
+          (click)="onClickCloseModal()">Отмена</button>
+</div>

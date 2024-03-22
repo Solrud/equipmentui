@@ -6,6 +6,7 @@ import {SearchPageOborudVidService} from "../SearchService/impl/SearchPage/searc
 import {OborudVidDTO} from "../../model/dto/impl/OborudVid";
 import {OborudVidSearchDTO} from "../../model/search/impl/OborudVidSearchDTO";
 import {SearchAllOborudVidService} from "../SearchService/impl/SearchAll/search-all-oborud-vid.service";
+import {OborudEkzDTO} from "../../model/dto/impl/OborudEkzDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class OborudVidService {
               private searchPageOborudVidService: SearchPageOborudVidService,
               private searchAllOborudVidService: SearchAllOborudVidService) { }
 
-  create(oborudVidDTO: OborudVidDTO[]): Observable<boolean>{
+  create(oborudVidDTO: OborudVidDTO): Observable<boolean>{
     return this.crudOborudVidService.create(oborudVidDTO);
   }
 
@@ -24,12 +25,12 @@ export class OborudVidService {
     return this.crudOborudVidService.read(id);
   }
 
-  update(oborudVidDTO: OborudVidDTO[]): Observable<boolean>{
-    return this.crudOborudVidService.create(oborudVidDTO);
+  update(oborudVidDTO: OborudVidDTO): Observable<boolean>{
+    return this.crudOborudVidService.update(oborudVidDTO);
   }
 
-  delete(oborudEkzDTO: OborudVidDTO[]): Observable<boolean>{
-    return this.crudOborudVidService.create(oborudEkzDTO);
+  delete(id: number): Observable<boolean>{
+    return this.crudOborudVidService.delete(id);
   }
 
   searchAll(): Observable<OborudVidDTO[]>{
@@ -42,5 +43,13 @@ export class OborudVidService {
 
   searchPage(oborudVidSearchDTO: OborudVidSearchDTO){
     return this.searchPageOborudVidService.searchPage(oborudVidSearchDTO);
+  }
+
+  createList(oborudVidDTO: OborudVidDTO[]): Observable<boolean>{
+    return this.crudOborudVidService.createList(oborudVidDTO);
+  }
+
+  updateList(oborudVidDTO: OborudVidDTO[]): Observable<boolean>{
+    return this.crudOborudVidService.updateList(oborudVidDTO);
   }
 }

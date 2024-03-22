@@ -1,0 +1,10 @@
+.ddm-config {
+  max-height: 400px;
+  max-width: 400px;
+  overflow-y: auto;
+}
+/*.ngb-menu-config{*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  z-index: 9999999999999999;*/
+/*}*/

@@ -1,0 +1,68 @@
+<div class="modal-header d-flex justify-content-center">
+  <h2 class="m-0 text-center text-decoration-underline" *ngIf="dialogMode == DialogMode.CREATE">Создание модели</h2>
+  <h2 class="m-0 text-center text-decoration-underline" *ngIf="dialogMode == DialogMode.EDIT">Редактирование модели</h2>
+</div>
+
+<form class="modal-body d-flex flex-column gap-2"
+      [formGroup]="fgModelElement">
+  <div class="d-flex justify-content-end">
+    <label for="kod" class="form-label m-0 me-2 align-self-center">Код</label>
+    <input class="form-control w-25 border-dark"
+           id="kod"
+           type="text"
+           readonly
+           formControlName="kod"
+           [required]="fcFieldIsRequired('kod', true)">
+  </div>
+  <div>
+    <label for="polnNaim" class="form-label">Полное наименование</label>
+    <input class="form-control border-dark"
+           id="polnNaim"
+           type="text"
+           formControlName="polnNaim"
+           [required]="fcFieldIsRequired('polnNaim', true)">
+  </div>
+  <div>
+    <label for="naim" class="form-label">Наименование</label>
+    <div class="form-group input-group">
+      <input class="form-control border-dark"
+             id="naim"
+             type="text"
+             formControlName="naim"
+             [required]="fcFieldIsRequired('naim', true)">
+      <button class="btn btn-light border-dark"
+              (click)="fgModelElement.controls['naim'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+  </div>
+  <div>
+    <label for="obozn" class="form-label">Обозначение</label>
+    <div class="form-group input-group">
+      <input class="form-control border-dark w-50"
+             id="obozn"
+             type="text"
+             formControlName="obozn"
+             [required]="fcFieldIsRequired('obozn', true)">
+      <button class="btn btn-light border-dark"
+              (click)="fgModelElement.controls['naim'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary"
+          (click)="onClickCreateModel()"
+          [hidden]="dialogMode != DialogMode.CREATE"
+          [disabled]="fgModelElement.invalid">Создать</button>
+  <button type="button" class="btn btn-primary"
+          (click)="onClickUpdateModel()"
+          [hidden]="dialogMode != DialogMode.EDIT"
+          [disabled]="fgModelElement.invalid">Редактировать</button>
+  <button type="button" class="btn btn-secondary"
+          ngbAutofocus
+          (click)="onClickCloseModal()">Отмена</button>
+</div>

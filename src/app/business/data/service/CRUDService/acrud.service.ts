@@ -14,7 +14,7 @@ export abstract class ACRUDService<D extends IBaseDTO> extends ABaseService impl
     super(baseUrl, httpClient)
   }
 
-  create(d: D): Observable<boolean> {
+  createList(d: D): Observable<boolean> {
     return this.httpClient.post<boolean>(this.baseUrl + '/save-all', d)
   }
 
@@ -22,13 +22,19 @@ export abstract class ACRUDService<D extends IBaseDTO> extends ABaseService impl
     return this.httpClient.post<D>(this.baseUrl + '/get-by-id', id)
   }
 
+  updateList(d: D): Observable<D> {
+    return this.httpClient.post<D>(this.baseUrl + '/save-all', d)
+  }
+
+  delete(id: number): Observable<D> {
+    return this.httpClient.post<D>(this.baseUrl + '/delete-by-id', id)
+  }
+
+  create(d: D): Observable<D> {
+    return this.httpClient.post<D>(this.baseUrl + '/save', d);
+  }
   update(d: D): Observable<D> {
-    return this.httpClient.post<D>(this.baseUrl + '/save-all', d)
+    return this.httpClient.post<D>(this.baseUrl + '/save', d);
   }
-
-  delete(d: D): Observable<D> {
-    return this.httpClient.post<D>(this.baseUrl + '/save-all', d)
-  }
-
 
 }

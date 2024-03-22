@@ -23,6 +23,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   cursor: pointer;
 }
 
-.test{
-  /*background-color: #000000;*/
+.form-label{
+  margin-bottom: 4px !important;
 }
+/*.modal-body{*/
+/*  background-color: rgb(247, 247, 247);*/
+/*}*/
+.modal-footer{
+  background-color: rgb(208, 221, 234);
+}
+/*.modal-header{*/
+/*  background-color: rgb(179, 226, 221);*/
+/*}*/

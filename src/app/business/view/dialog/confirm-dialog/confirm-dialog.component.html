@@ -1,0 +1,33 @@
+<div class="modal-header d-flex justify-content-center">
+  <h2 class="m-0 text-center"
+      *ngIf="dialogMode == DialogMode.DELETE">
+    Вы уверены, что хотите <span class="text-danger">удалить</span> элемент из таблицы"{{selectedNavBar}}"
+  </h2>
+  <h2 class="m-0 text-center"
+      *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY">
+    <span *ngIf="selectedElement['akt'] == 0">
+      Вы уверены, что хотите сделать <span class="text-success text-decoration-underline">активным</span> элемент из таблицы" {{selectedNavBar}}"</span>
+    <span *ngIf="selectedElement['akt'] == 1">
+      Вы уверены, что хотите сделать <span class="text-warning text-decoration-underline">неактивным</span> элемент из таблицы" {{selectedNavBar}}"</span>
+  </h2>
+</div>
+
+<div class="modal-body d-flex flex-column">
+  <h4><span class="fw-bolder">ID:</span> {{selectedElement['id']}}</h4>
+  <h4><span class="fw-bolder">Наименование:</span> {{selectedElement['naim']}}</h4>
+</div>
+
+<div class="modal-footer ">
+  <button type="button"
+          class="btn btn-primary"
+          *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY"
+          (click)="onClickChangeAkt()">Изменить</button>
+  <button type="button"
+          class="btn btn-primary"
+          *ngIf="dialogMode == DialogMode.DELETE"
+          (click)="onClickDelete()">Удалить</button>
+  <button type="button"
+          class="btn btn-secondary"
+          ngbAutofocus
+          (click)="onClickCloseModal()">Отмена</button>
+</div>

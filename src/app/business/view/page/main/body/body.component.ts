@@ -17,6 +17,7 @@ import {ModelService} from "../../../../data/service/implements/model.service";
 import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO";
 import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
 import {PageEvent} from "@angular/material/paginator";
+import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
 
 @Component({
   selector: 'app-body',
@@ -25,6 +26,8 @@ import {PageEvent} from "@angular/material/paginator";
 })
 export class BodyComponent implements OnInit{
   tableType = TableType;
+
+  temporarilyDisabledNavBar: boolean = false; // Флаг, чтобы не открывать другую таблицу во время загрузки данных с бекенда текуще открытой
 
   isFirstTimeInitNav: boolean = true; //Флаг, в первый ли раз открывается вкладка типа таблицы
 
@@ -36,7 +39,7 @@ export class BodyComponent implements OnInit{
   totalFoundedElements: number;
 
   //Поисковые обьекты
-  dataSearch: KomplSearchDTO | GruppaSearchDTO | ModelSearchDTO | OborudEkzSearchDTO; //Один поисковой обьект, который идет в компонент таблицы
+  dataSearch: ABaseSearchDTO; //Один поисковой обьект, который идет в компонент таблицы
   komplSearch: KomplSearchDTO;
   gruppaSearch: GruppaSearchDTO;
   modelSearch: ModelSearchDTO;
@@ -63,6 +66,7 @@ export class BodyComponent implements OnInit{
   //ToDo =>
   // !!!сделать выбор элемента в таблице и взаимодействие(добавить, редактировать, удалить) с ним через модалки
   // !!!сделать диалоги с полями форм филдами и группой
+  // возвращение из таблицы выбранного элемента таблицы возможно стоит переделать под input
   // думать про архитектуру
   // DTO<any> переделать придумать
   // как отображать доп таблички(какие данные нужны, как отображать их бордеры, до доп кнопки взаимодействия)
@@ -71,16 +75,17 @@ export class BodyComponent implements OnInit{
   // =>-ОПЦИОНАЛЬНО-<=
   // опционально добавить кнопочку новостей разработки со всплывающей модалкой
   // перевод mat-paginator, взять из https://gitlab.avid.ru/mikishev/bienieui/blob/develop/1.0.1-secure/src/app/busines/intl/MyMatPaginatorIntl.ts и i18n оттуда
-  // в конце концов не забыть про i18n
+  // в конце концов не забыть про i18n!
   // -
   // =>-ПОЧЕМУ ОШИБКА-<=
-  // почему в dataSearch не получается тип: GruppaSearchDTO | ModelSearchDTO и тд (пока any)
   // -
   // =>-ВОПРОС-<=
   // ! Неактивные показывать но с зачеркиванием, выделением другого цвета
   // ! СПРОСИТЬ: при инициализации(первом открытии сайта) нужно ли выбирать 1 из списка по умолчанию выбранным. НЕ НАДО
   // ! СПРОСИТЬ: нужно ли выводить всем списком строки таблиц, если да, то нужно принимать урезанные данные. БУДЕТ п поумолчанию столько строк, сколько входит и "Все"
   // ? СПРОСИТЬ: Какие вкладки нужны, почему в базисе димы есть еще другие таблицы
+  // ? СПРОСИТЬ: Какие поля нужны в редактировании сущностей(тз и базис димы отличается)
+  // Код классификатора нужно добавить в базу данных и редактировать
 
   initSearchData(){
     if(!this.komplSearch) this.komplSearch = new KomplSearchDTO();
@@ -102,19 +107,19 @@ export class BodyComponent implements OnInit{
     })
   }
 
-  initNavBar(selectedNavBar: TableType, isChangePage: boolean = false, pageEvent: PageEvent = null){
+  initNavBar(selectedNavBar: TableType, newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false){
     switch (selectedNavBar){
       case  TableType.KOMPL:
-        this.onClickNavKompl();
+        this.onClickNavKompl(newDataSearch, reSearchPage);
         break;
       case TableType.GRUPPA:
-        this.onClickNavGruppa(isChangePage, pageEvent);
+        this.onClickNavGruppa(newDataSearch, reSearchPage);
         break;
       case TableType.MODEL:
-        this.onClickNavModel(isChangePage, pageEvent);
+        this.onClickNavModel(newDataSearch, reSearchPage);
         break;
       case TableType.OBORUD_EKZ:
-        this.onClickNavOborudEkz(isChangePage, pageEvent);
+        this.onClickNavOborudEkz(newDataSearch, reSearchPage);
         break;
     }
   }
@@ -124,18 +129,18 @@ export class BodyComponent implements OnInit{
   }
 
   openTestDialog(): void{
-    this.openDialogService.openRelationshipCardDialog();
+    // this.openDialogService.openGruppaElementEditDialog();
   }
 
 
   // Методы Вкладки
-  onClickNavKompl(isChangePage: boolean = false, pageEvent: PageEvent = null): void{
-    if (this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav || isChangePage){
+  onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    if ((this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
+      this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
 
-      if(isChangePage && pageEvent)
-        this.changeDataPage(this.modelSearch, pageEvent);
-
+      if(newDataSearch && reSearchPage)
+        this.toSetNewSearchFromPage(newDataSearch, this.komplSearch);
 
       this.dataSearch = this.komplSearch;
       this.dataTableNavSource = [];
@@ -144,19 +149,19 @@ export class BodyComponent implements OnInit{
         this.dataTableNavSource = result.content;
 
         this.fieldColumnList = FIELD_COLUMN_KOMPL_LIST;
+        this.temporarilyDisabledNavBar = false;
       })
     }
   }
 
 
 
-  onClickNavGruppa(isChangePage: boolean = false, pageEvent: PageEvent = null): void{
-    if (this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || isChangePage){
+  onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    if ((this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
+      this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
-
-      if(isChangePage && pageEvent)
-        this.changeDataPage(this.gruppaSearch, pageEvent);
-
+      if(newDataSearch && reSearchPage)
+        this.toSetNewSearchFromPage(newDataSearch, this.gruppaSearch);
 
       this.dataSearch = this.gruppaSearch;
       this.dataTableNavSource = [];
@@ -172,17 +177,18 @@ export class BodyComponent implements OnInit{
         // })
 
         this.fieldColumnList = FIELD_COLUMN_GRUPPA_LIST;
+        this.temporarilyDisabledNavBar = false;
       })
     }
   }
 
-  onClickNavModel(isChangePage: boolean = false, pageEvent: PageEvent = null): void{
-    if (this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || isChangePage){
+  onClickNavModel(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    if ((this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
+      this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
 
-      if(isChangePage && pageEvent)
-        this.changeDataPage(this.modelSearch, pageEvent);
-
+      if(newDataSearch && reSearchPage)
+        this.toSetNewSearchFromPage(newDataSearch, this.modelSearch);
 
       this.dataSearch = this.modelSearch;
       this.dataTableNavSource = [];
@@ -196,17 +202,18 @@ export class BodyComponent implements OnInit{
         //         }
         // });
         this.fieldColumnList = FIELD_COLUMN_MODEL_LIST;
+        this.temporarilyDisabledNavBar = false;
       })
     }
   }
 
-  onClickNavOborudEkz(isChangePage: boolean = false, pageEvent: PageEvent = null): void{
-    if (this.selectedSpravochnik != TableType.OBORUD_EKZ || this.isFirstTimeInitNav || isChangePage){
+  onClickNavOborudEkz(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    if ((this.selectedSpravochnik != TableType.OBORUD_EKZ || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
+      this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.OBORUD_EKZ) : this.isFirstTimeInitNav = false;
 
-      if(isChangePage && pageEvent)
-        this.changeDataPage(this.oborudEkzSearch, pageEvent);
-
+      if(newDataSearch && reSearchPage)
+        this.toSetNewSearchFromPage(newDataSearch, this.oborudEkzSearch);
 
       this.dataSearch = this.oborudEkzSearch;
       this.dataTableNavSource = [];
@@ -225,29 +232,25 @@ export class BodyComponent implements OnInit{
         // });
 
         this.fieldColumnList = FIELD_COLUMN_OBORUD_EKZ_LIST;
+        this.temporarilyDisabledNavBar = false;
       })
     }
   }
 
 
-  onChangePage(pageEvent: PageEvent): void{ //output изменения пагинации таблицы
-    this.initNavBar(this.selectedSpravochnik, true, pageEvent);
+  onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
+    this.initNavBar(this.selectedSpravochnik, newDataSearch, true);
   }
 
-  changeDataPage(search: KomplSearchDTO | GruppaSearchDTO | ModelSearchDTO | OborudEkzSearchDTO, pageEvent: PageEvent){ // передает данные
-    search.pageSize !== pageEvent.pageSize ?
-      search.pageNumber = 0 : search.pageNumber = pageEvent.pageIndex;
-    search.pageSize = pageEvent.pageSize;
+  onReSearchPage(){
+    this.initNavBar(this.selectedSpravochnik, null, true);
   }
 
-  // pageEvent.pageSize = Кол-во элементов на 1 странице таблицы
-  // pageEvent.length = Общее число всех элементов таблицы
-  // pageEvent.pageIndex = На какой сранице сейчас пользователь
-  // pageEvent.previousPageIndex = Предыдущая страница с которой перешел пользователь
-
-
-  // numberOfElements = Кол-во элементов на 1 странице таблицы
-  // number = На какой странице сейчас пользователь
-  // totalElements = Общее число всех элементов таблицы
-  // totalPages = Общее число страниц таблицы
+  toSetNewSearchFromPage(newSearchPage: ABaseSearchDTO, oldSearch: KomplSearchDTO | GruppaSearchDTO | ModelSearchDTO | OborudEkzSearchDTO){
+    Object.keys(newSearchPage).forEach(key => {
+      if (oldSearch.hasOwnProperty(key)) {
+        oldSearch[key] = newSearchPage[key];
+      }
+    })
+  }
 }

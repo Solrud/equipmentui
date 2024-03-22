@@ -1,11 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
-import {RelationshipCardDialogComponent} from "../../../view/dialog/relationship-card-dialog/relationship-card-dialog.component";
+import {GruppaElementEditDialogComponent} from "../../../view/dialog/EntityEditDialogs/gruppa-element-edit-dialog/gruppa-element-edit-dialog.component";
+import {KomplElementEditDialogComponent} from "../../../view/dialog/EntityEditDialogs/kompl-element-edit-dialog/kompl-element-edit-dialog.component";
+import {ModelElementEditDialogComponent} from "../../../view/dialog/EntityEditDialogs/model-element-edit-dialog/model-element-edit-dialog.component";
+import {OborudEkzElementEditDialogComponent} from "../../../view/dialog/EntityEditDialogs/oborud-ekz-element-edit-dialog/oborud-ekz-element-edit-dialog.component";
+import {KomplRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/kompl-relationship-dialog/kompl-relationship-dialog.component";
+import {GruppaRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/gruppa-relationship-dialog/gruppa-relationship-dialog.component";
+import {ModelRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/model-relationship-dialog/model-relationship-dialog.component";
+import {OborudEkzRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/oborud-ekz-relationship-dialog/oborud-ekz-relationship-dialog.component";
+import {DialogMode, TableType} from "../../../../app.constant";
+import {ConfirmDialogComponent} from "../../../view/dialog/confirm-dialog/confirm-dialog.component";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OpenDialogService {
+  toCenteredModal: boolean = false;
 
   constructor(private modalService: NgbModal,
               private configModalDialog: NgbModalConfig) {
@@ -13,15 +23,128 @@ export class OpenDialogService {
     configModalDialog.keyboard = false;
   }
 
+  //---=========| Модалки изменения элементов в таблице |==========---
+  openElementDialog(selectedElement: any , selectedNavBar: TableType, dialogMode: DialogMode){
+    switch (selectedNavBar) {
+      case TableType.KOMPL:
+        const openKomplElementEditDialog = this.modalService.open(KomplElementEditDialogComponent, {
+            scrollable: true,
+            size: "md",
+            centered: this.toCenteredModal,
+            modalDialogClass: "modal-config"
+        });
+        if (dialogMode != DialogMode.CREATE)
+          openKomplElementEditDialog.componentInstance.selectedElement = selectedElement;
+        openKomplElementEditDialog.componentInstance.dialogMode = dialogMode;
 
-  openRelationshipCardDialog(){
-    const openRelationshipCardDialog = this.modalService.open(RelationshipCardDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
+        return openKomplElementEditDialog;
+      case TableType.GRUPPA:
+        const openGruppaElementEditDialog = this.modalService.open(GruppaElementEditDialogComponent, {
+          scrollable: true,
+          size: "md",
+          centered: this.toCenteredModal,
+          modalDialogClass: "modal-config"
+        });
+        if (dialogMode != DialogMode.CREATE)
+          openGruppaElementEditDialog.componentInstance.selectedElement = selectedElement;
+        openGruppaElementEditDialog.componentInstance.dialogMode = dialogMode;
 
-    return openRelationshipCardDialog;
+        return openGruppaElementEditDialog;
+      case TableType.MODEL:
+        const openModelElementEditDialog = this.modalService.open(ModelElementEditDialogComponent, {
+          scrollable: true,
+          size: "md",
+          centered: this.toCenteredModal,
+          modalDialogClass: "modal-config"
+        });
+        if (dialogMode != DialogMode.CREATE)
+          openModelElementEditDialog.componentInstance.selectedElement = selectedElement;
+        openModelElementEditDialog.componentInstance.dialogMode = dialogMode;
+
+        return openModelElementEditDialog;
+      case TableType.OBORUD_EKZ:
+
+        const openOborudEkzElementEditDialog = this.modalService.open(OborudEkzElementEditDialogComponent, {
+          scrollable: true,
+          size: "lg",
+          centered: this.toCenteredModal,
+          modalDialogClass: "modal-config"
+        });
+        if (dialogMode != DialogMode.CREATE)
+          openOborudEkzElementEditDialog.componentInstance.selectedElement = selectedElement;
+        openOborudEkzElementEditDialog.componentInstance.dialogMode = dialogMode;
+
+        return openOborudEkzElementEditDialog;
+      default:
+        return null;
+    }
   }
 
-  openDialog(){
+  openKomplElementEditDialog(){
+    const openKomplElementEditDialog = this.modalService.open(KomplElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
 
+    // return openKomplElementEditDialog;
   }
 
+  openGruppaElementEditDialog(){
+    const openGruppaElementEditDialog = this.modalService.open(GruppaElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
+
+    // return openGruppaElementEditDialog;
+  }
+
+  openModelElementEditDialog(){
+    const openModelElementEditDialog = this.modalService.open(ModelElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
+
+    // return openModelElementEditDialog;
+  }
+
+  openOborudEkzElementEditDialog(){
+    const openOborudEkzElementEditDialog = this.modalService.open(OborudEkzElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
+
+    // return openOborudEkzElementEditDialog;
+  }
+
+  //---=========| Модалки добавления связей оборудования |=========---
+  openRelationshipDialog(selectedNavBar: TableType){
+    switch (selectedNavBar) {
+      case TableType.KOMPL:
+        const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+        break;
+      case TableType.GRUPPA:
+        const openGruppaRelationshipDialog = this.modalService.open(GruppaRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+        break;
+      case TableType.MODEL:
+        const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+        break;
+      case TableType.OBORUD_EKZ:
+        const openOborudEkzRelationshipDialog = this.modalService.open(OborudEkzRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+        break;
+    }
+  }
+
+  openKomplRelationshipDialog(){
+    const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+  }
+
+  openGruppaRelationshipDialog(){
+    const openGruppaRelationshipDialog = this.modalService.open(GruppaRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+  }
+
+  openModelRelationshipDialog(){
+    const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+  }
+
+  openOborudEkzRelationshipDialog(){
+    const openOborudEkzRelationshipDialog = this.modalService.open(OborudEkzRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+  }
+
+  //---=========| Модалки удаления | Изменения активности |=========---
+  openElementConfirmDialog(selectedElement: any , selectedNavBar: TableType, dialogMode: DialogMode){
+    const confirmDialogComponent = this.modalService.open(ConfirmDialogComponent,
+      {scrollable: true, size: "md", centered: this.toCenteredModal, modalDialogClass: "modal-config"});
+    confirmDialogComponent.componentInstance.selectedElement = selectedElement;
+    confirmDialogComponent.componentInstance.selectedNavBar = selectedNavBar;
+    confirmDialogComponent.componentInstance.dialogMode = dialogMode;
+    return confirmDialogComponent;
+  }
 }

@@ -6,6 +6,7 @@ import {SearchListModelService} from "../SearchService/impl/SearchList/search-li
 import {SearchPageModelService} from "../SearchService/impl/SearchPage/search-page-model.service";
 import {CRUDModelService} from "../CRUDService/impl/crudmodel.service";
 import {SearchAllModelService} from "../SearchService/impl/SearchAll/search-all-model.service";
+import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class ModelService {
               private searchAllModelService: SearchAllModelService) {
   }
 
-  create(modelDTO: ModelDTO[]): Observable<boolean> {
+  create(modelDTO: ModelDTO): Observable<boolean> {
     return this.crudModelService.create(modelDTO);
   }
 
@@ -25,12 +26,12 @@ export class ModelService {
     return this.crudModelService.read(id);
   }
 
-  update(modelDTO: ModelDTO[]): Observable<boolean> {
-    return this.crudModelService.create(modelDTO);
+  update(modelDTO: ModelDTO): Observable<boolean> {
+    return this.crudModelService.update(modelDTO);
   }
 
-  delete(modelDTO: ModelDTO[]): Observable<boolean> {
-    return this.crudModelService.create(modelDTO);
+  delete(id: number): Observable<boolean> {
+    return this.crudModelService.delete(id);
   }
 
   searchAll(): Observable<ModelDTO[]>{
@@ -39,5 +40,13 @@ export class ModelService {
 
   searchPage(modelSearchDTO: ModelSearchDTO) {
     return this.searchPageModelService.searchPage(modelSearchDTO);
+  }
+
+  createList(modelDTO: ModelDTO[]): Observable<boolean>{
+    return this.crudModelService.createList(modelDTO);
+  }
+
+  updateList(modelDTO: ModelDTO[]): Observable<boolean>{
+    return this.crudModelService.updateList(modelDTO);
   }
 }
