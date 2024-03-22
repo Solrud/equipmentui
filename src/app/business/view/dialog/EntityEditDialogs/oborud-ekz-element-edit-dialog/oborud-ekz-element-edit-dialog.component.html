@@ -5,10 +5,10 @@
 
 <form class="modal-body d-flex flex-column gap-1"
       [formGroup]="fgOborudEkzElement">
-  <!--  ряд 2-->
-  <div class="d-flex flex-row gap-2">
-    <!--    ячейка 1-->
-    <div class="d-flex flex-column flex-grow-1 col-6">
+  <!--  ряд 1-->
+  <div class="d-flex gap-2">
+    <!--    ячейка 1 НАИМЕНОВАНИЕ-->
+    <div class="flex-grow-1">
       <label for="naim" class="form-label">Наименование</label>
       <div class="input-group">
         <input class="form-control border-dark"
@@ -22,9 +22,11 @@
         </button>
       </div>
     </div>
-    <!--    ячейка 2-->
-    <div class="d-flex flex-column flex-grow-1 col-6 "  container="body"
-         ngbDropdown #ddmProizv="ngbDropdown"
+    <!--    ячейка 2 ПРОИЗВОДИТЕЛЬ-->
+    <div class="flex-grow-1 "
+         ngbDropdown
+         container="body"
+         #ddmProizv="ngbDropdown"
     >
       <label for="proizv" class="form-label">Производитель</label>
       <div class="form-group input-group">
@@ -32,20 +34,23 @@
                id="proizv"
                type="text"
                formControlName="proizv"
+               ngbDropdownToggle
                [required]="fcFieldIsRequired('proizv', true)"
                (click)="ddmProizv.open()"
                (input)="ddmProizv.open()">
         <button class="btn btn-light border-dark"
-                (click)="fgOborudEkzElement.controls['proizv'].setValue(null)">
+                (click)="fgOborudEkzElement.controls['proizv'].setValue(null); this.newProizv = null">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
-      <div class="px-3 ngb-menu-config" ngbDropdownMenu *ngIf="proizvListDDM && proizvListDDM.length > 0">
-        <p *ngIf="proizvListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="proizvListDDM.length == 0">Список эл-ов пуст :(:</p>
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu>
+        <p *ngIf="proizvListDDM && proizvListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="proizvListDDM && proizvListDDM.length == 0">Ничего не найдено</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
-          <button *ngFor="let proizv of proizvListDDM" (click)="onClickSelectDDI(proizv)"
+          <h2 *ngIf="proizvListDDM && proizvListDDM.length == 0"
+             ngbDropdownItem class="text-center">😔</h2>
+          <button class="text-wrap" *ngFor="let proizv of proizvListDDM" (click)="onClickSelectDDIProizv(proizv)"
                   ngbDropdownItem>
             {{proizv.naim}}
           </button>
@@ -53,11 +58,11 @@
       </div>
     </div>
   </div>
-  <!--  ряд 3-->
-  <div class="d-flex flex-row gap-2">
-    <div class="d-flex flex-column flex-grow-1 col-6">
+  <!--  ряд 2-->
+  <div class="d-flex gap-2">
+    <div class="flex-grow-1">
       <!--    часть 1 ячайка 1-->
-      <div class="d-flex flex-column flex-grow-1">
+      <div class="flex-grow-1">
         <label for="invNom" class="form-label">Индивидуальный номер</label>
         <div class="form-group input-group">
           <input class="form-control border-dark"
@@ -72,7 +77,7 @@
         </div>
       </div>
       <!--    часть 1 ячейка 2-->
-      <div class="d-flex flex-column flex-grow-1">
+      <div class="flex-grow-1">
         <label for="serNom" class="form-label">Серийный номер</label>
         <div class="form-group input-group">
           <input class="form-control border-dark"
@@ -88,18 +93,41 @@
       </div>
     </div>
 
-    <div class="d-flex flex-column flex-grow-1 col-6">
-      <!--    часть 2 ячейка 1-->
-      <div class="d-flex flex-column flex-grow-1">
+    <div class="flex-grow-1">
+      <!--    часть 2 ячейка 1 ПОДРАЗДЕЛЕНИЕ-->
+      <div class="flex-grow-1"
+           ngbDropdown
+           container="body"
+           #ddmPodr="ngbDropdown">
         <label for="podr" class="form-label">Подразделение</label>
-        <input class="form-control border-dark"
-               id="podr"
-               type="text"
-               formControlName="podr"
-               [required]="fcFieldIsRequired('podr', true)">
+        <div class="form-group input-group">
+          <input class="form-control border-dark"
+                 id="podr"
+                 type="text"
+                 formControlName="podr"
+                 ngbDropdownToggle
+                 [required]="fcFieldIsRequired('podr', true)"
+                 (click)="ddmPodr.open()"
+                 (input)="ddmPodr.open()">
+          <button class="btn btn-light border-dark"
+                  (click)="fgOborudEkzElement.controls['podr'].setValue(null)">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="px-3 ngb-menu-config" ngbDropdownMenu *ngIf="podrListDDM && podrListDDM.length > 0" appendTo="body">
+          <p *ngIf="podrListDDM.length > 0">Выберите один из элем-ов:</p>
+          <p *ngIf="podrListDDM.length == 0">Список эл-ов пуст :(:</p>
+          <div class="dropdown-divider"></div>
+          <div class="ddm-config">
+            <button class="text-wrap" *ngFor="let podr of podrListDDM" (click)="onClickSelectDDIPodr(podr)"
+                    ngbDropdownItem>
+              {{podr.naim}}
+            </button>
+          </div>
+        </div>
       </div>
-      <!--    часть 2 ячейка 2-->
-      <div class="d-flex flex-column flex-grow-1">
+      <!--    часть 2 ячейка 2 УЧАСТОК-->
+      <div class="flex-grow-1">
         <label for="uch" class="form-label">Участок</label>
         <input class="form-control border-dark"
                id="uch"
@@ -113,11 +141,11 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-primary"
-          (click)="onClickCloseModal()"
+          (click)="onClickCreateOborudEkz()"
           [hidden]="dialogMode != DialogMode.CREATE"
           [disabled]="fgOborudEkzElement.invalid">Создать</button>
   <button type="button" class="btn btn-primary"
-          (click)="onClickCloseModal()"
+          (click)="onClickUpdateOborudEkz()"
           [hidden]="dialogMode != DialogMode.EDIT"
           [disabled]="fgOborudEkzElement.invalid">Редактировать</button>
   <button type="button" class="btn btn-secondary"
