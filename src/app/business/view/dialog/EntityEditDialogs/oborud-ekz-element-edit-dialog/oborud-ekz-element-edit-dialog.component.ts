@@ -44,7 +44,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
               private uchService: UchService,
               private podrService: PodrService) {
   }
-
+  // https://habr.com/ru/articles/346242/
   ngOnInit(): void {
     this.initDialogDefaultValues();
     this.initFgOborudEkzElement();
@@ -114,10 +114,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   //добавляет или удаляет валидаторы у указанного контрола
   changeValidators(controlName: string, validators: ValidatorFn[], deleteValidators: boolean = false): void {
-    console.log('valid')
+    console.log('удалить валидатор', deleteValidators)
     deleteValidators ?
       this.fgOborudEkzElement.get(controlName).removeValidators(validators) :
-      this.fgOborudEkzElement.get(controlName).setValidators(validators);
+      this.fgOborudEkzElement.get(controlName).addValidators(validators);
     this.fgOborudEkzElement.controls[controlName].updateValueAndValidity({onlySelf: false, emitEvent: false});
   }
 
@@ -125,7 +125,8 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
       tap( (val) => {
         console.log(val)
-        this.changeValidators('proizv', [Validators.required, this.validatorMinLength], false);
+        this.changeValidators('proizv', [this.validatorMinLength], false);
+        console.log(this.fgOborudEkzElement.valid)
       })
     , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
@@ -135,8 +136,6 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
           this.proizvListDDM = this.proizvList;
         }
     })
-
-
 
     // this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
     //   debounceTime(DELAY_TIME)
@@ -164,7 +163,11 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   _observeFcPodr(){
     this.fgOborudEkzElement.controls['podr'].valueChanges.pipe(
-      debounceTime(DELAY_TIME)
+      tap( (val) => {
+        console.log(val)
+        this.changeValidators('podr', [this.validatorMinLength], false);
+      })
+      , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
         this.podrListDDM = this.podrList.filter(docTyp => docTyp.naim.includes(inputValue));
@@ -172,21 +175,22 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
         this.podrListDDM = this.podrList;
       }
     })
-
   }
 
   //выбор из списка DDM Производителя
   onClickSelectDDIProizv(proizv: ProizvDTO){
+    console.log('выбрали из списка');
+    // console.log(proizv);
     this.fgOborudEkzElement.controls['proizv'].setValue(proizv.naim);
     this.newProizv = proizv;
     this.changeValidators('proizv', [this.validatorMinLength], true);
-    console.log(proizv);
   }
 
   //выбор из списка DDM Подразделения/Цеха
   onClickSelectDDIPodr(podr: PodrDTO){
     this.fgOborudEkzElement.controls['podr'].setValue(podr.naim);
     this.newPodr = podr;
+    this.changeValidators('podr', [this.validatorMinLength], true);
     console.log(podr);
   }
 
