@@ -50,7 +50,8 @@
         <div class="ddm-config">
           <h2 *ngIf="proizvListDDM && proizvListDDM.length == 0"
              ngbDropdownItem class="text-center">😔</h2>
-          <button class="text-wrap" *ngFor="let proizv of proizvListDDM"
+          <button class="text-wrap"
+                  *ngFor="let proizv of proizvListDDM"
                   (click)="onClickSelectDDIProizv(proizv)"
                   ngbDropdownItem>
             {{proizv.naim}}
@@ -111,7 +112,7 @@
                  (click)="ddmPodr.open()"
                  (input)="ddmPodr.open()">
           <button class="btn btn-light border-dark"
-                  (click)="fgOborudEkzElement.controls['podr'].setValue(null); this.newProizv = null">
+                  (click)="fgOborudEkzElement.controls['podr'].setValue(null); this.newPodr = null">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -122,8 +123,9 @@
           <div class="dropdown-divider"></div>
           <div class="ddm-config">
             <h2 *ngIf="podrListDDM && podrListDDM.length == 0"
-                ngbDropdownItem class="text-center">😔</h2>
-            <button class="text-wrap" *ngFor="let podr of podrListDDM"
+                ngbDropdownItem class="text-center">😟</h2>
+            <button class="text-wrap"
+                    *ngFor="let podr of podrListDDM"
                     (click)="onClickSelectDDIPodr(podr)"
                     ngbDropdownItem>
               {{podr.naim}}
@@ -132,13 +134,41 @@
         </div>
       </div>
       <!--    часть 2 ячейка 2 УЧАСТОК-->
-      <div class="flex-grow-1">
+      <div class="flex-grow-1" ngbDropdown container="body" #ddmUch=ngbDropdown>
         <label for="uch" class="form-label">Участок</label>
-        <input class="form-control border-dark"
-               id="uch"
-               type="text"
-               formControlName="uch"
-               [required]="fcFieldIsRequired('uch', true)">
+        <div class="form-group input-group">
+          <input class="form-control border-dark"
+                 id="uch"
+                 type="text"
+                 formControlName="uch"
+                 ngbDropdownToggle
+                 [required]="fcFieldIsRequired('uch', true)"
+                 (click)="ddmUch.open()"
+                 (input)="ddmUch.open()"
+          >
+          <button class="btn btn-light border-dark"
+                  (click)="fgOborudEkzElement.controls['uch'].setValue(null); this.newUch = null">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="px-3 ngb-menu-config"
+             ngbDropdownMenu>
+          <p *ngIf="uchListDDM && uchListDDM.length > 0">Выберите один из элем-ов:</p>
+          <p *ngIf="uchListDDM && uchListDDM.length == 0">Ничего не найдено</p>
+          <div class="dropdown-divider"></div>
+          <div class="ddm-config">
+            <h2 *ngIf="uchListDDM && uchListDDM.length == 0"
+              ngbDropdownItem
+                class="text-center"
+            >😟</h2>
+            <button class="text-wrap"
+                    *ngFor="let uch of uchListDDM"
+                    (click)="onClickSelectDDIUch(uch)"
+                    ngbDropdownItem>
+              {{uch.naim}}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

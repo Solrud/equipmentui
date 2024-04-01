@@ -61,7 +61,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
       rod: new FormControl({value: this.getCorrectValueFromField('rod'), disabled: true}),
       vid: new FormControl({value: this.getCorrectValueFromField('vid'), disabled: true}),
       tip: new FormControl({value: this.getCorrectValueFromField('tip'), disabled: true}),
-      //ToDo gabarity, gruppa и py пока что нет, так как код классификации в ручную
+      //ToDo классиф, вид, пу, группа СДЕЛАТЬ
       gabarity: new FormControl({value: this.getCorrectValueFromField('gabarity'), disabled: true}),
       py: new FormControl({value: this.getCorrectValueFromField('py'), disabled: true}),
       gruppa: new FormControl({value: this.getCorrectValueFromField('gruppa'), disabled: true}),

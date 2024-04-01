@@ -64,6 +64,8 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
+  // добавить DTO'шки и сервисы к частям кода классификатора
+  // код классификатора изменился old(вид, группа, пу, габариты) СЕЙЧАС (классификатор, вид, ПУ, габариты), то есь вместо вида-классификатор и вместо группа-вид
   // !!!сделать выбор элемента в таблице и взаимодействие(добавить, редактировать, удалить) с ним через модалки
   // !!!сделать диалоги с полями форм филдами и группой
   // возвращение из таблицы выбранного элемента таблицы возможно стоит переделать под input
@@ -94,9 +96,9 @@ export class BodyComponent implements OnInit{
     if(!this.oborudEkzSearch) this.oborudEkzSearch = new OborudEkzSearchDTO();
   }
 
-  _nextDataTable(){
-    this.eventService.pushTableDataSource$(this.fieldColumnList, this.dataTableNavSource);
-  }
+  // _nextDataTable(){
+  //   this.eventService.pushTableDataSource$(this.fieldColumnList, this.dataTableNavSource);
+  // }
 
   _subscribeToSelectedSpravochnik(){
     this.eventService.selectedSpravTable$.subscribe((result: TableType) => {

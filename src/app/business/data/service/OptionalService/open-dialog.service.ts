@@ -79,31 +79,6 @@ export class OpenDialogService {
         return null;
     }
   }
-
-  openKomplElementEditDialog(){
-    const openKomplElementEditDialog = this.modalService.open(KomplElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
-
-    // return openKomplElementEditDialog;
-  }
-
-  openGruppaElementEditDialog(){
-    const openGruppaElementEditDialog = this.modalService.open(GruppaElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
-
-    // return openGruppaElementEditDialog;
-  }
-
-  openModelElementEditDialog(){
-    const openModelElementEditDialog = this.modalService.open(ModelElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
-
-    // return openModelElementEditDialog;
-  }
-
-  openOborudEkzElementEditDialog(){
-    const openOborudEkzElementEditDialog = this.modalService.open(OborudEkzElementEditDialogComponent, {scrollable: true, size: "md", centered: true, modalDialogClass: "modal-config"});
-
-    // return openOborudEkzElementEditDialog;
-  }
-
   //---=========| Модалки добавления связей оборудования |=========---
   openRelationshipDialog(selectedNavBar: TableType){
     switch (selectedNavBar) {

@@ -57,7 +57,7 @@ export class ModelElementEditDialogComponent implements OnInit{
       tip: new FormControl({value: this.getCorrectValueFromField('tip'), disabled: true}),
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
       kod: new FormControl({value: this.getCorrectValueFromField('kod'), disabled: true}),
-      obozn: new FormControl({value: this.getCorrectValueFromField('obozn'), disabled: false}, Validators.required),
+      obozn: new FormControl({value: this.getCorrectValueFromField('obozn'), disabled: false}),
       ekzemplary: new FormControl({value: this.getCorrectValueFromField('ekzemplary'), disabled: true}),
 
       //ToDo полное наименование в модели?
