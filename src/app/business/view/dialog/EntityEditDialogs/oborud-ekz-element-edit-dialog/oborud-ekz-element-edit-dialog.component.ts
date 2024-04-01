@@ -11,6 +11,7 @@ import {ProizvDTO} from "../../../../data/model/dto/impl/ProizvDTO";
 import {PodrDTO} from "../../../../data/model/dto/impl/PodrDTO";
 import {UchDTO} from "../../../../data/model/dto/impl/UchDTO";
 import {debounceTime, tap} from "rxjs/operators";
+import {UchSearchDTO} from "../../../../data/model/search/impl/UchSearchDTO";
 
 @Component({
   selector: 'app-oborud-ekz-element-edit-dialog',
@@ -51,6 +52,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
     this._observeFcProizv();
     this._observeFcPodr();
+    this._observeFcUch();
   }
 
   public get DialogMode(){
@@ -89,16 +91,36 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     return null;
   }
 
+  searchUchByPodrId(podrId: number){
+    let uchSearch = new UchSearchDTO();
+    uchSearch.podrId = podrId;
+    this.uchService.searchPage(uchSearch).subscribe( result => {
+      this.uchList = result.content;
+      this.uchListDDM = result.content;
+
+      if (result.content.length > 0) {
+        console.log('result.content.length > 0     1')
+        this.changeFcEnableOrDisable('uch', true);
+        this.changeValidators('uch', [this.validatorMinLength], false);
+      } else {
+        console.log('result.content.length < 0     2')
+        this.changeFcEnableOrDisable('uch', true);
+        this.changeValidators('uch', [this.validatorMinLength], true);
+      }
+    })
+  }
+
   initFgOborudEkzElement(){
     this.fgOborudEkzElement = new FormGroup({
       id: new FormControl({value: this.getCorrectValueFromField('id'), disabled: true}),
       akt: new FormControl({value: this.getCorrectValueFromField('akt'), disabled: true}),
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
+      //ToDo Обязательно одно из номеров, для создания нужно заполнить либо serNom || invNom
       serNom: new FormControl({value: this.getCorrectValueFromField('serNom'), disabled: false}, Validators.required),
       invNom: new FormControl({value: this.getCorrectValueFromField('invNom'), disabled: false}, Validators.required),
       podr: new FormControl({value: this.getCorrectValueFromField('podr'), disabled: false}, Validators.required),
-      uch: new FormControl({value: this.getCorrectValueFromField('uch'), disabled: false}, Validators.required),
-      proizv: new FormControl({value: this.getCorrectValueFromField('proizv'), disabled: false}, Validators.required),
+      uch: new FormControl({value: this.getCorrectValueFromField('uch'), disabled: true}),        //Участок обязателен если есть список участков в подразделени
+      proizv: new FormControl({value: this.getCorrectValueFromField('proizv'), disabled: false}),
       model: new FormControl({value: this.getCorrectValueFromField('model'), disabled: true}),
 
       //ToDo примечание в оборуд екз?
@@ -114,19 +136,22 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   //добавляет или удаляет валидаторы у указанного контрола
   changeValidators(controlName: string, validators: ValidatorFn[], deleteValidators: boolean = false): void {
-    console.log('удалить валидатор', deleteValidators)
     deleteValidators ?
       this.fgOborudEkzElement.get(controlName).removeValidators(validators) :
       this.fgOborudEkzElement.get(controlName).addValidators(validators);
     this.fgOborudEkzElement.controls[controlName].updateValueAndValidity({onlySelf: false, emitEvent: false});
   }
 
+  changeFcEnableOrDisable(fcName: string, toEnable: boolean){
+    toEnable ?
+      this.fgOborudEkzElement.controls[fcName].enable() :
+      this.fgOborudEkzElement.controls[fcName].disable()
+  }
+
   _observeFcProizv(){
     this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
       tap( (val) => {
-        console.log(val)
         this.changeValidators('proizv', [this.validatorMinLength], false);
-        console.log(this.fgOborudEkzElement.valid)
       })
     , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
@@ -136,6 +161,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
           this.proizvListDDM = this.proizvList;
         }
     })
+
+
+    //ToDo если ддм пое не обязательно, сделать правильную логику проверки поля на неверное или пустое
+    // если поле не пустое и неправильное, то добавлть валидатор, если выбрано из списка или пустое поле, то валидатор прошел или отсутствует
 
     // this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
     //   debounceTime(DELAY_TIME)
@@ -177,10 +206,14 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     })
   }
 
+  _observeFcUch(){
+    this.fgOborudEkzElement.controls['uch'].valueChanges.pipe(
+      tap()
+    )
+  }
+
   //выбор из списка DDM Производителя
   onClickSelectDDIProizv(proizv: ProizvDTO){
-    console.log('выбрали из списка');
-    // console.log(proizv);
     this.fgOborudEkzElement.controls['proizv'].setValue(proizv.naim);
     this.newProizv = proizv;
     this.changeValidators('proizv', [this.validatorMinLength], true);
@@ -191,6 +224,8 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.fgOborudEkzElement.controls['podr'].setValue(podr.naim);
     this.newPodr = podr;
     this.changeValidators('podr', [this.validatorMinLength], true);
+
+    this.searchUchByPodrId(podr.id);
     console.log(podr);
   }
 
@@ -198,6 +233,8 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   onClickSelectDDIUch(uch: UchDTO){
     this.fgOborudEkzElement.controls['uch'].setValue(uch.naim);
     this.newUch = uch;
+    this.changeValidators('podr', [this.validatorMinLength], true);
+
     console.log(uch);
   }
 

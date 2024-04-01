@@ -4,13 +4,13 @@
             [disabled]="!selectedNavBar"
             (click)="onClickAddNewElement()">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
-      &nbsp; Добавить
+      &nbsp; {{ 'BUTTON.ADD'|translate }}
     </button>
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
             [disabled]="!selectedElementTable"
             (click)="onClickEditElement()">
       <i class="bi bi-pencil-square i-edit"></i>
-      &nbsp; Изменить
+      &nbsp; {{ 'BUTTON.EDIT'|translate }}
     </button>
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
             [disabled]="!selectedElementTable"
@@ -18,24 +18,24 @@
       <span class = "d-flex flex-row align-items-center"
             *ngIf="selectedElementTable && selectedElementTable['akt'] == 1">
         <i class="bi bi-file-earmark-x "></i>
-      &nbsp; Сделать неактивным
+      &nbsp; {{ 'BUTTON.MAKE-UNACTIVE'|translate }}
       </span>
       <span class = "d-flex flex-row align-items-center"
             *ngIf="selectedElementTable && selectedElementTable['akt'] == 0">
         <i class="bi bi-file-earmark-check"></i>
-      &nbsp; Сделать активным
+      &nbsp; {{ 'BUTTON.MAKE-ACTIVE'|translate }}
       </span>
       <span class = "d-flex flex-row align-items-center"
             *ngIf="!selectedElementTable">
         <i class="bi bi-file-earmark-diff "></i>
-      &nbsp; Изменить активность
+      &nbsp; {{ 'BUTTON.CHANGE-ACTIVE'|translate }}
       </span>
     </button>
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
             [disabled]="!selectedElementTable"
             (click)="onClickDeleteElement()">
       <i class="bi bi-trash"></i>
-      &nbsp; Удалить
+      &nbsp; {{ 'BUTTON.DELETE'|translate }}
     </button>
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
             [class.visually-hidden]="selectedNavBar != tableType.OBORUD_EKZ"
@@ -46,7 +46,7 @@
     <button class="btn btn-primary" type="submit"
             [disabled]="true"
             (click)="onClickReport()">
-      Отчёт
+      {{ 'BUTTON.REPORT'|translate }}
     </button>
   </div>
 
