@@ -15,12 +15,12 @@
     <button class="btn btn-outline-primary d-flex flex-row align-items-center"
             [disabled]="!selectedElementTable"
             (click)="onClickChangeActivityElement()">
-      <span class = "d-flex flex-row align-items-center"
+      <span class = "d-flex flex-row align-items-center fix-width-act-button"
             *ngIf="selectedElementTable && selectedElementTable['akt'] == 1">
         <i class="bi bi-file-earmark-x "></i>
       &nbsp; {{ 'BUTTON.MAKE-UNACTIVE'|translate }}
       </span>
-      <span class = "d-flex flex-row align-items-center"
+      <span class = "d-flex flex-row align-items-center fix-width-act-button"
             *ngIf="selectedElementTable && selectedElementTable['akt'] == 0">
         <i class="bi bi-file-earmark-check"></i>
       &nbsp; {{ 'BUTTON.MAKE-ACTIVE'|translate }}

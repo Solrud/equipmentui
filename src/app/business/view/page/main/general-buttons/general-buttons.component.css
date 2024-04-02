@@ -22,7 +22,12 @@ button{
   font-size: 2.4rem !important;
   transition: all 210ms ease;
   color: #0d6efd;
-}.i-arrow-config:hover{
+}
+.i-arrow-config:hover{
    transform: scale(1.15);
    cursor: pointer;
- }
+}
+
+.fix-width-act-button{
+  width: 209px !important;
+}

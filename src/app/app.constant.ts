@@ -4,7 +4,14 @@ export const GRUPPA_URL_TOKEN = new InjectionToken<string>('url');
 export const KOMPL_URL_TOKEN = new InjectionToken<string>('url');
 export const MODEL_URL_TOKEN = new InjectionToken<string>('url');
 export const OBORUD_EKZ_URL_TOKEN = new InjectionToken<string>('url');
+
 export const OBORUD_VID_URL_TOKEN = new InjectionToken<string>('url');
+export const OBORUD_KLASS_URL_TOKEN = new InjectionToken<string>('url');
+export const GAB_ZO_URL_TOKEN = new InjectionToken<string>('url');
+export const NAL_PU_URL_TOKEN = new InjectionToken<string>('url');
+
+
+
 export const PODR_URL_TOKEN = new InjectionToken<string>('url');
 export const PROIZV_URL_TOKEN = new InjectionToken<string>('url');
 export const UCH_URL_TOKEN = new InjectionToken<string>('url');
@@ -59,7 +66,7 @@ export class TableData{
   }
 }
 
-export const INIT_NAV_BAR = TableType.OBORUD_EKZ;
+export const INIT_NAV_BAR = TableType.GRUPPA;
 
 // export const FIELD_COLUMN_KOMPL_LIST = ['id', 'akt', 'kod', 'naim'];
 // export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'akt', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
