@@ -39,6 +39,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   uchList: UchDTO[];
   newUch: UchDTO;
 
+  nomerIsFilled: boolean = false;
+
+  isFirstTimeInit: boolean = true;
+
   constructor(private activeModal: NgbActiveModal,
               private oborudEkzService: OborudEkzService,
               private proizvService: ProizvService,
@@ -47,9 +51,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   }
   // https://habr.com/ru/articles/346242/
   ngOnInit(): void {
-    this.initDialogDefaultValues();
+    console.log(this.selectedElement)
     this.initFgOborudEkzElement();
-
+    this.initDialogDefaultValues();
+    this._observeSerAndInvNom();
     this._observeFcProizv();
     this._observeFcPodr();
     this._observeFcUch();
@@ -76,19 +81,47 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
         this.podrListDDM = result;
         this.podrList = result;
     })
+
+    if (this.dialogMode == DialogMode.EDIT){
+      if(this.selectedElement.proizv) this.onClickSelectDDIProizv(this.selectedElement.proizv)
+      if(this.selectedElement.podr) this.onClickSelectDDIPodr(this.selectedElement.podr)
+    }
+
   }
 
   getCorrectValueFromField(field: string): any{
     if (this.dialogMode === DialogMode.CREATE){
       if (field == 'akt') return 1;
     }
-    if (this.dialogMode == DialogMode.EDIT)
-      if (field == 'podr') return this.selectedElement.podr.naim;
-
-      // ?
+    if (this.dialogMode == DialogMode.EDIT) {
+      if (field == 'podr' && this.selectedElement?.podr) return this.selectedElement.podr.naim;
+      if (field == 'uch' && this.selectedElement?.uch) return this.selectedElement.uch.naim;
+      if (field == 'proizv' && this.selectedElement?.proizv) return this.selectedElement.proizv.naim;
+    }
 
     if (this.selectedElement) return this.selectedElement[field];
     return null;
+  }
+
+  initFgOborudEkzElement(){
+    this.fgOborudEkzElement = new FormGroup({
+      id: new FormControl({value: this.getCorrectValueFromField('id'), disabled: true}),
+      akt: new FormControl({value: this.getCorrectValueFromField('akt'), disabled: true}),
+      naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
+      serNom: new FormControl({value: this.getCorrectValueFromField('serNom'), disabled: false},
+        this.selectedElement?.serNom || this.selectedElement?.invNom ? null : Validators.required),
+      invNom: new FormControl({value: this.getCorrectValueFromField('invNom'), disabled: false},
+        this.selectedElement?.serNom || this.selectedElement?.invNom ? null : Validators.required),
+      podr: new FormControl({value: this.getCorrectValueFromField('podr'), disabled: false}, Validators.required),
+      uch: new FormControl({value: this.getCorrectValueFromField('uch'), disabled: true}),        //Участок обязателен если есть список участков в подразделени
+      proizv: new FormControl({value: this.getCorrectValueFromField('proizv'), disabled: false}),
+      model: new FormControl({value: this.getCorrectValueFromField('model'), disabled: true}),
+
+      //ToDo примечание в оборуд екз? Скоро Дима должен сделать
+      // primechanie: new FormControl({value: this.getCorrectValueFromField('primechanie'), disabled: true}),
+
+      //ToDo ошибка при перевыборе подразделения
+    })
   }
 
   searchUchByPodrId(podrId: number){
@@ -99,33 +132,19 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       this.uchListDDM = result.content;
 
       if (result.content.length > 0) {
-        console.log('result.content.length > 0     1')
         this.changeFcEnableOrDisable('uch', true);
-        this.changeValidators('uch', [this.validatorMinLength], false);
+        this.fgOborudEkzElement.controls['uch'].setValue(null);
       } else {
-        console.log('result.content.length < 0     2')
-        this.changeFcEnableOrDisable('uch', true);
-        this.changeValidators('uch', [this.validatorMinLength], true);
+        this.changeFcEnableOrDisable('uch', false);
+        this.changeValidators('uch', [this.validatorMinLength, this.Validators.required], true);
+      }
+
+      if(this.isFirstTimeInit) {
+        if(this.dialogMode == DialogMode.EDIT && this.selectedElement.uch)
+          this.onClickSelectDDIUch(this.selectedElement.uch)
       }
     })
-  }
 
-  initFgOborudEkzElement(){
-    this.fgOborudEkzElement = new FormGroup({
-      id: new FormControl({value: this.getCorrectValueFromField('id'), disabled: true}),
-      akt: new FormControl({value: this.getCorrectValueFromField('akt'), disabled: true}),
-      naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
-      //ToDo Обязательно одно из номеров, для создания нужно заполнить либо serNom || invNom
-      serNom: new FormControl({value: this.getCorrectValueFromField('serNom'), disabled: false}, Validators.required),
-      invNom: new FormControl({value: this.getCorrectValueFromField('invNom'), disabled: false}, Validators.required),
-      podr: new FormControl({value: this.getCorrectValueFromField('podr'), disabled: false}, Validators.required),
-      uch: new FormControl({value: this.getCorrectValueFromField('uch'), disabled: true}),        //Участок обязателен если есть список участков в подразделени
-      proizv: new FormControl({value: this.getCorrectValueFromField('proizv'), disabled: false}),
-      model: new FormControl({value: this.getCorrectValueFromField('model'), disabled: true}),
-
-      //ToDo примечание в оборуд екз?
-      // primechanie: new FormControl({value: this.getCorrectValueFromField('primechanie'), disabled: true}),
-    })
   }
 
   //получить идентификаторы обязательности заполнения поля
@@ -152,6 +171,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
       tap( (val) => {
         this.changeValidators('proizv', [this.validatorMinLength], false);
+        this.newProizv = null;
       })
     , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
@@ -161,40 +181,14 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
           this.proizvListDDM = this.proizvList;
         }
     })
-
-
-    //ToDo если ддм пое не обязательно, сделать правильную логику проверки поля на неверное или пустое
-    // если поле не пустое и неправильное, то добавлть валидатор, если выбрано из списка или пустое поле, то валидатор прошел или отсутствует
-
-    // this.fgOborudEkzElement.controls['proizv'].valueChanges.pipe(
-    //   debounceTime(DELAY_TIME)
-    // ).subscribe( inputValue => {
-    //   console.log(inputValue)
-    //   console.log(typeof inputValue )
-    //   if (inputValue && inputValue.length > 0){
-    //     this.proizvListDDM = this.proizvList.filter(docTyp => docTyp.naim.includes(inputValue));
-    //   } else {
-    //     this.proizvListDDM = this.proizvList;
-    //   }
-    //   if (inputValue && inputValue.length > 0) {
-    //     let isInputValueInProizvList = this.proizvList.some(obj => obj.naim.toLowerCase() == inputValue.toLowerCase());
-    //     if (isInputValueInProizvList) {
-    //       this.changeValidators('proizv', [this.validatorMinLength], true);
-    //     } else {
-    //       this.changeValidators('proizv', [this.validatorMinLength], false);
-    //     }
-    //   }
-    //   if (inputValue == "" || !inputValue || inputValue.length == 0)
-    //     this.changeValidators('proizv', [this.validatorMinLength], false);
-    // })
-
   }
 
   _observeFcPodr(){
     this.fgOborudEkzElement.controls['podr'].valueChanges.pipe(
       tap( (val) => {
-        console.log(val)
         this.changeValidators('podr', [this.validatorMinLength], false);
+        this.newUch = null;
+        this.newPodr = null
       })
       , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
@@ -202,15 +196,49 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
         this.podrListDDM = this.podrList.filter(docTyp => docTyp.naim.includes(inputValue));
       } else {
         this.podrListDDM = this.podrList;
+        this.changeFcEnableOrDisable('uch', false);
       }
     })
   }
 
   _observeFcUch(){
     this.fgOborudEkzElement.controls['uch'].valueChanges.pipe(
-      tap()
-    )
+      tap( (val) => {
+        this.changeValidators('uch', [this.validatorMinLength, this.Validators.required], false);
+        this.newUch = null;
+      })
+      , debounceTime(DELAY_TIME)
+    ).subscribe( inputValue => {
+      if (inputValue && inputValue.length > 0){
+        this.uchListDDM = this.uchList.filter(docTyp => docTyp.naim.includes(inputValue));
+      } else {
+        this.uchListDDM = this.uchList;
+      }
+    })
   }
+
+  _observeSerAndInvNom(){
+    this.fgOborudEkzElement.controls['serNom'].valueChanges.pipe(
+      debounceTime(DELAY_TIME)
+    ).subscribe( inputValue => {
+      if (inputValue && inputValue.length > 0){
+        this.changeValidators('invNom', [this.Validators.required], true);
+      } else {
+        this.changeValidators('invNom', [this.Validators.required], false);
+      }
+    })
+
+    this.fgOborudEkzElement.controls['invNom'].valueChanges.pipe(
+      debounceTime(DELAY_TIME)
+    ).subscribe( inputValue => {
+      if (inputValue && inputValue.length > 0){
+        this.changeValidators('serNom', [this.Validators.required], true);
+      } else {
+        this.changeValidators('serNom', [this.Validators.required], false);
+      }
+    })
+  }
+
 
   //выбор из списка DDM Производителя
   onClickSelectDDIProizv(proizv: ProizvDTO){
@@ -226,18 +254,28 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.changeValidators('podr', [this.validatorMinLength], true);
 
     this.searchUchByPodrId(podr.id);
-    console.log(podr);
+    // this.isFirstTimeInit ? this.isFirstTimeInit = false :  this.searchUchByPodrId(podr.id);
   }
 
   //выбор из списка DDM Участка
   onClickSelectDDIUch(uch: UchDTO){
     this.fgOborudEkzElement.controls['uch'].setValue(uch.naim);
     this.newUch = uch;
-    this.changeValidators('podr', [this.validatorMinLength], true);
-
-    console.log(uch);
+    this.changeValidators('uch', [this.validatorMinLength], true);
+    if (this.isFirstTimeInit) {
+      this.isFirstTimeInit = false;
+      this.changeValidators('uch', [this.Validators.required], true);
+    }
   }
 
+  onClickSetNullPodr(){
+    this.fgOborudEkzElement.controls['podr'].setValue(null);
+    this.fgOborudEkzElement.controls['uch'].setValue(null);
+    this.newUch = null;
+    this.newPodr = null
+
+    this.changeFcEnableOrDisable('uch', false);
+  }
 
   onSaveNewOborudEkz(){
     this.newOborudEkz = new OborudEkzDTO();

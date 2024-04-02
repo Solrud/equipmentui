@@ -21,16 +21,16 @@ import {registerLocaleData} from "@angular/common";
 import {HTTP_INTERCEPTORS, HttpBackend, HttpClientModule} from "@angular/common/http";
 import {environment} from "../environment/environment";
 import {
+  GAB_ZO_URL_TOKEN,
   GRUPPA_URL_TOKEN,
   KOMPL_URL_TOKEN,
-  MODEL_URL_TOKEN,
-  OBORUD_EKZ_URL_TOKEN,
+  MODEL_URL_TOKEN, NAL_PU_URL_TOKEN,
+  OBORUD_EKZ_URL_TOKEN, OBORUD_KLASS_URL_TOKEN,
   OBORUD_VID_URL_TOKEN,
   PODR_URL_TOKEN,
   PROIZV_URL_TOKEN,
   UCH_URL_TOKEN
 } from "./app.constant";
-import {NavbarComponent} from './business/view/page/main/navbar/navbar.component';
 import {TableComponent} from './business/view/page/main/table/table.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SpinnerInterceptorService} from "./business/data/service/OptionalService/spinner-interceptor.service";
@@ -63,7 +63,6 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     BodyComponent,
     FooterComponent,
     GeneralButtonsComponent,
-    NavbarComponent,
     TableComponent,
     SpinnerComponent,
     InformationDialogComponent,
@@ -103,8 +102,12 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     {provide: KOMPL_URL_TOKEN, useValue: environment.backendURL + '/kompl'},
     {provide: MODEL_URL_TOKEN, useValue: environment.backendURL + '/model'},
     {provide: OBORUD_EKZ_URL_TOKEN, useValue: environment.backendURL + '/oborud-ekz'},
+
     {provide: OBORUD_VID_URL_TOKEN, useValue: environment.backendURL + '/oborud-vid'},
-    // {provide: OBORUD_URL_TOKEN, useValue: environment.backendURL + '/oborud'},
+    {provide: OBORUD_KLASS_URL_TOKEN, useValue: environment.backendURL + '/oborud-klass'},
+    {provide: GAB_ZO_URL_TOKEN, useValue: environment.backendURL + '/gab-zo'},
+    {provide: NAL_PU_URL_TOKEN, useValue: environment.backendURL + '/nal-pu'},
+
     {provide: PODR_URL_TOKEN, useValue: environment.backendURL + '/podr'},
     {provide: PROIZV_URL_TOKEN, useValue: environment.backendURL + '/proizv'},
     {provide: UCH_URL_TOKEN, useValue: environment.backendURL + '/uch'},

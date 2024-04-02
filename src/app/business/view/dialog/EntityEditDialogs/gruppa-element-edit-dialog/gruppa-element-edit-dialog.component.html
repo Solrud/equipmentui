@@ -46,8 +46,20 @@
       </button>
     </div>
   </div>
+
   <div class="d-flex flex-row">
-    <div class="col-2 pe-2">
+    <div class="col-6 pe-2">
+      <label for="klass" class="form-label">Код оборудования</label>
+      <input class="form-control border-dark"
+             id="klass"
+             formControlName="klass"
+             autocomplete="off"
+             type="text"
+             readonly
+             [required]="fcFieldIsRequired('klass', true)">
+
+    </div>
+    <div class="col-6 pe-2">
       <label for="vid" class="form-label">Вид</label>
       <input class="form-control border-dark"
              id="vid"
@@ -58,37 +70,29 @@
              [required]="fcFieldIsRequired('vid', true)">
 
     </div>
-    <div class="col-4 pe-2">
-      <label for="gruppa" class="form-label">Группа</label>
+  </div>
+
+  <div class="d-flex flex-row">
+    <div class="col-6 pe-2">
+      <label for="nalPu" class="form-label">ПУ</label>
       <input class="form-control border-dark"
-             id="gruppa"
-             formControlName="gruppa"
+             id="nalPu"
+             formControlName="nalPu"
              autocomplete="off"
              type="text"
              readonly
-             [required]="fcFieldIsRequired('gruppa', true)">
+             [required]="fcFieldIsRequired('nalPu', true)">
 
     </div>
-    <div class="col-2 pe-2">
-      <label for="py" class="form-label">ПУ</label>
+    <div class="col-6">
+      <label for="gabZo" class="form-label">Габариты</label>
       <input class="form-control border-dark"
-             id="py"
-             formControlName="py"
-             autocomplete="off"
-             type="text"
-             readonly
-             [required]="fcFieldIsRequired('py', true)">
-
-    </div>
-    <div class="col-4">
-      <label for="gabarity" class="form-label">Габариты</label>
-      <input class="form-control border-dark"
-             id="gabarity"
-             formControlName="gabarity"
+             id="gabZo"
+             formControlName="gabZo"
              autocomplete="off"
              readonly
              type="text"
-             [required]="fcFieldIsRequired('gabarity', true)">
+             [required]="fcFieldIsRequired('gabZo', true)">
     </div>
   </div>
 
