@@ -33,6 +33,7 @@
         <input class="form-control border-dark"
                id="proizv"
                type="text"
+               autocomplete="off"
                formControlName="proizv"
                ngbDropdownToggle
                [required]="fcFieldIsRequired('proizv', true)"
@@ -62,116 +63,120 @@
   </div>
   <!--  ряд 2-->
   <div class="d-flex gap-2">
+    <!--    Индивидуальный номер -->
     <div class="flex-grow-1">
-      <!--    часть 1 ячайка 1-->
-      <div class="flex-grow-1">
-        <label for="invNom" class="form-label">Индивидуальный номер</label>
-        <div class="form-group input-group">
-          <input class="form-control border-dark"
-                 id="invNom"
-                 type="text"
-                 formControlName="invNom"
-                 [required]="fcFieldIsRequired('invNom', true)">
-          <button class="btn btn-light border-dark"
-                  (click)="fgOborudEkzElement.controls['invNom'].setValue(null)">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
+      <label for="invNom" class="form-label">Индивидуальный номер</label>
+      <div class="form-group input-group">
+        <input class="form-control border-dark"
+               id="invNom"
+               type="text"
+               formControlName="invNom"
+               [required]="fcFieldIsRequired('invNom', true)">
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['invNom'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
       </div>
-      <!--    часть 1 ячейка 2-->
-      <div class="flex-grow-1">
-        <label for="serNom" class="form-label">Серийный номер</label>
-        <div class="form-group input-group">
-          <input class="form-control border-dark"
-                 id="serNom"
-                 type="text"
-                 formControlName="serNom"
-                 [required]="fcFieldIsRequired('serNom', true)">
-          <button class="btn btn-light border-dark"
-                  (click)="fgOborudEkzElement.controls['serNom'].setValue(null)">
-            <i class="bi bi-x-lg"></i>
+    </div>
+    <!--    подразделение-->
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmPodr="ngbDropdown">
+      <label for="podr" class="form-label">Подразделение</label>
+      <div class="form-group input-group">
+        <input class="form-control border-dark"
+               id="podr"
+               type="text"
+               autocomplete="off"
+               formControlName="podr"
+               ngbDropdownToggle
+               [required]="fcFieldIsRequired('podr', true)"
+               (click)="ddmPodr.open()"
+               (input)="ddmPodr.open()">
+        <button class="btn btn-light border-dark"
+                (click)="onClickSetNullPodr()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config"
+           ngbDropdownMenu>
+        <p *ngIf="podrListDDM && podrListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="podrListDDM && podrListDDM.length == 0">Ничего не найдено</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="podrListDDM && podrListDDM.length == 0"
+              ngbDropdownItem class="text-center">😟</h2>
+          <button class="text-wrap"
+                  *ngFor="let podr of podrListDDM"
+                  (click)="onClickSelectDDIPodr(podr)"
+                  ngbDropdownItem>
+            {{podr.naim}}
           </button>
         </div>
       </div>
     </div>
 
+  </div>
+  <div class="d-flex gap-2">
+    <!--    часть 2 ячейка 1 серийный номер-->
     <div class="flex-grow-1">
-      <!--    часть 2 ячейка 1 ПОДРАЗДЕЛЕНИЕ-->
-      <div class="flex-grow-1"
-           ngbDropdown
-           container="body"
-           #ddmPodr="ngbDropdown">
-        <label for="podr" class="form-label">Подразделение</label>
-        <div class="form-group input-group">
-          <input class="form-control border-dark"
-                 id="podr"
-                 type="text"
-                 formControlName="podr"
-                 ngbDropdownToggle
-                 [required]="fcFieldIsRequired('podr', true)"
-                 (click)="ddmPodr.open()"
-                 (input)="ddmPodr.open()">
-          <button class="btn btn-light border-dark"
-                  (click)="onClickSetNullPodr()">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-        <div class="px-3 ngb-menu-config"
-             ngbDropdownMenu>
-          <p *ngIf="podrListDDM && podrListDDM.length > 0">Выберите один из элем-ов:</p>
-          <p *ngIf="podrListDDM && podrListDDM.length == 0">Ничего не найдено</p>
-          <div class="dropdown-divider"></div>
-          <div class="ddm-config">
-            <h2 *ngIf="podrListDDM && podrListDDM.length == 0"
-                ngbDropdownItem class="text-center">😟</h2>
-            <button class="text-wrap"
-                    *ngFor="let podr of podrListDDM"
-                    (click)="onClickSelectDDIPodr(podr)"
-                    ngbDropdownItem>
-              {{podr.naim}}
-            </button>
-          </div>
-        </div>
+      <label for="serNom" class="form-label">Серийный номер</label>
+      <div class="form-group input-group">
+        <input class="form-control border-dark"
+               id="serNom"
+               type="text"
+               formControlName="serNom"
+               [required]="fcFieldIsRequired('serNom', true)">
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['serNom'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
       </div>
-      <!--    часть 2 ячейка 2 УЧАСТОК-->
-      <div class="flex-grow-1" ngbDropdown container="body" #ddmUch=ngbDropdown>
-        <label for="uch" class="form-label">Участок</label>
-        <div class="form-group input-group">
-          <input class="form-control border-dark"
-                 id="uch"
-                 type="text"
-                 formControlName="uch"
-                 ngbDropdownToggle
-                 [required]="fcFieldIsRequired('uch', true)"
-                 (click)="ddmUch.open()"
-                 (input)="ddmUch.open()"
-          >
-          <button class="btn btn-light border-dark"
-                  (click)="fgOborudEkzElement.controls['uch'].setValue(null); this.newUch = null">
-            <i class="bi bi-x-lg"></i>
+    </div>
+    <!--    часть 2 ячейка 2 УЧАСТОК-->
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmUch=ngbDropdown>
+      <label for="uch" class="form-label">Участок</label>
+      <div class="form-group input-group">
+        <input class="form-control border-dark"
+               id="uch"
+               type="text"
+               formControlName="uch"
+               autocomplete="off"
+               ngbDropdownToggle
+               [required]="fcFieldIsRequired('uch', true)"
+               (click)="ddmUch.open()"
+               (input)="ddmUch.open()"
+        >
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['uch'].setValue(null); this.newUch = null">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config"
+           ngbDropdownMenu>
+        <p *ngIf="uchListDDM && uchListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="uchListDDM && uchListDDM.length == 0">Ничего не найдено</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="uchListDDM && uchListDDM.length == 0"
+            ngbDropdownItem
+              class="text-center"
+          >😟</h2>
+          <button class="text-wrap"
+                  *ngFor="let uch of uchListDDM"
+                  (click)="onClickSelectDDIUch(uch)"
+                  ngbDropdownItem>
+            {{uch.naim}}
           </button>
-        </div>
-        <div class="px-3 ngb-menu-config"
-             ngbDropdownMenu>
-          <p *ngIf="uchListDDM && uchListDDM.length > 0">Выберите один из элем-ов:</p>
-          <p *ngIf="uchListDDM && uchListDDM.length == 0">Ничего не найдено</p>
-          <div class="dropdown-divider"></div>
-          <div class="ddm-config">
-            <h2 *ngIf="uchListDDM && uchListDDM.length == 0"
-              ngbDropdownItem
-                class="text-center"
-            >😟</h2>
-            <button class="text-wrap"
-                    *ngFor="let uch of uchListDDM"
-                    (click)="onClickSelectDDIUch(uch)"
-                    ngbDropdownItem>
-              {{uch.naim}}
-            </button>
-          </div>
         </div>
       </div>
     </div>
   </div>
+
 </form>
 
 <div class="modal-footer justify-content-between">

@@ -7,6 +7,7 @@ import {OborudVidDTO} from "../../model/dto/impl/OborudVid";
 import {OborudVidSearchDTO} from "../../model/search/impl/OborudVidSearchDTO";
 import {SearchAllOborudVidService} from "../SearchService/impl/SearchAll/search-all-oborud-vid.service";
 import {OborudEkzDTO} from "../../model/dto/impl/OborudEkzDTO";
+import {OtherMethodOborudVidService} from "../OtherMethodService/implements/other-method-oborud-vid.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class OborudVidService {
   constructor(private crudOborudVidService: CRUDOborudVidService,
               private searchListOborudVidService: SearchListOborudVidService,
               private searchPageOborudVidService: SearchPageOborudVidService,
-              private searchAllOborudVidService: SearchAllOborudVidService) { }
+              private searchAllOborudVidService: SearchAllOborudVidService,
+              private otherMethodOborudVidService: OtherMethodOborudVidService) { }
 
   create(oborudVidDTO: OborudVidDTO): Observable<boolean>{
     return this.crudOborudVidService.create(oborudVidDTO);
@@ -51,5 +53,9 @@ export class OborudVidService {
 
   updateList(oborudVidDTO: OborudVidDTO[]): Observable<boolean>{
     return this.crudOborudVidService.updateList(oborudVidDTO);
+  }
+
+  findByKlassId(klassId: number): Observable<OborudVidDTO[]>{
+    return this.otherMethodOborudVidService.findByKlassId(klassId);
   }
 }

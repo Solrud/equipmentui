@@ -41,7 +41,7 @@ export class OpenDialogService {
       case TableType.GRUPPA:
         const openGruppaElementEditDialog = this.modalService.open(GruppaElementEditDialogComponent, {
           scrollable: true,
-          size: "md",
+          size: "lg",
           centered: this.toCenteredModal,
           modalDialogClass: "modal-config"
         });

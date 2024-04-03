@@ -32,6 +32,13 @@ export enum TableType {
   UCH = 'Участки'
 }
 
+export enum TypePartOfKodKlass{
+  KLASS_OBORUD,
+  VID_OBORUD,
+  NAL_PU,
+  GAB_ZO
+}
+
 export enum DialogMode {
   VIEW,
   CREATE,

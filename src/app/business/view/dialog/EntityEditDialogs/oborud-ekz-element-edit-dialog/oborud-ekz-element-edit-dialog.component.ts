@@ -124,6 +124,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     })
   }
 
+  //поиск по айди подразделения участков привязанных к нему
   searchUchByPodrId(podrId: number){
     let uchSearch = new UchSearchDTO();
     uchSearch.podrId = podrId;
@@ -134,13 +135,9 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       if (result.content.length > 0) {
         this.changeFcEnableOrDisable('uch', true);
         this.fgOborudEkzElement.controls['uch'].setValue(null);
-      } else {
-        this.changeFcEnableOrDisable('uch', false);
-        this.changeValidators('uch', [this.validatorMinLength, this.Validators.required], true);
       }
-
       if(this.isFirstTimeInit) {
-        if(this.dialogMode == DialogMode.EDIT && this.selectedElement.uch)
+        if(this.dialogMode != DialogMode.CREATE && this.selectedElement.uch)
           this.onClickSelectDDIUch(this.selectedElement.uch)
       }
     })
@@ -161,6 +158,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.fgOborudEkzElement.controls[controlName].updateValueAndValidity({onlySelf: false, emitEvent: false});
   }
 
+  //делает активным или неактивным поле у контрола
   changeFcEnableOrDisable(fcName: string, toEnable: boolean){
     toEnable ?
       this.fgOborudEkzElement.controls[fcName].enable() :
@@ -176,7 +174,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
         if (inputValue && inputValue.length > 0){
-          this.proizvListDDM = this.proizvList.filter(docTyp => docTyp.naim.includes(inputValue));
+          this.proizvListDDM = this.proizvList.filter(docTyp => docTyp.naim.toLowerCase().includes(inputValue.toLowerCase()));
         } else {
           this.proizvListDDM = this.proizvList;
         }
@@ -186,17 +184,18 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   _observeFcPodr(){
     this.fgOborudEkzElement.controls['podr'].valueChanges.pipe(
       tap( (val) => {
+        this.fgOborudEkzElement.controls['uch'].setValue(null);
         this.changeValidators('podr', [this.validatorMinLength], false);
         this.newUch = null;
         this.newPodr = null
+        this.changeFcEnableOrDisable('uch', false);
       })
       , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.podrListDDM = this.podrList.filter(docTyp => docTyp.naim.includes(inputValue));
+        this.podrListDDM = this.podrList.filter(docTyp => docTyp.naim.toLowerCase().includes(inputValue.toLowerCase()));
       } else {
         this.podrListDDM = this.podrList;
-        this.changeFcEnableOrDisable('uch', false);
       }
     })
   }
@@ -210,7 +209,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.uchListDDM = this.uchList.filter(docTyp => docTyp.naim.includes(inputValue));
+        this.uchListDDM = this.uchList.filter(docTyp => docTyp.naim.toLowerCase().includes(inputValue.toLowerCase()));
       } else {
         this.uchListDDM = this.uchList;
       }
@@ -272,9 +271,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.fgOborudEkzElement.controls['podr'].setValue(null);
     this.fgOborudEkzElement.controls['uch'].setValue(null);
     this.newUch = null;
-    this.newPodr = null
-
-    this.changeFcEnableOrDisable('uch', false);
+    this.newPodr = null;
   }
 
   onSaveNewOborudEkz(){
@@ -286,31 +283,31 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.newOborudEkz.invNom = this.fgOborudEkzElement.controls['invNom'].value;
     this.newOborudEkz.model = this.fgOborudEkzElement.controls['model'].value;
 
-    this.newOborudEkz.proizv = this.newProizv;
-    this.newOborudEkz.podr = this.newPodr;
-    this.newOborudEkz.uch = this.newUch;
+    this.newOborudEkz.proizv = this.newProizv ? this.newProizv : null;
+    this.newOborudEkz.podr = this.newPodr ? this.newPodr : null;
+    this.newOborudEkz.uch = this.newUch ? this.newUch : null;
   }
 
   onClickCreateOborudEkz(){
     this.onSaveNewOborudEkz();
-    console.log(this.newOborudEkz);
-    // this.oborudEkzService.create(this.newOborudEkz).subscribe( result => {
-    //   if(result)
-    //     this.activeModal.close(DialogResult.ACCEPT);
-    // }, error => {
-    //   console.log('Ошибка в OborudEkzElementEditDialogComponent onClickCreateOborudEkz()')
-    // })
+    // console.log(this.newOborudEkz);
+    this.oborudEkzService.create(this.newOborudEkz).subscribe( result => {
+      if(result)
+        this.activeModal.close(DialogResult.ACCEPT);
+    }, error => {
+      console.log('Ошибка в OborudEkzElementEditDialogComponent onClickCreateOborudEkz()')
+    })
   }
 
   onClickUpdateOborudEkz(){
     this.onSaveNewOborudEkz();
-    console.log(this.newOborudEkz);
-    // this.oborudEkzService.update(this.newOborudEkz).subscribe( result => {
-    //   if(result)
-    //     this.activeModal.close(DialogResult.ACCEPT);
-    // }, error => {
-    //   console.log('Ошибка в OborudEkzElementEditDialogComponent onClickUpdateOborudEkz()')
-    // })
+    // console.log(this.newOborudEkz);
+    this.oborudEkzService.update(this.newOborudEkz).subscribe( result => {
+      if(result)
+        this.activeModal.close(DialogResult.ACCEPT);
+    }, error => {
+      console.log('Ошибка в OborudEkzElementEditDialogComponent onClickUpdateOborudEkz()')
+    })
   }
 
   onClickCloseModal(): void{
