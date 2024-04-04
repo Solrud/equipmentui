@@ -3,19 +3,18 @@
   <!--  Контент внутри сайд навигации  -->
   <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
     <p>Auto-resizing sidenav</p>
-    <button color="primary" (click)="openTestDialog()" mat-raised-button>openTestModalDialog!</button>
 <!--    <app-table></app-table>-->
   </mat-drawer>
 
   <!-- Контент Body  -->
   <div class="example-sidenav-content d-flex flex-column">
     <!-- Кнопки редактирования -->
-    <div>
-      <app-general-buttons class="d-flex mt-4 mb-3"
-                           (openSidenav)="drawer.toggle()"
-                           (researchPage)="onReSearchPage()"
-      ></app-general-buttons>
-    </div>
+
+    <app-general-buttons class="d-flex mt-4 mb-3"
+                         (openSidenav)="drawer.toggle()"
+                         (researchPage)="onReSearchPage()"
+    ></app-general-buttons>
+
 
     <!-- Вкладки навигации таблиц -->
     <div class="d-flex flex-row group-tabs-config">
@@ -58,6 +57,7 @@
                [dataTableSource]="dataTableNavSource"
                [dataSearch]="dataSearch"
                [totalFoundedElements]="totalFoundedElements"
+               [originSourceTable]="originSourceTable"
 
                (dataSearchNew)="onChangePage($event)"
     ></app-table>

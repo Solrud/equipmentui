@@ -31,7 +31,7 @@ export class GeneralButtonsComponent implements OnInit{
   }
 
   _subscribeSelectedElementTable(){
-    this.eventService.selectedElementTable$.subscribe(result => {
+    this.eventService.selectedElementMainTable$.subscribe(result => {
       this.selectedElementTable = result;
       // console.log(this.selectedElementTable)
     })
@@ -40,6 +40,10 @@ export class GeneralButtonsComponent implements OnInit{
     this.eventService.selectedSpravTable$.subscribe( result => {
       this.selectedNavBar = result;
     })
+  }
+
+  onClickOpenSettingsDialog(){
+    this.openDialogService.openSettingsDialog().closed.subscribe( result => {})
   }
 
   onClickOpenSideNav(){

@@ -3,7 +3,9 @@ import {MatDrawer} from "@angular/material/sidenav";
 import {
   FIELD_COLUMN_GRUPPA_LIST,
   FIELD_COLUMN_KOMPL_LIST,
-  FIELD_COLUMN_MODEL_LIST, FIELD_COLUMN_OBORUD_EKZ_LIST,
+  FIELD_COLUMN_MODEL_LIST,
+  FIELD_COLUMN_OBORUD_EKZ_LIST,
+  OriginSourceTable,
   TableType
 } from "../../../../../app.constant";
 import {EventService} from "../../../../data/service/OptionalService/event.service";
@@ -16,7 +18,6 @@ import {GruppaService} from "../../../../data/service/implements/gruppa.service"
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO";
 import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
-import {PageEvent} from "@angular/material/paginator";
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
 
 @Component({
@@ -37,6 +38,8 @@ export class BodyComponent implements OnInit{
   dataTableNavSource = [];
   fieldColumnList = [];
   totalFoundedElements: number;
+
+  originSourceTable: OriginSourceTable = OriginSourceTable.MAIN_TABLE; // Содержит инфу в каком месте открыта таблица
 
   //Поисковые обьекты
   dataSearch: ABaseSearchDTO; //Один поисковой обьект, который идет в компонент таблицы
@@ -64,29 +67,27 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
-  // !!!сделать выбор элемента в таблице и взаимодействие(добавить, редактировать, удалить) с ним через модалки
-  // !!!сделать диалоги с полями форм филдами и группой
-  // возвращение из таблицы выбранного элемента таблицы возможно стоит переделать под input
-  // думать про архитектуру
+  // создать настройки, в них создать таблицы и взаимодействие с ними -> изменение данных в (класс, вид, пу, габариты, производитель, подразделение, участок)
+  // main HTML исправить,чтобы высота выставлялась автоматически от разрешения
+  // возвращение из таблицы выбранного элемента таблицы возможно стоит переделать под input. Сделать разные rxJs'ы с помощью enum'ов откуда пришло
   // DTO<any> переделать придумать
   // как отображать доп таблички(какие данные нужны, как отображать их бордеры, до доп кнопки взаимодействия)
   // при выборе записи выводить дочерние привязанные таблицы(не знаю как)
   // код классификатора изменился old(вид, группа, пу, габариты) СЕЙЧАС (классификатор(класс оборудрвания), вид, ПУ, габариты), то есь вместо вида-классификатор и вместо группа-вид
   // -
   // =>-ОПЦИОНАЛЬНО-<=
-  // опционально добавить кнопочку новостей разработки со всплывающей модалкой
+  // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
   // перевод mat-paginator, взять из https://gitlab.avid.ru/mikishev/bienieui/blob/develop/1.0.1-secure/src/app/busines/intl/MyMatPaginatorIntl.ts и i18n оттуда
   // в конце концов не забыть про i18n!
   // -
   // =>-ПОЧЕМУ ОШИБКА-<=
   // -
   // =>-ВОПРОС-<=
-  //  B F NOborudDTO ? KomplDtoDeserializer ?
+  //  B F NOborudDTO, KomplDtoDeserializer ? (Bazis, File, Navigator, KomplDesa..это не надо в итге не нужно это даже трогать)
   // спросить про экз оборуд в переход на модели (1 экз на 1 модель?). ДА СВЯЗЬ 1 К 1 экз к модели
   // ! Неактивные показывать но с зачеркиванием, выделением другого цвета
   // ! СПРОСИТЬ: при инициализации(первом открытии сайта) нужно ли выбирать 1 из списка по умолчанию выбранным. НЕ НАДО
   // ! СПРОСИТЬ: нужно ли выводить всем списком строки таблиц, если да, то нужно принимать урезанные данные. БУДЕТ п поумолчанию столько строк, сколько входит и "Все"
-  // ? СПРОСИТЬ: Какие вкладки нужны, почему в базисе димы есть еще другие таблицы
   // ? СПРОСИТЬ: Какие поля нужны в редактировании сущностей(тз и базис димы отличается)
 
   initSearchData(){
@@ -103,7 +104,7 @@ export class BodyComponent implements OnInit{
   _subscribeToSelectedSpravochnik(){
     this.eventService.selectedSpravTable$.subscribe((result: TableType) => {
       this.selectedSpravochnik = result;
-      this.eventService.selectElementTable$(null);
+      this.eventService.selectElementMainTable$(null);
 
       this.initNavBar(result);
     })
@@ -128,10 +129,6 @@ export class BodyComponent implements OnInit{
 
   toggleSidenavOpened(): void{
     this.drawerComponent?.toggle();
-  }
-
-  openTestDialog(): void{
-    // this.openDialogService.openGruppaElementEditDialog();
   }
 
 

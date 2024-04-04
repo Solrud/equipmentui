@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {DialogMode, DialogResult, TableType} from "../../../../../app.constant";
+import {DELAY_TIME, DialogMode, DialogResult, TypePartOfKodKlass} from "../../../../../app.constant";
 import {GruppaService} from "../../../../data/service/implements/gruppa.service";
 import {GruppaDTO} from "../../../../data/model/dto/impl/GruppaDTO";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 import {OborudKlassDTO} from "../../../../data/model/dto/impl/OborudKlassDTO";
 import {OborudVidDTO} from "../../../../data/model/dto/impl/OborudVid";
 import {NalPuDTO} from "../../../../data/model/dto/impl/NalPuDTO";
@@ -13,6 +12,7 @@ import {OborudKlassService} from "../../../../data/service/implements/oborud-kla
 import {OborudVidService} from "../../../../data/service/implements/oborud-vid.service";
 import {NalPuService} from "../../../../data/service/implements/nal-pu.service";
 import {GabZoService} from "../../../../data/service/implements/gab-zo.service";
+import {debounceTime, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-gruppa-element-edit-dialog',
@@ -43,6 +43,12 @@ export class GruppaElementEditDialogComponent implements OnInit{
   gabZoListDDM: GabZoDTO[];
   gabZoList: GabZoDTO[];
 
+  fcKodKlass: string[] = [];
+
+  isFirstTimeInit: boolean = true;
+
+  readonly validatorMinLength: ValidatorFn = Validators.minLength(1000000000);
+
   constructor(private activeModal: NgbActiveModal,
               private gruppaService: GruppaService,
               private klassService: OborudKlassService,
@@ -53,22 +59,42 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   ngOnInit(): void {
     console.log(this.selectedElement);
-    this.initDialogDefaultValues();
+    this.beforeInitDialogDefaultValues();
     this.initFgGruppaElement();
+    this.afterInitDialogDefaultValues();
+
+
+
+    this._observeFcKlass();
+    this._observeFcVid();
+    this._observeFcNalPu();
+    this._observeFcGabZo();
   }
 
   public get DialogMode(){
     return DialogMode;
   }
+  public get TypePartKodKlass(){
+    return TypePartOfKodKlass;
+  }
   public get Validators() {
     return Validators;
   }
+
+  // initInputColorful(){
+    // const input = document.querySelector('#kodKlass') as HTMLInputElement;
+    // const text = input.value;
+    // const newText = text.substring(0, 2) + '<span class="bg-for-kod-vid">' + text.substring(1, 4) + '</span>' + text.substring(3);
+    //
+    // input.innerHTML = newText;
+  // }
 
   getCorrectValueFromField(field: string){
     if (this.dialogMode === DialogMode.CREATE){
       if (field == 'akt') return 1;
       if (field == 'tip') return "2";
       if (field == 'modely') return [];
+      if (field == 'kodKlass') return this.fcKodKlass.join('-');
     }
 
     if (this.dialogMode == DialogMode.EDIT){
@@ -82,7 +108,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
     return null;
   }
 
-  initDialogDefaultValues(){
+  afterInitDialogDefaultValues(){
     if (!this.dialogMode) this.dialogMode = DialogMode.VIEW;
     if (!this.selectedElement) this.selectedElement = null;
 
@@ -92,24 +118,38 @@ export class GruppaElementEditDialogComponent implements OnInit{
         this.klassListDDM = result;
       }
     })
-    this.vidService.searchAll().subscribe( result => {
-      if (result && result.length > 0){
-        this.vidList = result;
-        this.vidListDDM = result;
-      }
-    })
     this.nalPuService.searchAll().subscribe( result => {
       if (result && result.length > 0){
+        console.log(result)
         this.nalPuList = result;
         this.nalPuListDDM = result;
+
+        if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
+          let nalPuObject: NalPuDTO = this.nalPuList.find( nalPu => nalPu.kodKlass.trim() === this.selectedElement.kodKlass.substring(4,5));
+          this.onClickSelectDDINalPu(nalPuObject);
+        }
       }
     })
     this.gabZoService.searchAll().subscribe( result => {
       if (result && result.length > 0){
         this.gabZoList = result;
         this.gabZoListDDM = result;
+
+        if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
+          let gabZoObject: GabZoDTO = this.gabZoList.find( gabZo => gabZo.kodKlass === this.selectedElement.kodKlass.substring(5, 7))
+          console.log(gabZoObject)
+          this.onClickSelectDDIGabZo(gabZoObject);
+        }
       }
     })
+
+    if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
+      if (this.selectedElement.klass) this.onClickSelectDDIKlass(this.selectedElement.klass);
+    }
+  }
+
+  beforeInitDialogDefaultValues(){
+      this.fcKodKlass = ['XX', 'XX', 'X', 'XX'];
   }
 
   initFgGruppaElement(){
@@ -120,14 +160,217 @@ export class GruppaElementEditDialogComponent implements OnInit{
       kod: new FormControl({value: this.getCorrectValueFromField('kod'), disabled: true}),
       tip: new FormControl({value: this.getCorrectValueFromField('tip'), disabled: true}),
 
-      kodKlass: new FormControl({value: this.getCorrectValueFromField('kodKlass'), disabled: false}, Validators.required),
-      klass: new FormControl({value: this.getCorrectValueFromField('klass'), disabled: false}),
-      vid: new FormControl({value: this.getCorrectValueFromField('vid'), disabled: false}),
-      nalPu: new FormControl({value: this.getCorrectValueFromField('nalPu'), disabled: false}),
-      gabZo: new FormControl({value: this.getCorrectValueFromField('gabZo'), disabled: false}),
+      kodKlass: new FormControl({value: this.getCorrectValueFromField('kodKlass'), disabled: true}, Validators.required),
+      klass: new FormControl({value: this.getCorrectValueFromField('klass'), disabled: false}, Validators.required),
+      vid: new FormControl({value: this.getCorrectValueFromField('vid'), disabled: true}, Validators.required),
+      nalPu: new FormControl({value: this.getCorrectValueFromField('nalPu'), disabled: false}, Validators.required),
+      gabZo: new FormControl({value: this.getCorrectValueFromField('gabZo'), disabled: false}, Validators.required),
       rod: new FormControl({value: this.getCorrectValueFromField('rod'), disabled: true}),
       modely: new FormControl({value: this.getCorrectValueFromField('modely'), disabled: true}),
     })
+  }
+
+  changeFcKodKlass(typePartKod: TypePartOfKodKlass, kod: string){
+    switch (typePartKod) {
+      case TypePartOfKodKlass.KLASS_OBORUD:
+        this.fcKodKlass[0] = kod;
+        break;
+      case TypePartOfKodKlass.VID_OBORUD:
+        this.fcKodKlass[1] = kod;
+        break;
+      case TypePartOfKodKlass.NAL_PU:
+        this.fcKodKlass[2] = kod.trim();
+        break;
+      case TypePartOfKodKlass.GAB_ZO:
+        this.fcKodKlass[3] = kod;
+        break;
+    }
+    this.fgGruppaElement.controls['kodKlass'].setValue(this.fcKodKlass.join('-'));
+  }
+
+  //добавляет или удаляет валидаторы у указанного контрола
+  changeValidators(controlName: string, validators: ValidatorFn[], deleteValidators: boolean = false): void {
+    deleteValidators ?
+      this.fgGruppaElement.get(controlName).removeValidators(validators) :
+      this.fgGruppaElement.get(controlName).addValidators(validators);
+    this.fgGruppaElement.controls[controlName].updateValueAndValidity({onlySelf: false, emitEvent: false});
+  }
+
+  //получить идентификаторы обязательности заполнения поля
+  fcFieldIsRequired(fcName: string, returnBoolean: boolean = false): any {
+    let fcRequired = this.fgGruppaElement.controls[fcName].hasValidator(Validators.required)
+    return returnBoolean ? fcRequired : (fcRequired ? ' *' : '');
+  }
+
+  //делает активным или неактивным поле у контрола
+  changeFcEnableOrDisable(fcName: string, toEnable: boolean){
+    toEnable ?
+      this.fgGruppaElement.controls[fcName].enable() :
+      this.fgGruppaElement.controls[fcName].disable()
+  }
+
+  _observeFcKlass(){
+    this.fgGruppaElement.controls['klass'].valueChanges.pipe(
+      tap( (val) => {
+        // this.fgGruppaElement.controls['vid'].setValue()
+        this.changeValidators('klass', [this.validatorMinLength], false);
+        this.changeFcEnableOrDisable('vid', false);
+        this.onClickSetNullKlass(false);
+      }),
+      debounceTime(DELAY_TIME)
+    ).subscribe( inputValue => {
+      if (inputValue && inputValue.length > 0){
+        this.klassListDDM = this.klassList.filter( podr => podr.naim.toLowerCase().includes(inputValue.toLowerCase()));
+      } else {
+        this.klassListDDM = this.klassList;
+      }
+    })
+  }
+
+  _observeFcVid(){
+    this.fgGruppaElement.controls['vid'].valueChanges.pipe(
+      tap( (val) => {
+        this.changeValidators('vid', [this.validatorMinLength], false)
+        this.onClickSetNullVid(false);
+      }),
+      debounceTime(DELAY_TIME)
+    ).subscribe( inputValue => {
+      if (inputValue && inputValue.length > 0){
+        this.vidListDDM = this.vidList.filter( vid => vid.naim.toLowerCase().includes(inputValue.toLowerCase()));
+      } else {
+        this.vidListDDM = this.vidList;
+      }
+    })
+  }
+
+  _observeFcNalPu(){
+    this.fgGruppaElement.controls['nalPu'].valueChanges.pipe(
+      tap( (val) => {
+        this.changeValidators('nalPu', [this.validatorMinLength], false)
+        this.onClickSetNullNalPu(false);
+      }),
+      debounceTime(DELAY_TIME)
+    ).subscribe( inputValue => {
+      if (inputValue && inputValue.length > 0){
+        this.nalPuListDDM = this.nalPuList.filter( nalPu => nalPu.naim.toLowerCase().includes(inputValue.toLowerCase()));
+      } else {
+        this.nalPuListDDM = this.nalPuList;
+      }
+    })
+  }
+
+  _observeFcGabZo(){
+    this.fgGruppaElement.controls['gabZo'].valueChanges.pipe(
+      tap( (val) => {
+        this.changeValidators('gabZo', [this.validatorMinLength], false)
+        this.onClickGabZo(false);
+      }),
+      debounceTime(DELAY_TIME)
+    ).subscribe( inputValue => {
+      if (inputValue && inputValue.length > 0){
+        this.gabZoListDDM = this.gabZoList.filter( gabZo => gabZo.naim.toLowerCase().includes(inputValue.toLowerCase()));
+      } else {
+        this.gabZoListDDM = this.gabZoList;
+      }
+    })
+  }
+
+  searchVidByKlassId(klassId: number){
+    this.vidService.findByKlassId(klassId).subscribe( result => {
+      this.vidList = result;
+      this.vidListDDM = result;
+
+      if (result && result.length > 0){
+        this.changeFcEnableOrDisable('vid', true);
+        this.fgGruppaElement.controls['vid'].setValue(null);
+      }
+      if(this.isFirstTimeInit && this.dialogMode != DialogMode.CREATE) {
+        this.isFirstTimeInit = false;
+        let vidOborudObject: OborudVidDTO = this.vidList.find(
+          vidOborud => vidOborud.kodKlass == this.selectedElement.kodKlass.substring(2, 4));
+        if (vidOborudObject) {
+          this.onClickSelectDDIVid(vidOborudObject);
+        }
+      }
+    })
+  }
+
+  // Код(Класс) оборудования
+  onClickSelectDDIKlass(klass: OborudKlassDTO){
+    this.fgGruppaElement.controls['klass'].setValue(klass.naim);
+    this.newKlass = klass;
+    this.changeValidators('klass', [this.validatorMinLength], true);
+
+    this.searchVidByKlassId(klass.id);
+    this.changeFcKodKlass(TypePartOfKodKlass.KLASS_OBORUD, klass.kodKlass);
+  }
+
+  // Вид оборудования
+  onClickSelectDDIVid(vid: OborudVidDTO){
+    this.fgGruppaElement.controls['vid'].setValue(vid.naim);
+    this.newVid = vid;
+    this.changeValidators('vid', [this.validatorMinLength], true);
+
+    this.changeFcKodKlass(TypePartOfKodKlass.VID_OBORUD, vid.kodKlass);
+  }
+
+  // Наличие Программного Управления
+  onClickSelectDDINalPu(nalPu: NalPuDTO){
+    this.fgGruppaElement.controls['nalPu'].setValue(nalPu.naim);
+    this.newNalPu = nalPu;
+    this.changeValidators('nalPu', [this.validatorMinLength], true);
+
+    this.changeFcKodKlass(TypePartOfKodKlass.NAL_PU, nalPu.kodKlass);
+  }
+
+  // Габариты Зоны Обработки
+  onClickSelectDDIGabZo(gabZo: GabZoDTO){
+    this.fgGruppaElement.controls['gabZo'].setValue(gabZo.naim);
+    this.newGabZo = gabZo;
+    this.changeValidators('gabZo', [this.validatorMinLength], true);
+
+    this.changeFcKodKlass(TypePartOfKodKlass.GAB_ZO, gabZo.kodKlass);
+  }
+
+
+  onClickSetNullAllKodKlassFields(){
+    this.onClickSetNullKlass();
+    this.onClickSetNullVid();
+    this.onClickSetNullNalPu();
+    this.onClickGabZo();
+  }
+
+  onClickSetNullKlass(forHTML: boolean = true){
+    if (forHTML)
+      this.fgGruppaElement.controls['klass'].setValue(null);
+
+    this.fgGruppaElement.controls['vid'].setValue(null);
+    this.changeFcKodKlass(TypePartOfKodKlass.KLASS_OBORUD, 'XX')
+    this.changeFcKodKlass(TypePartOfKodKlass.VID_OBORUD, 'XX')
+    this.newKlass = null;
+    this.newVid = null;
+  }
+
+  onClickSetNullVid(forHTML: boolean = true){
+    if (forHTML)
+      this.fgGruppaElement.controls['vid'].setValue(null);
+
+    this.newVid = null;
+    this.changeFcKodKlass(TypePartOfKodKlass.VID_OBORUD, 'XX');
+  }
+
+  onClickSetNullNalPu(forHTML: boolean = true){
+    if (forHTML)
+      this.fgGruppaElement.controls['nalPu'].setValue(null);
+    this.newNalPu = null;
+    this.changeFcKodKlass(TypePartOfKodKlass.NAL_PU, 'X')
+  }
+
+  onClickGabZo(forHTML: boolean = true){
+    if (forHTML)
+      this.fgGruppaElement.controls['gabZo'].setValue(null);
+    this.newGabZo = null;
+    this.changeFcKodKlass(TypePartOfKodKlass.GAB_ZO, 'XX')
   }
 
   onSaveNewGruppa(){
@@ -138,43 +381,38 @@ export class GruppaElementEditDialogComponent implements OnInit{
     this.newGruppa.kod = this.fgGruppaElement.controls['kod'].value;
     this.newGruppa.tip = this.fgGruppaElement.controls['tip'].value;
 
-    this.newGruppa.kodKlass = this.fgGruppaElement.controls['kodKlass'].value;
-    this.newGruppa.klass = this.fgGruppaElement.controls['klass'].value;
-    this.newGruppa.vid = this.fgGruppaElement.controls['vid'].value;
-    this.newGruppa.nalPu = this.fgGruppaElement.controls['nalPu'].value;
-    this.newGruppa.gabZo = this.fgGruppaElement.controls['gabZo'].value;
+    this.newGruppa.kodKlass = this.fcKodKlass.join('');
+    this.newGruppa.klass = this.newKlass ? this.newKlass : null;
+    this.newGruppa.vid = this.newVid ? this.newVid : null;
+    this.newGruppa.nalPu = this.newNalPu ? this.newNalPu : null;
+    this.newGruppa.gabZo = this.newGabZo ? this.newGabZo : null;
+
     this.newGruppa.rod = this.fgGruppaElement.controls['rod'].value;
     this.newGruppa.modely = this.fgGruppaElement.controls['modely'].value;
   }
 
-  //получить идентификаторы обязательности заполнения поля
-  fcFieldIsRequired(fcName: string, returnBoolean: boolean = false): any {
-    let fcRequired = this.fgGruppaElement.controls[fcName].hasValidator(Validators.required)
-    return returnBoolean ? fcRequired : (fcRequired ? ' *' : '');
-  }
-
   onClickUpdateGruppa(){
     this.onSaveNewGruppa();
-    console.log(this.newGruppa);
-    // this.gruppaService.update(this.newGruppa).subscribe( result => {
-    //   if (result){
-    //     this.activeModal.close(DialogResult.ACCEPT)
-    //   }
-    // }, error => {
-    //   console.log('Ошибка GruppaElementEditDialogComponent onClickUpdateGruppa()')
-    // })
+    // console.log(this.newGruppa);
+    this.gruppaService.update(this.newGruppa).subscribe( result => {
+      if (result){
+        this.activeModal.close(DialogResult.ACCEPT)
+      }
+    }, error => {
+      console.log('Ошибка GruppaElementEditDialogComponent onClickUpdateGruppa()')
+    })
   }
 
   onClickCreateGruppa(){
     this.onSaveNewGruppa();
-    console.log(this.newGruppa);
-    // this.gruppaService.create(this.newGruppa).subscribe( result => {
-    //   if (result){
-    //     this.activeModal.close(DialogResult.ACCEPT)
-    //   }
-    // }, error => {
-    //   console.log('Ошибка GruppaElementEditDialogComponent onClickCreateGruppa()')
-    // })
+    // console.log(this.newGruppa);
+    this.gruppaService.create(this.newGruppa).subscribe( result => {
+      if (result){
+        this.activeModal.close(DialogResult.ACCEPT)
+      }
+    }, error => {
+      console.log('Ошибка GruppaElementEditDialogComponent onClickCreateGruppa()')
+    })
   }
 
   onClickCloseModal(): void{

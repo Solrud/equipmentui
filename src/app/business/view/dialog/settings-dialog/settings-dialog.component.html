@@ -1,0 +1,69 @@
+<div class="modal-header justify-content-center d-flex modal-header-config">
+  <h1 class="m-0 text-center ">Настройки</h1>
+</div>
+
+<div class="modal-body d-flex modal-body-config">
+  <nav class="nav-pills flex-column flex-nowrap overflow-auto"
+       orientation="vertical"
+       ngbNav
+       #navBar="ngbNav">
+    <ng-container ngbNavItem>
+      <a ngbNavLink (click)="onClickSearchKlassOborud(klassSearch)">Код(Класс) оборудования</a>
+      <ng-template ngbNavContent>
+        <app-table
+          [fieldColumnList]="klassFieldColumnList"
+          [dataTableSource]="klassDataTableInput"
+          [dataSearch]="klassSearch"
+          [totalFoundedElements]="klassTotalFoundedElements"
+          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
+          [selectedSpavochnik]="TableType.OBORUD_KLASS"
+        ></app-table>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a ngbNavLink (click)="null">Вид оборудования</a>
+      <ng-template ngbNavContent>
+        Тут табличка буит 2
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a ngbNavLink (click)="null">Наличие Программного Устройства</a>
+      <ng-template ngbNavContent>
+        Тут табличка буит
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a ngbNavLink (click)="null">Габариты Зоны Обработки</a>
+      <ng-template ngbNavContent>
+        Тут табличка буит
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a ngbNavLink (click)="null">Производитель</a>
+      <ng-template ngbNavContent>
+        Тут табличка буит
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a ngbNavLink (click)="null">Подразделение</a>
+      <ng-template ngbNavContent>
+        Тут табличка буит
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <a ngbNavLink (click)="null">Участок</a>
+      <ng-template ngbNavContent>
+        Тут табличка буит
+      </ng-template>
+    </ng-container>
+  </nav>
+  <div class="ms-2 p-1 border border-dark flex-grow-1 bg-light overflow-auto" [ngbNavOutlet]="navBar"></div>
+</div>
+
+<div class="modal-footer ">
+  <button type="button"
+          class="btn btn-primary">Применить</button>
+  <button type="button"
+          class="btn btn-secondary"
+          (click)="onClickCloseModal()">Отмена</button>
+</div>

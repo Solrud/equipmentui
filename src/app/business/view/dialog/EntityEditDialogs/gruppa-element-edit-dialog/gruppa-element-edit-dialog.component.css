@@ -1,0 +1,43 @@
+.border-config{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ddm-config {
+  max-height: 300px;
+  max-width: 350px;
+  overflow-y: auto;
+
+  z-index: 99999999;
+}
+
+.text-wrap{
+  padding-bottom: 2px;
+  padding-top: 2px;
+}
+
+.button-odd-config{
+  /*background-color: rgba(0, 0, 0, 0.02);*/
+  /*border-bottom: 1px black solid;*/
+}
+
+.bg-for-kod-klass{
+  background-color: rgb(255, 244, 205);
+}
+
+.bg-for-kod-vid{
+  background-color: rgb(211, 255, 227);
+}
+
+.bg-for-kod-nalpu{
+  background-color: rgb(209, 230, 255);
+}
+
+.bg-for-kod-gabzo{
+  background-color: rgb(238, 221, 255);
+}
+
+.border-rounded{
+  border: 1px solid black;
+  border-radius: 0.375px !important;
+}

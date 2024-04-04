@@ -3,6 +3,6 @@ import {OborudKlassDTO} from "./OborudKlassDTO";
 
 export class OborudVidDTO extends ABaseDTO{
   naim: string;
-  kodklass: string;
+  kodKlass: string;
   klass: OborudKlassDTO;
 }

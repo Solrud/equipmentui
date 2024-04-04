@@ -1,6 +1,6 @@
 <div class="modal-header d-flex justify-content-center">
-  <h2 class="m-0 text-center text-decoration-underline" *ngIf="dialogMode == DialogMode.CREATE">Создание группы</h2>
-  <h2 class="m-0 text-center text-decoration-underline" *ngIf="dialogMode == DialogMode.EDIT">Редактирование группы</h2>
+  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.CREATE">Создание группы</h2>
+  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.EDIT">Редактирование группы</h2>
 </div>
 
 <form class="modal-body d-flex flex-column gap-2"
@@ -15,84 +15,201 @@
            formControlName="kod"
            [required]="fcFieldIsRequired('kod', true)">
   </div>
-  <div>
-    <label for="naim" class="form-label">Наименование</label>
-    <div class="form-group input-group">
-      <input class="form-control border-dark"
-             id="naim"
-             type="text"
-             autocomplete="off"
-             formControlName="naim"
-             [required]="fcFieldIsRequired('naim', true)">
-      <button class="btn btn-light border-dark"
-              (click)="fgGruppaElement.controls['naim'].setValue(null)">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
+  <div class="d-flex flex-row gap-2">
+    <div class="d-flex flex-column col-8">
+      <label for="naim" class="form-label">Наименование</label>
+      <div class="form-group input-group">
+        <input class="form-control border-dark"
+               id="naim"
+               type="text"
+               autocomplete="off"
+               formControlName="naim"
+               [required]="fcFieldIsRequired('naim', true)">
+        <button class="btn btn-light border-dark"
+                (click)="fgGruppaElement.controls['naim'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
 
-  </div>
-  <div>
-    <label for="kodKlass" class="form-label">Код Классифиации</label>
-    <div class="form-group input-group">
-      <input class="form-control border-dark"
-             id="kodKlass"
-             type="text"
-             autocomplete="off"
-             formControlName="kodKlass"
-             [required]="fcFieldIsRequired('kodKlass', true)">
-      <button class="btn btn-light border-dark"
-              (click)="fgGruppaElement.controls['kodKlass'].setValue(null)">
-        <i class="bi bi-x-lg"></i>
-      </button>
+    </div>
+<!--    <div class="d-flex flex-column col-4">-->
+<!--      <label for="kodKlass" class="form-label">Код Классифиации</label>-->
+<!--      <div id="kodKlass" class="d-flex flex-grow-1 align-items-center justify-content-center border border-dark">-->
+<!--        <span class="bg-for-kod-klass fs-4"> {{fcKodKlass[0]}} </span>-->
+<!--        <span class="bg-for-kod-vid fs-4"> {{fcKodKlass[1]}} </span>-->
+<!--        <span class="bg-for-kod-nalpu fs-4"> {{fcKodKlass[2]}} </span>-->
+<!--        <span class="bg-for-kod-gabzo fs-4"> {{fcKodKlass[3]}} </span>-->
+<!--      </div>-->
+    <div>
+      <label for="kodKlass" class="form-label">Код Классифиации</label>
+      <div class="form-group input-group">
+        <input class="form-control border-dark text-center"
+               id="kodKlass"
+               type="text"
+               autocomplete="off"
+               formControlName="kodKlass"
+               [required]="fcFieldIsRequired('kodKlass', true)">
+        <button class="btn btn-light border-dark"
+                (click)="onClickSetNullAllKodKlassFields()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="d-flex flex-row">
-    <div class="col-6 pe-2">
+  <div class="d-flex flex-row gap-2">
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmKlass="ngbDropdown"
+    >
       <label for="klass" class="form-label">Код оборудования</label>
-      <input class="form-control border-dark"
-             id="klass"
-             formControlName="klass"
-             autocomplete="off"
-             type="text"
-             readonly
-             [required]="fcFieldIsRequired('klass', true)">
+      <div class="input-group">
+        <input class="form-control border-dark border-config"
+               id="klass"
+               formControlName="klass"
+               ngbDropdownToggle
+               autocomplete="off"
+               type="text"
+               (click)="ddmKlass.open()"
+               (input)="ddmKlass.open()"
+               [required]="fcFieldIsRequired('klass', true)">
+        <button class="btn btn-light border-dark"
+                (click)="onClickSetNullKlass()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="px-3 ngb-menu-config" ngbDropdownMenu>
+          <p *ngIf="klassListDDM && klassListDDM.length > 0">Выберите один из элементов:</p>
+          <p *ngIf="klassListDDM && klassListDDM.length == 0">Ничего не найдено</p>
+          <div class="dropdown-divider"></div>
+          <div class="ddm-config">
+            <h2 *ngIf="klassListDDM && klassListDDM.length == 0"
+                ngbDropdownItem class="text-center">😔</h2>
+            <button class="text-wrap"
+                    [class.button-odd-config]="true"
+                    *ngFor="let klass of klassListDDM; index as i"
+                    (click)="onClickSelectDDIKlass(klass)"
+                    ngbDropdownItem>
+              <span class="bg-for-kod-klass">[ {{klass.kodKlass}} ]</span> {{klass.naim}}
+            </button>
+          </div>
+        </div>
+      </div>
 
     </div>
-    <div class="col-6 pe-2">
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmVid="ngbDropdown"
+    >
       <label for="vid" class="form-label">Вид</label>
-      <input class="form-control border-dark"
-             id="vid"
-             formControlName="vid"
-             autocomplete="off"
-             type="text"
-             readonly
-             [required]="fcFieldIsRequired('vid', true)">
+      <div class="input-group">
+        <input class="form-control border-dark border-config"
+               id="vid"
+               formControlName="vid"
+               ngbDropdownToggle
+               autocomplete="off"
+               type="text"
+               (click)="ddmVid.open()"
+               (input)="ddmVid.open()"
+               [required]="fcFieldIsRequired('vid', true)">
+        <button class="btn btn-light border-dark"
+                (click)="onClickSetNullVid()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu>
+        <p *ngIf="vidListDDM && vidListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="vidListDDM && vidListDDM.length == 0">Ничего не найдено</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="vidListDDM && vidListDDM.length == 0"
+              ngbDropdownItem class="text-center">😔</h2>
+          <button class="text-wrap"
+                  *ngFor="let vid of vidListDDM"
+                  (click)="onClickSelectDDIVid(vid)"
+                  ngbDropdownItem>
+            <span class="bg-for-kod-vid">[ {{vid.kodKlass}} ]</span> {{vid.naim}}
+          </button>
+        </div>
+      </div>
 
     </div>
   </div>
 
-  <div class="d-flex flex-row">
-    <div class="col-6 pe-2">
+  <div class="d-flex flex-row gap-2">
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmNalPu="ngbDropdown"
+    >
       <label for="nalPu" class="form-label">ПУ</label>
-      <input class="form-control border-dark"
-             id="nalPu"
-             formControlName="nalPu"
-             autocomplete="off"
-             type="text"
-             readonly
-             [required]="fcFieldIsRequired('nalPu', true)">
-
+      <div class="input-group">
+        <input class="form-control border-dark border-config"
+               id="nalPu"
+               formControlName="nalPu"
+               ngbDropdownToggle
+               autocomplete="off"
+               type="text"
+               (click)="ddmNalPu.open()"
+               (input)="ddmNalPu.open()"
+               [required]="fcFieldIsRequired('nalPu', true)">
+        <button class="btn btn-light border-dark"
+                (click)="onClickSetNullNalPu()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu>
+        <p *ngIf="nalPuListDDM && nalPuListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="nalPuListDDM && nalPuListDDM.length == 0">Ничего не найдено</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="nalPuListDDM && nalPuListDDM.length == 0"
+              ngbDropdownItem class="text-center">😔</h2>
+          <button class="text-wrap"
+                  *ngFor="let nalPu of nalPuListDDM"
+                  (click)="onClickSelectDDINalPu(nalPu)"
+                  ngbDropdownItem>
+            <span class="bg-for-kod-nalpu">[ {{nalPu.kodKlass}} ]</span> {{nalPu.naim}}
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="col-6">
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmGabZo="ngbDropdown">
       <label for="gabZo" class="form-label">Габариты</label>
-      <input class="form-control border-dark"
-             id="gabZo"
-             formControlName="gabZo"
-             autocomplete="off"
-             readonly
-             type="text"
-             [required]="fcFieldIsRequired('gabZo', true)">
+      <div class="input-group">
+        <input class="form-control border-dark border-config"
+               id="gabZo"
+               formControlName="gabZo"
+               ngbDropdownToggle
+               autocomplete="off"
+               type="text"
+               (click)="ddmGabZo.open()"
+               (input)="ddmGabZo.open()"
+               [required]="fcFieldIsRequired('gabZo', true)">
+        <button class="btn btn-light border-dark"
+                (click)="onClickGabZo()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu>
+        <p *ngIf="gabZoListDDM && gabZoListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="gabZoListDDM && gabZoListDDM.length == 0">Ничего не найдено</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="gabZoListDDM && gabZoListDDM.length == 0"
+              ngbDropdownItem class="text-center">😔</h2>
+          <button class="text-wrap"
+                  *ngFor="let gabZo of gabZoListDDM"
+                  (click)="onClickSelectDDIGabZo(gabZo)"
+                  ngbDropdownItem>
+            <span class="bg-for-kod-gabzo">[ {{gabZo.kodKlass}} ]</span> {{gabZo.naim}}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -10,6 +10,7 @@ import {ModelRelationshipDialogComponent} from "../../../view/dialog/TableRelati
 import {OborudEkzRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/oborud-ekz-relationship-dialog/oborud-ekz-relationship-dialog.component";
 import {DialogMode, TableType} from "../../../../app.constant";
 import {ConfirmDialogComponent} from "../../../view/dialog/confirm-dialog/confirm-dialog.component";
+import {SettingsDialogComponent} from "../../../view/dialog/settings-dialog/settings-dialog.component";
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,7 @@ export class OpenDialogService {
       case TableType.GRUPPA:
         const openGruppaElementEditDialog = this.modalService.open(GruppaElementEditDialogComponent, {
           scrollable: true,
-          size: "md",
+          size: "lg",
           centered: this.toCenteredModal,
           modalDialogClass: "modal-config"
         });
@@ -121,5 +122,12 @@ export class OpenDialogService {
     confirmDialogComponent.componentInstance.selectedNavBar = selectedNavBar;
     confirmDialogComponent.componentInstance.dialogMode = dialogMode;
     return confirmDialogComponent;
+  }
+
+  //---=========| Модалка настроек |=========---
+  openSettingsDialog(){
+    const openSettingsDialog = this.modalService.open(SettingsDialogComponent,
+      {scrollable: true, size: "xl", centered: this.toCenteredModal, modalDialogClass: "modal-config"});
+    return openSettingsDialog;
   }
 }

@@ -10,7 +10,7 @@
         (click)="onSelectElementTable(data)"
         [class.active-element]="data == selectedElement"
         [class.striped-con]="i % 2 == 0"
-        [class.deleted-element]="!data['akt']"
+        [class.deleted-element]="originSourceTable == OriginSourceTable.MAIN_TABLE && !data['akt']"
         class="pointer">
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data[field]">
@@ -27,7 +27,7 @@
 <ng-template #ifDataSourceEmpty >
   <p class="mt-3 d-flex justify-content-center text-danger border">Нет данных в таблице "{{selectedSpavochnik}}"</p>
 </ng-template>
-<div *ngIf="dataTableSource.length > 0">
+<div *ngIf="dataTableSource.length > 0" container="body">
   <mat-paginator showFirstLastButtons
                  [pageIndex]="dataSearch.pageNumber"
                  [pageSize]="dataSearch.pageSize"

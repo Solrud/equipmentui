@@ -1,16 +1,9 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
-import {TableType} from "../../../../../app.constant";
-import {GruppaService} from "../../../../data/service/implements/gruppa.service";
-import {KomplService} from "../../../../data/service/implements/kompl.service";
-import {ModelService} from "../../../../data/service/implements/model.service";
-import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
-import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
-import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO";
-import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
-import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
-import {PageEvent} from "@angular/material/paginator";
+import {OriginSourceTable, TableType} from "../../../../../app.constant";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-table',
@@ -30,35 +23,35 @@ export class TableComponent implements OnInit{
   dataSearch: ABaseSearchDTO | null;
   @Input()
   totalFoundedElements: number;
+  @Input()
+  originSourceTable: OriginSourceTable;
 
   @Output()
   dataSearchNew: EventEmitter<ABaseSearchDTO> = new EventEmitter<ABaseSearchDTO>();
 
   selectedElement: any;
 
+  previewResultValues = new MatTableDataSource();
+
   constructor(
     private eventService: EventService
   ) { }
 
   ngOnInit(): void {
-    // console.log('ngOnInit TABLE.COMPONENT')
-    // console.log('TABLE.selectedSpavochnik')
-    // console.log(this.selectedSpavochnik)
-    // console.log('TABLE.fieldColumnList')
-    // console.log(this.fieldColumnList)
-    // console.log('TABLE.dataTableSource')
-    // console.log(this.dataTableSource)
-    // console.log('TABLE.dataSearch')
-    // console.log(this.dataSearch)
+    console.log(this.dataTableSource)
   }
 
-
-  _initTableDataSource(){
-    this.eventService.tableDataSource$.subscribe(result => {
-      this.dataTableSource = result.dataTableNavSource.length > 0 ? result.dataTableNavSource : []
-      this.fieldColumnList = result.fieldColumnList.length > 0 ? result.fieldColumnList : []
-    })
+  @ViewChild(MatPaginator, {static: false}) set matPaginator(mp: MatPaginator){
+    null
   }
+
+  public get TableType(){
+    return TableType;
+  }
+  public get OriginSourceTable(){
+    return OriginSourceTable;
+  }
+
 
   isDataSourceFull(): boolean{
     return this.dataTableSource.length > 0;
@@ -72,9 +65,16 @@ export class TableComponent implements OnInit{
   }
 
   onSelectElementTable(selectedElement: any){
-    // console.log(selectedElement)
     this.selectedElement = selectedElement;
-    this.eventService.selectElementTable$(selectedElement);
+    switch (this.originSourceTable) {
+      case OriginSourceTable.MAIN_TABLE:
+        this.eventService.selectElementMainTable$(selectedElement);
+        break;
+      case OriginSourceTable.SETTINGS_TABLE:
+        break;
+      case OriginSourceTable.RELATIONSHIP_TABLE:
+        break;
+    }
   }
 // pageEvent.pageSize = Кол-во элементов на 1 странице таблицы
   // pageEvent.length = Общее число всех элементов таблицы

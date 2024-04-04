@@ -33,6 +33,7 @@ export abstract class ACRUDService<D extends IBaseDTO> extends ABaseService impl
   create(d: D): Observable<D> {
     return this.httpClient.post<D>(this.baseUrl + '/save', d);
   }
+
   update(d: D): Observable<D> {
     return this.httpClient.post<D>(this.baseUrl + '/save', d);
   }
