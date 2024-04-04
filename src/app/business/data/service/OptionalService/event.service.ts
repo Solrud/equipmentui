@@ -6,9 +6,14 @@ import {INIT_NAV_BAR, TableData, TableType} from "../../../../app.constant";
   providedIn: 'root'
 })
 export class EventService {
-  selectedElementTable$ = new Subject();
-  selectElementTable$(selectedElement: any){
-    this.selectedElementTable$.next(selectedElement);
+  selectedElementMainTable$ = new Subject();                     // Выбранная строка(элемент) из ГЛАВНОЙ таблицы
+  selectElementMainTable$(selectedElement: any){
+    this.selectedElementMainTable$.next(selectedElement);
+  }
+
+  selectedElementSettingsTable$ = new Subject();                 // Выбранная строка(элемент) из НАСТРОЕК таблицы
+  selectElementSettingsTable$(selectedElement: any){
+    this.selectedElementSettingsTable$.next(selectedElement);
   }
 
   selectedSpravTable$ = new BehaviorSubject(INIT_NAV_BAR);

@@ -60,7 +60,7 @@ export class ModelElementEditDialogComponent implements OnInit{
       obozn: new FormControl({value: this.getCorrectValueFromField('obozn'), disabled: false}),
       ekzemplary: new FormControl({value: this.getCorrectValueFromField('ekzemplary'), disabled: true}),
 
-      //ToDo полное наименование в модели?
+      //ToDo полное наименование в модели? сдлеать чтоб уходило в серч ? НАДО СДЕЛАТЬ ЧТО-ЛИ 0__0
       polnNaim: new FormControl({value: this.getCorrectValueFromField('polnNaim'), disabled: true}),
     })
 

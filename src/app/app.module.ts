@@ -46,6 +46,7 @@ import { GruppaRelationshipDialogComponent } from './business/view/dialog/TableR
 import { ModelRelationshipDialogComponent } from './business/view/dialog/TableRelationshipDialogs/model-relationship-dialog/model-relationship-dialog.component';
 import { OborudEkzRelationshipDialogComponent } from './business/view/dialog/TableRelationshipDialogs/oborud-ekz-relationship-dialog/oborud-ekz-relationship-dialog.component';
 import { ConfirmDialogComponent } from './business/view/dialog/confirm-dialog/confirm-dialog.component';
+import { SettingsDialogComponent } from './business/view/dialog/settings-dialog/settings-dialog.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -75,6 +76,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     ModelRelationshipDialogComponent,
     OborudEkzRelationshipDialogComponent,
     ConfirmDialogComponent,
+    SettingsDialogComponent,
   ],
   imports: [
     BrowserModule,

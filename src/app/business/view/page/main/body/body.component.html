@@ -3,7 +3,6 @@
   <!--  Контент внутри сайд навигации  -->
   <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
     <p>Auto-resizing sidenav</p>
-    <button color="primary" (click)="openTestDialog()" mat-raised-button>openTestModalDialog!</button>
 <!--    <app-table></app-table>-->
   </mat-drawer>
 
@@ -58,6 +57,7 @@
                [dataTableSource]="dataTableNavSource"
                [dataSearch]="dataSearch"
                [totalFoundedElements]="totalFoundedElements"
+               [originSourceTable]="originSourceTable"
 
                (dataSearchNew)="onChangePage($event)"
     ></app-table>
