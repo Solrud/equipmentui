@@ -30,7 +30,7 @@ export enum TableType {                      // Тип таблицы
   PODR = 'Подразделение',
   UCH = 'Участки',
   PROIZV = 'Производитель',
-  OBORUD_KLASS = 'Класс оборудования',
+  OBORUD_KLASS = 'Код оборудования',
   OBORUD_VID = 'Вид оборудования',
   NAL_PU = 'Наличие программного устройства',
   GAB_ZO = 'Габариты зоны обработки'
@@ -51,12 +51,18 @@ export enum TypePartOfKodKlass{              // Тип составной час
   GAB_ZO
 }
 
+export enum ActionMode{
+  CREATE,
+  EDIT,
+  DELETE
+}
+
 export enum DialogMode {                     //Режим диалогового окна
   VIEW,
-  CREATE,
-  COPY,
-  EDIT,
-  AGREE,
+  CREATE= 'Создание',
+  COPY= 2,
+  EDIT= 'Редактирование',
+  AGREE=4,
   RETURN,
   CHANGE_ACTIVITY,
   DELETE
@@ -94,11 +100,12 @@ export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'kod', 'naim', 'kodKlass'];      
 export const FIELD_COLUMN_MODEL_LIST = ['id', 'kod', 'naim', 'obozn'];
 export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'naim', 'proizv', 'serNom'];
 
-export const FIELD_COLUMN_OBORUD_KLASS_LIST = ['id', 'kodKlass', 'naim'];
-export const FIELD_COLUMN_OBORUD_VID_LIST = ['id', 'kodKlass', 'naim', 'klass'];
-export const FIELD_COLUMN_NAL_PU_LIST = ['id', 'kodKlass', 'naim'];               //колонки таблиц настроек
-export const FIELD_COLUMN_GAB_ZO_LIST = ['id', 'kodKlass', 'naim'];
-export const FIELD_COLUMN_PROIZV_LIST = ['id', 'naim', 'polnNaim'];
-export const FIELD_COLUMN_PODR_LIST = ['id', 'kod', 'kodIsp', 'naim', 'obozn', 'rod'];
+export const FIELD_COLUMN_OBORUD_KLASS_LIST = ['kodKlass', 'naim'];
+export const FIELD_COLUMN_OBORUD_VID_LIST = ['kodKlass', 'naim'];
+export const FIELD_COLUMN_NAL_PU_LIST = ['kodKlass', 'naim'];               //колонки таблиц настроек
+export const FIELD_COLUMN_GAB_ZO_LIST = ['kodKlass', 'naim'];
+export const FIELD_COLUMN_PROIZV_LIST = ['naim', 'polnNaim'];
+export const FIELD_COLUMN_PODR_LIST = ['kod', 'kodIsp', 'naim', 'obozn', 'rod'];
+export const FIELD_COLUMN_UCH_LIST = ['kod', 'obozn', 'naim', 'podr'];
 
 export const DELAY_TIME = 300;

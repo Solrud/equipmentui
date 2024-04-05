@@ -11,6 +11,8 @@ import {OborudEkzRelationshipDialogComponent} from "../../../view/dialog/TableRe
 import {DialogMode, TableType} from "../../../../app.constant";
 import {ConfirmDialogComponent} from "../../../view/dialog/confirm-dialog/confirm-dialog.component";
 import {SettingsDialogComponent} from "../../../view/dialog/settings-dialog/settings-dialog.component";
+import {PartOfKodKlassEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/part-of-kod-klass-edit-dialog/part-of-kod-klass-edit-dialog.component";
+import {OborudKlassDTO} from "../../model/dto/impl/OborudKlassDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +117,7 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки удаления | Изменения активности |=========---
-  openElementConfirmDialog(selectedElement: any , selectedNavBar: TableType, dialogMode: DialogMode){
+  openElementConfirmDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode){
     const confirmDialogComponent = this.modalService.open(ConfirmDialogComponent,
       {scrollable: true, size: "md", centered: this.toCenteredModal, modalDialogClass: "modal-config"});
     confirmDialogComponent.componentInstance.selectedElement = selectedElement;
@@ -127,7 +129,19 @@ export class OpenDialogService {
   //---=========| Модалка настроек |=========---
   openSettingsDialog(){
     const openSettingsDialog = this.modalService.open(SettingsDialogComponent,
-      {scrollable: true, size: "xl", centered: this.toCenteredModal, modalDialogClass: "modal-config"});
+      {scrollable: true, centered: this.toCenteredModal, modalDialogClass: "modal-settings-config"});
     return openSettingsDialog;
+  }
+
+  //---=========| Модалки изменения справочников в настройках |=========---
+  openPartOfKodKlassDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode, listFromElement: any[], klassForVid: OborudKlassDTO = null){
+    const openPartOfKodKlassDialog = this.modalService.open(PartOfKodKlassEditDialogComponent,
+      {scrollable: true, size: "md", centered: this.toCenteredModal})
+    openPartOfKodKlassDialog.componentInstance.selectedElement = selectedElement;
+    openPartOfKodKlassDialog.componentInstance.listFromElement = listFromElement;
+    openPartOfKodKlassDialog.componentInstance.selectedNavBar = selectedNavBar;
+    openPartOfKodKlassDialog.componentInstance.dialogMode = dialogMode;
+    openPartOfKodKlassDialog.componentInstance.klassForVid = klassForVid;
+    return openPartOfKodKlassDialog;
   }
 }

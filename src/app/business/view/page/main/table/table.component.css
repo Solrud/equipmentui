@@ -4,8 +4,11 @@
 
 .mh-config{
   /*max-width: 1200px;*/
-  max-height: 681px !important;
+  max-height: 681px;
   overflow: auto !important;
+}
+.mh-for-kod{
+  max-height: 295px !important;
 }
 
 .column-config{

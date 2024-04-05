@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {OriginSourceTable, TableType} from "../../../../../app.constant";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
@@ -32,17 +32,14 @@ export class TableComponent implements OnInit{
   selectedElement: any;
 
   previewResultValues = new MatTableDataSource();
+  private paginator: MatPaginator;
 
   constructor(
     private eventService: EventService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.dataTableSource)
-  }
-
-  @ViewChild(MatPaginator, {static: false}) set matPaginator(mp: MatPaginator){
-    null
+    //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был?
   }
 
   public get TableType(){
@@ -71,6 +68,20 @@ export class TableComponent implements OnInit{
         this.eventService.selectElementMainTable$(selectedElement);
         break;
       case OriginSourceTable.SETTINGS_TABLE:
+        if (this.selectedSpavochnik == TableType.OBORUD_KLASS)
+          this.eventService.selectElementOborudKlassTable$(selectedElement);
+        if (this.selectedSpavochnik == TableType.OBORUD_VID)
+          this.eventService.selectElementOborudVidTable$(selectedElement);
+        if (this.selectedSpavochnik == TableType.NAL_PU)
+          this.eventService.selectElementNalPuTable$(selectedElement);
+        if (this.selectedSpavochnik == TableType.GAB_ZO)
+          this.eventService.selectElementGabZoTable$(selectedElement);
+        if (this.selectedSpavochnik == TableType.PROIZV)
+          this.eventService.selectElementProizvTable$(selectedElement);
+        if (this.selectedSpavochnik == TableType.PODR)
+          this.eventService.selectElementPodrTable$(selectedElement);
+        if (this.selectedSpavochnik == TableType.UCH)
+          this.eventService.selectElementUchTable$(selectedElement);
         break;
       case OriginSourceTable.RELATIONSHIP_TABLE:
         break;

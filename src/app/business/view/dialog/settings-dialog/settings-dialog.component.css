@@ -6,3 +6,20 @@
   background: #f0f0f1;
   border: none;
 }
+.fix-w-c{
+  width: 10px;
+  /*height: 1000px;*/
+}
+
+.line-title{
+  display: flex;
+  flex-grow: 1;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  background-color: #e2f8ff;
+}
+.border-bottom-c{
+  border-top: 1px solid black;
+}

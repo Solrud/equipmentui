@@ -1,5 +1,7 @@
-<div *ngIf="selectedSpavochnik != null && fieldColumnList.length > 0" class="mh-config">
-  <table *ngIf="isDataSourceFull(); else ifDataSourceEmpty" class="table table-bordered table-responsive table-sm" >
+<div *ngIf="selectedSpavochnik != null && fieldColumnList.length > 0"
+     class="mh-config"
+     [class.mh-for-kod]="selectedSpavochnik == TableType.OBORUD_KLASS || selectedSpavochnik == TableType.OBORUD_VID">
+  <table *ngIf="isDataSourceFull()" class="table table-bordered table-responsive table-sm" >
     <thead>
     <tr class="tr-columns-config sticky-top border-top-0">
       <th class="text-nowrap column-config" *ngFor="let field of fieldColumnList">{{'TABLE.' + field.toUpperCase() | translate}}</th>
@@ -17,17 +19,22 @@
             <i class="bi bi-dash"></i>
           </div>
           <div class="cell-config" *ngIf="data[field]">
-            {{data[field]}}
+            <span *ngIf="field == 'klass' || field == 'rod' || field == 'podr' || field == 'proizv'; else fieldNotObject">{{data[field].naim}}</span>
+            <ng-template #fieldNotObject>{{data[field]}}</ng-template>
           </div>
         </td>
     </tr>
     </tbody>
   </table>
 </div>
-<ng-template #ifDataSourceEmpty >
+<div *ngIf="!isDataSourceFull() && !(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH)">
   <p class="mt-3 d-flex justify-content-center text-danger border">Нет данных в таблице "{{selectedSpavochnik}}"</p>
-</ng-template>
-<div *ngIf="dataTableSource.length > 0" container="body">
+</div>
+<div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH)">
+  <p class="mt-3 d-flex justify-content-center text-danger border">Выберите строку элемент для отображения таблицы "{{selectedSpavochnik}}"</p>
+</div>
+
+<div *ngIf="dataTableSource.length > 0 && originSourceTable != OriginSourceTable.SETTINGS_TABLE" container="body">
   <mat-paginator showFirstLastButtons
                  [pageIndex]="dataSearch.pageNumber"
                  [pageSize]="dataSearch.pageSize"

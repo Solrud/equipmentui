@@ -26,9 +26,12 @@ export class GeneralButtonsComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.onClickOpenSettingsDialog();
     this._subscribeSelectedElementTable();
     this._subscribeSelectedNavBar();
   }
+
+  //ToDo перенести настройки в хедер
 
   _subscribeSelectedElementTable(){
     this.eventService.selectedElementMainTable$.subscribe(result => {
