@@ -106,6 +106,6 @@ export const FIELD_COLUMN_NAL_PU_LIST = ['kodKlass', 'naim'];               //к
 export const FIELD_COLUMN_GAB_ZO_LIST = ['kodKlass', 'naim'];
 export const FIELD_COLUMN_PROIZV_LIST = ['naim', 'polnNaim'];
 export const FIELD_COLUMN_PODR_LIST = ['kod', 'kodIsp', 'naim', 'obozn', 'rod'];
-export const FIELD_COLUMN_UCH_LIST = ['kod', 'obozn', 'naim', 'podr'];
+export const FIELD_COLUMN_UCH_LIST = ['kod', 'obozn', 'naim'];
 
 export const DELAY_TIME = 300;

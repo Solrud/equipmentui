@@ -1,6 +1,9 @@
 <div *ngIf="selectedSpavochnik != null && fieldColumnList.length > 0"
      class="mh-config"
-     [class.mh-for-kod]="selectedSpavochnik == TableType.OBORUD_KLASS || selectedSpavochnik == TableType.OBORUD_VID">
+     [class.mh-for-kod]="selectedSpavochnik == TableType.OBORUD_KLASS ||
+                         selectedSpavochnik == TableType.OBORUD_VID ||
+                         selectedSpavochnik == TableType.PODR ||
+                         selectedSpavochnik == TableType.UCH" >
   <table *ngIf="isDataSourceFull()" class="table table-bordered table-responsive table-sm" >
     <thead>
     <tr class="tr-columns-config sticky-top border-top-0">
@@ -30,8 +33,11 @@
 <div *ngIf="!isDataSourceFull() && !(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH)">
   <p class="mt-3 d-flex justify-content-center text-danger border">Нет данных в таблице "{{selectedSpavochnik}}"</p>
 </div>
-<div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH)">
+<div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH) && !isUchNotEmptyInPodr">
   <p class="mt-3 d-flex justify-content-center text-danger border">Выберите строку элемент для отображения таблицы "{{selectedSpavochnik}}"</p>
+</div>
+<div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.UCH) && isUchNotEmptyInPodr">
+  <p class="mt-3 d-flex justify-content-center text-danger border">Список участков пуст</p>
 </div>
 
 <div *ngIf="dataTableSource.length > 0 && originSourceTable != OriginSourceTable.SETTINGS_TABLE" container="body">

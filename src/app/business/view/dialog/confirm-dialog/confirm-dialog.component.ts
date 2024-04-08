@@ -12,6 +12,7 @@ import {GabZoService} from "../../../data/service/implements/gab-zo.service";
 import {ProizvService} from "../../../data/service/implements/proizv.service";
 import {PodrService} from "../../../data/service/implements/podr.service";
 import {UchService} from "../../../data/service/implements/uch.service";
+import {ToastService} from "../../../data/service/OptionalService/toast.service";
 
 
 @Component({
@@ -39,7 +40,8 @@ export class ConfirmDialogComponent implements OnInit{
               private gabZoService: GabZoService,
               private proizvService: ProizvService,
               private podrService: PodrService,
-              private uchService: UchService
+              private uchService: UchService,
+              private toastService: ToastService
               ) {
   }
 
@@ -96,9 +98,11 @@ export class ConfirmDialogComponent implements OnInit{
     this.currentService.delete(this.newElement.id).subscribe(result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно удалено');
       }
     }, error => {
       console.log('Ошибка в ConfirmDialogComponent onClickDelete()')
+      this.toastService.showNegative('Не удалось удалить элемент');
     })
   }
 
@@ -107,8 +111,10 @@ export class ConfirmDialogComponent implements OnInit{
     this.currentService.update(this.newElement).subscribe(result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно изменена активность');
       }
     }, error => {
+      this.toastService.showNegative('Не удалось изменить активность');
       console.log('Ошибка в ConfirmDialogComponent onClickChangeAkt()')
     })
   }

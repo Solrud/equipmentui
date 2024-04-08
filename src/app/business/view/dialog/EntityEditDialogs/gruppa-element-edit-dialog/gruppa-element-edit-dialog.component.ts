@@ -13,6 +13,7 @@ import {OborudVidService} from "../../../../data/service/implements/oborud-vid.s
 import {NalPuService} from "../../../../data/service/implements/nal-pu.service";
 import {GabZoService} from "../../../../data/service/implements/gab-zo.service";
 import {debounceTime, tap} from "rxjs/operators";
+import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-gruppa-element-edit-dialog',
@@ -54,7 +55,9 @@ export class GruppaElementEditDialogComponent implements OnInit{
               private klassService: OborudKlassService,
               private vidService: OborudVidService,
               private nalPuService: NalPuService,
-              private gabZoService: GabZoService) {
+              private gabZoService: GabZoService,
+
+              private toastService: ToastService) {
   }
 
   ngOnInit(): void {
@@ -117,6 +120,8 @@ export class GruppaElementEditDialogComponent implements OnInit{
         this.klassList = result;
         this.klassListDDM = result;
       }
+    }, error => {
+      this.toastService.showNegativeFixed('Не удалось загрузить данные класса');
     })
     this.nalPuService.searchAll().subscribe( result => {
       if (result && result.length > 0){
@@ -129,6 +134,8 @@ export class GruppaElementEditDialogComponent implements OnInit{
           this.onClickSelectDDINalPu(nalPuObject);
         }
       }
+    }, error => {
+      this.toastService.showNegativeFixed('Не удалось загрузить данные ПУ');
     })
     this.gabZoService.searchAll().subscribe( result => {
       if (result && result.length > 0){
@@ -141,6 +148,8 @@ export class GruppaElementEditDialogComponent implements OnInit{
           this.onClickSelectDDIGabZo(gabZoObject);
         }
       }
+    }, error => {
+      this.toastService.showNegativeFixed('Не удалось загрузить данные Габаритов');
     })
 
     if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
@@ -292,6 +301,8 @@ export class GruppaElementEditDialogComponent implements OnInit{
           this.onClickSelectDDIVid(vidOborudObject);
         }
       }
+    }, error => {
+      this.toastService.showNegativeFixed('Не удалось загрузить данные Вида');
     })
   }
 
@@ -399,6 +410,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
         this.activeModal.close(DialogResult.ACCEPT)
       }
     }, error => {
+      this.toastService.showNegative('Не удалось загрузить данные таблицы Группы');
       console.log('Ошибка GruppaElementEditDialogComponent onClickUpdateGruppa()')
     })
   }
@@ -411,6 +423,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
         this.activeModal.close(DialogResult.ACCEPT)
       }
     }, error => {
+      this.toastService.showNegative('Не удалось "' + this.dialogMode +'" Группы');
       console.log('Ошибка GruppaElementEditDialogComponent onClickCreateGruppa()')
     })
   }

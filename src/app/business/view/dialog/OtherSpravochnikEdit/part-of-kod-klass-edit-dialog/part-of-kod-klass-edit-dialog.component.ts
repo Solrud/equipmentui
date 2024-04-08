@@ -40,19 +40,11 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    console.log(this.listFromElement)
-    console.log(this.selectedElement)
-    console.log(this.klassForVid)
-    console.log(this.selectedNavBar)
-    console.log(this.dialogMode)
     this.initDialogDefault();
     this.initFgKod();
-    console.log('прошло initFg')
 
     this.initCurrentServiceAndKodObject();
     this._observeFcKodKlass();
-
-
   }
 
   public get Validators(){
@@ -89,13 +81,11 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
         this.isSameKodExist = false;
         this.changeValidators('kodKlass', [this.validatorMinLength], true);
       })).subscribe( inputValue => {
-      // если нолики то онуляет поле
+      // если нолики то онуляет поле НУЛЕВЫЕ КОДЫ БЫВАЮТ
       // if(inputValue == '00' || (this.selectedNavBar === TableType.NAL_PU && inputValue == '0'))
       //   this.fgKod.controls['kodKlass'].setValue('');
-
       // проверяет нет ли таких существующих кодов по списку
-      if (this.listFromElement.some( obj => { return obj.kodKlass.trim() == inputValue}) &&
-        (this.dialogMode != DialogMode.CREATE && inputValue != this.selectedElement.kodKlass)){
+      if (this.listFromElement.some( obj => { return obj.kodKlass.trim() == inputValue}) && this.selectedElement?.kodKlass.trim() != inputValue){
         this.isSameKodExist = true;
         this.changeValidators('kodKlass', [this.validatorMinLength], false);
       }
@@ -112,7 +102,6 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
   initDialogDefault(){
     if (!this.dialogMode) this.dialogMode = DialogMode.VIEW;
     if (!this.selectedElement) this.selectedElement = null;
-
   }
 
   getCorrectValueFromField(field: string){
@@ -129,8 +118,6 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
     return null;
   }
 
-
-
   initFgKod(){
     this.fgKod = new FormGroup({
       id: new FormControl({value: this.getCorrectValueFromField('id'), disabled: true}),
@@ -140,10 +127,6 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
       klass: new FormControl({value: this.getCorrectValueFromField('klass'), disabled: true}),
     })
-    // console.log(this.fgKod.controls['id'].value);
-    // console.log(this.fgKod.controls['kodKlass'].value);
-    // console.log(this.fgKod.controls['naim'].value);
-    // console.log(this.fgKod.controls['klass'].value);
   }
 
   //добавляет или удаляет валидаторы у указанного контрола
@@ -175,9 +158,7 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
         this.currentNewKodPart.klass = this.selectedElement.klass;
       if (this.dialogMode === DialogMode.CREATE)
         this.currentNewKodPart.klass = this.klassForVid;
-
     }
-    console.log(this.currentNewKodPart);
   }
 
   onClickUpdateKodPart(){
@@ -190,7 +171,6 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
     })
   }
 
-
   onClickCreateKodPart(){
     this.onSaveKodPart();
     //@ts-ignore
@@ -200,7 +180,6 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
       }
     })
   }
-
 
   onClickCloseModal(): void{
     this.activeModal.close(DialogResult.CANCEL);

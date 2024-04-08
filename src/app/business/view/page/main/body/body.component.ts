@@ -19,6 +19,7 @@ import {ModelService} from "../../../../data/service/implements/model.service";
 import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO";
 import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
+import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-body',
@@ -58,6 +59,7 @@ export class BodyComponent implements OnInit{
               private gruppaService: GruppaService,
               private modelService: ModelService,
               private oborudEkzService: OborudEkzService,
+              private toastService: ToastService
               ) {
   }
 
@@ -76,6 +78,7 @@ export class BodyComponent implements OnInit{
   // код классификатора изменился old(вид, группа, пу, габариты) СЕЙЧАС (классификатор(класс оборудрвания), вид, ПУ, габариты), то есь вместо вида-классификатор и вместо группа-вид
   // -
   // =>-ОПЦИОНАЛЬНО-<=
+  // проставить toast's
   // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
   // перевод mat-paginator, взять из https://gitlab.avid.ru/mikishev/bienieui/blob/develop/1.0.1-secure/src/app/busines/intl/MyMatPaginatorIntl.ts и i18n оттуда
   // в конце концов не забыть про i18n!
@@ -152,11 +155,11 @@ export class BodyComponent implements OnInit{
 
         this.fieldColumnList = FIELD_COLUMN_KOMPL_LIST;
         this.temporarilyDisabledNavBar = false;
+      }, error => {
+        this.toastService.showNegativeFixed('Не удалось загрузить таблицу Комплекс');
       })
     }
   }
-
-
 
   onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
@@ -180,6 +183,8 @@ export class BodyComponent implements OnInit{
 
         this.fieldColumnList = FIELD_COLUMN_GRUPPA_LIST;
         this.temporarilyDisabledNavBar = false;
+      }, error => {
+        this.toastService.showNegativeFixed('Не удалось загрузить таблицу Группа');
       })
     }
   }
@@ -205,6 +210,8 @@ export class BodyComponent implements OnInit{
         // });
         this.fieldColumnList = FIELD_COLUMN_MODEL_LIST;
         this.temporarilyDisabledNavBar = false;
+      }, error => {
+        this.toastService.showNegativeFixed('Не удалось загрузить таблицу Модели');
       })
     }
   }
@@ -235,6 +242,8 @@ export class BodyComponent implements OnInit{
 
         this.fieldColumnList = FIELD_COLUMN_OBORUD_EKZ_LIST;
         this.temporarilyDisabledNavBar = false;
+      }, error => {
+        this.toastService.showNegativeFixed('Не удалось загрузить таблицу Экземпляры');
       })
     }
   }

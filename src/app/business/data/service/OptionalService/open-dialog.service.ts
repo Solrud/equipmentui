@@ -13,6 +13,12 @@ import {ConfirmDialogComponent} from "../../../view/dialog/confirm-dialog/confir
 import {SettingsDialogComponent} from "../../../view/dialog/settings-dialog/settings-dialog.component";
 import {PartOfKodKlassEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/part-of-kod-klass-edit-dialog/part-of-kod-klass-edit-dialog.component";
 import {OborudKlassDTO} from "../../model/dto/impl/OborudKlassDTO";
+import {ProizvEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/proizv-edit-dialog/proizv-edit-dialog.component";
+import {ProizvDTO} from "../../model/dto/impl/ProizvDTO";
+import {PodrDTO} from "../../model/dto/impl/PodrDTO";
+import {PodrEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/podr-edit-dialog/podr-edit-dialog.component";
+import {UchDTO} from "../../model/dto/impl/UchDTO";
+import {UchEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/uch-edit-dialog/uch-edit-dialog.component";
 
 @Injectable({
   providedIn: 'root'
@@ -134,7 +140,8 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки изменения справочников в настройках |=========---
-  openPartOfKodKlassDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode, listFromElement: any[], klassForVid: OborudKlassDTO = null){
+  openPartOfKodKlassDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode,
+                           listFromElement: any[], klassForVid: OborudKlassDTO = null){
     const openPartOfKodKlassDialog = this.modalService.open(PartOfKodKlassEditDialogComponent,
       {scrollable: true, size: "md", centered: this.toCenteredModal})
     openPartOfKodKlassDialog.componentInstance.selectedElement = selectedElement;
@@ -143,5 +150,30 @@ export class OpenDialogService {
     openPartOfKodKlassDialog.componentInstance.dialogMode = dialogMode;
     openPartOfKodKlassDialog.componentInstance.klassForVid = klassForVid;
     return openPartOfKodKlassDialog;
+  }
+  openProizvDialog(selectedElement: ProizvDTO, dialogMode: DialogMode){
+    const openProizvDialog = this.modalService.open(ProizvEditDialogComponent)
+    openProizvDialog.componentInstance.selectedElement = selectedElement;
+    openProizvDialog.componentInstance.dialogMode = dialogMode;
+    return openProizvDialog;
+  }
+
+  openPodrDialog(selectedElement: PodrDTO, dialogMode: DialogMode, podrList: PodrDTO[]){
+    const openPodrDialog = this.modalService.open(PodrEditDialogComponent,
+    {scrollable: true, size: "lg", centered: this.toCenteredModal})
+    openPodrDialog.componentInstance.selectedElement = selectedElement;
+    openPodrDialog.componentInstance.dialogMode = dialogMode;
+    openPodrDialog.componentInstance.podrList = podrList; // чтоб проверить коды и какой родитель подразделения
+    return openPodrDialog;
+  }
+
+  openUchDialog(selectedElement: UchDTO, dialogMode: DialogMode, uchList: UchDTO[], podrByUch: PodrDTO){
+    const openUchDialog = this.modalService.open(UchEditDialogComponent,
+      {scrollable: true, size: "lg", centered: this.toCenteredModal})
+    openUchDialog.componentInstance.selectedElement = selectedElement;
+    openUchDialog.componentInstance.dialogMode = dialogMode;
+    openUchDialog.componentInstance.uchList = uchList;
+    openUchDialog.componentInstance.podrByUch = podrByUch;
+    return openUchDialog;
   }
 }

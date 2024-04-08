@@ -38,3 +38,7 @@ tbody > tr:hover > * {
 .deleted-element{
   --bs-table-bg: #e7a9a9 !important;
 }
+
+.empty-podr-el{
+  --bs-table-bg-type: #fff5e7;
+}

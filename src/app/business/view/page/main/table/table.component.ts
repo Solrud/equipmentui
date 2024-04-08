@@ -25,6 +25,8 @@ export class TableComponent implements OnInit{
   totalFoundedElements: number;
   @Input()
   originSourceTable: OriginSourceTable;
+  @Input()
+  isUchNotEmptyInPodr: boolean = false;
 
   @Output()
   dataSearchNew: EventEmitter<ABaseSearchDTO> = new EventEmitter<ABaseSearchDTO>();

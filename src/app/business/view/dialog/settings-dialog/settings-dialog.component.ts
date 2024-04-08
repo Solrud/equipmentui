@@ -37,7 +37,7 @@ import {UchSearchDTO} from "../../../data/model/search/impl/UchSearchDTO";
 import {UchDTO} from "../../../data/model/dto/impl/UchDTO";
 import {EventService} from "../../../data/service/OptionalService/event.service";
 import {OpenDialogService} from "../../../data/service/OptionalService/open-dialog.service";
-import {endWith} from "rxjs/operators";
+import {ToastService} from "../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-settings-dialog',
@@ -96,12 +96,15 @@ export class SettingsDialogComponent implements OnInit{
   // Участок
   uchSelectedElement: any = null;
 
+  isUchNotEmptyInPodr: boolean;
   uchSearch: UchSearchDTO = new UchSearchDTO();
   uchDataTableInput: UchDTO[] = [];
   uchTotalFoundedElements: number = 0;
   uchFieldColumnList: string[] = FIELD_COLUMN_UCH_LIST;
 
-  //ToDo bootstrap'овская пагинация........ (((((((((( так лееееееееееееееееееееееень ее делать
+  dialogResult: DialogResult = DialogResult.CANCEL;
+
+  //ToDo bootstrap'овская пагинация.. так лень ее делать
 
   //ToDo при открытии модального окна автоматом загружать данные для таблицы у мало заполненных таблиц,
   // также при первой загрузке данных сохранять данные таблицы и серчить только после изменения
@@ -115,10 +118,12 @@ export class SettingsDialogComponent implements OnInit{
               private uchService: UchService,
 
               private eventService: EventService,
-              private openDialogService: OpenDialogService) {
+              private openDialogService: OpenDialogService,
+              private toastService: ToastService) {
   }
 
   ngOnInit(): void {
+
     this.onClickSearchKlassOborud();
 
     this._subscribeOborudKlassSelectedElement();
@@ -165,6 +170,15 @@ export class SettingsDialogComponent implements OnInit{
   _subscribePodrSelectedElement(){
     this.eventService.selectedElementPodrTable$.subscribe( result => {
       this.podrSelectedElement = result;
+      this.uchSelectedElement = null;
+
+      this.uchDataTableInput = [];
+      this.uchService.findByPodrId(this.podrSelectedElement.id).subscribe( result => {
+        console.log(result);
+        this.uchDataTableInput = result;
+
+        this.isUchNotEmptyInPodr = result.length == 0;
+      })
     })
   }
   _subscribeUchSelectedElement(){
@@ -248,23 +262,29 @@ export class SettingsDialogComponent implements OnInit{
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.NAL_PU, DialogMode.CREATE, this.nalPuDataTableInput).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchNalPu();
+        }
       })
     }
     if (mode === ActionMode.EDIT){
       this.openDialogService.openPartOfKodKlassDialog(
         this.nalPuSelectedElement, TableType.NAL_PU, DialogMode.EDIT, this.nalPuDataTableInput).closed.subscribe(result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchNalPu();
+        }
       })
     }
 
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(
         this.nalPuSelectedElement, TableType.NAL_PU, DialogMode.DELETE).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchNalPu();
+        }
       })
     }
   }
@@ -274,6 +294,7 @@ export class SettingsDialogComponent implements OnInit{
     this.nalPuService.searchAll().subscribe( result => {
       this.nalPuDataTableInput = result;
     }, error => {
+
       console.log('Произошла какая-то ошибка onClickSearchNalPuOborud() в settings.');
     })
     // if (nalPuSearch){
@@ -295,86 +316,148 @@ export class SettingsDialogComponent implements OnInit{
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.GAB_ZO, DialogMode.CREATE, this.gabZoDataTableInput).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchGabZo();
+        }
       })
     }
     if (mode === ActionMode.EDIT){
       this.openDialogService.openPartOfKodKlassDialog(
-        this.gabZoSelectedElement, TableType.GAB_ZO, DialogMode.EDIT, this.gabZoDataTableInput).closed.subscribe(result => {
-        if (result === DialogResult.ACCEPT)
+        this.gabZoSelectedElement, TableType.GAB_ZO, DialogMode.EDIT, this.gabZoDataTableInput).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchGabZo();
+        }
       })
     }
 
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(
         this.gabZoSelectedElement, TableType.GAB_ZO, DialogMode.DELETE).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchGabZo();
+        }
       })
     }
   }
-
-  //ToDo если редактирую код то надо сделать чтобы он пропускал свой
 
   onClickSearchGabZo(): void{
     this.gabZoDataTableInput = [];
     this.gabZoService.searchAll().subscribe( result => {
       this.gabZoDataTableInput = result;
     }, error => {
-      console.log('Произошла какая-то ошибка onClickSearchNalPuOborud() в settings.');
+      console.log('Произошла какая-то ошибка onClickSearchGabZo() в settings.');
     })
   }
 
-  onClickSearchProizv(proizvSearch: ProizvSearchDTO): void{
-    if (proizvSearch){
-      this.proizvSearch = proizvSearch;
-      this.proizvDataTableInput = [];
-      this.proizvService.searchPage(this.proizvSearch).subscribe( result => {
-        console.log(result);
-        this.proizvDataTableInput = result.content;
-        this.proizvTotalFoundedElements = result.totalElements;
+  onClickActionProizv(mode: ActionMode){
+    if (mode === ActionMode.CREATE){
+      this.openDialogService.openProizvDialog(null, DialogMode.CREATE).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchProizv();
+        }
+      })
+    }
+    if (mode === ActionMode.EDIT){
+      this.openDialogService.openProizvDialog(this.proizvSelectedElement, DialogMode.EDIT).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchProizv();
+        }
+      })
+    }
 
-        this.proizvSearch.pageSize = this.proizvTotalFoundedElements; // временно, надо думать все ли выводить или спраляться с пагинтором
-      }, error => {
-        console.log('Произошла какая-то ошибка onClickSearchProizv() в settings.');
+    if (mode === ActionMode.DELETE){
+      this.openDialogService.openElementConfirmDialog(this.proizvSelectedElement, TableType.PROIZV, DialogMode.DELETE).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchProizv();
+        }
       })
     }
   }
 
-  onClickSearchPodr(podrSearch: PodrSearchDTO): void{
-    if (podrSearch){
-      this.podrSearch = podrSearch;
-      this.podrDataTableInput = [];
-      this.podrService.searchPage(this.podrSearch).subscribe( result => {
-        console.log(result);
-        this.podrDataTableInput = result.content;
-        this.podrTotalFoundedElements = result.totalElements;
+  onClickSearchProizv(): void{
+    this.proizvDataTableInput = [];
+    this.proizvService.searchAll().subscribe( result => {
+      this.proizvDataTableInput = result;
+    }, error => {
+      console.log('Произошла какая-то ошибка onClickSearchProizv() в settings.');
+    })
+  }
 
-        this.podrSearch.pageSize = this.podrTotalFoundedElements; // временно, надо думать все ли выводить или спраляться с пагинтором
-      }, error => {
-        console.log('Произошла какая-то ошибка onClickSearchPodr() в settings.');
+  onClickActionPodr(mode: ActionMode){
+    if (mode === ActionMode.CREATE){
+      this.openDialogService.openPodrDialog(null, DialogMode.CREATE, this.podrDataTableInput).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchPodr();
+        }
+      })
+    }
+    if (mode === ActionMode.EDIT){
+      this.openDialogService.openPodrDialog(this.podrSelectedElement, DialogMode.EDIT, this.podrDataTableInput).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchPodr();
+        }
+      })
+    }
+
+    if (mode === ActionMode.DELETE){
+      this.openDialogService.openElementConfirmDialog(this.podrSelectedElement, TableType.PODR, DialogMode.DELETE).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchPodr();
+        }
       })
     }
   }
 
-  onClickSearchUch(uchSearch: UchSearchDTO): void{
-    if (uchSearch){
-      this.uchSearch = uchSearch;
-      this.uchDataTableInput = [];
-      this.uchService.searchPage(this.uchSearch).subscribe( result => {
-        this.uchDataTableInput = result.content;
-        this.uchTotalFoundedElements = result.totalElements;
+  onClickSearchPodr(): void{
+    this.isUchNotEmptyInPodr = false;
+    this.podrDataTableInput = [];
+    this.uchDataTableInput = [];
+    this.uchSelectedElement = null;
+    this.podrService.searchAll().subscribe( result => {
+      this.podrDataTableInput = result;
+    }, error => {
+      console.log('Произошла какая-то ошибка onClickSearchPodr() в settings.');
+    })
+  }
 
-        this.uchSearch.pageSize = this.uchTotalFoundedElements;
-      }, error => {
-        console.log('Произошла какая-то ошибка onClickSearchUch() в settings.');
+  onClickActionUch(mode: ActionMode){
+    if (mode === ActionMode.CREATE){
+      this.openDialogService.openUchDialog(null, DialogMode.CREATE, this.uchDataTableInput, this.podrSelectedElement).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchPodr();
+        }
+      })
+    }
+    if (mode === ActionMode.EDIT){
+      this.openDialogService.openUchDialog(this.uchSelectedElement, DialogMode.EDIT, this.uchDataTableInput, this.podrSelectedElement).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchPodr();
+        }
+      })
+    }
+
+    if (mode === ActionMode.DELETE){
+      this.openDialogService.openElementConfirmDialog(this.uchSelectedElement, TableType.UCH, DialogMode.DELETE).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
+          this.onClickSearchPodr();
+        }
       })
     }
   }
 
   onClickCloseModal(): void{
-    this.activeModal.close(DialogResult.CANCEL);
+    this.activeModal.close(this.dialogResult);
   }
 }

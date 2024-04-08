@@ -1,0 +1,60 @@
+<div class="modal-header d-flex justify-content-center">
+  <h2 class="m-0 text-center ">{{dialogMode}} производителя</h2>
+</div>
+
+<form class="modal-body d-flex flex-column gap-2"
+      [formGroup]="fgProizv">
+  <div class="d-flex flex-column justify-content-start">
+    <label for="naim" class=" form-label">Наименование</label>
+    <div class="input-group">
+      <input class="form-control border-dark "
+             id="naim"
+             type="text"
+             autocomplete="off"
+             formControlName="naim"
+             [required]="fcFieldIsRequired('naim', true)"
+      >
+      <button class="btn btn-light border-dark"
+              (click)="fgProizv.controls['naim'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <label for="polnNaim" class="form-label">Полное наименование</label>
+    <div class="input-group">
+      <input class="form-control border-dark"
+             id="polnNaim"
+             type="text"
+             autocomplete="off"
+             formControlName="polnNaim"
+             [required]="fcFieldIsRequired('polnNaim', true)"
+      >
+      <button class="btn btn-light border-dark"
+              (click)="fgProizv.controls['polnNaim'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+
+</form>
+
+<div class="modal-footer ">
+  <button type="button"
+          class="btn btn-primary"
+          [hidden]="dialogMode != DialogMode.CREATE"
+          (click)="onClickCreateProizv()"
+          [disabled]="fgProizv.invalid"
+  >Создать</button>
+  <button type="button"
+          class="btn btn-primary"
+          [hidden]="dialogMode != DialogMode.EDIT"
+          (click)="onClickUpdateProizv()"
+          [disabled]="fgProizv.invalid"
+  >Редактировать</button>
+  <button type="button"
+          class="btn btn-secondary"
+          (click)="onClickCloseModal()"
+  >Отмена</button>
+</div>

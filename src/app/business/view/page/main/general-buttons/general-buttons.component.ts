@@ -26,7 +26,6 @@ export class GeneralButtonsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.onClickOpenSettingsDialog();
     this._subscribeSelectedElementTable();
     this._subscribeSelectedNavBar();
   }
@@ -46,7 +45,10 @@ export class GeneralButtonsComponent implements OnInit{
   }
 
   onClickOpenSettingsDialog(){
-    this.openDialogService.openSettingsDialog().closed.subscribe( result => {})
+    this.openDialogService.openSettingsDialog().closed.subscribe( result => {
+      if (result == DialogResult.ACCEPT)
+        this.researchPage.emit();
+    })
   }
 
   onClickOpenSideNav(){
