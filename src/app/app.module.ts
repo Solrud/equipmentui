@@ -54,6 +54,7 @@ import {ProizvEditDialogComponent} from './business/view/dialog/OtherSpravochnik
 import {PodrEditDialogComponent} from './business/view/dialog/OtherSpravochnikEdit/podr-edit-dialog/podr-edit-dialog.component';
 import {UchEditDialogComponent} from './business/view/dialog/OtherSpravochnikEdit/uch-edit-dialog/uch-edit-dialog.component';
 import {ToastComponent} from './business/view/page/toast/toast.component';
+import { TableRelationshipEditDialogComponent } from './business/view/dialog/TableRelationshipDialogs/table-relationship-edit-dialog/table-relationship-edit-dialog.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -89,6 +90,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     PodrEditDialogComponent,
     UchEditDialogComponent,
     ToastComponent,
+    TableRelationshipEditDialogComponent,
   ],
   imports: [
     BrowserModule,

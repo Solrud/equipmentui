@@ -201,23 +201,29 @@ export class SettingsDialogComponent implements OnInit{
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.OBORUD_KLASS, DialogMode.CREATE, this.klassDataTableInput).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
+        }
       })
     }
     if (mode === ActionMode.EDIT){
       this.openDialogService.openPartOfKodKlassDialog(
         this.klassSelectedElement, TableType.OBORUD_KLASS, DialogMode.EDIT, this.klassDataTableInput).closed.subscribe(result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
+        }
       })
     }
 
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog
       (this.klassSelectedElement, TableType.OBORUD_KLASS, DialogMode.DELETE).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
+        }
       })
     }
   }
@@ -237,23 +243,29 @@ export class SettingsDialogComponent implements OnInit{
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.OBORUD_VID, DialogMode.CREATE, this.vidDataTableInput, this.klassSelectedElement).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
+        }
       })
     }
     if (mode === ActionMode.EDIT){
       this.openDialogService.openPartOfKodKlassDialog(
         this.vidSelectedElement, TableType.OBORUD_VID, DialogMode.EDIT, this.vidDataTableInput).closed.subscribe(result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
+        }
       })
     }
 
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog
       (this.vidSelectedElement, TableType.OBORUD_VID, DialogMode.DELETE).closed.subscribe( result => {
-        if (result === DialogResult.ACCEPT)
+        if (result === DialogResult.ACCEPT){
+          this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
+        }
       })
     }
   }

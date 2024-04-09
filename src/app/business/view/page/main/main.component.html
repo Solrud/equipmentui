@@ -1,5 +1,5 @@
-<app-header class="header-config"></app-header>
+<app-header class="header-config" (researchPage)="body.onReSearchPage()"></app-header>
 
-<app-body class="d-flex flex-grow-1"></app-body>
+<app-body class="d-flex flex-column overflow-auto h-100" #body></app-body>
 
 <app-footer class="footer-config"></app-footer>

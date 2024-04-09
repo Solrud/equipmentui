@@ -4,8 +4,10 @@
 
 .mh-config{
   /*max-width: 1200px;*/
-  max-height: 681px;
+  /*max-height: 681px;*/
+
   overflow: auto !important;
+
 }
 .mh-for-kod{
   max-height: 295px !important;
@@ -27,6 +29,22 @@
 .active-element{
   --bs-table-bg-type: #b7efc6;
 }
+.active-element-relation-settings{
+  --bs-table-bg-type: #b7d0ef;
+}
+.active-element-relation-kompl{
+  --bs-table-bg-type: #93d99b;
+}
+.active-element-relation-gruppa{
+  --bs-table-bg-type: #7fc7d2;
+}
+.active-element-relation-model{
+  --bs-table-bg-type: #d4b888;
+}
+.active-element-relation-ekz{
+  --bs-table-bg-type: #efb4ac;
+}
+
 tbody > tr:hover > * {
   background-color: #c7ced9 !important;
 }
@@ -41,4 +59,8 @@ tbody > tr:hover > * {
 
 .empty-podr-el{
   --bs-table-bg-type: #fff5e7;
+}
+.rem-whitespace{
+  height: 1rem;
+  background-color: white;
 }

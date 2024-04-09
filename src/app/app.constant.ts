@@ -33,7 +33,12 @@ export enum TableType {                      // Тип таблицы
   OBORUD_KLASS = 'Код оборудования',
   OBORUD_VID = 'Вид оборудования',
   NAL_PU = 'Наличие программного устройства',
-  GAB_ZO = 'Габариты зоны обработки'
+  GAB_ZO = 'Габариты зоны обработки',
+
+  KOMPL_FROM_RELATION = 'Комплекс из связей',
+  GRUPPA_FROM_RELATION = 'Группа из связей',
+  MODEL_FROM_RELATION = 'Модель из связей',
+  OBORUD_EKZ_FROM_RELATION = 'Экземпляр оборудования из связей',
 }
 
 export const INIT_NAV_BAR = TableType.GRUPPA; // Какая таблица откроется по-умолчанию
@@ -102,7 +107,7 @@ export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'naim', 'proizv', '
 
 export const FIELD_COLUMN_OBORUD_KLASS_LIST = ['kodKlass', 'naim'];
 export const FIELD_COLUMN_OBORUD_VID_LIST = ['kodKlass', 'naim'];
-export const FIELD_COLUMN_NAL_PU_LIST = ['kodKlass', 'naim'];               //колонки таблиц настроек
+export const FIELD_COLUMN_NAL_PU_LIST = ['kodKlass', 'naim'];                    //колонки таблиц настроек
 export const FIELD_COLUMN_GAB_ZO_LIST = ['kodKlass', 'naim'];
 export const FIELD_COLUMN_PROIZV_LIST = ['naim', 'polnNaim'];
 export const FIELD_COLUMN_PODR_LIST = ['kod', 'kodIsp', 'naim', 'obozn', 'rod'];

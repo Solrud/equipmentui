@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {OriginSourceTable, TableType} from "../../../../../app.constant";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
@@ -41,7 +41,7 @@ export class TableComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был?
+    //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был? только в настройках наверное
   }
 
   public get TableType(){
@@ -51,6 +51,11 @@ export class TableComponent implements OnInit{
     return OriginSourceTable;
   }
 
+  toShowPaginator(): boolean{
+    return !!(this.dataTableSource.length > 0
+      && this.originSourceTable !== OriginSourceTable.SETTINGS_TABLE
+      && this.originSourceTable !== OriginSourceTable.RELATIONSHIP_TABLE);
+  }
 
   isDataSourceFull(): boolean{
     return this.dataTableSource.length > 0;
@@ -62,6 +67,8 @@ export class TableComponent implements OnInit{
     this.dataSearch.pageSize = pageEvent.pageSize;
     this.dataSearchNew.emit(this.dataSearch);
   }
+
+  //ToDo выбранный элемент остается если переключится на другой экземпляр в одной сущности, надо ли так
 
   onSelectElementTable(selectedElement: any){
     this.selectedElement = selectedElement;
@@ -86,6 +93,14 @@ export class TableComponent implements OnInit{
           this.eventService.selectElementUchTable$(selectedElement);
         break;
       case OriginSourceTable.RELATIONSHIP_TABLE:
+        if (this.selectedSpavochnik === TableType.KOMPL_FROM_RELATION)
+          this.eventService.selectElementKomplRelationshipTable$(selectedElement);
+        if (this.selectedSpavochnik === TableType.GRUPPA_FROM_RELATION)
+          this.eventService.selectElementGruppaRelationshipTable$(selectedElement);
+        if (this.selectedSpavochnik === TableType.MODEL_FROM_RELATION)
+          this.eventService.selectElementModelRelationshipTable$(selectedElement);
+        if (this.selectedSpavochnik === TableType.OBORUD_EKZ_FROM_RELATION)
+          this.eventService.selectElementOborudEkzRelationshipTable$(selectedElement);
         break;
     }
   }

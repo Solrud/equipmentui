@@ -6,11 +6,32 @@ import {INIT_NAV_BAR, TableData, TableType} from "../../../../app.constant";
   providedIn: 'root'
 })
 export class EventService {
+  // --------------------------------------- Связей таблицы ---------------------------------------------------
+  selectedElementKomplRelationshipTable$ = new Subject();                   // Выбранная строка из Комплекса, таблицы СВЯЗЕЙ
+  selectElementKomplRelationshipTable$(selectedElement: any){
+    this.selectedElementKomplRelationshipTable$.next(selectedElement);
+  }
+
+  selectedElementGruppaRelationshipTable$ = new Subject();                  // Выбранная строка из Группы, таблицы СВЯЗЕЙ
+  selectElementGruppaRelationshipTable$(selectedElement: any){
+    this.selectedElementGruppaRelationshipTable$.next(selectedElement);
+  }
+
+  selectedElementModelRelationshipTable$ = new Subject();                   // Выбранная строка из Модели, таблицы СВЯЗЕЙ
+  selectElementModelRelationshipTable$(selectedElement: any){
+    this.selectedElementModelRelationshipTable$.next(selectedElement);
+  }
+
+  selectedElementOborudEkzRelationshipTable$ = new Subject();               // Выбранная строка из Экземпляра оборудования, таблицы СВЯЗЕЙ
+  selectElementOborudEkzRelationshipTable$(selectedElement: any){
+    this.selectedElementOborudEkzRelationshipTable$.next(selectedElement);
+  }
+  // --------------------------------------- Главная таблица ---------------------------------------------------
   selectedElementMainTable$ = new Subject();                      // Выбранная строка(элемент) из ГЛАВНОЙ таблицы
   selectElementMainTable$(selectedElement: any){
     this.selectedElementMainTable$.next(selectedElement);
   }
-
+  // --------------------------------------- Настройки таблицы  ------------------------------------------------
   selectedElementOborudKlassTable$ = new Subject();               // Выбранная строка из Кода оборудования
   selectElementOborudKlassTable$(selectedElement: any){
     this.selectedElementOborudKlassTable$.next(selectedElement);
@@ -45,15 +66,10 @@ export class EventService {
   selectElementUchTable$(selectedElement: any){
     this.selectedElementUchTable$.next(selectedElement);
   }
-
-  selectedSpravTable$ = new BehaviorSubject(INIT_NAV_BAR);
+  // --------------------------------------- Справочник оборудования -------------------------------------------
+  selectedSpravTable$ = new BehaviorSubject(INIT_NAV_BAR);        // Выбранный справочник оборудования
   selectSpravTab$(navTab: TableType){
     this.selectedSpravTable$.next(navTab);
-  }
-
-  tableDataSource$ = new BehaviorSubject(new TableData());
-  pushTableDataSource$(columnList: string[], dataTableList: object[]){
-    this.tableDataSource$.next(new TableData(columnList, dataTableList))
   }
 
   spinnerVisibility = new BehaviorSubject(false);

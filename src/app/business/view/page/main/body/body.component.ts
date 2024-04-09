@@ -20,6 +20,10 @@ import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO"
 import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
 import {ToastService} from "../../../../data/service/OptionalService/toast.service";
+import {KomplDTO} from "../../../../data/model/dto/impl/KomplDTO";
+import {GruppaDTO} from "../../../../data/model/dto/impl/GruppaDTO";
+import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
+import {OborudEkzDTO} from "../../../../data/model/dto/impl/OborudEkzDTO";
 
 @Component({
   selector: 'app-body',
@@ -34,12 +38,10 @@ export class BodyComponent implements OnInit{
   isFirstTimeInitNav: boolean = true; //Флаг, в первый ли раз открывается вкладка типа таблицы
 
   selectedSpravochnik: TableType; //Выбранный сейчас тип вкладки || таблицы
-
   //Данные передающиеся в инпут таблицы
   dataTableNavSource = [];
   fieldColumnList = [];
   totalFoundedElements: number;
-
   originSourceTable: OriginSourceTable = OriginSourceTable.MAIN_TABLE; // Содержит инфу в каком месте открыта таблица
 
   //Поисковые обьекты
@@ -48,6 +50,26 @@ export class BodyComponent implements OnInit{
   gruppaSearch: GruppaSearchDTO;
   modelSearch: ModelSearchDTO;
   oborudEkzSearch: OborudEkzSearchDTO;
+
+  //Комплекс связей
+  komplRelationshipSelectedElement: KomplDTO;
+  komplRelationshipDataInput: KomplDTO[] = [];
+  komplRelationshipFieldColumnList: string[] = FIELD_COLUMN_KOMPL_LIST;
+
+  //Группа связей
+  gruppaRelationshipSelectedElement: GruppaDTO;
+  gruppaRelationshipDataInput: GruppaDTO[] = [];
+  gruppaRelationshipFieldColumnList: string[] = FIELD_COLUMN_GRUPPA_LIST;
+
+  //Модель связей
+  modelRelationshipSelectedElement: ModelDTO;
+  modelRelationshipDataInput: ModelDTO[] = [];
+  modelRelationshipFieldColumnList: string[] = FIELD_COLUMN_MODEL_LIST;
+
+  //Экземпляр связей
+  oborudEkzRelationshipSelectedElement: OborudEkzDTO;
+  oborudEkzRelationshipDataInput: OborudEkzDTO[] = [];
+  oborudEkzRelationshipFieldColumnList: string[] = FIELD_COLUMN_OBORUD_EKZ_LIST;
 
 
   @ViewChild(MatDrawer)
@@ -66,12 +88,16 @@ export class BodyComponent implements OnInit{
   ngOnInit(): void {
     this.initSearchData();
     this._subscribeToSelectedSpravochnik();
+
+    this._subscribeToMainSelectedElement();
+    this._subscribeToKomplRelationshipSelectedElement();
+    this._subscribeToGruppaRelationshipSelectedElement();
+    this._subscribeToModelRelationshipSelectedElement();
+    this._subscribeToOborudEkzRelationshipSelectedElement();
   }
 
   //ToDo =>
-  // создать настройки, в них создать таблицы и взаимодействие с ними -> изменение данных в (класс, вид, пу, габариты, производитель, подразделение, участок)
   // main HTML исправить,чтобы высота выставлялась автоматически от разрешения
-  // возвращение из таблицы выбранного элемента таблицы возможно стоит переделать под input. Сделать разные rxJs'ы с помощью enum'ов откуда пришло
   // DTO<any> переделать придумать
   // как отображать доп таблички(какие данные нужны, как отображать их бордеры, до доп кнопки взаимодействия)
   // при выборе записи выводить дочерние привязанные таблицы(не знаю как)
@@ -96,6 +122,13 @@ export class BodyComponent implements OnInit{
   // на какие поля в модалках ставить валидаторы?
   // КОД ИЛИ КЛАСС??
 
+  public get TableType() {
+    return TableType;
+  }
+  public get OriginSourceTable() {
+    return OriginSourceTable;
+  }
+
   initSearchData(){
     if(!this.komplSearch) this.komplSearch = new KomplSearchDTO();
     if(!this.gruppaSearch) this.gruppaSearch = new GruppaSearchDTO();
@@ -103,14 +136,86 @@ export class BodyComponent implements OnInit{
     if(!this.oborudEkzSearch) this.oborudEkzSearch = new OborudEkzSearchDTO();
   }
 
-  // _nextDataTable(){
-  //   this.eventService.pushTableDataSource$(this.fieldColumnList, this.dataTableNavSource);
-  // }
+  toClearAllRelationshipDataInput(): void{
+    this.komplRelationshipDataInput = [];
+    this.gruppaRelationshipDataInput = [];
+    this.modelRelationshipDataInput = [];
+    this.oborudEkzRelationshipDataInput = [];
+  }
+  toClearAllRelationshipSelectedElement(): void {
+    this.eventService.selectElementKomplRelationshipTable$(null);
+    this.eventService.selectElementGruppaRelationshipTable$(null);
+    this.eventService.selectElementModelRelationshipTable$(null);
+    this.eventService.selectElementOborudEkzRelationshipTable$(null);
+  }
+
+  _subscribeToMainSelectedElement(){
+    this.eventService.selectedElementMainTable$.subscribe( (result: any) => {
+      this.toClearAllRelationshipDataInput();
+      if (this.selectedSpravochnik === TableType.KOMPL){
+        if (result?.oborudovanie && result?.oborudovanie.length > 0){
+          for(let i = 0; i < result.oborudovanie.length; i++){
+            if(result.oborudovanie[i].tip == '2'){ // Если Группа
+              console.log('result.oborudovanie.tip === \'2\'')
+              this.gruppaRelationshipDataInput.push(result.oborudovanie[i]);
+            }
+            if(result.oborudovanie[i].tip == '1'){ // Если модель
+              this.modelRelationshipDataInput.push(result.oborudovanie[i]);
+            }
+          }
+        }
+      }
+      if (this.selectedSpravochnik === TableType.GRUPPA){
+
+        //ToDo КОМПЛЕКС добавить, жду бекенд димы
+
+        if(result?.modely && result?.modely.length > 0){
+          for(let i = 0; i < result.modely.length; i++){
+            this.modelRelationshipDataInput.push(result.modely[i]);
+          }
+        }
+      }
+      if (this.selectedSpravochnik === TableType.MODEL){
+
+        //ToDo Комплекс и Группу добавить, жду бекенд димы
+
+        if (result?.ekzemplary && result?.ekzemplary.length > 0){
+          for(let i = 0; i < result.ekzemplary.length; i++){
+            this.oborudEkzRelationshipDataInput.push(result.ekzemplary[i]);
+          }
+        }
+      }
+    })
+  }
+  _subscribeToKomplRelationshipSelectedElement(){
+    this.eventService.selectedElementKomplRelationshipTable$.subscribe( (result: KomplDTO) => {
+      this.komplRelationshipSelectedElement = result;
+    })
+  }
+  _subscribeToGruppaRelationshipSelectedElement(){
+    this.eventService.selectedElementGruppaRelationshipTable$.subscribe( (result: GruppaDTO) => {
+      this.gruppaRelationshipSelectedElement = result;
+    })
+  }
+  _subscribeToModelRelationshipSelectedElement(){
+    this.eventService.selectedElementModelRelationshipTable$.subscribe( (result: ModelDTO) => {
+      this.modelRelationshipSelectedElement = result;
+    })
+  }
+  _subscribeToOborudEkzRelationshipSelectedElement(){
+    this.eventService.selectedElementOborudEkzRelationshipTable$.subscribe( (result: OborudEkzDTO) => {
+      this.oborudEkzRelationshipSelectedElement = result;
+    })
+  }
 
   _subscribeToSelectedSpravochnik(){
     this.eventService.selectedSpravTable$.subscribe((result: TableType) => {
       this.selectedSpravochnik = result;
-      this.eventService.selectElementMainTable$(null);
+      this.eventService.selectElementMainTable$(null);                  // мб в отдельный вынести
+      this.eventService.selectElementKomplRelationshipTable$(null);
+      this.eventService.selectElementGruppaRelationshipTable$(null);
+      this.eventService.selectElementModelRelationshipTable$(null);
+      this.eventService.selectElementOborudEkzRelationshipTable$(null);
 
       this.initNavBar(result);
     })
@@ -137,9 +242,9 @@ export class BodyComponent implements OnInit{
     this.drawerComponent?.toggle();
   }
 
-
   // Методы Вкладки
   onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    this.drawerComponent?.open();
     if ((this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
@@ -150,11 +255,13 @@ export class BodyComponent implements OnInit{
       this.dataSearch = this.komplSearch;
       this.dataTableNavSource = [];
       this.komplService.searchPage(this.komplSearch).subscribe(result => {
-        this.totalFoundedElements = result.totalElements;
-        this.dataTableNavSource = result.content;
+        if (result && result.content.length > 0){
+          this.totalFoundedElements = result.totalElements;
+          this.dataTableNavSource = result.content;
 
-        this.fieldColumnList = FIELD_COLUMN_KOMPL_LIST;
-        this.temporarilyDisabledNavBar = false;
+          this.fieldColumnList = FIELD_COLUMN_KOMPL_LIST;
+          this.temporarilyDisabledNavBar = false;
+        }
       }, error => {
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Комплекс');
       })
@@ -162,6 +269,7 @@ export class BodyComponent implements OnInit{
   }
 
   onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    this.drawerComponent?.open();
     if ((this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
@@ -171,18 +279,12 @@ export class BodyComponent implements OnInit{
       this.dataSearch = this.gruppaSearch;
       this.dataTableNavSource = [];
       this.gruppaService.searchPage(this.gruppaSearch).subscribe(result => {
-        this.totalFoundedElements = result.totalElements;
-        this.dataTableNavSource = result.content;
-        // this.dataTableNavSource = result.content.map( data => {
-        //   return {
-        //     ...data,
-        //     'modely': data.modely.map( item => item?.naim),
-        //     'vid': data.vid?.naim
-        //   }
-        // })
-
-        this.fieldColumnList = FIELD_COLUMN_GRUPPA_LIST;
-        this.temporarilyDisabledNavBar = false;
+        if (result && result.content.length > 0){
+          this.totalFoundedElements = result.totalElements;
+          this.dataTableNavSource = result.content;
+          this.fieldColumnList = FIELD_COLUMN_GRUPPA_LIST;
+          this.temporarilyDisabledNavBar = false;
+        }
       }, error => {
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Группа');
       })
@@ -190,6 +292,7 @@ export class BodyComponent implements OnInit{
   }
 
   onClickNavModel(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    this.drawerComponent?.open();
     if ((this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
@@ -200,16 +303,12 @@ export class BodyComponent implements OnInit{
       this.dataSearch = this.modelSearch;
       this.dataTableNavSource = [];
       this.modelService.searchPage(this.modelSearch).subscribe(result => {
-        this.totalFoundedElements = result.totalElements;
-        this.dataTableNavSource = result.content;
-        // this.dataTableNavSource = result.content.map( data => {
-        //         return {
-        //           ...data,
-        //           'ekzemplary': data.ekzemplary.map( item => item.naim),
-        //         }
-        // });
-        this.fieldColumnList = FIELD_COLUMN_MODEL_LIST;
-        this.temporarilyDisabledNavBar = false;
+        if (result && result.content.length > 0){
+          this.totalFoundedElements = result.totalElements;
+          this.dataTableNavSource = result.content;
+          this.fieldColumnList = FIELD_COLUMN_MODEL_LIST;
+          this.temporarilyDisabledNavBar = false;
+        }
       }, error => {
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Модели');
       })
@@ -217,6 +316,7 @@ export class BodyComponent implements OnInit{
   }
 
   onClickNavOborudEkz(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+    this.drawerComponent?.close();
     if ((this.selectedSpravochnik != TableType.OBORUD_EKZ || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.OBORUD_EKZ) : this.isFirstTimeInitNav = false;
@@ -227,27 +327,18 @@ export class BodyComponent implements OnInit{
       this.dataSearch = this.oborudEkzSearch;
       this.dataTableNavSource = [];
       this.oborudEkzService.searchPage(this.oborudEkzSearch).subscribe(result => {
-        this.totalFoundedElements = result.totalElements;
-        this.dataTableNavSource = result.content;
+        if (result && result.content.length > 0){
+          this.totalFoundedElements = result.totalElements;
+          this.dataTableNavSource = result.content;
 
-        // this.dataTableNavSource = result.content.map( data => {
-        //   return {
-        //     ...data,
-        //     'model': data.model?.naim,
-        //     'podr': data.podr?.naim,
-        //     'proizv': data.proizv?.naim,
-        //     'uch': data.uch?.naim
-        //   }
-        // });
-
-        this.fieldColumnList = FIELD_COLUMN_OBORUD_EKZ_LIST;
-        this.temporarilyDisabledNavBar = false;
+          this.fieldColumnList = FIELD_COLUMN_OBORUD_EKZ_LIST;
+          this.temporarilyDisabledNavBar = false;
+        }
       }, error => {
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Экземпляры');
       })
     }
   }
-
 
   onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
     this.initNavBar(this.selectedSpravochnik, newDataSearch, true);
@@ -257,6 +348,7 @@ export class BodyComponent implements OnInit{
     this.initNavBar(this.selectedSpravochnik, null, true);
   }
 
+  // присваивает к существующему search object пагинаторные свойства
   toSetNewSearchFromPage(newSearchPage: ABaseSearchDTO, oldSearch: KomplSearchDTO | GruppaSearchDTO | ModelSearchDTO | OborudEkzSearchDTO){
     Object.keys(newSearchPage).forEach(key => {
       if (oldSearch.hasOwnProperty(key)) {

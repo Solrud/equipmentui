@@ -75,7 +75,7 @@ export class KomplElementEditDialogComponent implements OnInit{
     this.newKompl.akt = this.fgKomplElement.controls['akt'].value;
     this.newKompl.tip = this.fgKomplElement.controls['tip'].value;
     this.newKompl.naim = this.fgKomplElement.controls['naim'].value;
-    this.newKompl.oborudovanie = this.fgKomplElement.controls['oborudovanie'].value;
+    this.newKompl.oborudovanie = this.selectedElement.oborudovanie;
   }
 
   onClickCreateKompl(){
