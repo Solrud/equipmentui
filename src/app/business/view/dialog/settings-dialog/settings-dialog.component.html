@@ -3,13 +3,35 @@
 </div>
 
 <div class="modal-body d-flex modal-body-config">
-  <nav class="nav-pills flex-column flex-nowrap overflow-auto"
+  <nav class="nav-pills flex-column text-wrap overflow-hidden overflow-auto"
        orientation="vertical"
        ngbNav
        #navBar="ngbNav">
+    <!-- // Код и вид обрудования-->
     <ng-container ngbNavItem>
-      <a ngbNavLink (click)="onClickSearchKlassOborud(klassSearch)">Код(Класс) оборудования</a>
+      <a ngbNavLink class="a-nav-c"
+         (click)="onClickSearchKlassOborud()">Код и Вид оборудования</a>
       <ng-template ngbNavContent>
+        <div class="line-title">Код оборудования</div>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success mb-1"
+                    (click)="onClickActionKlassOborud(ActionMode.CREATE)">
+              <i class="bi bi-plus-square"></i> Добавить код оборудования
+            </button>
+            <button class="btn btn-sm btn-outline-primary mb-1"
+                    (click)="onClickActionKlassOborud(ActionMode.EDIT)"
+                    [disabled]="!klassSelectedElement">
+              <i class="bi bi-sliders2"></i> Изменить код оборудования
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-danger mb-1"
+                  (click)="onClickActionKlassOborud(ActionMode.DELETE)"
+                  [disabled]="!klassSelectedElement">
+            <i class="bi bi-x-octagon"></i> Удалить код оборудования
+          </button>
+        </div>
+
         <app-table
           [fieldColumnList]="klassFieldColumnList"
           [dataTableSource]="klassDataTableInput"
@@ -18,52 +40,219 @@
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.OBORUD_KLASS"
         ></app-table>
+        <div class="line-title border-bottom-c">Вид оборудования</div>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success mb-1"
+                    (click)="onClickActionVidOborud(ActionMode.CREATE)"
+                    [disabled]="!klassSelectedElement">
+              <i class="bi bi-plus-square"></i> Добавить вид оборудования
+            </button>
+            <button class="btn btn-sm btn-outline-primary mb-1"
+                    (click)="onClickActionVidOborud(ActionMode.EDIT)"
+                    [disabled]="!vidSelectedElement">
+              <i class="bi bi-sliders2"></i> Изменить вид оборудования
+            </button>
+          </div>
+
+          <button class="btn btn-sm btn-outline-danger mb-1"
+                  (click)="onClickActionVidOborud(ActionMode.DELETE)"
+                  [disabled]="!vidSelectedElement">
+            <i class="bi bi-x-octagon"></i> Удалить вид оборудования
+          </button>
+        </div>
+        <app-table
+          [fieldColumnList]="vidFieldColumnList"
+          [dataTableSource]="vidDataTableInput"
+          [dataSearch]="vidSearch"
+          [totalFoundedElements]="vidTotalFoundedElements"
+          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
+          [selectedSpavochnik]="TableType.OBORUD_VID"
+        ></app-table>
       </ng-template>
     </ng-container>
+    <!-- // Наличие ПУ-->
     <ng-container ngbNavItem>
-      <a ngbNavLink (click)="null">Вид оборудования</a>
+      <a ngbNavLink
+         (click)="onClickSearchNalPu()">Наличие ПУ</a>
       <ng-template ngbNavContent>
-        Тут табличка буит 2
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success mb-1"
+                    (click)="onClickActionNalPu(ActionMode.CREATE)">
+              <i class="bi bi-plus-square"></i> Добавить код наличие ПУ
+            </button>
+            <button class="btn btn-sm btn-outline-primary mb-1"
+                    (click)="onClickActionNalPu(ActionMode.EDIT)"
+                    [disabled]="!nalPuSelectedElement">
+              <i class="bi bi-sliders2"></i> Изменить код наличие ПУ
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-danger mb-1"
+                  (click)="onClickActionNalPu(ActionMode.DELETE)"
+                  [disabled]="!nalPuSelectedElement">
+            <i class="bi bi-x-octagon"></i> Удалить код наличие ПУ
+          </button>
+        </div>
+        <app-table
+          [fieldColumnList]="nalPuFieldColumnList"
+          [dataTableSource]="nalPuDataTableInput"
+          [dataSearch]="nalPuSearch"
+          [totalFoundedElements]="nalPuTotalFoundedElements"
+          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
+          [selectedSpavochnik]="TableType.NAL_PU"
+        ></app-table>
       </ng-template>
     </ng-container>
+    <!--// Габариты ЗО-->
     <ng-container ngbNavItem>
-      <a ngbNavLink (click)="null">Наличие Программного Устройства</a>
+      <a ngbNavLink
+         (click)="onClickSearchGabZo()">Габариты зоны обработки</a>
       <ng-template ngbNavContent>
-        Тут табличка буит
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success mb-1"
+                    (click)="onClickActionGabZo(ActionMode.CREATE)">
+              <i class="bi bi-plus-square"></i> Добавить код Габарита З.О.
+            </button>
+            <button class="btn btn-sm btn-outline-primary mb-1"
+                    (click)="onClickActionGabZo(ActionMode.EDIT)"
+                    [disabled]="!gabZoSelectedElement">
+              <i class="bi bi-sliders2"></i> Изменить код Габарита З.О.
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-danger mb-1"
+                  (click)="onClickActionGabZo(ActionMode.DELETE)"
+                  [disabled]="!gabZoSelectedElement">
+            <i class="bi bi-x-octagon"></i> Удалить код Габарита З.О.
+          </button>
+        </div>
+        <app-table
+          [fieldColumnList]="gabZoFieldColumnList"
+          [dataTableSource]="gabZoDataTableInput"
+          [dataSearch]="gabZoSearch"
+          [totalFoundedElements]="gabZoTotalFoundedElements"
+          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
+          [selectedSpavochnik]="TableType.GAB_ZO"
+        ></app-table>
       </ng-template>
     </ng-container>
+    <!--// Производитель-->
     <ng-container ngbNavItem>
-      <a ngbNavLink (click)="null">Габариты Зоны Обработки</a>
+      <a ngbNavLink (click)="onClickSearchProizv()">Производитель</a>
       <ng-template ngbNavContent>
-        Тут табличка буит
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success mb-1"
+                    (click)="onClickActionProizv(ActionMode.CREATE)">
+              <i class="bi bi-plus-square"></i> Добавить код производителя
+            </button>
+            <button class="btn btn-sm btn-outline-primary mb-1"
+                    (click)="onClickActionProizv(ActionMode.EDIT)"
+                    [disabled]="!proizvSelectedElement">
+              <i class="bi bi-sliders2"></i> Изменить код производителя
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-danger mb-1"
+                  (click)="onClickActionProizv(ActionMode.DELETE)"
+                  [disabled]="!proizvSelectedElement">
+            <i class="bi bi-x-octagon"></i> Удалить код производителя
+          </button>
+        </div>
+        <app-table
+          [fieldColumnList]="proizvFieldColumnList"
+          [dataTableSource]="proizvDataTableInput"
+          [dataSearch]="proizvSearch"
+          [totalFoundedElements]="proizvTotalFoundedElements"
+          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
+          [selectedSpavochnik]="TableType.PROIZV"
+        ></app-table>
       </ng-template>
     </ng-container>
+    <!--// Подразделение и вид-->
     <ng-container ngbNavItem>
-      <a ngbNavLink (click)="null">Производитель</a>
+      <a ngbNavLink (click)="onClickSearchPodr()">Подразделение и участки</a>
       <ng-template ngbNavContent>
-        Тут табличка буит
+        <div class="line-title">Подразделения</div>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success mb-1"
+                    (click)="onClickActionPodr(ActionMode.CREATE)">
+              <i class="bi bi-plus-square"></i> Добавить подразделение
+            </button>
+            <button class="btn btn-sm btn-outline-primary mb-1"
+                    (click)="onClickActionPodr(ActionMode.EDIT)"
+                    [disabled]="!podrSelectedElement">
+              <i class="bi bi-sliders2"></i> Изменить подразделение
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-danger mb-1"
+                  (click)="onClickActionPodr(ActionMode.DELETE)"
+                  [disabled]="!podrSelectedElement">
+            <i class="bi bi-x-octagon"></i> Удалить подразделение
+          </button>
+        </div>
+        <app-table
+          [fieldColumnList]="podrFieldColumnList"
+          [dataTableSource]="podrDataTableInput"
+          [dataSearch]="podrSearch"
+          [totalFoundedElements]="podrTotalFoundedElements"
+          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
+          [selectedSpavochnik]="TableType.PODR"
+        ></app-table>
+        <div class="line-title">Участки</div>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-success mb-1"
+                    (click)="onClickActionUch(ActionMode.CREATE)"
+                    [disabled]="!podrSelectedElement">
+              <i class="bi bi-plus-square"></i> Добавить участок
+            </button>
+            <button class="btn btn-sm btn-outline-primary mb-1"
+                    (click)="onClickActionUch(ActionMode.EDIT)"
+                    [disabled]="!uchSelectedElement">
+              <i class="bi bi-sliders2"></i> Изменить участок
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-danger mb-1"
+                  (click)="onClickActionUch(ActionMode.DELETE)"
+                  [disabled]="!uchSelectedElement">
+            <i class="bi bi-x-octagon"></i> Удалить участок
+          </button>
+        </div>
+        <app-table
+          [fieldColumnList]="uchFieldColumnList"
+          [dataTableSource]="uchDataTableInput"
+          [dataSearch]="uchSearch"
+          [totalFoundedElements]="uchTotalFoundedElements"
+          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
+          [selectedSpavochnik]="TableType.UCH"
+          [isUchNotEmptyInPodr]="isUchNotEmptyInPodr">
+        </app-table>
       </ng-template>
     </ng-container>
-    <ng-container ngbNavItem>
-      <a ngbNavLink (click)="null">Подразделение</a>
-      <ng-template ngbNavContent>
-        Тут табличка буит
-      </ng-template>
-    </ng-container>
-    <ng-container ngbNavItem>
-      <a ngbNavLink (click)="null">Участок</a>
-      <ng-template ngbNavContent>
-        Тут табличка буит
-      </ng-template>
-    </ng-container>
+    <!--// Участок-->
+<!--    <ng-container ngbNavItem>-->
+<!--      <a ngbNavLink (click)="onClickSearchUch(uchSearch)">Участок</a>-->
+<!--      <ng-template ngbNavContent>-->
+<!--        <app-table-->
+<!--          [fieldColumnList]="uchFieldColumnList"-->
+<!--          [dataTableSource]="uchDataTableInput"-->
+<!--          [dataSearch]="uchSearch"-->
+<!--          [totalFoundedElements]="uchTotalFoundedElements"-->
+<!--          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"-->
+<!--          [selectedSpavochnik]="TableType.UCH">-->
+<!--        </app-table>-->
+<!--      </ng-template>-->
+<!--    </ng-container>-->
   </nav>
-  <div class="ms-2 p-1 border border-dark flex-grow-1 bg-light overflow-auto" [ngbNavOutlet]="navBar"></div>
+  <div class="ms-2 p-1 border border-dark flex-grow-1 bg-light overflow-auto fix-w-c" [ngbNavOutlet]="navBar"></div>
 </div>
 
 <div class="modal-footer ">
-  <button type="button"
-          class="btn btn-primary">Применить</button>
+<!--  <button type="button"-->
+<!--          class="btn btn-primary">Применить</button>-->
   <button type="button"
           class="btn btn-secondary"
-          (click)="onClickCloseModal()">Отмена</button>
+          (click)="onClickCloseModal()">Закрыть</button>
 </div>

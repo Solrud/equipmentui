@@ -30,18 +30,30 @@ export enum TableType {                      // Тип таблицы
   PODR = 'Подразделение',
   UCH = 'Участки',
   PROIZV = 'Производитель',
-  OBORUD_KLASS = 'Класс оборудования',
+  OBORUD_KLASS = 'Код оборудования',
   OBORUD_VID = 'Вид оборудования',
   NAL_PU = 'Наличие программного устройства',
-  GAB_ZO = 'Габариты зоны обработки'
+  GAB_ZO = 'Габариты зоны обработки',
+
+  KOMPL_FROM_RELATION = 'Комплекс из связей',
+  GRUPPA_FROM_RELATION = 'Группа из связей',
+  MODEL_FROM_RELATION = 'Модель из связей',
+  OBORUD_EKZ_FROM_RELATION = 'Экземпляр оборудования из связей',
+
+  SETTINGS_RELATION_KOMPL = 'Таблица изменения связей Комплекса',
+  SETTINGS_RELATION_GRUPPA = 'Таблица изменения связей Группы',
+  SETTINGS_RELATION_MODEL = 'Таблица изменения связей Модели',
+  SETTINGS_RELATION_EKZ = 'Таблица изменения связей Экземпляров оборудвоания',
 }
 
-export const INIT_NAV_BAR = TableType.GRUPPA; // Какая таблица откроется по-умолчанию
+export const INIT_NAV_BAR = TableType.KOMPL; // Какая таблица откроется по-умолчанию
 
 export enum OriginSourceTable{               // Происхождение создания компонента таблицы
   MAIN_TABLE,
   SETTINGS_TABLE,
-  RELATIONSHIP_TABLE
+  RELATIONSHIP_TABLE,
+  PRE_RELATION_TABLE,
+  RELATION_SETTINGS
 }
 
 export enum TypePartOfKodKlass{              // Тип составной части классификатора кода
@@ -51,12 +63,18 @@ export enum TypePartOfKodKlass{              // Тип составной час
   GAB_ZO
 }
 
+export enum ActionMode{
+  CREATE,
+  EDIT,
+  DELETE
+}
+
 export enum DialogMode {                     //Режим диалогового окна
   VIEW,
-  CREATE,
-  COPY,
-  EDIT,
-  AGREE,
+  CREATE= 'Создание',
+  COPY= 2,
+  EDIT= 'Редактирование',
+  AGREE=4,
   RETURN,
   CHANGE_ACTIVITY,
   DELETE
@@ -75,15 +93,15 @@ export enum UserRoleAuth {                   // Роль авторизиров�
   VIEW = 'EQUIPMENT_VIEW',
 }
 
-export class TableData{
-  fieldColumnList: string[];
-  dataTableNavSource: object[];
-
-  constructor(fieldColumnList: string[] = [], dataTableNavSource: object[] = []) {
-    this.fieldColumnList = fieldColumnList;
-    this.dataTableNavSource = dataTableNavSource;
-  }
-}
+// export class TableData{                   // не нужен тк передаю данные через инпут
+//   fieldColumnList: string[];
+//   dataTableNavSource: object[];
+//
+//   constructor(fieldColumnList: string[] = [], dataTableNavSource: object[] = []) {
+//     this.fieldColumnList = fieldColumnList;
+//     this.dataTableNavSource = dataTableNavSource;
+//   }
+// }
 
 // export const FIELD_COLUMN_KOMPL_LIST = ['id', 'akt', 'kod', 'naim'];
 // export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'akt', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];
@@ -94,11 +112,12 @@ export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'kod', 'naim', 'kodKlass'];      
 export const FIELD_COLUMN_MODEL_LIST = ['id', 'kod', 'naim', 'obozn'];
 export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'naim', 'proizv', 'serNom'];
 
-export const FIELD_COLUMN_OBORUD_KLASS_LIST = ['id', 'kodKlass', 'naim'];
-export const FIELD_COLUMN_OBORUD_VID_LIST = ['id', 'kodKlass', 'naim', 'klass'];
-export const FIELD_COLUMN_NAL_PU_LIST = ['id', 'kodKlass', 'naim'];               //колонки таблиц настроек
-export const FIELD_COLUMN_GAB_ZO_LIST = ['id', 'kodKlass', 'naim'];
-export const FIELD_COLUMN_PROIZV_LIST = ['id', 'naim', 'polnNaim'];
-export const FIELD_COLUMN_PODR_LIST = ['id', 'kod', 'kodIsp', 'naim', 'obozn', 'rod'];
+export const FIELD_COLUMN_OBORUD_KLASS_LIST = ['kodKlass', 'naim'];
+export const FIELD_COLUMN_OBORUD_VID_LIST = ['kodKlass', 'naim'];
+export const FIELD_COLUMN_NAL_PU_LIST = ['kodKlass', 'naim'];                    //колонки таблиц настроек
+export const FIELD_COLUMN_GAB_ZO_LIST = ['kodKlass', 'naim'];
+export const FIELD_COLUMN_PROIZV_LIST = ['naim', 'polnNaim'];
+export const FIELD_COLUMN_PODR_LIST = ['kod', 'kodIsp', 'naim', 'obozn', 'rod'];
+export const FIELD_COLUMN_UCH_LIST = ['kod', 'obozn', 'naim'];
 
 export const DELAY_TIME = 300;

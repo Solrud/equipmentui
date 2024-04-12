@@ -3,7 +3,6 @@ import {OborudDTO} from "../OborudDTO";
 import {OborudVidDTO} from "./OborudVid";
 import {OborudKlassDTO} from "./OborudKlassDTO";
 import {NalPuDTO} from "./NalPuDTO";
-import {GabZoSearchDTO} from "../../search/impl/GabZoSearchDTO";
 import {GabZoDTO} from "./GabZoDTO";
 
 export class GruppaDTO extends OborudDTO{

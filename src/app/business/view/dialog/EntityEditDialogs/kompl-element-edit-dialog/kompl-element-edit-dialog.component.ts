@@ -58,7 +58,7 @@ export class KomplElementEditDialogComponent implements OnInit{
       akt: new FormControl({value: this.getCorrectValueFromField('akt'), disabled: true}),
       tip: new FormControl({value: this.getCorrectValueFromField('tip'), disabled: true}),
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
-      oborudovanie: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: true}),
+      oborudovanie: new FormControl({value: this.getCorrectValueFromField('oborudovanie'), disabled: true}),
     })
   }
 
@@ -75,7 +75,7 @@ export class KomplElementEditDialogComponent implements OnInit{
     this.newKompl.akt = this.fgKomplElement.controls['akt'].value;
     this.newKompl.tip = this.fgKomplElement.controls['tip'].value;
     this.newKompl.naim = this.fgKomplElement.controls['naim'].value;
-    this.newKompl.oborudovanie = this.fgKomplElement.controls['oborudovanie'].value;
+    this.newKompl.oborudovanie = this.selectedElement.oborudovanie;
   }
 
   onClickCreateKompl(){

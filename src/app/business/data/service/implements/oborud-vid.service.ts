@@ -6,7 +6,6 @@ import {SearchPageOborudVidService} from "../SearchService/impl/SearchPage/searc
 import {OborudVidDTO} from "../../model/dto/impl/OborudVid";
 import {OborudVidSearchDTO} from "../../model/search/impl/OborudVidSearchDTO";
 import {SearchAllOborudVidService} from "../SearchService/impl/SearchAll/search-all-oborud-vid.service";
-import {OborudEkzDTO} from "../../model/dto/impl/OborudEkzDTO";
 import {OtherMethodOborudVidService} from "../OtherMethodService/implements/other-method-oborud-vid.service";
 
 @Injectable({

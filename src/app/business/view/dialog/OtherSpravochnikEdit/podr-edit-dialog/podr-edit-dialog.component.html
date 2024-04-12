@@ -1,0 +1,140 @@
+<div class="modal-header d-flex justify-content-center">
+  <h2 class="m-0 text-center ">{{dialogMode}} справочника "Подразделение"</h2>
+</div>
+
+<form class="modal-body d-flex flex-column gap-2"
+      [formGroup]="fgPodr">
+  <!-- Наименование -->
+  <div>
+    <label for="naim" class="form-label">Наименование</label>
+    <div class="input-group">
+      <input class="form-control border-dark"
+             id="naim"
+             type="text"
+             autocomplete="off"
+             formControlName="naim"
+             [required]="fcFieldIsRequired('naim', true)"
+      >
+      <button class="btn btn-light border-dark"
+              (click)="fgPodr.controls['naim'].setValue(null)">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="d-flex gap-2">
+    <!-- Код-->
+    <div class="flex-grow-1">
+      <label for="kod" class=" form-label ">Код
+        <span *ngIf="isSameKodExist" class="text-danger">Такой код уже существует!</span>
+      </label>
+      <div class="input-group">
+        <input class="form-control border-dark "
+               id="kod"
+               type="text"
+               autocomplete="off"
+               formControlName="kod"
+               [required]="fcFieldIsRequired('kod', true)"
+        >
+        <button class="btn btn-light border-dark"
+                (click)="fgPodr.controls['kod'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Обозначение-->
+    <div class="flex-grow-1">
+      <label for="obozn" class=" form-label ">Обозначение</label>
+      <div class="input-group">
+        <input class="form-control border-dark "
+               id="obozn"
+               type="text"
+               autocomplete="off"
+               formControlName="obozn"
+               [required]="fcFieldIsRequired('obozn', true)"
+        >
+        <button class="btn btn-light border-dark"
+                (click)="fgPodr.controls['obozn'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="d-flex gap-2">
+    <!-- Код исполнителя-->
+    <div class="flex-grow-1">
+      <label for="kodIsp" class=" form-label ">Код исполнителя</label>
+      <div class="input-group">
+        <input class="form-control border-dark "
+               id="kodIsp"
+               type="text"
+               autocomplete="off"
+               formControlName="kodIsp"
+               [required]="fcFieldIsRequired('kodIsp', true)"
+        >
+        <button class="btn btn-light border-dark"
+                (click)="fgPodr.controls['kodIsp'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Родитель-->
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmRod="ngbDropdown">
+      <label for="rod" class=" form-label ">Родитель</label>
+      <div class="input-group">
+        <input class="form-control border-dark border-config"
+               id="rod"
+               type="text"
+               autocomplete="off"
+               formControlName="rod"
+               ngbDropdownToggle
+               (click)="ddmRod.open()"
+               (input)="ddmRod.open()"
+               [required]="fcFieldIsRequired('rod', true)"
+        >
+        <button class="btn btn-light border-dark"
+                (click)="fgPodr.controls['rod'].setValue(null); newRodPodr = null">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu>
+        <p *ngIf="podrDDMList && podrDDMList.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="podrDDMList && podrDDMList.length == 0">Ничего не найдено</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="podrDDMList && podrDDMList.length == 0"
+              ngbDropdownItem class="text-center">😔</h2>
+          <button class="text-wrap"
+                  *ngFor="let podr of podrDDMList"
+                  (click)="onClickSelectDDIRod(podr)"
+                  ngbDropdownItem>
+            <span class="bg-for-kod">[ {{podr?.kod}} ]</span> {{podr?.naim}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<div class="modal-footer">
+  <button type="button"
+          class="btn btn-primary"
+          [hidden]="dialogMode != DialogMode.CREATE"
+          (click)="onClickCreatePodr()"
+          [disabled]="fgPodr.invalid">Создать</button>
+  <button type="button"
+          class="btn btn-primary"
+          [hidden]="dialogMode != DialogMode.EDIT"
+          (click)="onClickUpdatePodr()"
+          [disabled]="fgPodr.invalid">Редактировать</button>
+  <button type="button"
+          class="btn btn-secondary"
+          (click)="onClickCloseModal()">Отмена</button>
+</div>

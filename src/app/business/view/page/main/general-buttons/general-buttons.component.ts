@@ -8,7 +8,7 @@ import {OpenDialogService} from "../../../../data/service/OptionalService/open-d
   templateUrl: './general-buttons.component.html',
   styleUrls: ['./general-buttons.component.css']
 })
-export class GeneralButtonsComponent implements OnInit{
+export class GeneralButtonsComponent implements OnInit {
   sideNavArrow = 'right';
   selectedElementTable: any;
   selectedNavBar: TableType;
@@ -30,56 +30,65 @@ export class GeneralButtonsComponent implements OnInit{
     this._subscribeSelectedNavBar();
   }
 
-  _subscribeSelectedElementTable(){
+  public get TableType() {
+    return TableType;
+  }
+
+  _subscribeSelectedElementTable() {
     this.eventService.selectedElementMainTable$.subscribe(result => {
       this.selectedElementTable = result;
       // console.log(this.selectedElementTable)
     })
   }
-  _subscribeSelectedNavBar(){
-    this.eventService.selectedSpravTable$.subscribe( result => {
+
+  _subscribeSelectedNavBar() {
+    this.eventService.selectedSpravTable$.subscribe(result => {
       this.selectedNavBar = result;
     })
   }
 
-  onClickOpenSettingsDialog(){
-    this.openDialogService.openSettingsDialog().closed.subscribe( result => {})
+  onClickOpenSettingsDialog() {
+    this.openDialogService.openSettingsDialog().closed.subscribe(result => {
+      if (result == DialogResult.ACCEPT)
+        console.log('research')
+        this.researchPage.emit();
+    })
   }
 
-  onClickOpenSideNav(){
+  onClickOpenSideNav() {
     this.sideNavArrow == 'left' ? this.sideNavArrow = 'right' : this.sideNavArrow = 'left';
     this.openSidenav.emit();
   }
 
-  onClickAddNewElement(){
-    this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.CREATE).closed.subscribe( result => {
+  onClickAddNewElement() {
+    this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.CREATE).closed.subscribe(result => {
       if (result == DialogResult.ACCEPT)
         this.researchPage.emit();
     });
   }
 
-  onClickEditElement(){
-    this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.EDIT).closed.subscribe( result => {
+  onClickEditElement() {
+    this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.EDIT).closed.subscribe(result => {
       if (result == DialogResult.ACCEPT)
         this.researchPage.emit();
     });
   }
 
-  onClickChangeActivityElement(){
-    this.openDialogService.openElementConfirmDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.CHANGE_ACTIVITY).closed.subscribe( result => {
+  onClickChangeActivityElement() {
+    this.openDialogService.openElementConfirmDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.CHANGE_ACTIVITY).closed.subscribe(result => {
       if (result == DialogResult.ACCEPT)
         this.researchPage.emit();
     })
   }
 
-  onClickDeleteElement(){
-    this.openDialogService.openElementConfirmDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.DELETE).closed.subscribe( result => {
+  onClickDeleteElement() {
+    this.openDialogService.openElementConfirmDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.DELETE).closed.subscribe(result => {
       if (result == DialogResult.ACCEPT)
         this.researchPage.emit();
     })
   }
 
-  onClickReport(){
+  onClickReport() {
     //ToDO тут что вообще будет то?
   }
 }

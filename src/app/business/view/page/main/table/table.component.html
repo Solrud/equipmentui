@@ -1,34 +1,79 @@
-<div *ngIf="selectedSpavochnik != null && fieldColumnList.length > 0" class="mh-config">
-  <table *ngIf="isDataSourceFull(); else ifDataSourceEmpty" class="table table-bordered table-responsive table-sm" >
+<div *ngIf="selectedSpavochnik != null && fieldColumnList.length > 0"
+     class="mh-config"
+     [class.mh-for-kod]="selectedSpavochnik == TableType.OBORUD_KLASS ||
+                         selectedSpavochnik == TableType.OBORUD_VID ||
+                         selectedSpavochnik == TableType.PODR ||
+                         selectedSpavochnik == TableType.UCH" >
+  <table *ngIf="isDataSourceFull()"
+         [class.mb-0]="originSourceTable === OriginSourceTable.PRE_RELATION_TABLE || OriginSourceTable.RELATION_SETTINGS"
+         class="table table-bordered table-responsive table-sm overflow-auto h-50" >
     <thead>
     <tr class="tr-columns-config sticky-top border-top-0">
       <th class="text-nowrap column-config" *ngFor="let field of fieldColumnList">{{'TABLE.' + field.toUpperCase() | translate}}</th>
     </tr>
     </thead>
     <tbody class="">
-    <tr *ngFor="let data of dataTableSource; index as i"
-        (click)="onSelectElementTable(data)"
-        [class.active-element]="data == selectedElement"
-        [class.striped-con]="i % 2 == 0"
-        [class.deleted-element]="originSourceTable == OriginSourceTable.MAIN_TABLE && !data['akt']"
-        class="pointer">
+    <ng-container *ngIf="originSourceTable != OriginSourceTable.RELATION_SETTINGS">
+      <tr *ngFor="let data of dataTableSource; index as i"
+          (click)="onSelectElementTable(data)"
+          [class.active-element]="data == selectedElement"
+          [class.active-element-relation-settings]="(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH) && data == selectedElement"
+          [class.active-element-relation-kompl]="selectedSpavochnik === TableType.KOMPL_FROM_RELATION && data == selectedElement"
+          [class.active-element-relation-gruppa]="selectedSpavochnik === TableType.GRUPPA_FROM_RELATION && data == selectedElement"
+          [class.active-element-relation-model]="selectedSpavochnik === TableType.MODEL_FROM_RELATION && data == selectedElement"
+          [class.active-element-relation-ekz]="selectedSpavochnik === TableType.OBORUD_EKZ_FROM_RELATION && data == selectedElement"
+          [class.striped-con]="i % 2 == 0"
+          [class.deleted-element]="originSourceTable == OriginSourceTable.MAIN_TABLE && !data['akt']"
+          class="pointer">
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data[field]">
             <i class="bi bi-dash"></i>
           </div>
           <div class="cell-config" *ngIf="data[field]">
-            {{data[field]}}
+            <span *ngIf="field == 'klass' || field == 'rod' || field == 'podr' || field == 'proizv'; else fieldNotObject">{{data[field].naim}}</span>
+            <ng-template #fieldNotObject>{{data[field]}}</ng-template>
           </div>
         </td>
-    </tr>
+      </tr>
+    </ng-container>
+    <!-- ДЛЯ ТАБЛИЧКИ С MAP -->
+    <ng-container *ngIf="originSourceTable == OriginSourceTable.RELATION_SETTINGS">
+      <tr *ngFor="let data of dataTableSource | keyvalue; index as i"
+          (click)="onSelectElementTable(data.key)"
+          [class.active-element]="data.key == selectedElement"
+          [class.striped-con]="i % 2 == 0"
+          [class.deleted-element]="!data.key['akt']"
+          class="pointer">
+        <td *ngFor="let field of fieldColumnList">
+          <div *ngIf="!data.key[field]">
+            <i class="bi bi-dash"></i>
+          </div>
+          <div class="cell-config" *ngIf="data.key[field]">
+            <span *ngIf="field == 'klass' || field == 'rod' || field == 'podr' || field == 'proizv'; else fieldNotObject">{{data.key[field]}}</span>
+            <ng-template #fieldNotObject>{{data.key[field]}}</ng-template>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
     </tbody>
   </table>
 </div>
-<ng-template #ifDataSourceEmpty >
-  <p class="mt-3 d-flex justify-content-center text-danger border">Нет данных в таблице "{{selectedSpavochnik}}"</p>
-</ng-template>
-<div *ngIf="dataTableSource.length > 0" container="body">
-  <mat-paginator showFirstLastButtons
+<div *ngIf="!isDataSourceFull() && !(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH)">
+  <div class="rem-whitespace"></div>
+  <p class="d-flex justify-content-center text-danger border">Нет данных в таблице"{{selectedSpavochnik}}"</p>
+</div>
+<div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH) && !isUchNotEmptyInPodr">
+  <div class="rem-whitespace"></div>
+  <p class="d-flex justify-content-center text-danger border">Выберите строку элемент для отображения таблицы"{{selectedSpavochnik}}"</p>
+</div>
+<div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.UCH) && isUchNotEmptyInPodr">
+  <div class="rem-whitespace"></div>
+  <p class="d-flex justify-content-center text-danger border">Список участков пуст</p>
+</div>
+
+<div class="" *ngIf="toShowPaginator()"
+     container="body">
+  <mat-paginator class="mat-paginator" showFirstLastButtons
                  [pageIndex]="dataSearch.pageNumber"
                  [pageSize]="dataSearch.pageSize"
                  [length]="totalFoundedElements"

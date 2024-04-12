@@ -5,7 +5,14 @@ import {KomplService} from "../../../data/service/implements/kompl.service";
 import {GruppaService} from "../../../data/service/implements/gruppa.service";
 import {ModelService} from "../../../data/service/implements/model.service";
 import {OborudEkzService} from "../../../data/service/implements/oborud-ekz.service";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {OborudKlassService} from "../../../data/service/implements/oborud-klass.service";
+import {OborudVidService} from "../../../data/service/implements/oborud-vid.service";
+import {NalPuService} from "../../../data/service/implements/nal-pu.service";
+import {GabZoService} from "../../../data/service/implements/gab-zo.service";
+import {ProizvService} from "../../../data/service/implements/proizv.service";
+import {PodrService} from "../../../data/service/implements/podr.service";
+import {UchService} from "../../../data/service/implements/uch.service";
+import {ToastService} from "../../../data/service/OptionalService/toast.service";
 
 
 @Component({
@@ -20,21 +27,27 @@ export class ConfirmDialogComponent implements OnInit{
 
   newElement: any;
 
-  tabletypeService: any;
+  currentService: any;
 
   constructor(private activeModal: NgbActiveModal,
               private komplService: KomplService,
               private gruppaService: GruppaService,
               private modelService: ModelService,
               private oborudEkzService: OborudEkzService,
+              private klassService: OborudKlassService,
+              private vidService: OborudVidService,
+              private nalPuService: NalPuService,
+              private gabZoService: GabZoService,
+              private proizvService: ProizvService,
+              private podrService: PodrService,
+              private uchService: UchService,
+              private toastService: ToastService
               ) {
   }
 
   ngOnInit(): void {
     this.newElement = this.selectedElement;
     this.initTableTypeService();
-    // console.log(this.newElement);
-    // console.log(this.tabletypeService)
   }
 
   public get DialogMode(){
@@ -44,16 +57,37 @@ export class ConfirmDialogComponent implements OnInit{
   initTableTypeService(): void{
     switch (this.selectedNavBar) {
       case TableType.KOMPL:
-        this.tabletypeService = this.komplService;
+        this.currentService = this.komplService;
         break;
       case TableType.GRUPPA:
-        this.tabletypeService = this.gruppaService;
+        this.currentService = this.gruppaService;
         break;
       case TableType.MODEL:
-        this.tabletypeService = this.modelService;
+        this.currentService = this.modelService;
         break;
       case TableType.OBORUD_EKZ:
-        this.tabletypeService = this.oborudEkzService;
+        this.currentService = this.oborudEkzService;
+        break;
+      case TableType.OBORUD_KLASS:
+        this.currentService = this.klassService;
+        break;
+      case TableType.OBORUD_VID:
+        this.currentService = this.vidService;
+        break;
+      case TableType.NAL_PU:
+        this.currentService = this.nalPuService;
+        break;
+      case TableType.GAB_ZO:
+        this.currentService = this.gabZoService;
+        break;
+      case TableType.PROIZV:
+        this.currentService = this.proizvService;
+        break;
+      case TableType.PODR:
+        this.currentService = this.podrService;
+        break;
+      case TableType.UCH:
+        this.currentService = this.uchService;
         break;
       default:
         return null;
@@ -61,22 +95,26 @@ export class ConfirmDialogComponent implements OnInit{
   }
 
   onClickDelete(): void{
-    this.tabletypeService.delete(this.newElement.id).subscribe( result => {
+    this.currentService.delete(this.newElement.id).subscribe(result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно удалено');
       }
     }, error => {
       console.log('Ошибка в ConfirmDialogComponent onClickDelete()')
+      this.toastService.showNegative('Не удалось удалить элемент');
     })
   }
 
   onClickChangeAkt(): void{
     this.newElement.akt = this.newElement.akt == 1 ? 0 : 1;
-    this.tabletypeService.update(this.newElement).subscribe( result => {
+    this.currentService.update(this.newElement).subscribe(result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно изменена активность');
       }
     }, error => {
+      this.toastService.showNegative('Не удалось изменить активность');
       console.log('Ошибка в ConfirmDialogComponent onClickChangeAkt()')
     })
   }

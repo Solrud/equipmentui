@@ -1,0 +1,18 @@
+.border-config{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.ddm-config {
+  max-height: 300px;
+  max-width: 350px;
+  overflow-y: auto;
+
+  z-index: 99999999;
+}
+.text-wrap{
+  padding-bottom: 2px;
+  padding-top: 2px;
+}
+.bg-for-kod{
+  background-color: rgb(230, 235, 255);
+}

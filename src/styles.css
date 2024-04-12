@@ -42,3 +42,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ng-valid[required], .ng-valid.required, select.required:disabled, select[required]:disabled {
   border-left: 4px solid #30cba7 !important;
 }
+
+.modal-settings-config{
+  max-width: 1200px !important;
+}

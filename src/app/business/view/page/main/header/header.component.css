@@ -1,3 +1,16 @@
 h2{
   color: rgba(0, 0, 0, 0.82)
 }
+.i-config{
+  font-size: 1.9rem !important;
+  transition: all 210ms ease;
+  color: #00245e;
+}
+.i-config:hover{
+  cursor: pointer;
+  color: #0f69c9;
+}
+.bi-gear:hover::before {content: "\f3e2";}
+
+
+

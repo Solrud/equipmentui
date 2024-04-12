@@ -6,3 +6,20 @@
   opacity: 50%;
   filter: blur(10px);
 }
+.modal-body{
+  /*max-height: 200px;*/
+}
+.div-for-title-bg-joined{
+  background-color: #aeffb7;
+}
+.div-for-title-bg-all{
+  background-color: #a2bcea;
+}
+.div-for-title{
+  height: 40px;
+  font-weight: 500;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
