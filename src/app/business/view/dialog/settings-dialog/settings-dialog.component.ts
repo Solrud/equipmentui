@@ -123,7 +123,6 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
     this.onClickSearchKlassOborud();
 
     this._subscribeOborudKlassSelectedElement();

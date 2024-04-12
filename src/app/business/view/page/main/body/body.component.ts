@@ -44,6 +44,8 @@ export class BodyComponent implements OnInit{
   totalFoundedElements: number;
   originSourceTable: OriginSourceTable = OriginSourceTable.MAIN_TABLE; // Содержит инфу в каком месте открыта таблица
 
+  mainSelectedElement: any;
+
   //Поисковые обьекты
   dataSearch: ABaseSearchDTO; //Один поисковой обьект, который идет в компонент таблицы
   komplSearch: KomplSearchDTO;
@@ -97,6 +99,8 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
+  // при создании экземпляра сделать привязку к модели
+  // таблица добавления сязей с чекбоксами
   // main HTML исправить,чтобы высота выставлялась автоматически от разрешения
   // DTO<any> переделать придумать
   // как отображать доп таблички(какие данные нужны, как отображать их бордеры, до доп кнопки взаимодействия)
@@ -104,7 +108,7 @@ export class BodyComponent implements OnInit{
   // код классификатора изменился old(вид, группа, пу, габариты) СЕЙЧАС (классификатор(класс оборудрвания), вид, ПУ, габариты), то есь вместо вида-классификатор и вместо группа-вид
   // -
   // =>-ОПЦИОНАЛЬНО-<=
-  // проставить toast's
+  // проставить toast's о создании, редактировани, ошибке
   // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
   // перевод mat-paginator, взять из https://gitlab.avid.ru/mikishev/bienieui/blob/develop/1.0.1-secure/src/app/busines/intl/MyMatPaginatorIntl.ts и i18n оттуда
   // в конце концов не забыть про i18n!
@@ -112,6 +116,8 @@ export class BodyComponent implements OnInit{
   // =>-ПОЧЕМУ ОШИБКА-<=
   // -
   // =>-ВОПРОС-<=
+  // что делать с кодом то у основных справочников? автоматически формируется
+  // как серчить все через /search тк нужна сортировка. pageSize в 0 как я понял.
   //  B F NOborudDTO, KomplDtoDeserializer ? (Bazis, File, Navigator, KomplDesa..это не надо в итге не нужно это даже трогать)
   // спросить про экз оборуд в переход на модели (1 экз на 1 модель?). ДА СВЯЗЬ 1 К 1 экз к модели
   // ! Неактивные показывать но с зачеркиванием, выделением другого цвета
@@ -121,6 +127,9 @@ export class BodyComponent implements OnInit{
   // нужны айдишники в табличках?
   // на какие поля в модалках ставить валидаторы?
   // КОД ИЛИ КЛАСС??
+  // -
+  // => ЖДУ от димы
+  // примечание в экземплярах оборудования
 
   public get TableType() {
     return TableType;
@@ -151,37 +160,44 @@ export class BodyComponent implements OnInit{
 
   _subscribeToMainSelectedElement(){
     this.eventService.selectedElementMainTable$.subscribe( (result: any) => {
+      this.mainSelectedElement = result;
       this.toClearAllRelationshipDataInput();
-      if (this.selectedSpravochnik === TableType.KOMPL){
-        if (result?.oborudovanie && result?.oborudovanie.length > 0){
-          for(let i = 0; i < result.oborudovanie.length; i++){
-            if(result.oborudovanie[i].tip == '2'){ // Если Группа
-              console.log('result.oborudovanie.tip === \'2\'')
-              this.gruppaRelationshipDataInput.push(result.oborudovanie[i]);
-            }
-            if(result.oborudovanie[i].tip == '1'){ // Если модель
-              this.modelRelationshipDataInput.push(result.oborudovanie[i]);
+      if (result){
+        if (this.selectedSpravochnik === TableType.KOMPL){
+          if (result?.oborudovanie && result?.oborudovanie.length > 0){
+            for(let i = 0; i < result.oborudovanie.length; i++){
+              if(result.oborudovanie[i].tip == '2'){ // Если Группа
+                this.gruppaRelationshipDataInput.push(result.oborudovanie[i]);
+              }
+              if(result.oborudovanie[i].tip == '1'){ // Если модель
+                this.modelRelationshipDataInput.push(result.oborudovanie[i]);
+              }
             }
           }
         }
-      }
-      if (this.selectedSpravochnik === TableType.GRUPPA){
-
-        //ToDo КОМПЛЕКС добавить, жду бекенд димы
-
-        if(result?.modely && result?.modely.length > 0){
-          for(let i = 0; i < result.modely.length; i++){
-            this.modelRelationshipDataInput.push(result.modely[i]);
+        if (this.selectedSpravochnik === TableType.GRUPPA){
+          this.komplService.findByGruppaId(result?.id).subscribe( resultKompl => {
+            this.komplRelationshipDataInput = resultKompl;
+          })
+          if(result?.modely && result?.modely.length > 0){
+            for(let i = 0; i < result.modely.length; i++){
+              this.modelRelationshipDataInput.push(result.modely[i]);
+            }
           }
         }
-      }
-      if (this.selectedSpravochnik === TableType.MODEL){
+        if (this.selectedSpravochnik === TableType.MODEL){
+          this.komplService.findByModelId(result.id).subscribe( resultKompl => {
+            this.komplRelationshipDataInput = resultKompl;
+          })
 
-        //ToDo Комплекс и Группу добавить, жду бекенд димы
+          this.gruppaService.findByModelId(result.id).subscribe( resultGruppa => {
+            this.gruppaRelationshipDataInput = resultGruppa;
+          })
 
-        if (result?.ekzemplary && result?.ekzemplary.length > 0){
-          for(let i = 0; i < result.ekzemplary.length; i++){
-            this.oborudEkzRelationshipDataInput.push(result.ekzemplary[i]);
+          if (result?.ekzemplary && result?.ekzemplary.length > 0){
+            for(let i = 0; i < result.ekzemplary.length; i++){
+              this.oborudEkzRelationshipDataInput.push(result.ekzemplary[i]);
+            }
           }
         }
       }
@@ -241,6 +257,26 @@ export class BodyComponent implements OnInit{
   toggleSidenavOpened(): void{
     this.drawerComponent?.toggle();
   }
+
+  // Методы Связных таблиц
+  onClickOpenKomplRelationshipDialog(){
+
+  }
+
+  onClickOpenGruppaRelationshipDialog(originSpravochnik: TableType){
+    if ((this.selectedSpravochnik === TableType.KOMPL || TableType.KOMPL) && this.mainSelectedElement){
+      this.openDialogService.openGruppaRelationshipDialog(originSpravochnik, this.komplRelationshipSelectedElement, this.gruppaRelationshipDataInput);
+    }
+  }
+
+  onClickOpenModelRelationshipDialog(){
+
+  }
+
+  onClickOpenOborudEkzRelationshipDialog(){
+
+  }
+
 
   // Методы Вкладки
   onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{

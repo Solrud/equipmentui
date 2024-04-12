@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
-import {INIT_NAV_BAR, TableData, TableType} from "../../../../app.constant";
+import {INIT_NAV_BAR, TableType} from "../../../../app.constant";
 
 @Injectable({
   providedIn: 'root'

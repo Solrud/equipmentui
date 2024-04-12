@@ -19,6 +19,7 @@ import {PodrDTO} from "../../model/dto/impl/PodrDTO";
 import {PodrEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/podr-edit-dialog/podr-edit-dialog.component";
 import {UchDTO} from "../../model/dto/impl/UchDTO";
 import {UchEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/uch-edit-dialog/uch-edit-dialog.component";
+import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки изменения элементов в таблице |==========---
-  openElementDialog(selectedElement: any , selectedNavBar: TableType, dialogMode: DialogMode){
+  openElementDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode){
     switch (selectedNavBar) {
       case TableType.KOMPL:
         const openKomplElementEditDialog = this.modalService.open(KomplElementEditDialogComponent, {
@@ -88,34 +89,23 @@ export class OpenDialogService {
         return null;
     }
   }
-  //---=========| Модалки добавления связей оборудования |=========---
-  openRelationshipDialog(selectedNavBar: TableType){
-    switch (selectedNavBar) {
-      case TableType.KOMPL:
-        const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
-        break;
-      case TableType.GRUPPA:
-        const openGruppaRelationshipDialog = this.modalService.open(GruppaRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
-        break;
-      case TableType.MODEL:
-        const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
-        break;
-      case TableType.OBORUD_EKZ:
-        const openOborudEkzRelationshipDialog = this.modalService.open(OborudEkzRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
-        break;
-    }
-  }
 
+  //---=========| Модалки изменения связей |==========---
   openKomplRelationshipDialog(){
-    const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+    const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent, {scrollable: true, size: "md", centered: this.toCenteredModal});
   }
 
-  openGruppaRelationshipDialog(){
-    const openGruppaRelationshipDialog = this.modalService.open(GruppaRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+  openGruppaRelationshipDialog(selectedSourceSpravochnik: TableType, selectedElement: any, joinedGruppaList: GruppaDTO[]){
+    const openGruppaRelationshipDialog = this.modalService.open(GruppaRelationshipDialogComponent,
+      {scrollable: true, size: "lg", centered: this.toCenteredModal});
+    openGruppaRelationshipDialog.componentInstance.selectedSourceSpravochnik = selectedSourceSpravochnik;
+    openGruppaRelationshipDialog.componentInstance.selectedElement = selectedElement;
+    openGruppaRelationshipDialog.componentInstance.joinedGruppaList = joinedGruppaList;
+    return openGruppaRelationshipDialog;
   }
 
   openModelRelationshipDialog(){
-    const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+    const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent, {scrollable: true, size: "md", centered: this.toCenteredModal});
   }
 
   openOborudEkzRelationshipDialog(){
@@ -151,6 +141,7 @@ export class OpenDialogService {
     openPartOfKodKlassDialog.componentInstance.klassForVid = klassForVid;
     return openPartOfKodKlassDialog;
   }
+
   openProizvDialog(selectedElement: ProizvDTO, dialogMode: DialogMode){
     const openProizvDialog = this.modalService.open(ProizvEditDialogComponent)
     openProizvDialog.componentInstance.selectedElement = selectedElement;

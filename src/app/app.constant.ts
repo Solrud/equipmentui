@@ -39,14 +39,21 @@ export enum TableType {                      // Тип таблицы
   GRUPPA_FROM_RELATION = 'Группа из связей',
   MODEL_FROM_RELATION = 'Модель из связей',
   OBORUD_EKZ_FROM_RELATION = 'Экземпляр оборудования из связей',
+
+  SETTINGS_RELATION_KOMPL = 'Таблица изменения связей Комплекса',
+  SETTINGS_RELATION_GRUPPA = 'Таблица изменения связей Группы',
+  SETTINGS_RELATION_MODEL = 'Таблица изменения связей Модели',
+  SETTINGS_RELATION_EKZ = 'Таблица изменения связей Экземпляров оборудвоания',
 }
 
-export const INIT_NAV_BAR = TableType.GRUPPA; // Какая таблица откроется по-умолчанию
+export const INIT_NAV_BAR = TableType.KOMPL; // Какая таблица откроется по-умолчанию
 
 export enum OriginSourceTable{               // Происхождение создания компонента таблицы
   MAIN_TABLE,
   SETTINGS_TABLE,
-  RELATIONSHIP_TABLE
+  RELATIONSHIP_TABLE,
+  PRE_RELATION_TABLE,
+  RELATION_SETTINGS
 }
 
 export enum TypePartOfKodKlass{              // Тип составной части классификатора кода
@@ -86,15 +93,15 @@ export enum UserRoleAuth {                   // Роль авторизиров�
   VIEW = 'EQUIPMENT_VIEW',
 }
 
-export class TableData{
-  fieldColumnList: string[];
-  dataTableNavSource: object[];
-
-  constructor(fieldColumnList: string[] = [], dataTableNavSource: object[] = []) {
-    this.fieldColumnList = fieldColumnList;
-    this.dataTableNavSource = dataTableNavSource;
-  }
-}
+// export class TableData{                   // не нужен тк передаю данные через инпут
+//   fieldColumnList: string[];
+//   dataTableNavSource: object[];
+//
+//   constructor(fieldColumnList: string[] = [], dataTableNavSource: object[] = []) {
+//     this.fieldColumnList = fieldColumnList;
+//     this.dataTableNavSource = dataTableNavSource;
+//   }
+// }
 
 // export const FIELD_COLUMN_KOMPL_LIST = ['id', 'akt', 'kod', 'naim'];
 // export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'akt', 'kod', 'kodKlass', 'modely', 'naim', 'rod', 'tip', 'vid'];

@@ -58,7 +58,7 @@ export class KomplElementEditDialogComponent implements OnInit{
       akt: new FormControl({value: this.getCorrectValueFromField('akt'), disabled: true}),
       tip: new FormControl({value: this.getCorrectValueFromField('tip'), disabled: true}),
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
-      oborudovanie: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: true}),
+      oborudovanie: new FormControl({value: this.getCorrectValueFromField('oborudovanie'), disabled: true}),
     })
   }
 

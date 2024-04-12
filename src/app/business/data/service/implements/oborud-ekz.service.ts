@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 import {OborudEkzDTO} from "../../model/dto/impl/OborudEkzDTO";
 import {OborudEkzSearchDTO} from "../../model/search/impl/OborudEkzSearchDTO";
 import {SearchAllOborudEkzService} from "../SearchService/impl/SearchAll/search-all-oborud-ekz.service";
-import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
+import {OtherMethodOborudEkzService} from "../OtherMethodService/implements/other-method-oborud-ekz.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,8 @@ export class OborudEkzService {
   constructor(private crudOborudEkzService: CRUDOborudEkzService,
               private searchListOborudEkzService: SearchListOborudEkzService,
               private searchPageOborudEkzService: SearchPageOborudEkzService,
-              private searchAllOborudEkzService: SearchAllOborudEkzService) { }
+              private searchAllOborudEkzService: SearchAllOborudEkzService,
+              private otherMethodOborudEkzService: OtherMethodOborudEkzService) { }
 
   create(oborudEkzDTO: OborudEkzDTO): Observable<boolean>{
     return this.crudOborudEkzService.create(oborudEkzDTO);
@@ -51,5 +52,9 @@ export class OborudEkzService {
 
   updateList(oborudEkzDTO: OborudEkzDTO[]): Observable<boolean>{
     return this.crudOborudEkzService.updateList(oborudEkzDTO);
+  }
+
+  findByModelId(modelId: number): Observable<OborudEkzDTO[]>{
+    return this.otherMethodOborudEkzService.findByModelId(modelId);
   }
 }

@@ -10,7 +10,7 @@ import {MatTableDataSource} from "@angular/material/table";
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit{
+export class TableComponent implements OnInit, OnChanges{
   tableType = TableType
 
   @Input()
@@ -18,7 +18,7 @@ export class TableComponent implements OnInit{
   @Input()
   fieldColumnList = [];
   @Input()
-  dataTableSource = [];
+  dataTableSource: any;
   @Input()
   dataSearch: ABaseSearchDTO | null;
   @Input()
@@ -41,7 +41,21 @@ export class TableComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
+    console.log(this.dataTableSource)
+    this._subscribeMainSelectedEl();
     //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был? только в настройках наверное
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+  }
+
+  _subscribeMainSelectedEl(){
+    this.eventService.selectedElementMainTable$.subscribe( result => {
+      if (this.originSourceTable === OriginSourceTable.RELATIONSHIP_TABLE){
+        this.selectedElement = null;
+      }
+    })
   }
 
   public get TableType(){
@@ -52,13 +66,14 @@ export class TableComponent implements OnInit{
   }
 
   toShowPaginator(): boolean{
-    return !!(this.dataTableSource.length > 0
+    return !!(this.dataTableSource?.length > 0
       && this.originSourceTable !== OriginSourceTable.SETTINGS_TABLE
-      && this.originSourceTable !== OriginSourceTable.RELATIONSHIP_TABLE);
+      && this.originSourceTable !== OriginSourceTable.RELATIONSHIP_TABLE
+      && this.originSourceTable !== OriginSourceTable.PRE_RELATION_TABLE)
   }
 
   isDataSourceFull(): boolean{
-    return this.dataTableSource.length > 0;
+    return this.dataTableSource?.length > 0;
   }
 
   onClickPageChanged(pageEvent: PageEvent){
@@ -71,10 +86,15 @@ export class TableComponent implements OnInit{
   //ToDo выбранный элемент остается если переключится на другой экземпляр в одной сущности, надо ли так
 
   onSelectElementTable(selectedElement: any){
+    console.log(selectedElement)
     this.selectedElement = selectedElement;
     switch (this.originSourceTable) {
       case OriginSourceTable.MAIN_TABLE:
         this.eventService.selectElementMainTable$(selectedElement);
+        this.eventService.selectElementKomplRelationshipTable$(null);
+        this.eventService.selectElementGruppaRelationshipTable$(null);
+        this.eventService.selectElementModelRelationshipTable$(null);
+        this.eventService.selectElementOborudEkzRelationshipTable$(null);
         break;
       case OriginSourceTable.SETTINGS_TABLE:
         if (this.selectedSpavochnik == TableType.OBORUD_KLASS)
@@ -101,6 +121,9 @@ export class TableComponent implements OnInit{
           this.eventService.selectElementModelRelationshipTable$(selectedElement);
         if (this.selectedSpavochnik === TableType.OBORUD_EKZ_FROM_RELATION)
           this.eventService.selectElementOborudEkzRelationshipTable$(selectedElement);
+        break;
+      case OriginSourceTable.RELATION_SETTINGS:
+        // if (this.selectedSpavochnik === )
         break;
     }
   }

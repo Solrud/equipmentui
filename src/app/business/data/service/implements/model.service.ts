@@ -6,7 +6,7 @@ import {SearchListModelService} from "../SearchService/impl/SearchList/search-li
 import {SearchPageModelService} from "../SearchService/impl/SearchPage/search-page-model.service";
 import {CRUDModelService} from "../CRUDService/impl/crudmodel.service";
 import {SearchAllModelService} from "../SearchService/impl/SearchAll/search-all-model.service";
-import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
+import {OtherMethodModelService} from "../OtherMethodService/implements/other-method-model.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,8 @@ export class ModelService {
   constructor(private crudModelService: CRUDModelService,
               private searchListModelService: SearchListModelService,
               private searchPageModelService: SearchPageModelService,
-              private searchAllModelService: SearchAllModelService) {
+              private searchAllModelService: SearchAllModelService,
+              private otherMethodModelService: OtherMethodModelService) {
   }
 
   create(modelDTO: ModelDTO): Observable<boolean> {
@@ -48,5 +49,13 @@ export class ModelService {
 
   updateList(modelDTO: ModelDTO[]): Observable<boolean>{
     return this.crudModelService.updateList(modelDTO);
+  }
+
+  findByKomplId(komplId: number): Observable<ModelDTO[]>{
+    return this.otherMethodModelService.findByKomplId(komplId);
+  }
+
+  findByGruppaId(gruppaId: number): Observable<ModelDTO[]>{
+    return this.otherMethodModelService.findByGruppaId(gruppaId);
   }
 }

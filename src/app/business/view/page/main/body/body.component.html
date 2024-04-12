@@ -3,15 +3,18 @@
   <mat-drawer #drawer class="example-sidenav " mode="side" position="end" opened="true">
     <!--(КОМПЛЕКС)группа и модель-->
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.KOMPL">
-      <div class="flex-grow-1 bg-gruppa">
+      <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
           <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-node-plus me-3 i-add pointer"></i>
-            <i class="bi bi-node-minus i-delete pointer"></i>
+            <i class="bi bi-node-plus me-3 i-add pointer"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"
+               (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
+            <i class="bi bi-node-minus i-delete pointer"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
           </div>
         </div>
-        <div class=" p-2">
+        <div class=" p-1">
           <app-table class="overflow-auto"
             [selectedSpavochnik]="TableType.GRUPPA_FROM_RELATION"
             [fieldColumnList]="gruppaRelationshipFieldColumnList"
@@ -21,15 +24,17 @@
           <div class="div-to-whitespace"></div>
         </div>
       </div>
-      <div class="flex-grow-1 bg-model">
+      <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
         <h2 class="fs-4">Модель</h2>
         <div class="d-flex flex-row">
-          <i class="bi bi-node-plus me-3 i-add pointer"></i>
-          <i class="bi bi-node-minus i-delete pointer"></i>
+          <i class="bi bi-node-plus me-3 i-add pointer"
+             [class.i-disabled]="!modelRelationshipSelectedElement"></i>
+          <i class="bi bi-node-minus i-delete pointer"
+             [class.i-disabled]="!modelRelationshipSelectedElement"></i>
         </div>
       </div>
-        <div class="p-2">
+        <div class="p-1">
           <div class="">
             <app-table
               [selectedSpavochnik]="TableType.MODEL_FROM_RELATION"
@@ -43,15 +48,17 @@
     </div>
     <!--(ГРУППА)комплекс и модель-->
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.GRUPPA">
-      <div class="flex-grow-1 bg-kompl">
+      <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
           <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-node-plus me-3 i-add pointer"></i>
-            <i class="bi bi-node-minus i-delete pointer"></i>
+            <i class="bi bi-node-plus me-3 i-add pointer"
+               [class.i-disabled]="!komplRelationshipSelectedElement"></i>
+            <i class="bi bi-node-minus i-delete pointer"
+               [class.i-disabled]="!komplRelationshipSelectedElement"></i>
           </div>
         </div>
-        <div class=" p-2">
+        <div class="p-1">
           <app-table class="overflow-auto"
                      [selectedSpavochnik]="TableType.KOMPL_FROM_RELATION"
                      [fieldColumnList]="komplRelationshipFieldColumnList"
@@ -61,7 +68,7 @@
           <div class="div-to-whitespace"></div>
         </div>
       </div>
-      <div class="flex-grow-1 bg-model">
+      <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
           <h2 class="fs-4">Модель</h2>
           <div class="d-flex flex-row">
@@ -69,8 +76,8 @@
             <i class="bi bi-node-minus i-delete pointer"></i>
           </div>
         </div>
-        <div class="p-2">
-          <div class="">
+        <div class="">
+          <div class="p-1">
             <app-table
               [selectedSpavochnik]="TableType.MODEL_FROM_RELATION"
               [fieldColumnList]="modelRelationshipFieldColumnList"
@@ -83,7 +90,7 @@
     </div>
     <!--(МОДЕЛЬ)комплекс, группа и экземпляр-->
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.MODEL">
-      <div class="flex-grow-1 bg-kompl">
+      <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
           <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
@@ -91,7 +98,7 @@
             <i class="bi bi-node-minus i-delete pointer"></i>
           </div>
         </div>
-        <div class=" p-2">
+        <div class=" p-1">
           <app-table class="overflow-auto"
                      [selectedSpavochnik]="TableType.KOMPL_FROM_RELATION"
                      [fieldColumnList]="komplRelationshipFieldColumnList"
@@ -101,15 +108,17 @@
           <div class="div-to-whitespace"></div>
         </div>
       </div>
-      <div class="flex-grow-1 bg-gruppa">
+      <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
           <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-node-plus me-3 i-add pointer"></i>
-            <i class="bi bi-node-minus i-delete pointer"></i>
+            <i class="bi bi-node-plus me-3 i-add pointer"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
+            <i class="bi bi-node-minus i-delete pointer"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
           </div>
         </div>
-        <div class=" p-2">
+        <div class=" p-1">
           <app-table class="overflow-auto"
                      [selectedSpavochnik]="TableType.GRUPPA_FROM_RELATION"
                      [fieldColumnList]="gruppaRelationshipFieldColumnList"
@@ -119,11 +128,12 @@
           <div class="div-to-whitespace"></div>
         </div>
       </div>
-      <div class="flex-grow-1 bg-ekz">
+      <div class="d-flex flex-column flex-grow-1 bg-ekz">
         <div class="d-flex justify-content-between bg-ekz-color">
           <h2 class="fs-4">Экземпляры</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-node-plus me-3 i-add pointer"></i>
+            <i class="bi bi-node-plus me-3 i-add pointer"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
             <i class="bi bi-node-minus i-delete pointer"></i>
           </div>
         </div>
