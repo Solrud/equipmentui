@@ -1,0 +1,42 @@
+<!--ngb-pagination-->
+<!--[directionLinks]="false" : убирает кнопки следущая/предыдущая страница-->
+<!--[boundaryLinks]="true" : отображать кнопки на начальную/последнюю страницу-->
+<!--[maxSize]="5" : кол-во страниц для быстрого выбора-->
+<!--[rotate]="true" : прокрутка номеров страниц чтоб выбранная была в центре кол-ва указанного в maxSize-->
+<!--[ellipses]="false" : всегда отображать номер последней страницы  и ставить многоточие, если maxSize меньше чем всего страниц-->
+<!--size="sm/lg" : размер строки переходов по страницам-->
+<!--[disabled]="true/false" : включить/отключить переход по страницам-->
+<div class="d-flex justify-content-center">
+  <div>
+    <span>Элементов на странице: </span>
+    <select class="btn border mh-paginator m-0"
+            [ngModel]="objectSearch.pageSize"
+            (ngModelChange)="onClickPageSizeChanged($event)">
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="20">50</option>
+      <option [ngValue]="100">100</option>
+      <option [ngValue]="totalFoundedObjects">Всё</option>
+    </select>
+  </div>
+
+  <ngb-pagination class="m-0 p-0"
+                  [page]="objectSearch.pageNumber + 1"
+                  [pageSize]="objectSearch.pageSize"
+                  [collectionSize]="totalFoundedObjects"
+                  (pageChange)=onClickPageChanged($event)
+
+                  [maxSize]="1"
+                  [rotate]="true"
+                  [ellipses]="false"
+                  [boundaryLinks]="true"
+                  [directionLinks]="true">
+    <ng-template ngbPaginationFirst>«</ng-template>
+    <ng-template ngbPaginationLast>»</ng-template>
+    <ng-template ngbPaginationPrevious>‹</ng-template>
+    <ng-template ngbPaginationNext>›</ng-template>
+    <ng-template ngbPaginationEllipsis>...</ng-template>
+    <ng-template ngbPaginationNumber let-page>
+      {{getCurrentElementNumbers(page, objectSearch.pageSize, totalFoundedObjects)}} из {{totalFoundedObjects}}
+    </ng-template>
+  </ngb-pagination>
+</div>

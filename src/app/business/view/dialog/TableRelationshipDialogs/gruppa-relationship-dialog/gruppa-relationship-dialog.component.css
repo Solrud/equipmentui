@@ -23,3 +23,22 @@
   align-items: center;
   justify-content: center;
 }
+.gruppa-upper-div-c{
+  display: flex;
+  height: 200px;
+  /*min-height: 100px;*/
+  /*max-height: 300px;*/
+  flex-direction: column;
+  flex-grow: 1;
+  /*flex-basis: 300px;*/
+}
+.gruppa-lower-div-c{
+  display: flex;
+  height: 500px;
+  /*min-height: 100px;*/
+  /*max-height: 400px;*/
+  flex-direction: column;
+  flex-grow: 1;
+  /*flex-shrink: 1;*/
+  /*flex-basis: 400px;*/
+}

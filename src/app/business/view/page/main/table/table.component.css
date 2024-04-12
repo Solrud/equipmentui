@@ -44,6 +44,9 @@
 .active-element-relation-ekz{
   --bs-table-bg-type: #efb4ac;
 }
+.chosen-element-settings-relation{
+  --bs-table-bg-type: #acd4ef;
+}
 
 tbody > tr:hover > * {
   background-color: #c7ced9 !important;

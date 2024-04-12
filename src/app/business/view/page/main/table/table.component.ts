@@ -30,6 +30,8 @@ export class TableComponent implements OnInit, OnChanges{
 
   @Output()
   dataSearchNew: EventEmitter<ABaseSearchDTO> = new EventEmitter<ABaseSearchDTO>();
+  @Output()
+  chosenElementObj: EventEmitter<any> = new EventEmitter<any>();
 
   selectedElement: any;
 
@@ -41,13 +43,13 @@ export class TableComponent implements OnInit, OnChanges{
   ) { }
 
   ngOnInit(): void {
-    console.log(this.dataTableSource)
+    // console.log(this.dataTableSource)
     this._subscribeMainSelectedEl();
     //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был? только в настройках наверное
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+    // console.log(changes)
   }
 
   _subscribeMainSelectedEl(){
@@ -66,27 +68,43 @@ export class TableComponent implements OnInit, OnChanges{
   }
 
   toShowPaginator(): boolean{
-    return !!(this.dataTableSource?.length > 0
+    let result = false;
+    if (this.dataTableSource?.length > 0) result = true;
+    if (this.dataTableSource?.size > 0) result = true;
+    return !!(result
       && this.originSourceTable !== OriginSourceTable.SETTINGS_TABLE
       && this.originSourceTable !== OriginSourceTable.RELATIONSHIP_TABLE
       && this.originSourceTable !== OriginSourceTable.PRE_RELATION_TABLE)
   }
 
   isDataSourceFull(): boolean{
-    return this.dataTableSource?.length > 0;
+    let result = false;
+    if (this.dataTableSource?.length > 0) result = true;
+    if (this.dataTableSource?.size > 0) result = true;
+    return result;
   }
 
-  onClickPageChanged(pageEvent: PageEvent){
-    this.dataSearch.pageSize !== pageEvent.pageSize ?
-      this.dataSearch.pageNumber = 0 : this.dataSearch.pageNumber = pageEvent.pageIndex;
-    this.dataSearch.pageSize = pageEvent.pageSize;
+  onAddRelatedElement(elementObj: any){
+    // console.log(elementObj)
+    // console.log(typeof elementObj)
+    this.chosenElementObj.emit(elementObj);
+  }
+
+  onClickPageChanged(elementSearch: ABaseSearchDTO){
+    this.dataSearch.pageSize !== elementSearch.pageSize ?
+      this.dataSearch.pageNumber = 0 : this.dataSearch.pageNumber = elementSearch.pageNumber;
+    this.dataSearch.pageSize = elementSearch.pageSize;
     this.dataSearchNew.emit(this.dataSearch);
+  }
+
+  onClickRemoveFromPrerelatedDataList(selectedForRemoveObj: any){
+    this.eventService.selectPreRelatedElement$(selectedForRemoveObj);
   }
 
   //ToDo выбранный элемент остается если переключится на другой экземпляр в одной сущности, надо ли так
 
   onSelectElementTable(selectedElement: any){
-    console.log(selectedElement)
+    // console.log(selectedElement)
     this.selectedElement = selectedElement;
     switch (this.originSourceTable) {
       case OriginSourceTable.MAIN_TABLE:
@@ -125,6 +143,10 @@ export class TableComponent implements OnInit, OnChanges{
       case OriginSourceTable.RELATION_SETTINGS:
         // if (this.selectedSpavochnik === )
         break;
+      case OriginSourceTable.PRE_RELATION_TABLE:
+        // this.eventService.selectPreRelatedElement(selectedElement);
+        break;
+
     }
   }
 // pageEvent.pageSize = Кол-во элементов на 1 странице таблицы

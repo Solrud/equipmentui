@@ -104,7 +104,8 @@ export class SettingsDialogComponent implements OnInit{
 
   dialogResult: DialogResult = DialogResult.CANCEL;
 
-  //ToDo bootstrap'овская пагинация.. так лень ее делать
+
+  //ToDo внутри настроек у таблиц сделать overflow правильный
 
   //ToDo при открытии модального окна автоматом загружать данные для таблицы у мало заполненных таблиц,
   // также при первой загрузке данных сохранять данные таблицы и серчить только после изменения

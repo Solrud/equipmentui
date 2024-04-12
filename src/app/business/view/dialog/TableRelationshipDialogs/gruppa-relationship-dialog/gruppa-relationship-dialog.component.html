@@ -2,27 +2,31 @@
   <h1 class="m-0 text-center ">Добавление групп в {{selectedSourceSpravochnik}}</h1>
 </div>
 <div class="modal-body d-flex flex-column ">
-  <div class="border border-dark mb-2">
+  <div class="border border-dark mb-2 gruppa-upper-div-c">
     <div class="div-for-title div-for-title-bg-joined">
       Текущий выбранный список связанных групп:
     </div>
-    <app-table
-      [fieldColumnList]="gruppaFieldColumnList"
-      [dataTableSource]="joinedGruppaList"
-      [selectedSpavochnik]="TableType.KOMPL"
-      [originSourceTable]="OriginSourceTable.PRE_RELATION_TABLE"
+    <app-table class="overflow-auto flex-column d-flex"
+               [fieldColumnList]="gruppaJoinedFieldColumnList"
+               [dataTableSource]="joinedGruppaList"
+               [selectedSpavochnik]="TableType.KOMPL"
+               [originSourceTable]="OriginSourceTable.PRE_RELATION_TABLE"
     >
     </app-table>
   </div>
-  <div class="border border-dark">
+  <div class="border border-dark gruppa-lower-div-c">
     <div class="div-for-title div-for-title-bg-all">
       Все группы:
     </div>
-    <app-table class="overflow-auto"
+    <app-table class="overflow-auto flex-column d-flex"
                [selectedSpavochnik]="TableType.KOMPL"
-               [fieldColumnList]="gruppaFieldColumnList"
+               [fieldColumnList]="gruppaPreSelectedFieldColumnList"
                [dataTableSource]="gruppaForJoinedMap"
+               [totalFoundedElements]="gruppaTotalElements"
+               [dataSearch]="gruppaSearch"
                [originSourceTable]="OriginSourceTable.RELATION_SETTINGS"
+
+               (chosenElementObj)="toChooseElementFromSettings($event)"
     >
     </app-table>
   </div>
@@ -30,9 +34,12 @@
 
 <div class="modal-footer ">
   <button type="button"
-          class="btn btn-primary">Применить</button>
+          class="btn btn-primary"
+          (click)="onClickSave()"
+  >Сохранить</button>
   <button type="button"
           class="btn btn-secondary"
-          (click)="onClickCloseModal()">Отмена</button>
+          (click)="onClickCloseModal()"
+  >Отмена</button>
 </div>
 

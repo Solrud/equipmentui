@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDrawer} from "@angular/material/sidenav";
 import {
+  DialogResult,
   FIELD_COLUMN_GRUPPA_LIST,
   FIELD_COLUMN_KOMPL_LIST,
   FIELD_COLUMN_MODEL_LIST,
@@ -264,8 +265,13 @@ export class BodyComponent implements OnInit{
   }
 
   onClickOpenGruppaRelationshipDialog(originSpravochnik: TableType){
-    if ((this.selectedSpravochnik === TableType.KOMPL || TableType.KOMPL) && this.mainSelectedElement){
-      this.openDialogService.openGruppaRelationshipDialog(originSpravochnik, this.komplRelationshipSelectedElement, this.gruppaRelationshipDataInput);
+    if ((this.selectedSpravochnik === TableType.KOMPL) && this.mainSelectedElement){
+      this.openDialogService.openGruppaRelationshipDialog
+      (originSpravochnik, this.mainSelectedElement, this.gruppaRelationshipDataInput).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.onReSearchPage();
+        }
+      });
     }
   }
 

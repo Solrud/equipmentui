@@ -7,6 +7,8 @@ import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDT
 import {ToastService} from 'src/app/business/data/service/OptionalService/toast.service';
 import {KomplService} from "../../../../data/service/implements/kompl.service";
 import {ModelService} from 'src/app/business/data/service/implements/model.service';
+import {EventService} from "../../../../data/service/OptionalService/event.service";
+import {KomplDTO} from "../../../../data/model/dto/impl/KomplDTO";
 
 @Component({
   selector: 'app-gruppa-relationship-dialog',
@@ -15,21 +17,27 @@ import {ModelService} from 'src/app/business/data/service/implements/model.servi
 })
 export class GruppaRelationshipDialogComponent implements OnInit{
   selectedSourceSpravochnik: TableType;
-  selectedElement: GruppaDTO;
+  selectedElement: any;
   joinedGruppaList: GruppaDTO[];
 
   gruppaSearch: GruppaSearchDTO;
-  gruppaFieldColumnList: string[] = FIELD_COLUMN_GRUPPA_LIST;
+  gruppaJoinedFieldColumnList: string[];
+  gruppaPreSelectedFieldColumnList: string[] = FIELD_COLUMN_GRUPPA_LIST;
   gruppaDataInput: GruppaDTO[] = [];
   gruppaTotalElements: number;
 
   gruppaForJoinedMap: Map<GruppaDTO, boolean>;
 
+  chosenGruppaFromSettings: GruppaDTO;
+
+  newObj: any;
+
   constructor(private activeModal: NgbActiveModal,
               private komplService: KomplService,
               private modelService: ModelService,
               private gruppaService: GruppaService,
-              private toastService: ToastService) {
+              private toastService: ToastService,
+              private eventService: EventService) {
   }
 
   public get TableType(){
@@ -45,16 +53,36 @@ export class GruppaRelationshipDialogComponent implements OnInit{
     console.log(this.selectedElement)
     console.log(this.joinedGruppaList)
     this.initDialogDefaultValues();
+    this._subscribeToChosenForRemovePreRelatedElement();
   }
 
   initDialogDefaultValues(){
-    if (this.selectedSourceSpravochnik == TableType.KOMPL){
+    if (this.selectedSourceSpravochnik == TableType.KOMPL){}
 
-    }
-
+    this.gruppaJoinedFieldColumnList = FIELD_COLUMN_GRUPPA_LIST.slice();
+    this.gruppaJoinedFieldColumnList.push('X');
 
     if(!this.gruppaSearch) this.gruppaSearch = new GruppaSearchDTO();
+
     this.toSearchPageGruppa();
+  }
+
+  _subscribeToChosenForRemovePreRelatedElement(){
+    this.eventService.selectedPreRelatedElement$.subscribe( (result: GruppaDTO) => {
+      console.log(result);
+      let newJoinedGruppaList = [];
+      this.joinedGruppaList.forEach( gruppa => {
+        if (gruppa.id != result.id) newJoinedGruppaList.push(gruppa);
+      })
+      this.joinedGruppaList = newJoinedGruppaList;
+
+      this.gruppaForJoinedMap.forEach((value, key) => {
+        if (key == result){
+          console.log('меняет из джоиа в мапу булевы')
+          this.gruppaForJoinedMap.set(key, false);
+        }
+      })
+    })
   }
 
   toSearchPageGruppa(searchObj: GruppaSearchDTO = this.gruppaSearch){
@@ -66,24 +94,64 @@ export class GruppaRelationshipDialogComponent implements OnInit{
         this.gruppaDataInput = result.content;
 
         let tempMap = new Map<GruppaDTO, boolean>();
-        // this.gruppaForJoinedMap = new Map<GruppaDTO, boolean>();
         for(let i = 0; i < this.gruppaDataInput.length; i++){
-            if (this.gruppaDataInput[i]?.id == this.joinedGruppaList[i]?.id){
-              tempMap.set(this.gruppaDataInput[i], true);
-            } else{
-              tempMap.set(this.gruppaDataInput[i], false);
+          let isJoined = false;
+          tempMap.set(this.gruppaDataInput[i], false);
+          for(let j = 0; j < this.joinedGruppaList.length; j++){
+            if(this.gruppaDataInput[i]?.id == this.joinedGruppaList[j]?.id){
+              isJoined = true;
             }
+          }
+          if(isJoined) tempMap.set(this.gruppaDataInput[i], true);
         }
         this.gruppaForJoinedMap = tempMap;
-        console.log(this.gruppaForJoinedMap);
+        this.toReiterateEntriesFromMapToJoined();
       }
     }, error => {
       this.toastService.showNegativeFixed('Не удалось загрузить таблицу Группа');
     })
   }
 
+  toChooseElementFromSettings(newGruppa: {key, value}){
+    console.log(newGruppa);
+    this.gruppaForJoinedMap.set(newGruppa.key, !newGruppa.value);
+
+    this.toReiterateEntriesFromMapToJoined();
+  }
+
+  toReiterateEntriesFromMapToJoined(){
+    this.joinedGruppaList = [];
+    this.gruppaForJoinedMap.forEach((value, key) => {
+      if (value){
+        this.joinedGruppaList.push(key);
+      }
+    })
+  }
+
   onClickSave(): void{
-    this.activeModal.close(DialogResult.ACCEPT);
+    if (this.selectedSourceSpravochnik === TableType.KOMPL){
+      this.newObj = new KomplDTO();
+      this.newObj.id = this.selectedElement.id;
+      this.newObj.akt = this.selectedElement.akt;
+      this.newObj.kod = this.selectedElement.kod;
+      this.newObj.naim = this.selectedElement.naim;
+      this.newObj.tip = this.selectedElement.tip;
+      if (this.selectedElement?.oborudovanie){
+        this.selectedElement.oborudovanie.forEach( oborud => {
+          if (oborud.tip != '2'){
+            this.newObj.oborudovanie.push(oborud);
+          }
+        })
+      }
+      this.newObj.oborudovanie.push(...this.joinedGruppaList);
+
+      console.log('update')
+      this.komplService.update(this.newObj).subscribe( result => {
+        if (result)
+          this.activeModal.close(DialogResult.ACCEPT);
+      });
+    }
+    console.log(this.newObj);
   }
 
   onClickCloseModal(): void{

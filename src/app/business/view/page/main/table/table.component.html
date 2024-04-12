@@ -16,7 +16,7 @@
     <ng-container *ngIf="originSourceTable != OriginSourceTable.RELATION_SETTINGS">
       <tr *ngFor="let data of dataTableSource; index as i"
           (click)="onSelectElementTable(data)"
-          [class.active-element]="data == selectedElement"
+          [class.active-element]="data == selectedElement && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE"
           [class.active-element-relation-settings]="(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH) && data == selectedElement"
           [class.active-element-relation-kompl]="selectedSpavochnik === TableType.KOMPL_FROM_RELATION && data == selectedElement"
           [class.active-element-relation-gruppa]="selectedSpavochnik === TableType.GRUPPA_FROM_RELATION && data == selectedElement"
@@ -26,12 +26,15 @@
           [class.deleted-element]="originSourceTable == OriginSourceTable.MAIN_TABLE && !data['akt']"
           class="pointer">
         <td *ngFor="let field of fieldColumnList">
-          <div *ngIf="!data[field]">
+          <div *ngIf="!data[field] && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE">
             <i class="bi bi-dash"></i>
           </div>
           <div class="cell-config" *ngIf="data[field]">
             <span *ngIf="field == 'klass' || field == 'rod' || field == 'podr' || field == 'proizv'; else fieldNotObject">{{data[field].naim}}</span>
             <ng-template #fieldNotObject>{{data[field]}}</ng-template>
+          </div>
+          <div *ngIf="originSourceTable == OriginSourceTable.PRE_RELATION_TABLE && field == 'X'">
+            <button class="btn btn-sm btn-danger" (click)="onClickRemoveFromPrerelatedDataList(data)">Удалить</button>
           </div>
         </td>
       </tr>
@@ -39,8 +42,8 @@
     <!-- ДЛЯ ТАБЛИЧКИ С MAP -->
     <ng-container *ngIf="originSourceTable == OriginSourceTable.RELATION_SETTINGS">
       <tr *ngFor="let data of dataTableSource | keyvalue; index as i"
-          (click)="onSelectElementTable(data.key)"
-          [class.active-element]="data.key == selectedElement"
+          (click)="onAddRelatedElement(data)"
+          [class.chosen-element-settings-relation]="data.value === true"
           [class.striped-con]="i % 2 == 0"
           [class.deleted-element]="!data.key['akt']"
           class="pointer">
@@ -71,13 +74,19 @@
   <p class="d-flex justify-content-center text-danger border">Список участков пуст</p>
 </div>
 
-<div class="" *ngIf="toShowPaginator()"
-     container="body">
-  <mat-paginator class="mat-paginator" showFirstLastButtons
-                 [pageIndex]="dataSearch.pageNumber"
-                 [pageSize]="dataSearch.pageSize"
-                 [length]="totalFoundedElements"
-                 [pageSizeOptions]="[10, 20, 50, 100, totalFoundedElements]"
-                 (page)="onClickPageChanged($event)">
-  </mat-paginator>
+<div class="mh-paginator d-flex justify-content-end mt-2 me-4" *ngIf="toShowPaginator()">
+  <app-table-paginator
+    [objectSearch]="dataSearch"
+    [totalFoundedObjects]="totalFoundedElements"
+    (objectSearchOutput)="onClickPageChanged($event)"
+  >
+  </app-table-paginator>
+
+<!--  <mat-paginator class="mat-paginator" showFirstLastButtons-->
+<!--                 [pageIndex]="dataSearch.pageNumber"-->
+<!--                 [pageSize]="dataSearch.pageSize"-->
+<!--                 [length]="totalFoundedElements"-->
+<!--                 [pageSizeOptions]="[10, 20, 50, 100, totalFoundedElements]"-->
+<!--                 (page)="onClickPageChanged($event)">-->
+<!--  </mat-paginator>-->
 </div>
