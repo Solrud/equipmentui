@@ -20,6 +20,7 @@ import {PodrEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit
 import {UchDTO} from "../../model/dto/impl/UchDTO";
 import {UchEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/uch-edit-dialog/uch-edit-dialog.component";
 import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
+import {ModelDTO} from "../../model/dto/impl/ModelDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -100,12 +101,17 @@ export class OpenDialogService {
       {scrollable: true, size: "lg", centered: this.toCenteredModal});
     openGruppaRelationshipDialog.componentInstance.selectedSourceSpravochnik = selectedSourceSpravochnik;
     openGruppaRelationshipDialog.componentInstance.selectedElement = selectedElement;
-    openGruppaRelationshipDialog.componentInstance.joinedGruppaList = joinedGruppaList;
+    openGruppaRelationshipDialog.componentInstance.joinedGruppaList = joinedGruppaList.slice();
     return openGruppaRelationshipDialog;
   }
 
-  openModelRelationshipDialog(){
-    const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent, {scrollable: true, size: "md", centered: this.toCenteredModal});
+  openModelRelationshipDialog(selectedSourceSpravochnik: TableType, selectedElement: any, joinedModelList: ModelDTO[]){
+    const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent,
+      {scrollable: true, size: "lg", centered: this.toCenteredModal});
+    openModelRelationshipDialog.componentInstance.selectedSourceSpravochnik = selectedSourceSpravochnik;
+    openModelRelationshipDialog.componentInstance.selectedElement = selectedElement;
+    openModelRelationshipDialog.componentInstance.joinedModelList = joinedModelList.slice();
+    return openModelRelationshipDialog;
   }
 
   openOborudEkzRelationshipDialog(){

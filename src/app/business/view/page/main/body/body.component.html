@@ -8,7 +8,7 @@
           <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
             <i class="bi bi-node-plus me-3 i-add pointer"
-               [class.i-disabled]="!gruppaRelationshipSelectedElement"
+               [class.i-disabled]="!mainSelectedElement"
                (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
             <i class="bi bi-node-minus i-delete pointer"
                [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
@@ -29,7 +29,8 @@
         <h2 class="fs-4">Модель</h2>
         <div class="d-flex flex-row">
           <i class="bi bi-node-plus me-3 i-add pointer"
-             [class.i-disabled]="!modelRelationshipSelectedElement"></i>
+             [class.i-disabled]="!mainSelectedElement"
+             (click)="onClickOpenModelRelationshipDialog(TableType.KOMPL)"></i>
           <i class="bi bi-node-minus i-delete pointer"
              [class.i-disabled]="!modelRelationshipSelectedElement"></i>
         </div>
@@ -53,7 +54,7 @@
           <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
             <i class="bi bi-node-plus me-3 i-add pointer"
-               [class.i-disabled]="!komplRelationshipSelectedElement"></i>
+               [class.i-disabled]="!mainSelectedElement"></i>
             <i class="bi bi-node-minus i-delete pointer"
                [class.i-disabled]="!komplRelationshipSelectedElement"></i>
           </div>
@@ -72,8 +73,11 @@
         <div class="d-flex justify-content-between bg-model-color">
           <h2 class="fs-4">Модель</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-node-plus me-3 i-add pointer"></i>
-            <i class="bi bi-node-minus i-delete pointer"></i>
+            <i class="bi bi-node-plus me-3 i-add pointer"
+               [class.i-disabled]="!mainSelectedElement"
+               (click)="onClickOpenModelRelationshipDialog(TableType.GRUPPA)"></i>
+            <i class="bi bi-node-minus i-delete pointer"
+               [class.i-disabled]="!modelRelationshipSelectedElement"></i>
           </div>
         </div>
         <div class="">
@@ -94,8 +98,10 @@
         <div class="d-flex justify-content-between bg-kompl-color">
           <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-node-plus me-3 i-add pointer"></i>
-            <i class="bi bi-node-minus i-delete pointer"></i>
+            <i class="bi bi-node-plus me-3 i-add pointer"
+               [class.i-disabled]="!mainSelectedElement"></i>
+            <i class="bi bi-node-minus i-delete pointer"
+               [class.i-disabled]="!komplRelationshipSelectedElement"></i>
           </div>
         </div>
         <div class=" p-1">
@@ -113,7 +119,8 @@
           <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
             <i class="bi bi-node-plus me-3 i-add pointer"
-               [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
+               [class.i-disabled]="!mainSelectedElement"
+               (click)="onClickOpenGruppaRelationshipDialog(TableType.MODEL)"></i>
             <i class="bi bi-node-minus i-delete pointer"
                [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
           </div>
@@ -133,8 +140,9 @@
           <h2 class="fs-4">Экземпляры</h2>
           <div class="d-flex flex-row">
             <i class="bi bi-node-plus me-3 i-add pointer"
-               [class.i-disabled]="!gruppaRelationshipSelectedElement"></i>
-            <i class="bi bi-node-minus i-delete pointer"></i>
+               [class.i-disabled]="!mainSelectedElement"></i>
+            <i class="bi bi-node-minus i-delete pointer"
+               [class.i-disabled]="!oborudEkzRelationshipSelectedElement"></i>
           </div>
         </div>
         <div class="p-2">

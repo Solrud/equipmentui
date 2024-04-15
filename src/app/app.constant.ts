@@ -46,7 +46,7 @@ export enum TableType {                      // Тип таблицы
   SETTINGS_RELATION_EKZ = 'Таблица изменения связей Экземпляров оборудвоания',
 }
 
-export const INIT_NAV_BAR = TableType.KOMPL; // Какая таблица откроется по-умолчанию
+export const INIT_NAV_BAR = TableType.GRUPPA; // Какая таблица откроется по-умолчанию
 
 export enum OriginSourceTable{               // Происхождение создания компонента таблицы
   MAIN_TABLE,

@@ -101,8 +101,6 @@ export class TableComponent implements OnInit, OnChanges{
     this.eventService.selectPreRelatedElement$(selectedForRemoveObj);
   }
 
-  //ToDo выбранный элемент остается если переключится на другой экземпляр в одной сущности, надо ли так
-
   onSelectElementTable(selectedElement: any){
     // console.log(selectedElement)
     this.selectedElement = selectedElement;

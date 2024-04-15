@@ -100,7 +100,7 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
-  // при создании экземпляра сделать привязку к модели
+  // при создании экземпляра сделать привязку к модели !!!
   // таблица добавления сязей с чекбоксами
   // main HTML исправить,чтобы высота выставлялась автоматически от разрешения
   // DTO<any> переделать придумать
@@ -273,10 +273,33 @@ export class BodyComponent implements OnInit{
         }
       });
     }
+    // if ((this.selectedSpravochnik === TableType.MODEL) && this.mainSelectedElement){
+    //   this.openDialogService.openGruppaRelationshipDialog
+    //   (originSpravochnik, this.mainSelectedElement, this.gruppaRelationshipDataInput).closed.subscribe( result => {
+    //     if (result === DialogResult.ACCEPT){
+    //       this.onReSearchPage();
+    //     }
+    //   });
+    // }
   }
 
-  onClickOpenModelRelationshipDialog(){
-
+  onClickOpenModelRelationshipDialog(originSpravochnik: TableType){
+    if ((this.selectedSpravochnik === TableType.KOMPL) && this.mainSelectedElement){
+      this.openDialogService.openModelRelationshipDialog
+      (originSpravochnik, this.mainSelectedElement, this.modelRelationshipDataInput).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.onReSearchPage();
+        }
+      });
+    }
+    if ((this.selectedSpravochnik === TableType.GRUPPA) && this.mainSelectedElement){
+      this.openDialogService.openModelRelationshipDialog
+      (originSpravochnik, this.mainSelectedElement, this.modelRelationshipDataInput).closed.subscribe( result => {
+        if (result === DialogResult.ACCEPT){
+          this.onReSearchPage();
+        }
+      });
+    }
   }
 
   onClickOpenOborudEkzRelationshipDialog(){

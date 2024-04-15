@@ -22,14 +22,17 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <div class="d-flex gap-2">
     <!--    ячейка 2 ПРОИЗВОДИТЕЛЬ-->
-    <div class="flex-grow-1 "
+    <div class="flex-grow-1"
          ngbDropdown
          container="body"
          #ddmProizv="ngbDropdown"
     >
       <label for="proizv" class="form-label">Производитель</label>
-      <div class="form-group input-group">
+      <div class="input-group">
         <input class="form-control border-dark"
                id="proizv"
                type="text"
@@ -50,7 +53,7 @@
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="proizvListDDM && proizvListDDM.length == 0"
-             ngbDropdownItem class="text-center">😔</h2>
+              ngbDropdownItem class="text-center">😔</h2>
           <button class="text-wrap"
                   *ngFor="let proizv of proizvListDDM"
                   (click)="onClickSelectDDIProizv(proizv)"
@@ -60,7 +63,50 @@
         </div>
       </div>
     </div>
+
+
+    <div class="flex-grow-1"
+         ngbDropdown
+         container="body"
+         #ddmModel=ngbDropdown
+    >
+      <label for="model" class="form-label">Модель</label>
+      <div class="input-group">
+        <input class="form-control border-dark"
+               id="model"
+               type="text"
+               autocomplete="off"
+               formControlName="model"
+               ngbDropdownToggle
+               [required]="fcFieldIsRequired('model', true)"
+               (click)="ddmModel.open()"
+               (input)="ddmModel.open()"
+        >
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['model'].setValue(null); this.newModel = null">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="px-3 ngb-menu-config"
+           ngbDropdownMenu
+      >
+        <p *ngIf="modelListDDM && modelListDDM.length > 0">Выберите один из элем-ов:</p>
+        <p *ngIf="modelListDDM && modelListDDM.length == 0">Ничего не найдено</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="modelListDDM && modelListDDM.length == 0"
+              ngbDropdownItem class="text-center">😔</h2>
+          <button class="text-wrap"
+                  *ngFor="let model of modelListDDM"
+                  (click)="onClickSelectDDIModel(model)"
+                  ngbDropdownItem>
+            {{model.naim}}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+
   <!--  ряд 2-->
   <div class="d-flex gap-2">
     <!--    Индивидуальный номер -->

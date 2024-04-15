@@ -26,6 +26,7 @@
                [dataSearch]="gruppaSearch"
                [originSourceTable]="OriginSourceTable.RELATION_SETTINGS"
 
+               (dataSearchNew)="onChangePage($event)"
                (chosenElementObj)="toChooseElementFromSettings($event)"
     >
     </app-table>
