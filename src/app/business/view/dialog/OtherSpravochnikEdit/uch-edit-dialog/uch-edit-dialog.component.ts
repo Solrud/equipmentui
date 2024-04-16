@@ -50,7 +50,7 @@ export class UchEditDialogComponent implements OnInit{
   }
 
   getCorrectValueFromField(field: string){
-    if(field == 'podr') return this.podrByUch.naim;
+    if(field == 'podr') return this.podrByUch.obozn + ' | ' + this.podrByUch.naim;
     if (this.selectedElement){
       return this.selectedElement[field];
     }

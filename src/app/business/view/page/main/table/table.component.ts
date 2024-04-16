@@ -33,6 +33,7 @@ export class TableComponent implements OnInit, OnChanges{
   @Output()
   chosenElementObj: EventEmitter<any> = new EventEmitter<any>();
 
+  @Input()
   selectedElement: any;
 
   previewResultValues = new MatTableDataSource();
@@ -46,6 +47,8 @@ export class TableComponent implements OnInit, OnChanges{
     // console.log(this.dataTableSource)
     this._subscribeMainSelectedEl();
     //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был? только в настройках наверное
+
+    //ToDo выставить условия для отображения надписи, если надо что то выбрать, чтобы отобразть
   }
 
   ngOnChanges(changes: SimpleChanges): void {

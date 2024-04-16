@@ -1,0 +1,32 @@
+<div class="modal-header d-flex justify-content-center color-header">
+  <h2 class="m-0 text-center text-white">Присвоение модели к экземпляру оборудования</h2>
+</div>
+
+<div class="modal-body d-flex flex-column align-items-center">
+  <span class="fs-6 text-primary">Выберите модель, для соединения с экземпляром оборудования:</span>
+  <app-table class="d-flex flex-column overflow-auto w-100"
+  [dataSearch]="modelSearch"
+  [fieldColumnList]="modelFieldColumnsList"
+  [dataTableSource]="modelDataInputList"
+  [totalFoundedElements]="modelTotalFoundedElements"
+  [selectedSpavochnik]="TableType.OBORUD_EKZ"
+  [originSourceTable]="OriginSourceTable.ATTACHED_TABLE"
+  [selectedElement]="selectedElement"
+
+  (dataSearchNew)="onChangePage($event)"
+  (chosenElementObj)="toChooseElementFromSettings($event)"
+  >
+  </app-table>
+</div>
+
+<div class="modal-footer ">
+  <button type="button"
+          class="btn btn-primary"
+          (click)="onSaveChosenElement()"
+  >Выбрать</button>
+  <button type="button"
+          class="btn btn-secondary"
+          (click)="onClickCloseModal()"
+  >Отмена</button>
+</div>
+

@@ -4,6 +4,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {KomplDTO} from "../../../../data/model/dto/impl/KomplDTO";
 import {KomplService} from "../../../../data/service/implements/kompl.service";
+import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-kompl-element-edit-dialog',
@@ -19,7 +20,8 @@ export class KomplElementEditDialogComponent implements OnInit{
   newKompl: KomplDTO;
 
   constructor(private activeModal: NgbActiveModal,
-              private komplService: KomplService) {
+              private komplService: KomplService,
+              private toastService: ToastService) {
   }
 
   public get DialogMode(){
@@ -75,7 +77,7 @@ export class KomplElementEditDialogComponent implements OnInit{
     this.newKompl.akt = this.fgKomplElement.controls['akt'].value;
     this.newKompl.tip = this.fgKomplElement.controls['tip'].value;
     this.newKompl.naim = this.fgKomplElement.controls['naim'].value;
-    this.newKompl.oborudovanie = this.selectedElement.oborudovanie;
+    this.newKompl.oborudovanie = this.selectedElement?.oborudovanie;
   }
 
   onClickCreateKompl(){
@@ -83,9 +85,11 @@ export class KomplElementEditDialogComponent implements OnInit{
     this.komplService.create(this.newKompl).subscribe( result => {
       if(result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно создан комплекс');
       }
     }, error => {
-      console.log('Ошибка в диалоге KomplElementEditDialogComponent, onClickCreateKompl()')
+      console.log('Ошибка в диалоге KomplElementEditDialogComponent, onClickCreateKompl()');
+      this.toastService.showNegative('Ошибка при создании комплекса');
     })
   }
 
@@ -94,9 +98,11 @@ export class KomplElementEditDialogComponent implements OnInit{
     this.komplService.update(this.newKompl).subscribe( result => {
       if(result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно изменен комплекс');
       }
     }, error => {
-      console.log('Ошибка в диалоге KomplElementEditDialogComponent, onClickUpdateKompl()')
+      console.log('Ошибка в диалоге KomplElementEditDialogComponent, onClickUpdateKompl()');
+      this.toastService.showNegative('Ошибка при изменении комплекса');
     })
   }
 

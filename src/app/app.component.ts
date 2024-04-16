@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
-import {environment} from "../environment/environment";
+import {defaultLocale} from "./app.constant";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.translateService.use(environment.defaultLocale);
+    //Todo потом что нибудь передалть с куками
+    this.translateService.use(defaultLocale);
   }
 }

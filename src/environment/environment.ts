@@ -8,5 +8,4 @@ export const environment = {
   backendURL: "https://testbazis:8698/equipment",
   authURL: 'https://localhost:3333/api',
   loginUrl: 'https://localhost:3333',
-  defaultLocale: 'ru'
 };

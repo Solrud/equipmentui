@@ -13,4 +13,5 @@ export class OborudEkzDTO extends ABaseDTO{
   podr: PodrDTO;
   uch: UchDTO;
   akt: number;
+  prim: string; // 250 макс
 }

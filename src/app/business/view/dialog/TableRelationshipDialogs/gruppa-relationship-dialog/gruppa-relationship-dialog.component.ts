@@ -10,6 +10,7 @@ import {ModelService} from 'src/app/business/data/service/implements/model.servi
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {KomplDTO} from "../../../../data/model/dto/impl/KomplDTO";
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
+import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
 
 @Component({
   selector: 'app-gruppa-relationship-dialog',
@@ -50,10 +51,11 @@ export class GruppaRelationshipDialogComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.selectedSourceSpravochnik)
-    console.log(this.selectedElement)
-    console.log(this.joinedGruppaList)
+    // console.log(this.selectedSourceSpravochnik)
+    // console.log(this.selectedElement)
+    // console.log(this.joinedGruppaList)
     this.initDialogDefaultValues();
+    this.toSearchPageGruppa();
     this._subscribeToChosenForRemovePreRelatedElement();
   }
 
@@ -64,21 +66,11 @@ export class GruppaRelationshipDialogComponent implements OnInit{
     this.gruppaJoinedFieldColumnList.push('X');
 
     if(!this.gruppaSearch) this.gruppaSearch = new GruppaSearchDTO();
-
-    this.toSearchPageGruppa();
   }
 
   _subscribeToChosenForRemovePreRelatedElement(){
     this.eventService.selectedPreRelatedElement$.subscribe( (result: GruppaDTO) => {
-      // console.log(result);
-
-      // let newJoinedGruppaList = [];
-      // this.joinedGruppaList.forEach( gruppa => {
-      //   if (gruppa.id != result.id) newJoinedGruppaList.push(gruppa);
-      // })
-      // this.joinedGruppaList = newJoinedGruppaList;
       this.joinedGruppaList = this.joinedGruppaList.filter( (obj) =>  obj.id != result.id)
-
 
       this.gruppaForJoinedMap.forEach((value, key) => {
         if (key.id == result.id){
@@ -91,7 +83,7 @@ export class GruppaRelationshipDialogComponent implements OnInit{
   toSearchPageGruppa(searchObj: GruppaSearchDTO = this.gruppaSearch){
     this.gruppaDataInput = [];
     this.gruppaService.searchPage(searchObj).subscribe( result => {
-      console.log(result);
+      // console.log(result);
       if (result && result.content.length > 0){
         this.gruppaTotalElements = result.totalElements;
         this.gruppaDataInput = result.content;
@@ -161,7 +153,18 @@ export class GruppaRelationshipDialogComponent implements OnInit{
         this.toastService.showNegative('Не удалось изменить связи в "' + this.selectedSourceSpravochnik + '" с Группой')
       });
     }
-    console.log(this.newObj);
+    if (this.selectedSourceSpravochnik === TableType.MODEL) {
+      console.log(this.joinedGruppaList);
+      this.modelService.setGruppyById(this.selectedElement.id.toString(), JSON.stringify(this.joinedGruppaList)).subscribe( result => {
+        if (result){
+          this.toastService.showPositive('Изменены связи в "' + this.selectedSourceSpravochnik + '" с Группой')
+          this.activeModal.close(DialogResult.ACCEPT);
+        }
+      }, error => {
+        this.toastService.showNegative('Не удалось изменить связи в "' + this.selectedSourceSpravochnik + '" с Группой')
+      })
+    }
+    // console.log(this.newObj);
   }
 
   onClickCloseModal(): void{

@@ -21,6 +21,8 @@ import {UchDTO} from "../../model/dto/impl/UchDTO";
 import {UchEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/uch-edit-dialog/uch-edit-dialog.component";
 import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
 import {ModelDTO} from "../../model/dto/impl/ModelDTO";
+import {AttachedElementFromTableEditDialogComponent} from "../../../view/dialog/attached-element-from-table-edit-dialog/attached-element-from-table-edit-dialog.component";
+import {KomplDTO} from "../../model/dto/impl/KomplDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -81,8 +83,7 @@ export class OpenDialogService {
           centered: this.toCenteredModal,
           modalDialogClass: "modal-config"
         });
-        if (dialogMode != DialogMode.CREATE)
-          openOborudEkzElementEditDialog.componentInstance.selectedElement = selectedElement;
+        if (dialogMode != DialogMode.CREATE) openOborudEkzElementEditDialog.componentInstance.selectedElement = selectedElement;
         openOborudEkzElementEditDialog.componentInstance.dialogMode = dialogMode;
 
         return openOborudEkzElementEditDialog;
@@ -92,8 +93,13 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки изменения связей |==========---
-  openKomplRelationshipDialog(){
-    const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent, {scrollable: true, size: "md", centered: this.toCenteredModal});
+  openKomplRelationshipDialog(selectedSourceSpravochnik: TableType, selectedElement: any, joinedKomplList: KomplDTO[]){
+    const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent,
+      {scrollable: true, size: "lg", centered: this.toCenteredModal});
+    openKomplRelationshipDialog.componentInstance.selectedSourceSpravochnik = selectedSourceSpravochnik;
+    openKomplRelationshipDialog.componentInstance.selectedElement = selectedElement;
+    openKomplRelationshipDialog.componentInstance.joinedKomplList = joinedKomplList.slice();
+    return openKomplRelationshipDialog;
   }
 
   openGruppaRelationshipDialog(selectedSourceSpravochnik: TableType, selectedElement: any, joinedGruppaList: GruppaDTO[]){
@@ -133,6 +139,16 @@ export class OpenDialogService {
     const openSettingsDialog = this.modalService.open(SettingsDialogComponent,
       {scrollable: true, centered: this.toCenteredModal, modalDialogClass: "modal-settings-config"});
     return openSettingsDialog;
+  }
+
+  //---=========| Модалка с выбираемым элементом из таблички |=========---
+  openAttachedElementFromTableDialog(selectedElement: ModelDTO, dialogMode: DialogMode){
+    const openAttachedElementFromTableDialog = this.modalService.open(AttachedElementFromTableEditDialogComponent,
+      {scrollable: true, centered: this.toCenteredModal, size: "lg"});
+    openAttachedElementFromTableDialog.componentInstance.selectedElement = selectedElement;
+    openAttachedElementFromTableDialog.componentInstance.dialogMode = dialogMode;
+
+    return openAttachedElementFromTableDialog;
   }
 
   //---=========| Модалки изменения справочников в настройках |=========---

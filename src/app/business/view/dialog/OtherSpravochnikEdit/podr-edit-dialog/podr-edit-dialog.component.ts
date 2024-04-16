@@ -126,7 +126,7 @@ export class PodrEditDialogComponent {
   }
 
   onClickSelectDDIRod(podr: PodrDTO){
-    this.fgPodr.controls['rod'].setValue(podr.naim);
+    this.fgPodr.controls['rod'].setValue(podr.obozn);
     this.changeValidators('rod', [this.validatorMinLength], true);
     this.newRodPodr = podr;
   }

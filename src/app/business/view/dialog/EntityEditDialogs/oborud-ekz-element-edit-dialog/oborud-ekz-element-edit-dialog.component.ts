@@ -14,6 +14,8 @@ import {debounceTime, tap} from "rxjs/operators";
 import {UchSearchDTO} from "../../../../data/model/search/impl/UchSearchDTO";
 import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
 import {ModelService} from "../../../../data/service/implements/model.service";
+import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
+import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-oborud-ekz-element-edit-dialog',
@@ -32,7 +34,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   modelListDDM: ModelDTO[];
   modelList: ModelDTO[];
-  newModel: ModelDTO;
+  newModel: ModelDTO = null;
 
   proizvListDDM: ProizvDTO[];
   proizvList: ProizvDTO[];
@@ -54,11 +56,12 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
               private proizvService: ProizvService,
               private uchService: UchService,
               private podrService: PodrService,
-              private modelService: ModelService) {
+              private modelService: ModelService,
+              private openDialogService: OpenDialogService,
+              private toastService: ToastService) {
   }
   // https://habr.com/ru/articles/346242/
   ngOnInit(): void {
-    console.log(this.selectedElement)
     this.initFgOborudEkzElement();
     this.initDialogDefaultValues();
     this._observeSerAndInvNom();
@@ -78,12 +81,13 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   initDialogDefaultValues(){
     if (!this.dialogMode) this.dialogMode = DialogMode.VIEW;
     if (!this.selectedElement) this.selectedElement = null;
+    if (!this.newModel && this.selectedElement?.model) this.newModel = this.selectedElement.model;
 
-    this.modelService.searchAll().subscribe( result => {
-      if (result && result.length > 0)
-        this.modelListDDM = result;
-      this.modelList = result;
-    })
+    // this.modelService.searchAll().subscribe( result => {
+    //   if (result && result.length > 0)
+    //     this.modelListDDM = result;
+    //   this.modelList = result;
+    // })
 
     this.proizvService.searchAll().subscribe( result => {
       if (result && result.length > 0)
@@ -98,7 +102,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
     if (this.dialogMode == DialogMode.EDIT){
       if(this.selectedElement.proizv) this.onClickSelectDDIProizv(this.selectedElement.proizv);
-      if(this.selectedElement.model) this.onClickSelectDDIModel(this.selectedElement.model);
+      // if(this.selectedElement.model) this.onClickSelectDDIModel(this.selectedElement.model);
       if(this.selectedElement.podr) this.onClickSelectDDIPodr(this.selectedElement.podr);
     }
 
@@ -112,6 +116,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       if (field == 'podr' && this.selectedElement?.podr) return this.selectedElement.podr.naim;
       if (field == 'uch' && this.selectedElement?.uch) return this.selectedElement.uch.naim;
       if (field == 'proizv' && this.selectedElement?.proizv) return this.selectedElement.proizv.naim;
+      if (field == 'model' && this.selectedElement?.model) return this.selectedElement.model.naim;
     }
 
     if (this.selectedElement) return this.selectedElement[field];
@@ -131,14 +136,12 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       uch: new FormControl({value: this.getCorrectValueFromField('uch'), disabled: true}),        //Участок обязателен если есть список участков в подразделени
       proizv: new FormControl({value: this.getCorrectValueFromField('proizv'), disabled: false}),
       model: new FormControl({value: this.getCorrectValueFromField('model'), disabled: false}, Validators.required),
-
-      //ToDo примечание в оборуд екз? Скоро Дима должен сделать
-      // primechanie: new FormControl({value: this.getCorrectValueFromField('primechanie'), disabled: true}),
+      prim: new FormControl({value: this.getCorrectValueFromField('prim'), disabled: false}) // максимально 250 вводимых символов
 
       //ToDo ошибка при перевыборе подразделения
       // Производственно-технологический отдел => Химико Техн Бюро
 
-      //ToDo при выборе модели открывать табличку???
+      //ToDo при выборе модели открывать модалку с табличкой моделей и выбирать одну из них.
     })
   }
 
@@ -184,17 +187,11 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   }
 
   _observeFcModel(){
-    this.fgOborudEkzElement.controls['model'].valueChanges.pipe(
-      tap( (val) => {
-        this.changeValidators('model', [this.validatorMinLength],false);
-        this.newModel = null;
-      })
-      , debounceTime(DELAY_TIME))
-      .subscribe( inputValue => {
-        if (inputValue && inputValue.length > 0){
-          this.modelListDDM = this.modelList.filter( docTyp => docTyp.naim.toLowerCase().includes(inputValue.toLowerCase()));
-        } else {
-          this.modelListDDM = this.modelList;
+    this.fgOborudEkzElement.controls['model'].valueChanges.pipe(debounceTime(0)
+    ).subscribe( inputValue => {
+        this.fgOborudEkzElement.controls['model'].setValue('');
+        if (this.newModel){
+          this.fgOborudEkzElement.controls['model'].setValue(this.newModel.naim);
         }
     })
   }
@@ -272,12 +269,12 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     })
   }
 
-  //выбор из списка DDM Производителя
-  onClickSelectDDIModel(model: ModelDTO){
-    this.fgOborudEkzElement.controls['model'].setValue(model.naim);
-    this.newModel = model;
-    this.changeValidators('model', [this.validatorMinLength], true);
-  }
+  //выбор из списка DDM Модели
+  // onClickSelectDDIModel(model: ModelDTO){
+  //   this.fgOborudEkzElement.controls['model'].setValue(model.naim);
+  //   this.newModel = model;
+  //   this.changeValidators('model', [this.validatorMinLength], true);
+  // }
 
   //выбор из списка DDM Производителя
   onClickSelectDDIProizv(proizv: ProizvDTO){
@@ -314,6 +311,16 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.newPodr = null;
   }
 
+  onClickAttachModel(){
+    this.openDialogService.openAttachedElementFromTableDialog(this.newModel, DialogMode.CREATE).closed.subscribe( result => {
+      console.log(result)
+      if(result[0] == DialogResult.ACCEPT){
+        this.newModel = result[1];
+        this.fgOborudEkzElement.controls['model'].setValue(result[1].naim)
+      }
+    })
+  }
+
   onSaveNewOborudEkz(){
     this.newOborudEkz = new OborudEkzDTO();
     this.newOborudEkz.id = this.fgOborudEkzElement.controls['id'].value;
@@ -321,6 +328,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.newOborudEkz.naim = this.fgOborudEkzElement.controls['naim'].value;
     this.newOborudEkz.serNom = this.fgOborudEkzElement.controls['serNom'].value;
     this.newOborudEkz.invNom = this.fgOborudEkzElement.controls['invNom'].value;
+    this.newOborudEkz.prim = this.fgOborudEkzElement.controls['prim'].value;
 
     this.newOborudEkz.proizv = this.newProizv ? this.newProizv : null;
     this.newOborudEkz.model = this.newModel ? this.newModel : null;
@@ -332,10 +340,13 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.onSaveNewOborudEkz();
     // console.log(this.newOborudEkz);
     this.oborudEkzService.create(this.newOborudEkz).subscribe( result => {
-      if(result)
+      if(result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно создан экземпляр оборудования');
+      }
     }, error => {
-      console.log('Ошибка в OborudEkzElementEditDialogComponent onClickCreateOborudEkz()')
+      console.log('Ошибка в OborudEkzElementEditDialogComponent onClickCreateOborudEkz()');
+      this.toastService.showPositive('Ошибка в создани экземпляра оборудования');
     })
   }
 
@@ -343,9 +354,12 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.onSaveNewOborudEkz();
     // console.log(this.newOborudEkz);
     this.oborudEkzService.update(this.newOborudEkz).subscribe( result => {
-      if(result)
+      if(result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно изменен экземпляр оборудования');
+      }
     }, error => {
+      this.toastService.showPositive('Ошибка при изменении экземпляра оборудования');
       console.log('Ошибка в OborudEkzElementEditDialogComponent onClickUpdateOborudEkz()')
     })
   }

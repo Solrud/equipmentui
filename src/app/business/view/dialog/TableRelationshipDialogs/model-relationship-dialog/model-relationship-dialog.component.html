@@ -9,7 +9,7 @@
     <app-table class="overflow-auto flex-column d-flex"
                [fieldColumnList]="modelJoinedFieldColumnList"
                [dataTableSource]="joinedModelList"
-               [selectedSpavochnik]="TableType.KOMPL"
+               [selectedSpavochnik]="selectedSourceSpravochnik"
                [originSourceTable]="OriginSourceTable.PRE_RELATION_TABLE"
     >
     </app-table>
@@ -19,7 +19,7 @@
       Все модели:
     </div>
     <app-table class="overflow-auto flex-column d-flex"
-               [selectedSpavochnik]="TableType.KOMPL"
+               [selectedSpavochnik]="selectedSourceSpravochnik"
                [fieldColumnList]="modelPreSelectedFieldColumnList"
                [dataTableSource]="modelForJoinedMap"
                [totalFoundedElements]="modelTotalElements"

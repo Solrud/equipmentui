@@ -2,7 +2,7 @@ h2{
   color: rgba(0, 0, 0, 0.82)
 }
 .i-config{
-  font-size: 1.9rem !important;
+  font-size: 1.5rem !important;
   transition: all 210ms ease;
   color: #00245e;
 }
@@ -12,5 +12,13 @@ h2{
 }
 .bi-gear:hover::before {content: "\f3e2";}
 
+.ddm-action-config {
+  z-index: 1111;
+}
 
-
+.disable-highlight-text {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

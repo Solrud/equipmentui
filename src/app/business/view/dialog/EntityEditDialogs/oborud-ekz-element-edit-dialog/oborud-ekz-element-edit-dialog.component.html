@@ -65,11 +65,7 @@
     </div>
 
 
-    <div class="flex-grow-1"
-         ngbDropdown
-         container="body"
-         #ddmModel=ngbDropdown
-    >
+    <div class="flex-grow-1">
       <label for="model" class="form-label">Модель</label>
       <div class="input-group">
         <input class="form-control border-dark"
@@ -77,32 +73,13 @@
                type="text"
                autocomplete="off"
                formControlName="model"
-               ngbDropdownToggle
                [required]="fcFieldIsRequired('model', true)"
-               (click)="ddmModel.open()"
-               (input)="ddmModel.open()"
         >
         <button class="btn btn-light border-dark"
-                (click)="fgOborudEkzElement.controls['model'].setValue(null); this.newModel = null">
-          <i class="bi bi-x-lg"></i>
+                (click)="onClickAttachModel()">
+          Присвоить модель
+          <i class="ms-1 bi bi-share"></i>
         </button>
-      </div>
-      <div class="px-3 ngb-menu-config"
-           ngbDropdownMenu
-      >
-        <p *ngIf="modelListDDM && modelListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="modelListDDM && modelListDDM.length == 0">Ничего не найдено</p>
-        <div class="dropdown-divider"></div>
-        <div class="ddm-config">
-          <h2 *ngIf="modelListDDM && modelListDDM.length == 0"
-              ngbDropdownItem class="text-center">😔</h2>
-          <button class="text-wrap"
-                  *ngFor="let model of modelListDDM"
-                  (click)="onClickSelectDDIModel(model)"
-                  ngbDropdownItem>
-            {{model.naim}}
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -111,7 +88,7 @@
   <div class="d-flex gap-2">
     <!--    Индивидуальный номер -->
     <div class="flex-grow-1">
-      <label for="invNom" class="form-label">Индивидуальный номер</label>
+      <label for="invNom" class="form-label">Инвентарный номер</label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="invNom"
@@ -222,13 +199,32 @@
       </div>
     </div>
   </div>
-
+  <div  class="d-flex gap-2">
+    <div class="flex-grow-1">
+      <label for="prim" class="form-label">Примечание</label>
+      <div class="form-group input-group">
+      <textarea class="form-control txtarea-c"
+                id="prim"
+                type="text"
+                formControlName="prim"
+                maxlength="249"
+                [required]="fcFieldIsRequired('prim', true)"
+                rows="3"
+      >
+      </textarea>
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['prim'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </form>
 
 <div class="modal-footer justify-content-between">
     <div class="d-flex flex-column">
       <span class="text-wrap text-danger">*Для заполнения карточки ОБЯЗАТЕЛЕН</span>
-      <span class="text-wrap text-danger">ЛИБО серийный, ЛИБО индивидуальный номер</span>
+      <span class="text-wrap text-danger">ЛИБО серийный, ЛИБО инвентарный номер</span>
     </div>
     <div class="d-flex gap-2">
       <button type="button" class="btn btn-primary"

@@ -5,6 +5,7 @@ import {ModelService} from "../../../../data/service/implements/model.service";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
 import {GruppaDTO} from "../../../../data/model/dto/impl/GruppaDTO";
+import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-model-element-edit-dialog',
@@ -20,7 +21,8 @@ export class ModelElementEditDialogComponent implements OnInit{
   newModel: ModelDTO;
 
   constructor(private activeModal: NgbActiveModal,
-              private modelService: ModelService) {
+              private modelService: ModelService,
+              private toastService: ToastService) {
   }
 
   ngOnInit(): void {
@@ -88,9 +90,11 @@ export class ModelElementEditDialogComponent implements OnInit{
     this.modelService.create(this.newModel).subscribe( result => {
       if(result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно создана модель');
       }
     }, error => {
-      console.log('Ошибка в диалоге ModelElementEditDialogComponent, onClickCreateModel()')
+      console.log('Ошибка в диалоге ModelElementEditDialogComponent, onClickCreateModel()');
+      this.toastService.showNegative('Ошибка при создании модели');
     })
   }
 
@@ -99,9 +103,11 @@ export class ModelElementEditDialogComponent implements OnInit{
     this.modelService.update(this.newModel).subscribe( result => {
       if(result){
         this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно изменена модель');
       }
     }, error => {
-      console.log('Ошибка в диалоге ModelElementEditDialogComponent, onClickUpdateModel()')
+      console.log('Ошибка в диалоге ModelElementEditDialogComponent, onClickUpdateModel()');
+      this.toastService.showNegative('Ошибка при изменении модели');
     })
   }
 

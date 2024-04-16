@@ -62,14 +62,11 @@ export class ModelRelationshipDialogComponent implements OnInit{
     this.initDefaultValues();
     this.toSearchPageModel();
     this._subscribeToChosenForRemovePreRelatedElement();
-    console.log(this.selectedSourceSpravochnik)
-    console.log(this.selectedElement)
-    console.log(this.joinedModelList)
   }
 
 
   initDefaultValues(): void{
-    this.modelJoinedFieldColumnList = FIELD_COLUMN_GRUPPA_LIST.slice();
+    this.modelJoinedFieldColumnList = FIELD_COLUMN_MODEL_LIST.slice();
     this.modelJoinedFieldColumnList.push('X');
 
     if(!this.modelSearch) this.modelSearch = new ModelSearchDTO();
@@ -92,7 +89,7 @@ export class ModelRelationshipDialogComponent implements OnInit{
     this.modelDataInput = [];
     this.modelService.searchPage(searchObj).subscribe( result => {
       console.log(result);
-      if (result && result.content.length > 0){
+      if (result && result?.content?.length > 0){
         this.modelTotalElements = result.totalElements;
         this.modelDataInput = result.content;
 
@@ -189,7 +186,7 @@ export class ModelRelationshipDialogComponent implements OnInit{
         this.toastService.showNegative('Не удалось изменить связи в "' + this.selectedSourceSpravochnik + '" с Моделью')
       })
     }
-    console.log(this.newObj);
+    // console.log(this.newObj);
   }
 
   onClickCloseModal(): void{

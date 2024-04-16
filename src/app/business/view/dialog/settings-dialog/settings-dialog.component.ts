@@ -104,6 +104,7 @@ export class SettingsDialogComponent implements OnInit{
 
   dialogResult: DialogResult = DialogResult.CANCEL;
 
+  //ToDo !!!!!!!!!! при перевыборе справочника (navbar), выбранный справочник сохраняется в переменной, а нужно обнуллять
 
   //ToDo внутри настроек у таблиц сделать overflow правильный
 
@@ -174,7 +175,6 @@ export class SettingsDialogComponent implements OnInit{
 
       this.uchDataTableInput = [];
       this.uchService.findByPodrId(this.podrSelectedElement.id).subscribe( result => {
-        console.log(result);
         this.uchDataTableInput = result;
 
         this.isUchNotEmptyInPodr = result.length == 0;
@@ -228,9 +228,19 @@ export class SettingsDialogComponent implements OnInit{
     }
   }
 
-  onClickSearchKlassOborud(): void{
-    this.klassDataTableInput = [];
+  toSetAllSelectedElementsNull(){
+    this.uchSelectedElement = null;
+    this.podrSelectedElement = null;
+    this.proizvSelectedElement = null;
     this.vidSelectedElement = null;
+    this.klassSelectedElement = null;
+    this.gabZoSelectedElement = null;
+    this.nalPuSelectedElement = null;
+  }
+
+  onClickSearchKlassOborud(): void{
+    this.toSetAllSelectedElementsNull();
+    this.klassDataTableInput = [];
     this.vidDataTableInput = [];
     this.klassService.searchAll().subscribe( result => {
       this.klassDataTableInput = result;
@@ -302,6 +312,7 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickSearchNalPu(): void{
+    this.toSetAllSelectedElementsNull();
     this.nalPuDataTableInput = [];
     this.nalPuService.searchAll().subscribe( result => {
       this.nalPuDataTableInput = result;
@@ -356,6 +367,7 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickSearchGabZo(): void{
+    this.toSetAllSelectedElementsNull();
     this.gabZoDataTableInput = [];
     this.gabZoService.searchAll().subscribe( result => {
       this.gabZoDataTableInput = result;
@@ -393,6 +405,7 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickSearchProizv(): void{
+    this.toSetAllSelectedElementsNull();
     this.proizvDataTableInput = [];
     this.proizvService.searchAll().subscribe( result => {
       this.proizvDataTableInput = result;
@@ -430,10 +443,10 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickSearchPodr(): void{
+    this.toSetAllSelectedElementsNull();
     this.isUchNotEmptyInPodr = false;
     this.podrDataTableInput = [];
     this.uchDataTableInput = [];
-    this.uchSelectedElement = null;
     this.podrService.searchAll().subscribe( result => {
       this.podrDataTableInput = result;
     }, error => {

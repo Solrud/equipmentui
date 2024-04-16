@@ -9,7 +9,7 @@
     <app-table class="overflow-auto flex-column d-flex"
                [fieldColumnList]="gruppaJoinedFieldColumnList"
                [dataTableSource]="joinedGruppaList"
-               [selectedSpavochnik]="TableType.KOMPL"
+               [selectedSpavochnik]="selectedSourceSpravochnik"
                [originSourceTable]="OriginSourceTable.PRE_RELATION_TABLE"
     >
     </app-table>
@@ -19,7 +19,7 @@
       Все группы:
     </div>
     <app-table class="overflow-auto flex-column d-flex"
-               [selectedSpavochnik]="TableType.KOMPL"
+               [selectedSpavochnik]="selectedSourceSpravochnik"
                [fieldColumnList]="gruppaPreSelectedFieldColumnList"
                [dataTableSource]="gruppaForJoinedMap"
                [totalFoundedElements]="gruppaTotalElements"

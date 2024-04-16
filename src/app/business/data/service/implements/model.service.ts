@@ -7,6 +7,8 @@ import {SearchPageModelService} from "../SearchService/impl/SearchPage/search-pa
 import {CRUDModelService} from "../CRUDService/impl/crudmodel.service";
 import {SearchAllModelService} from "../SearchService/impl/SearchAll/search-all-model.service";
 import {OtherMethodModelService} from "../OtherMethodService/implements/other-method-model.service";
+import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
+import {KomplDTO} from "../../model/dto/impl/KomplDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +59,13 @@ export class ModelService {
 
   findByGruppaId(gruppaId: number): Observable<ModelDTO[]>{
     return this.otherMethodModelService.findByGruppaId(gruppaId);
+  }
+
+  setGruppyById(id: string, gruppaList: any): Observable<ModelDTO>{
+    return this.otherMethodModelService.setGruppyById(id, gruppaList);
+  }
+
+  setKompleksyById(id: string, komplList: KomplDTO[]): Observable<ModelDTO>{
+    return this.otherMethodModelService.setKompleksyById(id, komplList);
   }
 }
