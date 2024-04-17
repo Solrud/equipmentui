@@ -3,7 +3,7 @@
 </div>
 
 <div class="modal-body d-flex modal-body-config">
-  <nav class="nav-pills flex-column text-wrap overflow-hidden overflow-auto"
+  <nav class="nav-pills flex-column text-wrap"
        orientation="vertical"
        ngbNav
        #navBar="ngbNav">
@@ -140,7 +140,7 @@
     <!--// Производитель-->
     <ng-container ngbNavItem>
       <a ngbNavLink (click)="onClickSearchProizv()">Производитель</a>
-      <ng-template ngbNavContent>
+      <ng-template ngbNavContent class="d-flex flex-column">
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
@@ -159,13 +159,15 @@
             <i class="bi bi-x-octagon"></i> Удалить код производителя
           </button>
         </div>
-        <app-table
+        <app-table class="d-flex flex-column overflow-auto"
           [fieldColumnList]="proizvFieldColumnList"
           [dataTableSource]="proizvDataTableInput"
           [dataSearch]="proizvSearch"
           [totalFoundedElements]="proizvTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.PROIZV"
+
+          (dataSearchNew)="onChangePage($event)"
         ></app-table>
       </ng-template>
     </ng-container>

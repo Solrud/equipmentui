@@ -114,8 +114,6 @@ export class TableComponent implements OnInit, OnChanges{
   }
 
   onAddRelatedElement(elementObj: any){
-    // console.log(elementObj)
-    // console.log(typeof elementObj)
     this.chosenElementObj.emit(elementObj);
   }
 

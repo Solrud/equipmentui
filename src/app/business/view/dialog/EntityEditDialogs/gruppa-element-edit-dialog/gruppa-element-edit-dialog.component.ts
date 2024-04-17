@@ -61,12 +61,9 @@ export class GruppaElementEditDialogComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.selectedElement);
     this.beforeInitDialogDefaultValues();
     this.initFgGruppaElement();
     this.afterInitDialogDefaultValues();
-
-
 
     this._observeFcKlass();
     this._observeFcVid();
@@ -83,14 +80,6 @@ export class GruppaElementEditDialogComponent implements OnInit{
   public get Validators() {
     return Validators;
   }
-
-  // initInputColorful(){
-    // const input = document.querySelector('#kodKlass') as HTMLInputElement;
-    // const text = input.value;
-    // const newText = text.substring(0, 2) + '<span class="bg-for-kod-vid">' + text.substring(1, 4) + '</span>' + text.substring(3);
-    //
-    // input.innerHTML = newText;
-  // }
 
   getCorrectValueFromField(field: string){
     if (this.dialogMode === DialogMode.CREATE){
@@ -125,7 +114,6 @@ export class GruppaElementEditDialogComponent implements OnInit{
     })
     this.nalPuService.searchAll().subscribe( result => {
       if (result && result.length > 0){
-        console.log(result)
         this.nalPuList = result;
         this.nalPuListDDM = result;
 
@@ -144,7 +132,6 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
         if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
           let gabZoObject: GabZoDTO = this.gabZoList.find( gabZo => gabZo.kodKlass === this.selectedElement.kodKlass.substring(5, 7))
-          console.log(gabZoObject)
           this.onClickSelectDDIGabZo(gabZoObject);
         }
       }

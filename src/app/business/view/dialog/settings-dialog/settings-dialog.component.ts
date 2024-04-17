@@ -38,6 +38,7 @@ import {UchDTO} from "../../../data/model/dto/impl/UchDTO";
 import {EventService} from "../../../data/service/OptionalService/event.service";
 import {OpenDialogService} from "../../../data/service/OptionalService/open-dialog.service";
 import {ToastService} from "../../../data/service/OptionalService/toast.service";
+import {ABaseSearchDTO} from "../../../data/model/search/ABaseSearchDTO";
 
 @Component({
   selector: 'app-settings-dialog',
@@ -126,6 +127,7 @@ export class SettingsDialogComponent implements OnInit{
 
   ngOnInit(): void {
     this.onClickSearchKlassOborud();
+    this.initDialogDefault();
 
     this._subscribeOborudKlassSelectedElement();
     this._subscribeOborudVidSelectedElement();
@@ -134,6 +136,10 @@ export class SettingsDialogComponent implements OnInit{
     this._subscribeProizvSelectedElement();
     this._subscribePodrSelectedElement();
     this._subscribeUchSelectedElement();
+  }
+
+  initDialogDefault(){
+    this.proizvSearch.pageSize = 0;
   }
 
   _subscribeOborudKlassSelectedElement(){
@@ -195,6 +201,15 @@ export class SettingsDialogComponent implements OnInit{
   }
   public get ActionMode(){
     return ActionMode;
+  }
+
+  onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
+    Object.keys(newDataSearch).forEach(key => {
+      if (this.proizvSearch.hasOwnProperty(key)) {
+        this.proizvSearch[key] = newDataSearch[key];
+      }
+    })
+    this.onClickSearchProizv();
   }
 
   onClickActionKlassOborud(mode: ActionMode){
@@ -407,11 +422,16 @@ export class SettingsDialogComponent implements OnInit{
   onClickSearchProizv(): void{
     this.toSetAllSelectedElementsNull();
     this.proizvDataTableInput = [];
-    this.proizvService.searchAll().subscribe( result => {
-      this.proizvDataTableInput = result;
-    }, error => {
-      console.log('Произошла какая-то ошибка onClickSearchProizv() в settings.');
+
+    this.proizvService.searchPage(this.proizvSearch).subscribe( result => {
+      this.proizvDataTableInput = result.content;
     })
+
+    // this.proizvService.searchAll().subscribe( result => {
+    //   this.proizvDataTableInput = result;
+    // }, error => {
+    //   console.log('Произошла какая-то ошибка onClickSearchProizv() в settings.');
+    // })
   }
 
   onClickActionPodr(mode: ActionMode){
