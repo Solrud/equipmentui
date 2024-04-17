@@ -1,5 +1,5 @@
 <div class="modal-header justify-content-center d-flex modal-header-config">
-  <h1 class="m-0 text-center ">Настройки</h1>
+  <h2 class="m-0 text-center text-white">Настройки</h2>
 </div>
 
 <div class="modal-body d-flex modal-body-config">
@@ -15,17 +15,17 @@
         <div class="line-title">Код оборудования</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success mb-1"
+            <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionKlassOborud(ActionMode.CREATE)">
               <i class="bi bi-plus-square"></i> Добавить код оборудования
             </button>
-            <button class="btn btn-sm btn-outline-primary mb-1"
+            <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionKlassOborud(ActionMode.EDIT)"
                     [disabled]="!klassSelectedElement">
               <i class="bi bi-sliders2"></i> Изменить код оборудования
             </button>
           </div>
-          <button class="btn btn-sm btn-outline-danger mb-1"
+          <button class="btn btn-sm btn-danger mb-1"
                   (click)="onClickActionKlassOborud(ActionMode.DELETE)"
                   [disabled]="!klassSelectedElement">
             <i class="bi bi-x-octagon"></i> Удалить код оборудования
@@ -43,19 +43,19 @@
         <div class="line-title border-bottom-c">Вид оборудования</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success mb-1"
+            <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionVidOborud(ActionMode.CREATE)"
                     [disabled]="!klassSelectedElement">
               <i class="bi bi-plus-square"></i> Добавить вид оборудования
             </button>
-            <button class="btn btn-sm btn-outline-primary mb-1"
+            <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionVidOborud(ActionMode.EDIT)"
                     [disabled]="!vidSelectedElement">
               <i class="bi bi-sliders2"></i> Изменить вид оборудования
             </button>
           </div>
 
-          <button class="btn btn-sm btn-outline-danger mb-1"
+          <button class="btn btn-sm btn-danger mb-1"
                   (click)="onClickActionVidOborud(ActionMode.DELETE)"
                   [disabled]="!vidSelectedElement">
             <i class="bi bi-x-octagon"></i> Удалить вид оборудования
@@ -78,17 +78,17 @@
       <ng-template ngbNavContent>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success mb-1"
+            <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionNalPu(ActionMode.CREATE)">
               <i class="bi bi-plus-square"></i> Добавить код наличие ПУ
             </button>
-            <button class="btn btn-sm btn-outline-primary mb-1"
+            <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionNalPu(ActionMode.EDIT)"
                     [disabled]="!nalPuSelectedElement">
               <i class="bi bi-sliders2"></i> Изменить код наличие ПУ
             </button>
           </div>
-          <button class="btn btn-sm btn-outline-danger mb-1"
+          <button class="btn btn-sm btn-danger mb-1"
                   (click)="onClickActionNalPu(ActionMode.DELETE)"
                   [disabled]="!nalPuSelectedElement">
             <i class="bi bi-x-octagon"></i> Удалить код наличие ПУ
@@ -111,17 +111,17 @@
       <ng-template ngbNavContent>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success mb-1"
+            <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionGabZo(ActionMode.CREATE)">
               <i class="bi bi-plus-square"></i> Добавить код Габарита З.О.
             </button>
-            <button class="btn btn-sm btn-outline-primary mb-1"
+            <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionGabZo(ActionMode.EDIT)"
                     [disabled]="!gabZoSelectedElement">
               <i class="bi bi-sliders2"></i> Изменить код Габарита З.О.
             </button>
           </div>
-          <button class="btn btn-sm btn-outline-danger mb-1"
+          <button class="btn btn-sm btn-danger mb-1"
                   (click)="onClickActionGabZo(ActionMode.DELETE)"
                   [disabled]="!gabZoSelectedElement">
             <i class="bi bi-x-octagon"></i> Удалить код Габарита З.О.
@@ -143,17 +143,17 @@
       <ng-template ngbNavContent>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success mb-1"
+            <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionProizv(ActionMode.CREATE)">
               <i class="bi bi-plus-square"></i> Добавить код производителя
             </button>
-            <button class="btn btn-sm btn-outline-primary mb-1"
+            <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionProizv(ActionMode.EDIT)"
                     [disabled]="!proizvSelectedElement">
               <i class="bi bi-sliders2"></i> Изменить код производителя
             </button>
           </div>
-          <button class="btn btn-sm btn-outline-danger mb-1"
+          <button class="btn btn-sm btn-danger mb-1"
                   (click)="onClickActionProizv(ActionMode.DELETE)"
                   [disabled]="!proizvSelectedElement">
             <i class="bi bi-x-octagon"></i> Удалить код производителя
@@ -176,17 +176,17 @@
         <div class="line-title">Подразделения</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success mb-1"
+            <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionPodr(ActionMode.CREATE)">
               <i class="bi bi-plus-square"></i> Добавить подразделение
             </button>
-            <button class="btn btn-sm btn-outline-primary mb-1"
+            <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionPodr(ActionMode.EDIT)"
                     [disabled]="!podrSelectedElement">
               <i class="bi bi-sliders2"></i> Изменить подразделение
             </button>
           </div>
-          <button class="btn btn-sm btn-outline-danger mb-1"
+          <button class="btn btn-sm btn-danger mb-1"
                   (click)="onClickActionPodr(ActionMode.DELETE)"
                   [disabled]="!podrSelectedElement">
             <i class="bi bi-x-octagon"></i> Удалить подразделение
@@ -203,18 +203,18 @@
         <div class="line-title">Участки</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success mb-1"
+            <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionUch(ActionMode.CREATE)"
                     [disabled]="!podrSelectedElement">
               <i class="bi bi-plus-square"></i> Добавить участок
             </button>
-            <button class="btn btn-sm btn-outline-primary mb-1"
+            <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionUch(ActionMode.EDIT)"
                     [disabled]="!uchSelectedElement">
               <i class="bi bi-sliders2"></i> Изменить участок
             </button>
           </div>
-          <button class="btn btn-sm btn-outline-danger mb-1"
+          <button class="btn btn-sm btn-danger mb-1"
                   (click)="onClickActionUch(ActionMode.DELETE)"
                   [disabled]="!uchSelectedElement">
             <i class="bi bi-x-octagon"></i> Удалить участок

@@ -20,7 +20,7 @@ export const UCH_URL_TOKEN = new InjectionToken<string>('url');
 export const DEFAULT_PAGE_NUMBER = 0;
 export const DEFAULT_PAGE_SIZE = 20;
 export const DEFAULT_SORT_COLUMN = 'id';
-export const DEFAULT_SORT_DIRECTION = 'desc';
+export const DEFAULT_SORT_DIRECTION = 'asc';
 
 export enum TableType {                      // Тип таблицы
   OBORUD_EKZ = 'Экземпляр оборудования',
@@ -46,14 +46,17 @@ export enum TableType {                      // Тип таблицы
   SETTINGS_RELATION_EKZ = 'Таблица изменения связей Экземпляров оборудвоания',
 }
 
-export const INIT_NAV_BAR = TableType.KOMPL; // Какая таблица откроется по-умолчанию
+export const defaultLocale = 'ru'
+
+export const INIT_NAV_BAR = TableType.MODEL; // Какая таблица откроется по-умолчанию
 
 export enum OriginSourceTable{               // Происхождение создания компонента таблицы
   MAIN_TABLE,
   SETTINGS_TABLE,
   RELATIONSHIP_TABLE,
   PRE_RELATION_TABLE,
-  RELATION_SETTINGS
+  RELATION_SETTINGS,
+  ATTACHED_TABLE
 }
 
 export enum TypePartOfKodKlass{              // Тип составной части классификатора кода

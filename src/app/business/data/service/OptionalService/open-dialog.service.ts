@@ -20,6 +20,9 @@ import {PodrEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit
 import {UchDTO} from "../../model/dto/impl/UchDTO";
 import {UchEditDialogComponent} from "../../../view/dialog/OtherSpravochnikEdit/uch-edit-dialog/uch-edit-dialog.component";
 import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
+import {ModelDTO} from "../../model/dto/impl/ModelDTO";
+import {AttachedElementFromTableEditDialogComponent} from "../../../view/dialog/attached-element-from-table-edit-dialog/attached-element-from-table-edit-dialog.component";
+import {KomplDTO} from "../../model/dto/impl/KomplDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -80,8 +83,7 @@ export class OpenDialogService {
           centered: this.toCenteredModal,
           modalDialogClass: "modal-config"
         });
-        if (dialogMode != DialogMode.CREATE)
-          openOborudEkzElementEditDialog.componentInstance.selectedElement = selectedElement;
+        if (dialogMode != DialogMode.CREATE) openOborudEkzElementEditDialog.componentInstance.selectedElement = selectedElement;
         openOborudEkzElementEditDialog.componentInstance.dialogMode = dialogMode;
 
         return openOborudEkzElementEditDialog;
@@ -91,8 +93,13 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки изменения связей |==========---
-  openKomplRelationshipDialog(){
-    const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent, {scrollable: true, size: "md", centered: this.toCenteredModal});
+  openKomplRelationshipDialog(selectedSourceSpravochnik: TableType, selectedElement: any, joinedKomplList: KomplDTO[]){
+    const openKomplRelationshipDialog = this.modalService.open(KomplRelationshipDialogComponent,
+      {scrollable: true, size: "lg", centered: this.toCenteredModal});
+    openKomplRelationshipDialog.componentInstance.selectedSourceSpravochnik = selectedSourceSpravochnik;
+    openKomplRelationshipDialog.componentInstance.selectedElement = selectedElement;
+    openKomplRelationshipDialog.componentInstance.joinedKomplList = joinedKomplList.slice();
+    return openKomplRelationshipDialog;
   }
 
   openGruppaRelationshipDialog(selectedSourceSpravochnik: TableType, selectedElement: any, joinedGruppaList: GruppaDTO[]){
@@ -100,16 +107,17 @@ export class OpenDialogService {
       {scrollable: true, size: "lg", centered: this.toCenteredModal});
     openGruppaRelationshipDialog.componentInstance.selectedSourceSpravochnik = selectedSourceSpravochnik;
     openGruppaRelationshipDialog.componentInstance.selectedElement = selectedElement;
-    openGruppaRelationshipDialog.componentInstance.joinedGruppaList = joinedGruppaList;
+    openGruppaRelationshipDialog.componentInstance.joinedGruppaList = joinedGruppaList.slice();
     return openGruppaRelationshipDialog;
   }
 
-  openModelRelationshipDialog(){
-    const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent, {scrollable: true, size: "md", centered: this.toCenteredModal});
-  }
-
-  openOborudEkzRelationshipDialog(){
-    const openOborudEkzRelationshipDialog = this.modalService.open(OborudEkzRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
+  openModelRelationshipDialog(selectedSourceSpravochnik: TableType, selectedElement: any, joinedModelList: ModelDTO[]){
+    const openModelRelationshipDialog = this.modalService.open(ModelRelationshipDialogComponent,
+      {scrollable: true, size: "lg", centered: this.toCenteredModal});
+    openModelRelationshipDialog.componentInstance.selectedSourceSpravochnik = selectedSourceSpravochnik;
+    openModelRelationshipDialog.componentInstance.selectedElement = selectedElement;
+    openModelRelationshipDialog.componentInstance.joinedModelList = joinedModelList.slice();
+    return openModelRelationshipDialog;
   }
 
   //---=========| Модалки удаления | Изменения активности |=========---
@@ -129,11 +137,21 @@ export class OpenDialogService {
     return openSettingsDialog;
   }
 
+  //---=========| Модалка с выбираемым элементом из таблички |=========---
+  openAttachedElementFromTableDialog(selectedElement: ModelDTO, dialogMode: DialogMode){
+    const openAttachedElementFromTableDialog = this.modalService.open(AttachedElementFromTableEditDialogComponent,
+      {scrollable: true, centered: this.toCenteredModal, size: "lg"});
+    openAttachedElementFromTableDialog.componentInstance.selectedElement = selectedElement;
+    openAttachedElementFromTableDialog.componentInstance.dialogMode = dialogMode;
+
+    return openAttachedElementFromTableDialog;
+  }
+
   //---=========| Модалки изменения справочников в настройках |=========---
   openPartOfKodKlassDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode,
                            listFromElement: any[], klassForVid: OborudKlassDTO = null){
     const openPartOfKodKlassDialog = this.modalService.open(PartOfKodKlassEditDialogComponent,
-      {scrollable: true, size: "md", centered: this.toCenteredModal})
+      {scrollable: true, centered: this.toCenteredModal, modalDialogClass: "modal-part-kod-config"})
     openPartOfKodKlassDialog.componentInstance.selectedElement = selectedElement;
     openPartOfKodKlassDialog.componentInstance.listFromElement = listFromElement;
     openPartOfKodKlassDialog.componentInstance.selectedNavBar = selectedNavBar;

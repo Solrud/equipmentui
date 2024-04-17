@@ -1,18 +1,18 @@
 <div class="d-flex flex-row justify-content-between w-100">
   <div class="d-flex gap-4 ms-5">
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+    <button class="btn btn-success d-flex flex-row align-items-center"
             [disabled]="!selectedNavBar"
             (click)="onClickAddNewElement()">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
       &nbsp; {{ 'BUTTON.ADD'|translate }}
     </button>
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+    <button class="btn btn-primary d-flex flex-row align-items-center"
             [disabled]="!selectedElementTable"
             (click)="onClickEditElement()">
       <i class="bi bi-pencil-square i-edit"></i>
       &nbsp; {{ 'BUTTON.EDIT'|translate }}
     </button>
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+    <button class="btn btn-primary d-flex flex-row align-items-center"
             [disabled]="!selectedElementTable"
             (click)="onClickChangeActivityElement()">
       <span class = "d-flex flex-row align-items-center fix-width-act-button"
@@ -31,13 +31,13 @@
       &nbsp; {{ 'BUTTON.CHANGE-ACTIVE'|translate }}
       </span>
     </button>
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+    <button class="btn btn-danger d-flex flex-row align-items-center"
             [disabled]="!selectedElementTable"
             (click)="onClickDeleteElement()">
       <i class="bi bi-trash"></i>
       &nbsp; {{ 'BUTTON.DELETE'|translate }}
     </button>
-    <button class="btn btn-outline-primary d-flex flex-row align-items-center"
+    <button class="btn btn-primary d-flex flex-row align-items-center"
             [class.visually-hidden]="selectedNavBar != tableType.OBORUD_EKZ"
             [disabled]="true">
       <i class="bi bi-reply-all-fill i-delete"></i>

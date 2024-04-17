@@ -6,6 +6,12 @@ import {INIT_NAV_BAR, TableType} from "../../../../app.constant";
   providedIn: 'root'
 })
 export class EventService {
+  // --------------------------------------- Таблица ПРЕДпросмотра выбранных связей----------------------------
+  selectedPreRelatedElement$ = new Subject();
+  selectPreRelatedElement$(selectedElement: any){
+    this.selectedPreRelatedElement$.next(selectedElement);
+  }
+
   // --------------------------------------- Связей таблицы ---------------------------------------------------
   selectedElementKomplRelationshipTable$ = new Subject();                   // Выбранная строка из Комплекса, таблицы СВЯЗЕЙ
   selectElementKomplRelationshipTable$(selectedElement: any){

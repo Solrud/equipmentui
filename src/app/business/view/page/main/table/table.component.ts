@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
-import {OriginSourceTable, TableType} from "../../../../../app.constant";
+import {DEFAULT_SORT_COLUMN, DEFAULT_SORT_DIRECTION, OriginSourceTable, TableType} from "../../../../../app.constant";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
 import {MatTableDataSource} from "@angular/material/table";
@@ -30,7 +30,10 @@ export class TableComponent implements OnInit, OnChanges{
 
   @Output()
   dataSearchNew: EventEmitter<ABaseSearchDTO> = new EventEmitter<ABaseSearchDTO>();
+  @Output()
+  chosenElementObj: EventEmitter<any> = new EventEmitter<any>();
 
+  @Input()
   selectedElement: any;
 
   previewResultValues = new MatTableDataSource();
@@ -41,13 +44,12 @@ export class TableComponent implements OnInit, OnChanges{
   ) { }
 
   ngOnInit(): void {
-    console.log(this.dataTableSource)
+    // console.log(this.dataTableSource)
     this._subscribeMainSelectedEl();
-    //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был? только в настройках наверное
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+    // console.log(changes)
   }
 
   _subscribeMainSelectedEl(){
@@ -65,28 +67,71 @@ export class TableComponent implements OnInit, OnChanges{
     return OriginSourceTable;
   }
 
+  onSortTable(fieldName: string){
+    this.dataSearch.pageNumber = 0
+    if (fieldName) {
+      let sortColumnTemp;
+      let sortDirectionTemp;
+      if (fieldName != this.dataSearch.sortColumn) {
+        sortDirectionTemp = this.selectSortDirection(null);
+        sortColumnTemp = fieldName;
+      } else {
+        sortDirectionTemp = this.selectSortDirection(this.dataSearch.sortDirection);
+        if (!sortDirectionTemp) {
+          sortColumnTemp = DEFAULT_SORT_COLUMN;
+          sortDirectionTemp = DEFAULT_SORT_DIRECTION;
+        } else {
+          sortColumnTemp = fieldName;
+        }
+      }
+      this.dataSearch.sortColumn = sortColumnTemp;
+      this.dataSearch.sortDirection = sortDirectionTemp;
+    }
+    this.dataSearchNew.emit(this.dataSearch);
+  }
+
+  selectSortDirection(direction: string): string {
+    if (direction === 'asc') return 'desc';
+    if (direction === 'desc') return null;
+    return 'asc';
+  }
+
   toShowPaginator(): boolean{
-    return !!(this.dataTableSource?.length > 0
+    let result = false;
+    if (this.dataTableSource?.length > 0) result = true;
+    if (this.dataTableSource?.size > 0) result = true;
+    return !!(result
       && this.originSourceTable !== OriginSourceTable.SETTINGS_TABLE
       && this.originSourceTable !== OriginSourceTable.RELATIONSHIP_TABLE
       && this.originSourceTable !== OriginSourceTable.PRE_RELATION_TABLE)
   }
 
   isDataSourceFull(): boolean{
-    return this.dataTableSource?.length > 0;
+    let result = false;
+    if (this.dataTableSource?.length > 0) result = true;
+    if (this.dataTableSource?.size > 0) result = true;
+    return result;
   }
 
-  onClickPageChanged(pageEvent: PageEvent){
-    this.dataSearch.pageSize !== pageEvent.pageSize ?
-      this.dataSearch.pageNumber = 0 : this.dataSearch.pageNumber = pageEvent.pageIndex;
-    this.dataSearch.pageSize = pageEvent.pageSize;
+  onAddRelatedElement(elementObj: any){
+    // console.log(elementObj)
+    // console.log(typeof elementObj)
+    this.chosenElementObj.emit(elementObj);
+  }
+
+  onClickPageChanged(elementSearch: ABaseSearchDTO){
+    this.dataSearch.pageSize !== elementSearch.pageSize ?
+      this.dataSearch.pageNumber = 0 : this.dataSearch.pageNumber = elementSearch.pageNumber;
+    this.dataSearch.pageSize = elementSearch.pageSize;
     this.dataSearchNew.emit(this.dataSearch);
   }
 
-  //ToDo выбранный элемент остается если переключится на другой экземпляр в одной сущности, надо ли так
+  onClickRemoveFromPrerelatedDataList(selectedForRemoveObj: any){
+    this.eventService.selectPreRelatedElement$(selectedForRemoveObj);
+  }
 
   onSelectElementTable(selectedElement: any){
-    console.log(selectedElement)
+    // console.log(selectedElement)
     this.selectedElement = selectedElement;
     switch (this.originSourceTable) {
       case OriginSourceTable.MAIN_TABLE:
@@ -125,6 +170,10 @@ export class TableComponent implements OnInit, OnChanges{
       case OriginSourceTable.RELATION_SETTINGS:
         // if (this.selectedSpavochnik === )
         break;
+      case OriginSourceTable.PRE_RELATION_TABLE:
+        // this.eventService.selectPreRelatedElement(selectedElement);
+        break;
+
     }
   }
 // pageEvent.pageSize = Кол-во элементов на 1 странице таблицы

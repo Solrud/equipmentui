@@ -15,6 +15,7 @@
                id="naim"
                type="text"
                formControlName="naim"
+               autocomplete="off"
                [required]="fcFieldIsRequired('naim', true)">
         <button class="btn btn-light border-dark"
                 (click)="fgOborudEkzElement.controls['naim'].setValue(null)">
@@ -22,14 +23,17 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <div class="d-flex gap-2">
     <!--    ячейка 2 ПРОИЗВОДИТЕЛЬ-->
-    <div class="flex-grow-1 "
+    <div class="flex-grow-1"
          ngbDropdown
          container="body"
          #ddmProizv="ngbDropdown"
     >
       <label for="proizv" class="form-label">Производитель</label>
-      <div class="form-group input-group">
+      <div class="input-group">
         <input class="form-control border-dark"
                id="proizv"
                type="text"
@@ -50,7 +54,7 @@
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="proizvListDDM && proizvListDDM.length == 0"
-             ngbDropdownItem class="text-center">😔</h2>
+              ngbDropdownItem class="text-center">😔</h2>
           <button class="text-wrap"
                   *ngFor="let proizv of proizvListDDM"
                   (click)="onClickSelectDDIProizv(proizv)"
@@ -60,16 +64,37 @@
         </div>
       </div>
     </div>
+
+
+    <div class="flex-grow-1">
+      <label for="model" class="form-label">Модель</label>
+      <div class="input-group">
+        <input class="form-control border-dark"
+               id="model"
+               type="text"
+               autocomplete="off"
+               formControlName="model"
+               [required]="fcFieldIsRequired('model', true)"
+        >
+        <button class="btn btn-light border-dark"
+                (click)="onClickAttachModel()">
+          Присвоить модель
+          <i class="ms-1 bi bi-share"></i>
+        </button>
+      </div>
+    </div>
   </div>
+
   <!--  ряд 2-->
   <div class="d-flex gap-2">
     <!--    Индивидуальный номер -->
     <div class="flex-grow-1">
-      <label for="invNom" class="form-label">Индивидуальный номер</label>
+      <label for="invNom" class="form-label">Инвентарный номер</label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="invNom"
                type="text"
+               autocomplete="off"
                formControlName="invNom"
                [required]="fcFieldIsRequired('invNom', true)">
         <button class="btn btn-light border-dark"
@@ -111,7 +136,7 @@
                   *ngFor="let podr of podrListDDM"
                   (click)="onClickSelectDDIPodr(podr)"
                   ngbDropdownItem>
-            {{podr.naim}}
+            {{podr.obozn}}
           </button>
         </div>
       </div>
@@ -126,6 +151,7 @@
         <input class="form-control border-dark"
                id="serNom"
                type="text"
+               autocomplete="off"
                formControlName="serNom"
                [required]="fcFieldIsRequired('serNom', true)">
         <button class="btn btn-light border-dark"
@@ -170,19 +196,39 @@
                   *ngFor="let uch of uchListDDM"
                   (click)="onClickSelectDDIUch(uch)"
                   ngbDropdownItem>
-            {{uch.naim}}
+            {{uch.obozn}}
           </button>
         </div>
       </div>
     </div>
   </div>
-
+  <div  class="d-flex gap-2">
+    <div class="flex-grow-1">
+      <label for="prim" class="form-label">Примечание</label>
+      <div class="form-group input-group">
+      <textarea class="form-control txtarea-c"
+                id="prim"
+                type="text"
+                formControlName="prim"
+                autocomplete="off"
+                maxlength="249"
+                [required]="fcFieldIsRequired('prim', true)"
+                rows="3"
+      >
+      </textarea>
+        <button class="btn btn-light border-dark"
+                (click)="fgOborudEkzElement.controls['prim'].setValue(null)">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </form>
 
 <div class="modal-footer justify-content-between">
     <div class="d-flex flex-column">
       <span class="text-wrap text-danger">*Для заполнения карточки ОБЯЗАТЕЛЕН</span>
-      <span class="text-wrap text-danger">ЛИБО серийный, ЛИБО индивидуальный номер</span>
+      <span class="text-wrap text-danger">ЛИБО серийный, ЛИБО инвентарный номер</span>
     </div>
     <div class="d-flex gap-2">
       <button type="button" class="btn btn-primary"

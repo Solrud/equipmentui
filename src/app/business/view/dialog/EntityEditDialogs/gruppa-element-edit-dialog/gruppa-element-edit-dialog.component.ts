@@ -308,7 +308,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   // Код(Класс) оборудования
   onClickSelectDDIKlass(klass: OborudKlassDTO){
-    this.fgGruppaElement.controls['klass'].setValue(klass.naim);
+    this.fgGruppaElement.controls['klass'].setValue(klass.kodKlass + ' | ' + klass.naim);
     this.newKlass = klass;
     this.changeValidators('klass', [this.validatorMinLength], true);
 
@@ -318,7 +318,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   // Вид оборудования
   onClickSelectDDIVid(vid: OborudVidDTO){
-    this.fgGruppaElement.controls['vid'].setValue(vid.naim);
+    this.fgGruppaElement.controls['vid'].setValue(vid.kodKlass + ' | ' + vid.naim);
     this.newVid = vid;
     this.changeValidators('vid', [this.validatorMinLength], true);
 
@@ -327,7 +327,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   // Наличие Программного Управления
   onClickSelectDDINalPu(nalPu: NalPuDTO){
-    this.fgGruppaElement.controls['nalPu'].setValue(nalPu.naim);
+    this.fgGruppaElement.controls['nalPu'].setValue(nalPu.kodKlass + ' | ' + nalPu.naim);
     this.newNalPu = nalPu;
     this.changeValidators('nalPu', [this.validatorMinLength], true);
 
@@ -336,7 +336,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   // Габариты Зоны Обработки
   onClickSelectDDIGabZo(gabZo: GabZoDTO){
-    this.fgGruppaElement.controls['gabZo'].setValue(gabZo.naim);
+    this.fgGruppaElement.controls['gabZo'].setValue(gabZo.kodKlass + ' | ' + gabZo.naim);
     this.newGabZo = gabZo;
     this.changeValidators('gabZo', [this.validatorMinLength], true);
 
