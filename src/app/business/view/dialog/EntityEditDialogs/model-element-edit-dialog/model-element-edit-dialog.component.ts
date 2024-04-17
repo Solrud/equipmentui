@@ -102,7 +102,7 @@ export class ModelElementEditDialogComponent implements OnInit{
     this.onSaveNewModel();
     this.modelService.update(this.newModel).subscribe( result => {
       if(result){
-        this.activeModal.close(DialogResult.ACCEPT);
+        this.activeModal.close([DialogResult.ACCEPT, this.newModel]);
         this.toastService.showPositive('Успешно изменена модель');
       }
     }, error => {

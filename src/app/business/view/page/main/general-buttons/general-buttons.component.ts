@@ -69,8 +69,9 @@ export class GeneralButtonsComponent implements OnInit {
 
   onClickEditElement() {
     this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.EDIT).closed.subscribe(result => {
-      if (result == DialogResult.ACCEPT)
-        this.researchPage.emit();
+      if (result[0] == DialogResult.ACCEPT)
+        // this.researchPage.emit();
+        this.eventService.selectElementMainTable$(result[1])
     });
   }
 

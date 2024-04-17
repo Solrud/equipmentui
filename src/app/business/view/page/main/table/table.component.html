@@ -9,7 +9,17 @@
          class="table table-bordered table-responsive table-sm overflow-auto h-50" >
     <thead>
     <tr class="tr-columns-config sticky-top border-top-0">
-      <th class="text-nowrap column-config" *ngFor="let field of fieldColumnList">{{'TABLE.' + field.toUpperCase() | translate}}</th>
+      <th class="text-nowrap column-config pointer"
+          *ngFor="let field of fieldColumnList"
+          (click)="onSortTable(field)"
+      >
+        <span>{{'TABLE.' + field.toUpperCase() | translate}}</span>
+        <i class="bi ms-1"
+           [class.invisible]="dataSearch?.sortColumn != field"
+           [class.bi-sort-down-alt]="dataSearch?.sortDirection === 'asc'"
+           [class.bi-sort-down]="dataSearch?.sortDirection === 'desc'"
+        ></i>
+      </th>
     </tr>
     </thead>
     <tbody class="">

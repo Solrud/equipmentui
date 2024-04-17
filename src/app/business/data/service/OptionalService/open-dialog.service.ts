@@ -120,10 +120,6 @@ export class OpenDialogService {
     return openModelRelationshipDialog;
   }
 
-  openOborudEkzRelationshipDialog(){
-    const openOborudEkzRelationshipDialog = this.modalService.open(OborudEkzRelationshipDialogComponent, {scrollable: true, size: "md", centered: true});
-  }
-
   //---=========| Модалки удаления | Изменения активности |=========---
   openElementConfirmDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode){
     const confirmDialogComponent = this.modalService.open(ConfirmDialogComponent,
@@ -155,7 +151,7 @@ export class OpenDialogService {
   openPartOfKodKlassDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode,
                            listFromElement: any[], klassForVid: OborudKlassDTO = null){
     const openPartOfKodKlassDialog = this.modalService.open(PartOfKodKlassEditDialogComponent,
-      {scrollable: true, size: "md", centered: this.toCenteredModal})
+      {scrollable: true, centered: this.toCenteredModal, modalDialogClass: "modal-part-kod-config"})
     openPartOfKodKlassDialog.componentInstance.selectedElement = selectedElement;
     openPartOfKodKlassDialog.componentInstance.listFromElement = listFromElement;
     openPartOfKodKlassDialog.componentInstance.selectedNavBar = selectedNavBar;

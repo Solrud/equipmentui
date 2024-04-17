@@ -14,43 +14,39 @@
            formControlName="klass"
     >
   </div>
-
-  <div class="d-flex flex-column justify-content-start w-25">
-    <label for="kodKlass" class=" form-label ">Код <span class="text-danger">{{fcFieldIsRequired('kodKlass')}}</span>
-      <span *ngIf="isSameKodExist" class="text-danger">Такой код уже существует!</span></label>
-    <div class="input-group">
-      <input class="form-control border-dark "
-             id="kodKlass"
-             type="text"
-             autocomplete="off"
-             formControlName="kodKlass"
-             [required]="fcFieldIsRequired('kodKlass', true)">
-      <button class="btn btn-light border-dark"
-              (click)="fgKod.controls['kodKlass'].setValue('')">
-        <i class="bi bi-x-lg"></i>
-      </button>
+  <div class="d-flex flex-grow-1 gap-2">
+    <div class="flex-grow-1 col-2">
+      <label for="kodKlass" class=" form-label ">Код <span class="text-danger">{{fcFieldIsRequired('kodKlass')}}</span>
+        <span *ngIf="isSameKodExist" class="text-danger">Такой код уже существует!</span></label>
+      <div class="input-group">
+        <input class="form-control border-dark "
+               id="kodKlass"
+               type="text"
+               autocomplete="off"
+               formControlName="kodKlass"
+               [required]="fcFieldIsRequired('kodKlass', true)">
+        <button class="btn btn-light border-dark"
+                (click)="fgKod.controls['kodKlass'].setValue('')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
     </div>
-
-
-  </div>
-
-  <div>
-    <label for="naim" class="form-label">Наименование <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
-    <div class="input-group">
-      <input class="form-control border-dark"
-             id="naim"
-             type="text"
-             autocomplete="off"
-             formControlName="naim"
-             [required]="fcFieldIsRequired('naim', true)">
-      <button class="btn btn-light border-dark"
-              (click)="fgKod.controls['naim'].setValue('')">
-        <i class="bi bi-x-lg"></i>
-      </button>
+    <div class="flex-grow-1 col-10">
+      <label for="naim" class="form-label">Наименование <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
+      <div class="input-group">
+        <input class="form-control border-dark"
+               id="naim"
+               type="text"
+               autocomplete="off"
+               formControlName="naim"
+               [required]="fcFieldIsRequired('naim', true)">
+        <button class="btn btn-light border-dark"
+                (click)="fgKod.controls['naim'].setValue('')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
     </div>
-
   </div>
-
 </form>
 
 <div class="modal-footer ">

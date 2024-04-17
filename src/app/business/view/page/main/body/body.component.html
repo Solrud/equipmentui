@@ -3,7 +3,10 @@
   <mat-drawer #drawer class="example-sidenav " mode="side" position="end" opened="true">
     <!--(КОМПЛЕКС)группа и модель-->
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.KOMPL">
-
+      <div class="upper-inform-div d-flex justify-content-center align-items-center">
+        <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите комплекс для отображения информации*</span>
+      </div>
       <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
           <h2 class="fs-4">Группа</h2>
@@ -53,7 +56,8 @@
     <!--(ГРУППА)комплекс и модель-->
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.GRUPPA">
       <div class="upper-inform-div d-flex justify-content-center align-items-center">
-        <span class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
+        <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите группу для отображения информации*</span>
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
@@ -97,6 +101,10 @@
     </div>
     <!--(МОДЕЛЬ)комплекс, группа и экземпляр-->
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.MODEL">
+      <div class="upper-inform-div d-flex justify-content-center align-items-center">
+        <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите модель для отображения информации*</span>
+      </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
           <h2 class="fs-4">Комплекс</h2>

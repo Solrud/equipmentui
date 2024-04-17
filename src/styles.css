@@ -46,3 +46,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .modal-settings-config{
   max-width: 1200px !important;
 }
+.modal-part-kod-config{
+  max-width: 600px !important;
+}

@@ -15,6 +15,7 @@
                id="naim"
                type="text"
                formControlName="naim"
+               autocomplete="off"
                [required]="fcFieldIsRequired('naim', true)">
         <button class="btn btn-light border-dark"
                 (click)="fgOborudEkzElement.controls['naim'].setValue(null)">
@@ -93,6 +94,7 @@
         <input class="form-control border-dark"
                id="invNom"
                type="text"
+               autocomplete="off"
                formControlName="invNom"
                [required]="fcFieldIsRequired('invNom', true)">
         <button class="btn btn-light border-dark"
@@ -134,7 +136,7 @@
                   *ngFor="let podr of podrListDDM"
                   (click)="onClickSelectDDIPodr(podr)"
                   ngbDropdownItem>
-            {{podr.naim}}
+            {{podr.obozn}}
           </button>
         </div>
       </div>
@@ -149,6 +151,7 @@
         <input class="form-control border-dark"
                id="serNom"
                type="text"
+               autocomplete="off"
                formControlName="serNom"
                [required]="fcFieldIsRequired('serNom', true)">
         <button class="btn btn-light border-dark"
@@ -193,7 +196,7 @@
                   *ngFor="let uch of uchListDDM"
                   (click)="onClickSelectDDIUch(uch)"
                   ngbDropdownItem>
-            {{uch.naim}}
+            {{uch.obozn}}
           </button>
         </div>
       </div>
@@ -207,6 +210,7 @@
                 id="prim"
                 type="text"
                 formControlName="prim"
+                autocomplete="off"
                 maxlength="249"
                 [required]="fcFieldIsRequired('prim', true)"
                 rows="3"

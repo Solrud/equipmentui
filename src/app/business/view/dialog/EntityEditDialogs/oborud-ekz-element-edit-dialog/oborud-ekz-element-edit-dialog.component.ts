@@ -113,8 +113,8 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       if (field == 'akt') return 1;
     }
     if (this.dialogMode == DialogMode.EDIT) {
-      if (field == 'podr' && this.selectedElement?.podr) return this.selectedElement.podr.naim;
-      if (field == 'uch' && this.selectedElement?.uch) return this.selectedElement.uch.naim;
+      if (field == 'podr' && this.selectedElement?.podr) return this.selectedElement.podr.obozn;
+      if (field == 'uch' && this.selectedElement?.uch) return this.selectedElement.uch.obozn;
       if (field == 'proizv' && this.selectedElement?.proizv) return this.selectedElement.proizv.naim;
       if (field == 'model' && this.selectedElement?.model) return this.selectedElement.model.naim;
     }
@@ -285,7 +285,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   //выбор из списка DDM Подразделения/Цеха
   onClickSelectDDIPodr(podr: PodrDTO){
-    this.fgOborudEkzElement.controls['podr'].setValue(podr.naim);
+    this.fgOborudEkzElement.controls['podr'].setValue(podr.obozn);
     this.newPodr = podr;
     this.changeValidators('podr', [this.validatorMinLength], true);
 
@@ -295,7 +295,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   //выбор из списка DDM Участка
   onClickSelectDDIUch(uch: UchDTO){
-    this.fgOborudEkzElement.controls['uch'].setValue(uch.naim);
+    this.fgOborudEkzElement.controls['uch'].setValue(uch.obozn);
     this.newUch = uch;
     this.changeValidators('uch', [this.validatorMinLength], true);
     if (this.isFirstTimeInit) {

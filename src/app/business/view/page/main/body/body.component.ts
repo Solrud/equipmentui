@@ -100,6 +100,7 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
+  // если изменить элемент и снова изменить, данные в модалке будут старые тк главный элемент не обновляется
   // сортировка и фильтрация таблиц(как в журнале ртк)
   // реализация перехода на связанный элемент: происходт переход на сущность главной таблицы, в тейбл передается выбранный элемент, в связях отображать эти связи с элементом.
   // main HTML исправить,чтобы высота выставлялась автоматически от разрешения | +- пойдет
@@ -159,15 +160,18 @@ export class BodyComponent implements OnInit{
 
   _subscribeToMainSelectedElement(){
     this.eventService.selectedElementMainTable$.subscribe( (result: any) => {
+      console.log('новый выбранный элемент:')
       console.log(result)
+      if (result?.id === this.mainSelectedElement?.id){
+        this.onReSearchPage();
+      }
       this.mainSelectedElement = result;
       this.toFindRelationshipDataByMainSelectedElement(result);
     })
   }
 
-  toFindRelationshipDataByMainSelectedElement(mainElement: any){
+  toFindRelationshipDataByMainSelectedElement(mainElement: any){  //серчит привязанные к главному элементу списки связей
     this.toClearAllRelationshipDataInput();
-    console.log(this.oborudEkzRelationshipSelectedElement)
     if (mainElement){
       if (this.selectedSpravochnik === TableType.KOMPL){
         this.gruppaService.findByKomplId(mainElement?.id).subscribe( resultGruppaList => {
@@ -304,7 +308,6 @@ export class BodyComponent implements OnInit{
 
   // Методы Вкладки
   onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
-    this.drawerComponent?.open();
     if ((this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
@@ -327,6 +330,7 @@ export class BodyComponent implements OnInit{
 
           this.fieldColumnList = FIELD_COLUMN_KOMPL_LIST;
           this.temporarilyDisabledNavBar = false;
+          this.drawerComponent?.open();
         }
       }, error => {
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Комплекс');
@@ -335,7 +339,6 @@ export class BodyComponent implements OnInit{
   }
 
   onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
-    this.drawerComponent?.open();
     if ((this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
@@ -357,6 +360,7 @@ export class BodyComponent implements OnInit{
           this.dataTableNavSource = result.content;
           this.fieldColumnList = FIELD_COLUMN_GRUPPA_LIST;
           this.temporarilyDisabledNavBar = false;
+          this.drawerComponent?.open();
         }
       }, error => {
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Группа');
@@ -365,11 +369,11 @@ export class BodyComponent implements OnInit{
   }
 
   onClickNavModel(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
-    this.drawerComponent?.open();
     if ((this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
       if(reSearchPage){
+        console.log('this.eventService.selectElementMainTable$(this.mainSelectedElement);')
         this.eventService.selectElementMainTable$(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.modelSearch);
@@ -386,6 +390,7 @@ export class BodyComponent implements OnInit{
           this.dataTableNavSource = result.content;
           this.fieldColumnList = FIELD_COLUMN_MODEL_LIST;
           this.temporarilyDisabledNavBar = false;
+          this.drawerComponent?.open();
         }
       }, error => {
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Модели');

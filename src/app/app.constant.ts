@@ -20,7 +20,7 @@ export const UCH_URL_TOKEN = new InjectionToken<string>('url');
 export const DEFAULT_PAGE_NUMBER = 0;
 export const DEFAULT_PAGE_SIZE = 20;
 export const DEFAULT_SORT_COLUMN = 'id';
-export const DEFAULT_SORT_DIRECTION = 'desc';
+export const DEFAULT_SORT_DIRECTION = 'asc';
 
 export enum TableType {                      // Тип таблицы
   OBORUD_EKZ = 'Экземпляр оборудования',
@@ -48,7 +48,7 @@ export enum TableType {                      // Тип таблицы
 
 export const defaultLocale = 'ru'
 
-export const INIT_NAV_BAR = TableType.GRUPPA; // Какая таблица откроется по-умолчанию
+export const INIT_NAV_BAR = TableType.MODEL; // Какая таблица откроется по-умолчанию
 
 export enum OriginSourceTable{               // Происхождение создания компонента таблицы
   MAIN_TABLE,

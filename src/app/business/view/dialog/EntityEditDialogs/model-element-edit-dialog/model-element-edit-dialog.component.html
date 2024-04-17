@@ -14,14 +14,14 @@
            formControlName="kod"
            [required]="fcFieldIsRequired('kod', true)">
   </div>
-  <div>
-    <label for="polnNaim" class="form-label">Полное наименование</label>
-    <input class="form-control border-dark"
-           id="polnNaim"
-           type="text"
-           formControlName="polnNaim"
-           [required]="fcFieldIsRequired('polnNaim', true)">
-  </div>
+<!--  <div>-->
+<!--    <label for="polnNaim" class="form-label">Полное наименование</label>-->
+<!--    <input class="form-control border-dark"-->
+<!--           id="polnNaim"-->
+<!--           type="text"-->
+<!--           formControlName="polnNaim"-->
+<!--           [required]="fcFieldIsRequired('polnNaim', true)">-->
+<!--  </div>-->
   <div>
     <label for="naim" class="form-label">Наименование</label>
     <div class="form-group input-group">
@@ -29,6 +29,7 @@
              id="naim"
              type="text"
              formControlName="naim"
+             autocomplete="off"
              [required]="fcFieldIsRequired('naim', true)">
       <button class="btn btn-light border-dark"
               (click)="fgModelElement.controls['naim'].setValue(null)">
@@ -44,6 +45,7 @@
              id="obozn"
              type="text"
              formControlName="obozn"
+             autocomplete="off"
              [required]="fcFieldIsRequired('obozn', true)">
       <button class="btn btn-light border-dark"
               (click)="fgModelElement.controls['naim'].setValue(null)">

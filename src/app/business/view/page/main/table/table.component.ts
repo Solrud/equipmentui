@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
-import {OriginSourceTable, TableType} from "../../../../../app.constant";
+import {DEFAULT_SORT_COLUMN, DEFAULT_SORT_DIRECTION, OriginSourceTable, TableType} from "../../../../../app.constant";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
 import {MatTableDataSource} from "@angular/material/table";
@@ -46,9 +46,6 @@ export class TableComponent implements OnInit, OnChanges{
   ngOnInit(): void {
     // console.log(this.dataTableSource)
     this._subscribeMainSelectedEl();
-    //ToDo нужно ли восставнавливать на таблицах, какой выбранный жлемент был? только в настройках наверное
-
-    //ToDo выставить условия для отображения надписи, если надо что то выбрать, чтобы отобразть
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,6 +65,35 @@ export class TableComponent implements OnInit, OnChanges{
   }
   public get OriginSourceTable(){
     return OriginSourceTable;
+  }
+
+  onSortTable(fieldName: string){
+    this.dataSearch.pageNumber = 0
+    if (fieldName) {
+      let sortColumnTemp;
+      let sortDirectionTemp;
+      if (fieldName != this.dataSearch.sortColumn) {
+        sortDirectionTemp = this.selectSortDirection(null);
+        sortColumnTemp = fieldName;
+      } else {
+        sortDirectionTemp = this.selectSortDirection(this.dataSearch.sortDirection);
+        if (!sortDirectionTemp) {
+          sortColumnTemp = DEFAULT_SORT_COLUMN;
+          sortDirectionTemp = DEFAULT_SORT_DIRECTION;
+        } else {
+          sortColumnTemp = fieldName;
+        }
+      }
+      this.dataSearch.sortColumn = sortColumnTemp;
+      this.dataSearch.sortDirection = sortDirectionTemp;
+    }
+    this.dataSearchNew.emit(this.dataSearch);
+  }
+
+  selectSortDirection(direction: string): string {
+    if (direction === 'asc') return 'desc';
+    if (direction === 'desc') return null;
+    return 'asc';
   }
 
   toShowPaginator(): boolean{
