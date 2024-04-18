@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
-  DELAY_TIME,
   FIELD_COLUMN_GRUPPA_LIST,
   FIELD_COLUMN_KOMPL_LIST,
   FIELD_COLUMN_MODEL_LIST,
@@ -14,6 +13,7 @@ import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSe
 import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
 import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
 import {debounceTime} from "rxjs/operators";
+import {NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-filter',
@@ -45,27 +45,53 @@ export class FilterComponent implements OnInit{
   fgModelFilter: FormGroup;
   fgOborudEkzFilter: FormGroup;
 
+  komplIsExpanded: boolean = false;
+  gruppaIsExpanded: boolean = false;
+  modelIsExpanded: boolean = false;
+  oborudEkzIsExpanded: boolean = false;
+
+  currentSearch: any;
+  currentIsExpanded: boolean;
+
   constructor(private eventService: EventService) {
   }
 
   ngOnInit(): void {
-    console.log(this.searchKompl)
-    console.log(this.searchGruppa)
-    console.log(this.searchModel)
-    console.log(this.searchOborudEkz)
     this._subscribeToSelectedSpravochnik();
-
-
-
   }
 
   public get TableType(){
     return TableType;
   }
 
+  toDefineCurrentValues(tableType: TableType){
+    // console.log(this.currentIsExpanded);
+    // console.log(this.komplIsExpanded)
+    // console.log(this.gruppaIsExpanded)
+    // console.log(this.modelIsExpanded)
+    // console.log(this.oborudEkzIsExpanded)
+    if (tableType === TableType.KOMPL){
+      this.currentSearch = this.searchKompl;
+      this.currentIsExpanded = this.komplIsExpanded;
+    }
+    if (tableType === TableType.GRUPPA){
+      this.currentSearch = this.searchGruppa;
+      this.currentIsExpanded = this.gruppaIsExpanded;
+    }
+    if (tableType === TableType.MODEL){
+      this.currentSearch = this.searchModel;
+      this.currentIsExpanded = this.modelIsExpanded;
+    }
+    if (tableType === TableType.OBORUD_EKZ){
+      this.currentSearch = this.searchOborudEkz;
+      this.currentIsExpanded = this.oborudEkzIsExpanded;
+    }
+  }
+
   _subscribeToSelectedSpravochnik(){
     this.eventService.selectedSpravTable$.subscribe( result => {
       this.selectedSpravochnik = result;
+      this.toDefineCurrentValues(this.selectedSpravochnik);
 
       this.initFgAll();
 
@@ -168,56 +194,74 @@ export class FilterComponent implements OnInit{
 
   }
 
-
   onClickChangeAct(){
-    // переключение активности все такое
-    if (this.selectedSpravochnik === TableType.KOMPL){
-      if (this.searchKompl.akt != null){
-        if (this.searchKompl.akt == 0){
-          this.searchKompl.akt = null;
-        }
-        if (this.searchKompl.akt == 1)
-          this.searchKompl.akt = 0;
-      } else {
-        this.searchKompl.akt = 1;
+    if (this.currentSearch.akt != null){
+      if (this.currentSearch.akt == 0){
+        this.currentSearch.akt = null;
       }
-      this.newSearch.emit(this.searchKompl);
+      if (this.currentSearch.akt == 1)
+        this.currentSearch.akt = 0;
+    } else {
+      this.currentSearch.akt = 1;
     }
-    if (this.selectedSpravochnik === TableType.GRUPPA){
-      if (this.searchGruppa.akt != null){
-        if (this.searchGruppa.akt == 0){
-          this.searchGruppa.akt = null;
-        }
-        if (this.searchGruppa.akt == 1)
-          this.searchGruppa.akt = 0;
-      } else {
-        this.searchGruppa.akt = 1;
-      }
-      this.newSearch.emit(this.searchGruppa);
-    }
-    if (this.selectedSpravochnik === TableType.MODEL){
-      if (this.searchModel.akt != null){
-        if (this.searchModel.akt == 0){
-          this.searchModel.akt = null;
-        }
-        if (this.searchModel.akt == 1)
-          this.searchModel.akt = 0;
-      } else {
-        this.searchModel.akt = 1;
-      }
-      this.newSearch.emit(this.searchModel);
-    }
-    if (this.selectedSpravochnik === TableType.OBORUD_EKZ){
-      if (this.searchOborudEkz.akt != null){
-        if (this.searchOborudEkz.akt == 0){
-          this.searchOborudEkz.akt = null;
-        }
-        if (this.searchOborudEkz.akt == 1)
-          this.searchOborudEkz.akt = 0;
-      } else {
-        this.searchOborudEkz.akt = 1;
-      }
-      this.newSearch.emit(this.searchOborudEkz);
-    }
+    this.newSearch.emit(this.currentSearch);
+
+    // if (this.selectedSpravochnik === TableType.KOMPL){
+    //   if (this.searchKompl.akt != null){
+    //     if (this.searchKompl.akt == 0){
+    //       this.searchKompl.akt = null;
+    //     }
+    //     if (this.searchKompl.akt == 1)
+    //       this.searchKompl.akt = 0;
+    //   } else {
+    //     this.searchKompl.akt = 1;
+    //   }
+    //   this.newSearch.emit(this.searchKompl);
+    // }
+    // if (this.selectedSpravochnik === TableType.GRUPPA){
+    //   if (this.searchGruppa.akt != null){
+    //     if (this.searchGruppa.akt == 0){
+    //       this.searchGruppa.akt = null;
+    //     }
+    //     if (this.searchGruppa.akt == 1)
+    //       this.searchGruppa.akt = 0;
+    //   } else {
+    //     this.searchGruppa.akt = 1;
+    //   }
+    //   this.newSearch.emit(this.searchGruppa);
+    // }
+    // if (this.selectedSpravochnik === TableType.MODEL){
+    //   if (this.searchModel.akt != null){
+    //     if (this.searchModel.akt == 0){
+    //       this.searchModel.akt = null;
+    //     }
+    //     if (this.searchModel.akt == 1)
+    //       this.searchModel.akt = 0;
+    //   } else {
+    //     this.searchModel.akt = 1;
+    //   }
+    //   this.newSearch.emit(this.searchModel);
+    // }
+    // if (this.selectedSpravochnik === TableType.OBORUD_EKZ){
+    //   if (this.searchOborudEkz.akt != null){
+    //     if (this.searchOborudEkz.akt == 0){
+    //       this.searchOborudEkz.akt = null;
+    //     }
+    //     if (this.searchOborudEkz.akt == 1)
+    //       this.searchOborudEkz.akt = 0;
+    //   } else {
+    //     this.searchOborudEkz.akt = 1;
+    //   }
+    //   this.newSearch.emit(this.searchOborudEkz);
+    // }
   }
+
+  // onClickDefineStatusAccordion(status: boolean): void {
+    // console.log(this.currentIsExpanded);
+    // console.log(this.komplIsExpanded)
+    // console.log(this.gruppaIsExpanded)
+    // console.log(this.modelIsExpanded)
+    // console.log(this.oborudEkzIsExpanded)
+  //   this.currentIsExpanded = status;
+  // }
 }

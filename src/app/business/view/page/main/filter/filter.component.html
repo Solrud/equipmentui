@@ -3,6 +3,7 @@
     <h2 ngbAccordionHeader class="m-0">
       <button ngbAccordionButton>Фильтрация по полям</button>
     </h2>
+<!--    <h2 *ngIf="isFiltered()"></h2>-->
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
@@ -46,7 +47,7 @@
             </div>
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-secondary" (click)="onClickChangeAct()">
+              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
                 <span *ngIf="searchKompl?.akt == null">Все</span>
                 <span *ngIf="searchKompl?.akt != null">{{'BUTTON.' + searchKompl.akt.toString() | translate}}</span>
               </button>
@@ -110,7 +111,7 @@
             </div>
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-secondary" (click)="onClickChangeAct()">
+              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
                 <span *ngIf="searchGruppa?.akt == null">Все</span>
                 <span *ngIf="searchGruppa?.akt != null">{{'BUTTON.' + searchGruppa.akt.toString() | translate}}</span>
               </button>
@@ -173,7 +174,7 @@
             </div>
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-outline-primary" (click)="onClickChangeAct()">
+              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
                 <span *ngIf="searchModel?.akt == null">Все</span>
                 <span *ngIf="searchModel?.akt != null">{{'BUTTON.' + searchModel.akt.toString() | translate}}</span>
               </button>
@@ -236,7 +237,7 @@
             </div>
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-secondary" (click)="onClickChangeAct()">
+              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
                 <span *ngIf="searchOborudEkz?.akt == null">Все</span>
                 <span *ngIf="searchOborudEkz?.akt != null">{{'BUTTON.' + searchOborudEkz.akt.toString() | translate}}</span>
               </button>
