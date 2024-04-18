@@ -21,6 +21,9 @@ export class GeneralButtonsComponent implements OnInit {
   @Output()
   readonly researchPage = new EventEmitter<void>();
 
+  @Output()
+  readonly researchPageAndMainSelectToNull = new EventEmitter<void>();
+
   constructor(private eventService: EventService,
               private openDialogService: OpenDialogService) {
   }
@@ -37,21 +40,12 @@ export class GeneralButtonsComponent implements OnInit {
   _subscribeSelectedElementTable() {
     this.eventService.selectedElementMainTable$.subscribe(result => {
       this.selectedElementTable = result;
-      // console.log(this.selectedElementTable)
     })
   }
 
   _subscribeSelectedNavBar() {
     this.eventService.selectedSpravTable$.subscribe(result => {
       this.selectedNavBar = result;
-    })
-  }
-
-  onClickOpenSettingsDialog() {
-    this.openDialogService.openSettingsDialog().closed.subscribe(result => {
-      if (result == DialogResult.ACCEPT)
-        console.log('research')
-        this.researchPage.emit();
     })
   }
 
@@ -85,7 +79,8 @@ export class GeneralButtonsComponent implements OnInit {
   onClickDeleteElement() {
     this.openDialogService.openElementConfirmDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.DELETE).closed.subscribe(result => {
       if (result == DialogResult.ACCEPT)
-        this.researchPage.emit();
+        this.researchPageAndMainSelectToNull.emit();
+        // this.researchPage.emit();
     })
   }
 
