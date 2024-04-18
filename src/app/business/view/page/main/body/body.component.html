@@ -11,12 +11,9 @@
         <div class="d-flex justify-content-between bg-gruppa-color">
           <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
-            <button class="btn btn-sm btn-outline-primary mb-1"
-                    [disabled]="!mainSelectedElement"
-                    (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)">
-              <i class="bi bi-share-fill pointer"></i>
-              Изменить связи
-            </button>
+            <i class="bi bi-share-fill me-3 i-add pointer"
+               [class.i-disabled]="!mainSelectedElement"
+               (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
           </div>
         </div>
         <div class=" p-1">
@@ -33,12 +30,9 @@
         <div class="d-flex justify-content-between bg-model-color">
         <h2 class="fs-4">Модель</h2>
         <div class="d-flex flex-row">
-          <button class="btn btn-sm btn-outline-primary mb-1"
-                  [disabled]="!mainSelectedElement"
-                  (click)="onClickOpenModelRelationshipDialog(TableType.KOMPL)">
-            <i class="bi bi-share-fill pointer"></i>
-            Изменить связи
-          </button>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             [class.i-disabled]="!mainSelectedElement"
+             (click)="onClickOpenModelRelationshipDialog(TableType.KOMPL)"></i>
         </div>
       </div>
         <div class="p-1">
@@ -173,6 +167,7 @@
     <app-general-buttons class="d-flex mt-4 mb-3"
                          (openSidenav)="drawer.toggle()"
                          (researchPage)="onReSearchPage()"
+                         (researchPageAndMainSelectToNull)="onReSearchAndMainSelectToNull()"
     ></app-general-buttons>
 
     <app-filter

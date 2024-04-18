@@ -17,5 +17,5 @@ export abstract class ASearchListService<D extends IBaseDTO> extends ABaseServic
   searchList(): Observable<D[]> {
     return this.httpClient.get<D[]>(this.baseUrl + '/find-all');
   }
-
+  //ToDo /search
 }

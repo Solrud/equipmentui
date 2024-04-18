@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
+  DELAY_TIME,
   FIELD_COLUMN_GRUPPA_LIST,
   FIELD_COLUMN_KOMPL_LIST,
   FIELD_COLUMN_MODEL_LIST,
@@ -12,6 +13,7 @@ import {KomplSearchDTO} from "../../../../data/model/search/impl/KomplSearchDTO"
 import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSearchDTO";
 import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
 import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
+import {debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'app-filter',
@@ -66,9 +68,11 @@ export class FilterComponent implements OnInit{
       this.selectedSpravochnik = result;
 
       this.initFgAll();
-      this._observeFgModel;
+
       this._observeFgKompl();
       this._observeFgGruppa();
+      this._observeFgModel();
+      this._observeFgOborudEkz();
     })
   }
   getCorrectValueFromField(field: string){
@@ -114,34 +118,54 @@ export class FilterComponent implements OnInit{
   }
 
   _observeFgKompl(){
-    this.fgKomplFilter.controls['kod'].valueChanges.subscribe( inputValue => {
+    this.fgKomplFilter.controls['kod'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
       this.searchKompl.kod = inputValue;
+      this.newSearch.emit(this.searchKompl);
+    })
+    this.fgKomplFilter.controls['naim'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
+      this.searchKompl.naim = inputValue;
       this.newSearch.emit(this.searchKompl);
     })
   }
   _observeFgGruppa(){
-    this.fgKomplFilter.controls['kod'].valueChanges.subscribe( inputValue => {
-      console.log('_observeGRUPPA')
-      this.searchKompl.kod = inputValue;
-      console.log(this.searchKompl)
-      this.newSearch.emit(this.searchKompl);
+    this.fgGruppaFilter.controls['kod'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
+      this.searchGruppa.kod = inputValue;
+      this.newSearch.emit(this.searchGruppa);
+    })
+    this.fgGruppaFilter.controls['kodKlass'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
+      this.searchGruppa.kodKlass = inputValue;
+      this.newSearch.emit(this.searchGruppa);
+    })
+    this.fgGruppaFilter.controls['naim'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
+      this.searchGruppa.naim = inputValue;
+      this.newSearch.emit(this.searchGruppa);
     })
   }
   _observeFgModel(){
-    console.log('_observe')
-    this.fgModelFilter.controls['kod'].valueChanges.subscribe( inputValue => {
+    this.fgModelFilter.controls['kod'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
       this.searchModel.kod = inputValue;
       this.newSearch.emit(this.searchModel);
     })
-    this.fgModelFilter.controls['obozn'].valueChanges.subscribe( inputValue => {
+    this.fgModelFilter.controls['obozn'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
       this.searchModel.obozn = inputValue;
       this.newSearch.emit(this.searchModel);
     })
-    this.fgModelFilter.controls['naim'].valueChanges.subscribe( inputValue => {
+    this.fgModelFilter.controls['naim'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
       console.log('валbю чейндж найм', inputValue)
       this.searchModel.naim = inputValue;
       this.newSearch.emit(this.searchModel);
     })
+  }
+  _observeFgOborudEkz(){
+    this.fgOborudEkzFilter.controls['serNom'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
+      this.searchOborudEkz.serNom = inputValue;
+      this.newSearch.emit(this.searchOborudEkz);
+    })
+    this.fgOborudEkzFilter.controls['invNom'].valueChanges.pipe(debounceTime(500)).subscribe( inputValue => {
+      this.searchOborudEkz.invNom = inputValue;
+      this.newSearch.emit(this.searchOborudEkz);
+    })
+
   }
 
 
@@ -157,6 +181,7 @@ export class FilterComponent implements OnInit{
       } else {
         this.searchKompl.akt = 1;
       }
+      this.newSearch.emit(this.searchKompl);
     }
     if (this.selectedSpravochnik === TableType.GRUPPA){
       if (this.searchGruppa.akt != null){
@@ -168,6 +193,7 @@ export class FilterComponent implements OnInit{
       } else {
         this.searchGruppa.akt = 1;
       }
+      this.newSearch.emit(this.searchGruppa);
     }
     if (this.selectedSpravochnik === TableType.MODEL){
       if (this.searchModel.akt != null){
@@ -179,6 +205,7 @@ export class FilterComponent implements OnInit{
       } else {
         this.searchModel.akt = 1;
       }
+      this.newSearch.emit(this.searchModel);
     }
     if (this.selectedSpravochnik === TableType.OBORUD_EKZ){
       if (this.searchOborudEkz.akt != null){
@@ -190,6 +217,7 @@ export class FilterComponent implements OnInit{
       } else {
         this.searchOborudEkz.akt = 1;
       }
+      this.newSearch.emit(this.searchOborudEkz);
     }
   }
 }
