@@ -6,5 +6,5 @@ export class GruppaSearchDTO extends ABaseSearchDTO{
   kod: string;
   kodKlass: string;
   naim: string;
-  act: number;
+  akt: number;
 }

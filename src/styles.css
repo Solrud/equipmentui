@@ -51,3 +51,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .modal-part-kod-config{
   max-width: 600px !important;
 }
+.tab-content > .active{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

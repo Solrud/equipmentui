@@ -5,5 +5,5 @@ export class ModelSearchDTO extends ABaseSearchDTO{
   kod: string;
   obozn: string;
   naim: string;
-  act: number;
+  akt: number;
 }

@@ -1,0 +1,249 @@
+<div ngbAccordion class="accordion-c">
+  <div ngbAccordionItem [collapsed]="true">
+    <h2 ngbAccordionHeader class="m-0">
+      <button ngbAccordionButton>Фильтрация по полям</button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <ng-template>
+          <!--ФИЛЬТР КОМПЛЕКС-->
+          <form [formGroup]="fgKomplFilter"
+                *ngIf="selectedSpravochnik === TableType.KOMPL"
+               class="d-flex flex-row gap-2">
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="kod">{{'TABLE.KOD' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="kod"
+                         autocomplete="off"
+                         formControlName="kod"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgKomplFilter.controls['kod'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="naim">{{'TABLE.NAIM' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="naim"
+                         autocomplete="off"
+                         formControlName="naim"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgKomplFilter.controls['naim'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column btn-akt-w">
+              <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
+              <button id="akt" class="btn btn-secondary" (click)="onClickChangeAct()">
+                <span *ngIf="searchKompl?.akt == null">Все</span>
+                <span *ngIf="searchKompl?.akt != null">{{'BUTTON.' + searchKompl.akt.toString() | translate}}</span>
+              </button>
+            </div>
+
+          </form>
+<!--          ФИЛЬТР ГРУППА-->
+          <form [formGroup]="fgGruppaFilter"
+            *ngIf="selectedSpravochnik === TableType.GRUPPA"
+               class="d-flex flex-row gap-2">
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="kod">{{'TABLE.KOD' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="kod"
+                         autocomplete="off"
+                         formControlName="kod"
+                         >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgGruppaFilter.controls['kod'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="naim">{{'TABLE.NAIM' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="naim"
+                         autocomplete="off"
+                         formControlName="naim"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgGruppaFilter.controls['naim'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="kodKlass">{{'TABLE.KODKLASS' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="kodKlass"
+                         autocomplete="off"
+                         formControlName="kodKlass"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgGruppaFilter.controls['kodKlass'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column btn-akt-w">
+              <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
+              <button id="akt" class="btn btn-secondary" (click)="onClickChangeAct()">
+                <span *ngIf="searchGruppa?.akt == null">Все</span>
+                <span *ngIf="searchGruppa?.akt != null">{{'BUTTON.' + searchGruppa.akt.toString() | translate}}</span>
+              </button>
+            </div>
+          </form>
+          <!--ФИЛЬТР МОДЕЛЬ-->
+          <form [formGroup]="fgModelFilter"
+            *ngIf="selectedSpravochnik === TableType.MODEL"
+               class="d-flex flex-row gap-2">
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="kod">{{'TABLE.KOD' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="kod"
+                         autocomplete="off"
+                         formControlName="kod"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgModelFilter.controls['kod'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="naim1">{{'TABLE.NAIM' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="naim1"
+                         autocomplete="off"
+                         formControlName="naim"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgModelFilter.controls['naim'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="obozn">{{'TABLE.OBOZN' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="obozn"
+                         autocomplete="off"
+                         formControlName="obozn"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgModelFilter.controls['obozn'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column btn-akt-w">
+              <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
+              <button id="akt" class="btn btn-outline-primary" (click)="onClickChangeAct()">
+                <span *ngIf="searchModel?.akt == null">Все</span>
+                <span *ngIf="searchModel?.akt != null">{{'BUTTON.' + searchModel.akt.toString() | translate}}</span>
+              </button>
+            </div>
+          </form>
+          <!--ФИЛЬТР ЭКЗЕМПЛЯР ОБОРУДОВАНИЯ-->
+          <form [formGroup]="fgOborudEkzFilter"
+                *ngIf="selectedSpravochnik === TableType.OBORUD_EKZ"
+               class="d-flex flex-row gap-2">
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="naim">{{'TABLE.NAIM' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="naim"
+                         autocomplete="off"
+                         formControlName="naim"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgOborudEkzFilter.controls['naim'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="serNom">{{'TABLE.SERNOM' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="serNom"
+                         autocomplete="off"
+                         formControlName="serNom"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgOborudEkzFilter.controls['serNom'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="invNom">{{'TABLE.INVNOM' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="invNom"
+                         autocomplete="off"
+                         formControlName="invNom"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgOborudEkzFilter.controls['invNom'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column btn-akt-w">
+              <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
+              <button id="akt" class="btn btn-secondary" (click)="onClickChangeAct()">
+                <span *ngIf="searchOborudEkz?.akt == null">Все</span>
+                <span *ngIf="searchOborudEkz?.akt != null">{{'BUTTON.' + searchOborudEkz.akt.toString() | translate}}</span>
+              </button>
+            </div>
+          </form>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

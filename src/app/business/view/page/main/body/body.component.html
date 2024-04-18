@@ -175,6 +175,15 @@
                          (researchPage)="onReSearchPage()"
     ></app-general-buttons>
 
+    <app-filter
+      [searchKompl]="komplSearch"
+      [searchGruppa]="gruppaSearch"
+      [searchModel]="modelSearch"
+      [searchOborudEkz]="oborudEkzSearch"
+
+      (newSearch)="onChangePage($event)"
+    ></app-filter>
+
     <!-- Вкладки навигации таблиц -->
     <div class="d-flex flex-row group-tabs-config">
       <div class="tabs-config"

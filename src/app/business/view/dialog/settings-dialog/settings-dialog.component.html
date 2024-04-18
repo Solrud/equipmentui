@@ -3,13 +3,13 @@
 </div>
 
 <div class="modal-body d-flex modal-body-config">
-  <nav class="nav-pills flex-column text-wrap"
+  <nav class="nav-pills flex-column text-nowrap"
        orientation="vertical"
        ngbNav
        #navBar="ngbNav">
     <!-- // Код и вид обрудования-->
     <ng-container ngbNavItem>
-      <a ngbNavLink class="a-nav-c"
+      <a ngbNavLink
          (click)="onClickSearchKlassOborud()">Код и Вид оборудования</a>
       <ng-template ngbNavContent>
         <div class="line-title">Код оборудования</div>
@@ -233,22 +233,8 @@
         </app-table>
       </ng-template>
     </ng-container>
-    <!--// Участок-->
-<!--    <ng-container ngbNavItem>-->
-<!--      <a ngbNavLink (click)="onClickSearchUch(uchSearch)">Участок</a>-->
-<!--      <ng-template ngbNavContent>-->
-<!--        <app-table-->
-<!--          [fieldColumnList]="uchFieldColumnList"-->
-<!--          [dataTableSource]="uchDataTableInput"-->
-<!--          [dataSearch]="uchSearch"-->
-<!--          [totalFoundedElements]="uchTotalFoundedElements"-->
-<!--          [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"-->
-<!--          [selectedSpavochnik]="TableType.UCH">-->
-<!--        </app-table>-->
-<!--      </ng-template>-->
-<!--    </ng-container>-->
   </nav>
-  <div class="ms-2 p-1 border border-dark flex-grow-1 bg-light overflow-auto fix-w-c" [ngbNavOutlet]="navBar"></div>
+  <div class="ms-2 p-1 border border-dark bg-light overflow-auto d-flex w-100" [ngbNavOutlet]="navBar"></div>
 </div>
 
 <div class="modal-footer ">

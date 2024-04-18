@@ -4,5 +4,5 @@ export class KomplSearchDTO extends ABaseSearchDTO{
   id: number;
   kod: string;
   naim: string;
-  act: number;
+  akt: number;
 }

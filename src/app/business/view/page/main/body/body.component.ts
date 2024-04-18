@@ -108,6 +108,7 @@ export class BodyComponent implements OnInit{
   // реализовать аутентификацию
   // -
   // =>-ОПЦИОНАЛЬНО-<=
+  // звездочки у лейблов требуемых контролов проставить
   // проставить toast's о создании, редактировани, ошибке
   // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
   // в конце концов не забыть про i18n!
@@ -129,6 +130,8 @@ export class BodyComponent implements OnInit{
   // КОД ИЛИ КЛАСС??
   // -
   // => ЖДУ от димы
+  // подключение к рейльной бд на проде
+  // код классификатора скоро не нужно будет формировать для создания группы
   // - может стоит перейти с каскадной модели ДТО в v.2
 
   public get TableType() {
@@ -430,6 +433,7 @@ export class BodyComponent implements OnInit{
   }
 
   onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
+    console.log(newDataSearch)
     this.initNavBar(this.selectedSpravochnik, newDataSearch, true);
   }
 

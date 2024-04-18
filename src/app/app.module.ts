@@ -56,6 +56,7 @@ import {UchEditDialogComponent} from './business/view/dialog/OtherSpravochnikEdi
 import {ToastComponent} from './business/view/page/toast/toast.component';
 import { TablePaginatorComponent } from './business/view/page/main/table-paginator/table-paginator.component';
 import { AttachedElementFromTableEditDialogComponent } from './business/view/dialog/attached-element-from-table-edit-dialog/attached-element-from-table-edit-dialog.component';
+import { FilterComponent } from './business/view/page/main/filter/filter.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -93,6 +94,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     ToastComponent,
     TablePaginatorComponent,
     AttachedElementFromTableEditDialogComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,
