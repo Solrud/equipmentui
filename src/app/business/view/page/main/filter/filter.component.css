@@ -1,0 +1,9 @@
+.accordion-button{
+  padding: 4px 20px;
+}
+.accordion{
+  --bs-accordion-bg: #ffffff
+}
+.btn-akt-w{
+  width: 200px;
+}

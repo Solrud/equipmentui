@@ -6,4 +6,5 @@ export class OborudEkzSearchDTO extends ABaseSearchDTO{
   serNom: string;
   invNom: string;
   naim: string;
+  akt: number;
 }

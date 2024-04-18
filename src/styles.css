@@ -9,7 +9,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 :root{
-  --color-white: #f2f1ed;
+  --color-white: #fff;
+  --color-header-footer: #3aa75f;
+  /*--color-header-footer: #08722c;*/
   --color-light-blue: #C4D2EC;
   --color-blue: #5C83BA;
   --color-dark-blue: #3B4E79;
@@ -48,4 +50,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .modal-part-kod-config{
   max-width: 600px !important;
+}
+.tab-content > .active{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

@@ -46,7 +46,8 @@ export class BodyComponent implements OnInit{
   totalFoundedElements: number;
   originSourceTable: OriginSourceTable = OriginSourceTable.MAIN_TABLE; // Содержит инфу в каком месте открыта таблица
 
-  mainSelectedElement: any;
+  mainSelectedElement: any = null;
+  mainService: any;
 
   //Поисковые обьекты
   dataSearch: ABaseSearchDTO; //Один поисковой обьект, который идет в компонент таблицы
@@ -100,14 +101,14 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
-  // если изменить элемент и снова изменить, данные в модалке будут старые тк главный элемент не обновляется
-  // сортировка и фильтрация таблиц(как в журнале ртк)
+  // фильтрация таблиц(как в журнале ртк)
   // реализация перехода на связанный элемент: происходт переход на сущность главной таблицы, в тейбл передается выбранный элемент, в связях отображать эти связи с элементом.
   // main HTML исправить,чтобы высота выставлялась автоматически от разрешения | +- пойдет
   // DTO<any> переделать придумать
   // реализовать аутентификацию
   // -
   // =>-ОПЦИОНАЛЬНО-<=
+  // звездочки у лейблов требуемых контролов проставить
   // проставить toast's о создании, редактировани, ошибке
   // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
   // в конце концов не забыть про i18n!
@@ -129,6 +130,8 @@ export class BodyComponent implements OnInit{
   // КОД ИЛИ КЛАСС??
   // -
   // => ЖДУ от димы
+  // подключение к рейльной бд на проде
+  // код классификатора скоро не нужно будет формировать для создания группы
   // - может стоит перейти с каскадной модели ДТО в v.2
 
   public get TableType() {
@@ -160,13 +163,10 @@ export class BodyComponent implements OnInit{
 
   _subscribeToMainSelectedElement(){
     this.eventService.selectedElementMainTable$.subscribe( (result: any) => {
-      console.log('новый выбранный элемент:')
-      console.log(result)
-      if (result?.id === this.mainSelectedElement?.id){
-        this.onReSearchPage();
+      if (result?.id != this.mainSelectedElement?.id){
+        this.toFindRelationshipDataByMainSelectedElement(result);
       }
       this.mainSelectedElement = result;
-      this.toFindRelationshipDataByMainSelectedElement(result);
     })
   }
 
@@ -237,24 +237,28 @@ export class BodyComponent implements OnInit{
       this.eventService.selectElementModelRelationshipTable$(null);
       this.eventService.selectElementOborudEkzRelationshipTable$(null);
 
-      this.initNavBar(result);
+      if (this.isFirstTimeInitNav) this.initNavBar(result);
     })
   }
 
-  initNavBar(selectedNavBar: TableType, newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false){
+  initNavBar(selectedNavBar: TableType, newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false){
     console.log(this.oborudEkzRelationshipSelectedElement);
     switch (selectedNavBar){
       case  TableType.KOMPL:
-        this.onClickNavKompl(newDataSearch, reSearchPage);
+        this.onClickNavKompl(newDataSearch, reSearchPage , toResearchRelation);
+        this.mainService = this.komplService;
         break;
       case TableType.GRUPPA:
-        this.onClickNavGruppa(newDataSearch, reSearchPage);
+        this.onClickNavGruppa(newDataSearch, reSearchPage , toResearchRelation);
+        this.mainService = this.gruppaService;
         break;
       case TableType.MODEL:
-        this.onClickNavModel(newDataSearch, reSearchPage);
+        this.onClickNavModel(newDataSearch, reSearchPage, toResearchRelation);
+        this.mainService = this.modelService;
         break;
       case TableType.OBORUD_EKZ:
         this.onClickNavOborudEkz(newDataSearch, reSearchPage);
+        this.mainService = this.oborudEkzService;
         break;
     }
   }
@@ -269,7 +273,7 @@ export class BodyComponent implements OnInit{
       this.openDialogService.openKomplRelationshipDialog
       (originSpravochnik, this.mainSelectedElement, this.komplRelationshipDataInput).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
-          this.onReSearchPage();
+          this.onReSearchPage(true);
         }
       })
     }
@@ -280,7 +284,7 @@ export class BodyComponent implements OnInit{
       this.openDialogService.openGruppaRelationshipDialog
       (originSpravochnik, this.mainSelectedElement, this.gruppaRelationshipDataInput).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
-          this.onReSearchPage();
+          this.onReSearchPage(true);
         }
       });
     }
@@ -291,7 +295,7 @@ export class BodyComponent implements OnInit{
       this.openDialogService.openModelRelationshipDialog
       (originSpravochnik, this.mainSelectedElement, this.modelRelationshipDataInput).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
-          this.onReSearchPage();
+          this.onReSearchPage(true);
         }
       });
     }
@@ -301,19 +305,19 @@ export class BodyComponent implements OnInit{
     if (this.mainSelectedElement && this.oborudEkzRelationshipSelectedElement){
       this.openDialogService.openElementDialog(this.oborudEkzRelationshipSelectedElement, TableType.OBORUD_EKZ, DialogMode.EDIT).closed.subscribe( result => {
         if (result == DialogResult.ACCEPT)
-          this.onReSearchPage();
+          this.onReSearchPage(true);
       })
     }
   }
 
   // Методы Вкладки
-  onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+  onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
 
       if(reSearchPage){
-        this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+        if(!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.komplSearch);
         }
@@ -338,13 +342,13 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+  onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
 
       if(reSearchPage){
-        this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+        if(!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.gruppaSearch);
         }
@@ -368,13 +372,13 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickNavModel(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false): void{
+  onClickNavModel(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
       if(reSearchPage){
-        console.log('this.eventService.selectElementMainTable$(this.mainSelectedElement);')
-        this.eventService.selectElementMainTable$(this.mainSelectedElement);
+        // this.eventServ ice.selectElementMainTable$(this.mainSelectedElement);
+        if (!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.modelSearch);
         }
@@ -429,11 +433,19 @@ export class BodyComponent implements OnInit{
   }
 
   onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
+    console.log(newDataSearch)
     this.initNavBar(this.selectedSpravochnik, newDataSearch, true);
   }
 
-  onReSearchPage(){
-    this.initNavBar(this.selectedSpravochnik, null, true);
+  onReSearchPage(toResearchRelationshipTable: boolean = false){
+    this.mainService.read(this.mainSelectedElement.id).subscribe( result => {
+      if (result){
+        this.mainSelectedElement = result;
+
+        this.eventService.selectElementMainTable$(this.mainSelectedElement);
+        this.initNavBar(this.selectedSpravochnik, null, true, toResearchRelationshipTable);
+      }
+    })
   }
 
   // присваивает к существующему search object пагинаторные свойства
