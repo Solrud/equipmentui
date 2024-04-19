@@ -32,6 +32,8 @@ export class TableComponent implements OnInit, OnChanges{
   dataSearchNew: EventEmitter<ABaseSearchDTO> = new EventEmitter<ABaseSearchDTO>();
   @Output()
   chosenElementObj: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  chosenForViewObj: EventEmitter<any> = new EventEmitter<any>();
 
   @Input()
   selectedElement: any;
@@ -126,6 +128,10 @@ export class TableComponent implements OnInit, OnChanges{
 
   onClickRemoveFromPrerelatedDataList(selectedForRemoveObj: any){
     this.eventService.selectPreRelatedElement$(selectedForRemoveObj);
+  }
+
+  onClickOpenForView(elementObj: any){
+    this.chosenForViewObj.emit(elementObj);
   }
 
   onSelectElementTable(selectedElement: any){

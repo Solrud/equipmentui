@@ -1,9 +1,17 @@
 <div class="modal-header d-flex justify-content-center color-header">
-  <h2 class="m-0 text-center text-white">Присвоение модели к экземпляру оборудования</h2>
+  <h2 class="m-0 text-center text-white">{{"TITLE.ATTACH" | translate}}</h2>
 </div>
 
 <div class="modal-body d-flex flex-column align-items-center">
-  <span class="fs-6 text-primary">Выберите модель, для соединения с экземпляром оборудования:</span>
+  <span class="fs-6 text-primary">{{"TITLE.CHOOSE-ATTACHED" | translate}}</span>
+  <app-filter class="w-100 mt-2"
+    [searchModel]="modelSearch"
+    [selectedSpravochnik]="TableType.MODEL"
+    [isCollapsed]="false"
+
+    (newSearch)="onChangePage($event)"
+  >
+  </app-filter>
   <app-table class="d-flex flex-column overflow-auto w-100"
   [dataSearch]="modelSearch"
   [fieldColumnList]="modelFieldColumnsList"
@@ -23,10 +31,10 @@
   <button type="button"
           class="btn btn-primary"
           (click)="onSaveChosenElement()"
-  >Выбрать</button>
+  >{{"BUTTON.CHOOSE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"
           (click)="onClickCloseModal()"
-  >Отмена</button>
+  >{{"BUTTON.CANCEL" | translate}}</button>
 </div>
 

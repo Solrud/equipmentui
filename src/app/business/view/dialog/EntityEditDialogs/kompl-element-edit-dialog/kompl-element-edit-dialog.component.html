@@ -25,6 +25,7 @@
              [required]="fcFieldIsRequired('naim', true)"
              type="text">
       <button class="btn btn-light border-dark"
+              [disabled]="dialogMode === DialogMode.VIEW"
               (click)="fgKomplElement.controls['naim'].setValue(null)">
         <i class="bi bi-x-lg"></i>
       </button>

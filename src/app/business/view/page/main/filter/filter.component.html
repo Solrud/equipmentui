@@ -1,5 +1,5 @@
 <div ngbAccordion class="accordion-c">
-  <div ngbAccordionItem [collapsed]="true">
+  <div ngbAccordionItem [collapsed]="isCollapsed">
     <h2 ngbAccordionHeader class="m-0">
       <button ngbAccordionButton>Фильтрация по полям</button>
     </h2>
@@ -47,12 +47,18 @@
             </div>
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
+              <button id="akt" class="btn btn-primary"
+                      (click)="onClickChangeAct()">
                 <span *ngIf="searchKompl?.akt == null">Все</span>
                 <span *ngIf="searchKompl?.akt != null">{{'BUTTON.' + searchKompl.akt.toString() | translate}}</span>
               </button>
             </div>
-
+            <div class="d-flex flex-column justify-content-end btn-akt-w">
+              <button id="clear" class="btn btn-outline-secondary"
+                      (click)="onClickClearAll()">
+                <span>{{'TABLE.CLEAR'| translate}}</span>
+              </button>
+            </div>
           </form>
 <!--          ФИЛЬТР ГРУППА-->
           <form [formGroup]="fgGruppaFilter"
@@ -114,6 +120,12 @@
               <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
                 <span *ngIf="searchGruppa?.akt == null">Все</span>
                 <span *ngIf="searchGruppa?.akt != null">{{'BUTTON.' + searchGruppa.akt.toString() | translate}}</span>
+              </button>
+            </div>
+            <div class="d-flex flex-column justify-content-end btn-akt-w">
+              <button id="clear" class="btn btn-outline-secondary"
+                      (click)="onClickClearAll()">
+                <span>{{'TABLE.CLEAR'| translate}}</span>
               </button>
             </div>
           </form>
@@ -179,6 +191,12 @@
                 <span *ngIf="searchModel?.akt != null">{{'BUTTON.' + searchModel.akt.toString() | translate}}</span>
               </button>
             </div>
+            <div class="d-flex flex-column justify-content-end btn-akt-w">
+              <button id="clear" class="btn btn-outline-secondary"
+                      (click)="onClickClearAll()">
+                <span>{{'TABLE.CLEAR'| translate}}</span>
+              </button>
+            </div>
           </form>
           <!--ФИЛЬТР ЭКЗЕМПЛЯР ОБОРУДОВАНИЯ-->
           <form [formGroup]="fgOborudEkzFilter"
@@ -240,6 +258,12 @@
               <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
                 <span *ngIf="searchOborudEkz?.akt == null">Все</span>
                 <span *ngIf="searchOborudEkz?.akt != null">{{'BUTTON.' + searchOborudEkz.akt.toString() | translate}}</span>
+              </button>
+            </div>
+            <div class="d-flex flex-column justify-content-end btn-akt-w">
+              <button id="clear" class="btn btn-outline-secondary"
+                      (click)="onClickClearAll()">
+                <span>{{'TABLE.CLEAR'| translate}}</span>
               </button>
             </div>
           </form>

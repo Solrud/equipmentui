@@ -175,6 +175,7 @@
       [searchGruppa]="gruppaSearch"
       [searchModel]="modelSearch"
       [searchOborudEkz]="oborudEkzSearch"
+      [selectedSpravochnik]="selectedSpravochnik"
 
       (newSearch)="onChangePage($event)"
     ></app-filter>
@@ -222,6 +223,7 @@
                [selectedElement]="mainSelectedElement"
 
                (dataSearchNew)="onChangePage($event)"
+               (chosenForViewObj)="onOpenElementForView($event)"
     ></app-table>
   </div>
 </mat-drawer-container>

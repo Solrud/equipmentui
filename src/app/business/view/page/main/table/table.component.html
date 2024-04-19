@@ -25,7 +25,7 @@
     <tbody class="">
     <ng-container *ngIf="originSourceTable != OriginSourceTable.RELATION_SETTINGS">
       <tr *ngFor="let data of dataTableSource; index as i"
-          (click)="onSelectElementTable(data); onAddRelatedElement(data)"
+          (click)="onSelectElementTable(data); onAddRelatedElement(data)" (dblclick)="onClickOpenForView(data)"
           [class.active-element]="data?.id == selectedElement?.id && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE"
           [class.active-element-relation-settings]="(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH) && data == selectedElement"
           [class.active-element-relation-kompl]="selectedSpavochnik === TableType.KOMPL_FROM_RELATION && data == selectedElement"
@@ -33,7 +33,7 @@
           [class.active-element-relation-model]="selectedSpavochnik === TableType.MODEL_FROM_RELATION && data == selectedElement"
           [class.active-element-relation-ekz]="selectedSpavochnik === TableType.OBORUD_EKZ_FROM_RELATION && data == selectedElement"
           [class.striped-con]="i % 2 == 0"
-          [class.deleted-element]="originSourceTable == OriginSourceTable.MAIN_TABLE && !data['akt']"
+          [class.deleted-element]="(originSourceTable == OriginSourceTable.MAIN_TABLE || OriginSourceTable.ATTACHED_TABLE) && !data['akt']"
           class="pointer">
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data[field] && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE">
@@ -55,7 +55,7 @@
           (click)="onAddRelatedElement(data)"
           [class.chosen-element-settings-relation]="data.value === true"
           [class.striped-con]="i % 2 == 0"
-          [class.deleted-element]="!data.key['akt']"
+          [class.deleted-element]="data['akt'] == 0"
           class="pointer">
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data.key[field]">

@@ -101,11 +101,9 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
-  // фильтрация таблиц(как в журнале ртк)
   // реализация перехода на связанный элемент: происходт переход на сущность главной таблицы, в тейбл передается выбранный элемент, в связях отображать эти связи с элементом.
-  // main HTML исправить,чтобы высота выставлялась автоматически от разрешения | +- пойдет
-  // DTO<any> переделать придумать
   // реализовать аутентификацию
+  // DTO<any> переделать придумать
   // -
   // =>-ОПЦИОНАЛЬНО-<=
   // звездочки у лейблов требуемых контролов проставить
@@ -426,7 +424,7 @@ export class BodyComponent implements OnInit{
       this.dataSearch = this.oborudEkzSearch;
       this.dataTableNavSource = [];
       this.oborudEkzService.searchPage(this.oborudEkzSearch).subscribe(result => {
-        if (result && result.content.length > 0){
+        if (result){
           this.totalFoundedElements = result.totalElements;
           this.dataTableNavSource = result.content;
 
@@ -461,6 +459,10 @@ export class BodyComponent implements OnInit{
   onReSearchAndMainSelectToNull(){
     this.mainSelectedElement = null;
     this.initNavBar(this.selectedSpravochnik, null, true, true);
+  }
+
+  onOpenElementForView(chosenElement: any){
+    this.openDialogService.openElementDialog(chosenElement, this.selectedSpravochnik, DialogMode.VIEW);
   }
 
   // присваивает к существующему search object пагинаторные свойства

@@ -39,3 +39,7 @@ a:hover{
   --bs-btn-disabled-color: #198754;
   --bs-btn-disabled-bg: rgba(25, 135, 84, 0);
 }
+.btn-secondary{
+  --bs-btn-disabled-color: #565e64;
+  --bs-btn-disabled-bg: rgba(25, 135, 84, 0);
+}

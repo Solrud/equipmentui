@@ -1,6 +1,7 @@
 <div class="modal-header d-flex justify-content-center">
   <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.CREATE">Создание группы</h2>
   <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.EDIT">Редактирование группы</h2>
+  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.VIEW">Просмотр группы</h2>
 </div>
 
 <form class="modal-body d-flex flex-column gap-2"
@@ -26,6 +27,7 @@
                formControlName="naim"
                [required]="fcFieldIsRequired('naim', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgGruppaElement.controls['naim'].setValue(null)">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -50,6 +52,7 @@
                formControlName="kodKlass"
                [required]="fcFieldIsRequired('kodKlass', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="onClickSetNullAllKodKlassFields()">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -75,6 +78,7 @@
                (input)="ddmKlass.open()"
                [required]="fcFieldIsRequired('klass', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="onClickSetNullKlass()">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -114,6 +118,7 @@
                (input)="ddmVid.open()"
                [required]="fcFieldIsRequired('vid', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="onClickSetNullVid()">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -155,6 +160,7 @@
                (input)="ddmNalPu.open()"
                [required]="fcFieldIsRequired('nalPu', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="onClickSetNullNalPu()">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -191,6 +197,7 @@
                (input)="ddmGabZo.open()"
                [required]="fcFieldIsRequired('gabZo', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="onClickGabZo()">
           <i class="bi bi-x-lg"></i>
         </button>

@@ -28,6 +28,7 @@ export class ModelElementEditDialogComponent implements OnInit{
   ngOnInit(): void {
     this.initDialogDefaultValues();
     this.initFgModelElement();
+    this.afterDialogDefaultValues();
   }
 
   public get DialogMode(){
@@ -65,7 +66,10 @@ export class ModelElementEditDialogComponent implements OnInit{
       //ToDo полное наименование в модели? сдлеать чтоб уходило в серч ? НАДО СДЕЛАТЬ ЧТО-ЛИ 0__0
       polnNaim: new FormControl({value: this.getCorrectValueFromField('polnNaim'), disabled: true}),
     })
+  }
 
+  afterDialogDefaultValues(){
+    if (this.dialogMode === DialogMode.VIEW) this.fgModelElement.disable();
   }
 
   //получить идентификаторы обязательности заполнения поля

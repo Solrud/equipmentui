@@ -89,7 +89,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
       if (field == 'kodKlass') return this.fcKodKlass.join('-');
     }
 
-    if (this.dialogMode == DialogMode.EDIT){
+    if (this.dialogMode != DialogMode.CREATE){
       if (field == 'klass') return this.selectedElement?.klass?.naim;
       if (field == 'vid') return this.selectedElement?.vid?.naim;
       if (field == 'nalPu') return this.selectedElement?.klass?.nalPu;
@@ -102,6 +102,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   afterInitDialogDefaultValues(){
     if (!this.dialogMode) this.dialogMode = DialogMode.VIEW;
+    if (this.dialogMode === DialogMode.VIEW) this.fgGruppaElement.disable();
     if (!this.selectedElement) this.selectedElement = null;
 
     this.klassService.searchAll().subscribe( result => {
@@ -117,7 +118,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
         this.nalPuList = result;
         this.nalPuListDDM = result;
 
-        if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
+        if (this.dialogMode != DialogMode.CREATE && this.selectedElement.kodKlass){
           let nalPuObject: NalPuDTO = this.nalPuList.find( nalPu => nalPu.kodKlass.trim() === this.selectedElement.kodKlass.substring(4,5));
           this.onClickSelectDDINalPu(nalPuObject);
         }
@@ -130,7 +131,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
         this.gabZoList = result;
         this.gabZoListDDM = result;
 
-        if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
+        if (this.dialogMode != DialogMode.CREATE && this.selectedElement.kodKlass){
           let gabZoObject: GabZoDTO = this.gabZoList.find( gabZo => gabZo.kodKlass === this.selectedElement.kodKlass.substring(5, 7))
           this.onClickSelectDDIGabZo(gabZoObject);
         }
@@ -139,7 +140,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
       this.toastService.showNegativeFixed('Не удалось загрузить данные Габаритов');
     })
 
-    if (this.dialogMode == DialogMode.EDIT && this.selectedElement.kodKlass){
+    if (this.dialogMode != DialogMode.CREATE && this.selectedElement.kodKlass){
       if (this.selectedElement.klass) this.onClickSelectDDIKlass(this.selectedElement.klass);
     }
   }
@@ -277,7 +278,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
       this.vidListDDM = result;
 
       if (result && result.length > 0){
-        this.changeFcEnableOrDisable('vid', true);
+        if (this.dialogMode != DialogMode.VIEW) this.changeFcEnableOrDisable('vid', true);
         this.fgGruppaElement.controls['vid'].setValue(null);
       }
       if(this.isFirstTimeInit && this.dialogMode != DialogMode.CREATE) {
@@ -298,7 +299,6 @@ export class GruppaElementEditDialogComponent implements OnInit{
     this.fgGruppaElement.controls['klass'].setValue(klass.kodKlass + ' | ' + klass.naim);
     this.newKlass = klass;
     this.changeValidators('klass', [this.validatorMinLength], true);
-
     this.searchVidByKlassId(klass.id);
     this.changeFcKodKlass(TypePartOfKodKlass.KLASS_OBORUD, klass.kodKlass);
   }

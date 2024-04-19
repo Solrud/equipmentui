@@ -231,10 +231,10 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
+      let isKlassNotEmpty: boolean = this.vidDataTableInput.length > 0;
       this.openDialogService.openElementConfirmDialog
-      (this.klassSelectedElement, TableType.OBORUD_KLASS, DialogMode.DELETE).closed.subscribe( result => {
+      (this.klassSelectedElement, TableType.OBORUD_KLASS, DialogMode.DELETE, isKlassNotEmpty).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
           this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
@@ -283,7 +283,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog
       (this.vidSelectedElement, TableType.OBORUD_VID, DialogMode.DELETE).closed.subscribe( result => {
@@ -314,7 +313,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(
         this.nalPuSelectedElement, TableType.NAL_PU, DialogMode.DELETE).closed.subscribe( result => {
@@ -335,19 +333,6 @@ export class SettingsDialogComponent implements OnInit{
 
       console.log('Произошла какая-то ошибка onClickSearchNalPuOborud() в settings.');
     })
-    // if (nalPuSearch){
-    //   this.nalPuSearch = nalPuSearch;
-    //   this.nalPuDataTableInput = [];
-    //   this.nalPuService.searchPage(this.nalPuSearch).subscribe( result => {
-    //     console.log(result);
-    //     this.nalPuDataTableInput = result.content;
-    //     this.nalPuTotalFoundedElements = result.totalElements;
-    //
-    //     this.nalPuSearch.pageSize = this.nalPuTotalFoundedElements; // временно, надо думать все ли выводить или спраляться с пагинтором
-    //   }, error => {
-    //     console.log('Произошла какая-то ошибка onClickSearchVidOborud() в settings.');
-    //   })
-    // }
   }
 
   onClickActionGabZo(mode: ActionMode){
@@ -369,7 +354,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(
         this.gabZoSelectedElement, TableType.GAB_ZO, DialogMode.DELETE).closed.subscribe( result => {
@@ -408,7 +392,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(this.proizvSelectedElement, TableType.PROIZV, DialogMode.DELETE).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -451,9 +434,9 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
-      this.openDialogService.openElementConfirmDialog(this.podrSelectedElement, TableType.PODR, DialogMode.DELETE).closed.subscribe( result => {
+      let isPodrNotEmpty: boolean = this.uchDataTableInput.length > 0;
+      this.openDialogService.openElementConfirmDialog(this.podrSelectedElement, TableType.PODR, DialogMode.DELETE, isPodrNotEmpty).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
           this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchPodr();
@@ -491,7 +474,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(this.uchSelectedElement, TableType.UCH, DialogMode.DELETE).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){

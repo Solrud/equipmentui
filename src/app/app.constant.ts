@@ -124,3 +124,4 @@ export const FIELD_COLUMN_PODR_LIST = ['kod', 'kodIsp', 'naim', 'obozn', 'rod'];
 export const FIELD_COLUMN_UCH_LIST = ['kod', 'obozn', 'naim'];
 
 export const DELAY_TIME = 300;
+export const DELAY_TIME_FOR_FILTER = 500;

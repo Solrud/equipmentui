@@ -121,12 +121,13 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки удаления | Изменения активности |=========---
-  openElementConfirmDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode){
+  openElementConfirmDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode, isKlassNotEmpty: boolean = false){
     const confirmDialogComponent = this.modalService.open(ConfirmDialogComponent,
       {scrollable: true, size: "md", centered: this.toCenteredModal, modalDialogClass: "modal-config"});
     confirmDialogComponent.componentInstance.selectedElement = selectedElement;
     confirmDialogComponent.componentInstance.selectedNavBar = selectedNavBar;
     confirmDialogComponent.componentInstance.dialogMode = dialogMode;
+    confirmDialogComponent.componentInstance.isKlassNotEmpty = isKlassNotEmpty;
     return confirmDialogComponent;
   }
 

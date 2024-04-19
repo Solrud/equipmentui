@@ -17,6 +17,10 @@
   /*position: sticky;*/
   /*top: 0;*/
 }
+.column-config:hover{
+  /*background-color: rgb(216, 234, 239);*/
+  color: #504444;
+}
 
 .sticky-column {
   position: sticky;

@@ -15,15 +15,21 @@
 <div class="modal-body d-flex flex-column">
   <h4><span class="fw-bolder">ID:</span> {{selectedElement['id']}}</h4>
   <h4><span class="fw-bolder">Наименование:</span> {{selectedElement['naim']}}</h4>
+  <span class="text-danger" *ngIf="isKlassNotEmpty && selectedNavBar === TableType.OBORUD_KLASS">ВНИМАНИЕ!!! В этом коде оборудования содержатся виды оборудования, если вы удалите его, связанные виды тоже будут удалены!</span>
+  <span class="text-danger" *ngIf="isKlassNotEmpty && selectedNavBar === TableType.PODR">ВНИМАНИЕ!!! В этом подразделении содержатся участки, если вы удалите его, связанные участки тоже будут удалены!</span>
 </div>
 
 <div class="modal-footer ">
   <button type="button"
-          class="btn btn-primary"
-          *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY"
-          (click)="onClickChangeAkt()">Изменить</button>
+          class="btn btn-warning"
+          *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY && this.newElement.akt == 1"
+          (click)="onClickChangeAkt()">Сделать неактивным</button>
   <button type="button"
-          class="btn btn-primary"
+          class="btn btn-success"
+          *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY && this.newElement.akt == 0"
+          (click)="onClickChangeAkt()">Сделать активным</button>
+  <button type="button"
+          class="btn btn-danger"
           *ngIf="dialogMode == DialogMode.DELETE"
           (click)="onClickDelete()">Удалить</button>
   <button type="button"
