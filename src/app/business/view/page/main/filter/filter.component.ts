@@ -61,11 +61,8 @@ export class FilterComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {
     // this._subscribeToSelectedSpravochnik();
-    this.initFgAll();
-    this._observeFgKompl();
-    this._observeFgGruppa();
-    this._observeFgModel();
-    this._observeFgOborudEkz();
+
+
   }
 
   public get TableType(){
@@ -74,8 +71,14 @@ export class FilterComponent implements OnInit, OnChanges{
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedSpravochnik']){
+      this.initFgAll();
+      console.log('selectedSprav in filter')
       this.selectedSpravochnik = changes['selectedSpravochnik'].currentValue;
       this.toDefineCurrentValues(this.selectedSpravochnik);
+      this._observeFgKompl();
+      this._observeFgGruppa();
+      this._observeFgModel();
+      this._observeFgOborudEkz();
     }
   }
 
@@ -165,6 +168,7 @@ export class FilterComponent implements OnInit, OnChanges{
     })
     this.fgGruppaFilter.controls['naim'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchGruppa.naim = inputValue;
+      console.log('gruppa naim emit', inputValue)
       this.newSearch.emit(this.searchGruppa);
     })
   }

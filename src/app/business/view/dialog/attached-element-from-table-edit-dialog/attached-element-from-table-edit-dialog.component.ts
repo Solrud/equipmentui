@@ -63,6 +63,8 @@ export class AttachedElementFromTableEditDialogComponent implements OnInit{
       console.log(result);
       if (result && result?.content?.length > 0){
         this.modelTotalFoundedElements = result.totalElements;
+        if(this.selectedElement)
+          this.modelTotalFoundedElements ++;
         this.modelDataInputList = result.content.filter( model => model.id != this.selectedElement?.id);
         if (result.number == 0 && this.selectedElement){
           this.modelDataInputList.unshift(this.selectedElement);

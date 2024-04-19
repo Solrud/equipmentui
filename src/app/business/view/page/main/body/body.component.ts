@@ -101,7 +101,6 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
-  // реализация перехода на связанный элемент: происходт переход на сущность главной таблицы, в тейбл передается выбранный элемент, в связях отображать эти связи с элементом.
   // реализовать аутентификацию
   // DTO<any> переделать придумать
   // -
@@ -309,7 +308,7 @@ export class BodyComponent implements OnInit{
   }
 
   // Методы Вкладки
-  onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
+  onClickNavKompl(newDataSearch: any = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
@@ -317,6 +316,10 @@ export class BodyComponent implements OnInit{
         if(!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.komplSearch);
+          if (toResearchRelation) {
+            this.komplSearch = newDataSearch;
+            this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+          }
         }
       } else {
         this.eventService.selectElementMainTable$(null);
@@ -341,7 +344,7 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
+  onClickNavGruppa(newDataSearch: any = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
@@ -350,6 +353,10 @@ export class BodyComponent implements OnInit{
         if(!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.gruppaSearch);
+          if (toResearchRelation) {
+            this.gruppaSearch = newDataSearch;
+            this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+          }
         }
       } else {
         this.eventService.selectElementMainTable$(null);
@@ -373,7 +380,7 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickNavModel(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
+  onClickNavModel(newDataSearch: any = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
@@ -382,13 +389,16 @@ export class BodyComponent implements OnInit{
         if (!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.modelSearch);
+          if (toResearchRelation) {
+            this.modelSearch = newDataSearch;
+            this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+          }
         }
       } else {
         this.eventService.selectElementMainTable$(null);
         this.toClearAllRelationshipDataInput();
         this.toClearAllRelationshipSelectedElement();
       }
-
       this.dataSearch = this.modelSearch;
       this.dataTableNavSource = [];
       this.modelService.searchPage(this.modelSearch).subscribe(result => {
@@ -437,18 +447,53 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
-    this.initNavBar(this.selectedSpravochnik, newDataSearch, true);
+  onClickGoToRelativeKomplElement(){
+    if (this.komplRelationshipSelectedElement){
+      let newDataSearchRelative = new KomplSearchDTO();
+      newDataSearchRelative.kod = this.komplRelationshipSelectedElement.kod;
+      newDataSearchRelative.naim = this.komplRelationshipSelectedElement.naim;
+      newDataSearchRelative.akt = this.komplRelationshipSelectedElement.akt;
+      this.mainSelectedElement = this.komplRelationshipSelectedElement;
+      this.eventService.selectElementMainTable$(this.mainSelectedElement);
+      this.onChangePage(newDataSearchRelative, TableType.KOMPL, true);
+    }
+  }
+
+  onClickGoToRelativeGruppaElement(){
+    if (this.gruppaRelationshipSelectedElement){
+      let newDataSearchRelative = new GruppaSearchDTO();
+      newDataSearchRelative.kod = this.gruppaRelationshipSelectedElement.kod;
+      newDataSearchRelative.naim = this.gruppaRelationshipSelectedElement.naim;
+      newDataSearchRelative.kodKlass = this.gruppaRelationshipSelectedElement.kodKlass;
+      newDataSearchRelative.akt = this.gruppaRelationshipSelectedElement.akt;
+      this.mainSelectedElement = this.gruppaRelationshipSelectedElement;
+      this.eventService.selectElementMainTable$(this.mainSelectedElement);
+      this.onChangePage(newDataSearchRelative, TableType.GRUPPA, true);
+    }
+  }
+
+  onClickGoToRelativeModelElement(){
+    if (this.modelRelationshipSelectedElement){
+      let newDataSearchRelative = new ModelSearchDTO();
+      newDataSearchRelative.kod = this.modelRelationshipSelectedElement.kod;
+      newDataSearchRelative.obozn = this.modelRelationshipSelectedElement.obozn;
+      newDataSearchRelative.naim = this.modelRelationshipSelectedElement.naim;
+      newDataSearchRelative.akt = this.modelRelationshipSelectedElement.akt;
+      this.mainSelectedElement = this.modelRelationshipSelectedElement;
+      this.eventService.selectElementMainTable$(this.mainSelectedElement);
+      this.onChangePage(newDataSearchRelative, TableType.MODEL, true);
+    }
+  }
+
+  onChangePage(newDataSearch: ABaseSearchDTO, selectedSpravochnik: TableType = this.selectedSpravochnik, toResearchRelation: boolean = false): void{ //output изменения пагинации таблицы
+    this.initNavBar(selectedSpravochnik, newDataSearch, true, toResearchRelation);
   }
 
   onReSearchPage(toResearchRelationshipTable: boolean = false){
-    console.log('onReSearchPage')
     if (this.mainSelectedElement){
-      console.log('this.mainSelectedElement')
       this.mainService.read(this.mainSelectedElement.id).subscribe( result => {
         if (result){
           this.mainSelectedElement = result;
-
           this.eventService.selectElementMainTable$(this.mainSelectedElement);
         }
       })

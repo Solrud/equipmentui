@@ -9,12 +9,15 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
-          <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
+            <h2 class="fs-4">Группа</h2>
+            <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"
+               (click)="onClickGoToRelativeGruppaElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             [class.i-disabled]="!mainSelectedElement"
+             (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
         </div>
         <div class=" p-1">
           <app-table class="overflow-auto"
@@ -28,12 +31,15 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
-        <h2 class="fs-4">Модель</h2>
-        <div class="d-flex flex-row">
+          <div class="d-flex flex-row">
+            <h2 class="fs-4">Модель</h2>
+            <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
+               [class.i-disabled]="!modelRelationshipSelectedElement"
+               (click)="onClickGoToRelativeModelElement()"></i>
+          </div>
           <i class="bi bi-share-fill me-3 i-add pointer"
              [class.i-disabled]="!mainSelectedElement"
              (click)="onClickOpenModelRelationshipDialog(TableType.KOMPL)"></i>
-        </div>
       </div>
         <div class="p-1">
           <div class="">
@@ -55,12 +61,15 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
-          <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenKomplRelationshipDialog(TableType.GRUPPA)"></i>
+            <h2 class="fs-4">Комплекс</h2>
+            <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
+               [class.i-disabled]="!komplRelationshipSelectedElement"
+               (click)="onClickGoToRelativeKomplElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             [class.i-disabled]="!mainSelectedElement"
+             (click)="onClickOpenKomplRelationshipDialog(TableType.GRUPPA)"></i>
         </div>
         <div class="p-1">
           <app-table class="overflow-auto"
@@ -74,12 +83,16 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
-          <h2 class="fs-4">Модель</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenModelRelationshipDialog(TableType.GRUPPA)"></i>
+            <h2 class="fs-4">Модель</h2>
+            <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
+               [class.i-disabled]="!modelRelationshipSelectedElement"
+               (click)="onClickGoToRelativeModelElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             [class.i-disabled]="!mainSelectedElement"
+             (click)="onClickOpenModelRelationshipDialog(TableType.MODEL)"></i>
+
         </div>
         <div class="">
           <div class="p-1">
@@ -101,12 +114,15 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
-          <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenKomplRelationshipDialog(TableType.MODEL)"></i>
+            <h2 class="fs-4">Комплекс</h2>
+            <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
+               [class.i-disabled]="!komplRelationshipSelectedElement"
+               (click)="onClickGoToRelativeKomplElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             [class.i-disabled]="!mainSelectedElement"
+             (click)="onClickOpenKomplRelationshipDialog(TableType.MODEL)"></i>
         </div>
         <div class=" p-1">
           <app-table class="overflow-auto"
@@ -120,12 +136,15 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
-          <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
+            <h2 class="fs-4">Группа</h2>
+            <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"
+               (click)="onClickGoToRelativeGruppaElement()"></i>
+          </div>
             <i class="bi bi-share-fill me-3 i-add pointer"
                [class.i-disabled]="!mainSelectedElement"
                (click)="onClickOpenGruppaRelationshipDialog(TableType.MODEL)"></i>
-          </div>
         </div>
         <div class=" p-1">
           <app-table class="overflow-auto"
@@ -163,13 +182,13 @@
   <!-- Контент Body  -->
   <div class="example-sidenav-content d-flex flex-column">
     <!-- Кнопки редактирования -->
-
     <app-general-buttons class="d-flex mt-4 mb-3"
                          (openSidenav)="drawer.toggle()"
                          (researchPage)="onReSearchPage()"
                          (researchPageAndMainSelectToNull)="onReSearchAndMainSelectToNull()"
     ></app-general-buttons>
 
+    <!-- Фильтр -->
     <app-filter
       [searchKompl]="komplSearch"
       [searchGruppa]="gruppaSearch"
@@ -182,28 +201,28 @@
 
     <!-- Вкладки навигации таблиц -->
     <div class="d-flex flex-row group-tabs-config">
-      <div class="tabs-config"
+      <div class="tabs-config bg-kompl-color"
            (click)="onClickNavKompl()"
            [class.actived-tab]="selectedSpravochnik == tableType.KOMPL" [class.add-border-bottom]="selectedSpravochnik != tableType.KOMPL">
 
         {{'TITLE.KOMPL' | translate }}
 
       </div>
-      <div class="tabs-config"
+      <div class="tabs-config bg-gruppa-color"
            (click)="onClickNavGruppa()"
            [class.actived-tab]="selectedSpravochnik == tableType.GRUPPA" [class.add-border-bottom]="selectedSpravochnik != tableType.GRUPPA">
 
         {{'TITLE.GRUPPA' | translate}}
 
       </div>
-      <div class="tabs-config"
+      <div class="tabs-config bg-model-color"
            (click)="onClickNavModel()"
            [class.actived-tab]="selectedSpravochnik == tableType.MODEL" [class.add-border-bottom]="selectedSpravochnik != tableType.MODEL">
 
         {{'TITLE.MODEL' | translate}}
 
       </div>
-      <div class="tabs-config"
+      <div class="tabs-config bg-ekz-color"
            (click)="onClickNavOborudEkz()"
            [class.actived-tab]="selectedSpravochnik == tableType.OBORUD_EKZ" [class.add-border-bottom]="selectedSpravochnik != tableType.OBORUD_EKZ">
 

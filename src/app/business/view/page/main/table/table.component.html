@@ -33,7 +33,7 @@
           [class.active-element-relation-model]="selectedSpavochnik === TableType.MODEL_FROM_RELATION && data == selectedElement"
           [class.active-element-relation-ekz]="selectedSpavochnik === TableType.OBORUD_EKZ_FROM_RELATION && data == selectedElement"
           [class.striped-con]="i % 2 == 0"
-          [class.deleted-element]="(originSourceTable == OriginSourceTable.MAIN_TABLE || OriginSourceTable.ATTACHED_TABLE) && !data['akt']"
+          [class.deleted-element]="(originSourceTable == OriginSourceTable.MAIN_TABLE || originSourceTable == OriginSourceTable.ATTACHED_TABLE) && !data['akt']"
           class="pointer">
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data[field] && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE">
@@ -55,8 +55,7 @@
           (click)="onAddRelatedElement(data)"
           [class.chosen-element-settings-relation]="data.value === true"
           [class.striped-con]="i % 2 == 0"
-          [class.deleted-element]="data['akt'] == 0"
-          class="pointer">
+          [class.deleted-element]="data.value['akt'] == 0" class="pointer"> <!--не подсвечивает неактивное у мап таблиц-->
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data.key[field]">
             <i class="bi bi-dash"></i>
