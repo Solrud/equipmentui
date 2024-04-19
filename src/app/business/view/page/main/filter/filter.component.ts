@@ -267,4 +267,12 @@ export class FilterComponent implements OnInit, OnChanges{
     this.newSearch.emit(this.currentSearch);
   }
 
+  isFilterNotEmpty(): boolean{
+    let checkResult = false;
+    Object.keys(this.currentFg.controls).forEach(key => {
+      if (this.currentFg.controls[key].value) checkResult = true;
+    });
+    return checkResult;
+  }
+
 }

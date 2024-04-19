@@ -39,10 +39,11 @@
     </button>
     <button class="btn btn-primary d-flex flex-row align-items-center"
             [class.visually-hidden]="selectedNavBar != tableType.OBORUD_EKZ"
-            [disabled]="true">
-      <i class="bi bi-reply-all-fill i-delete"></i>
+            [disabled]="!selectedElementTable"
+            (click)="onClickGoToRelativeModelElement()"
+    >
+      <i class="bi bi-arrow-left-circle i-delete"></i>
     </button>
-
     <button class="btn btn-primary" type="submit"
             [disabled]="true"
             (click)="onClickReport()">

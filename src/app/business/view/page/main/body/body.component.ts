@@ -105,18 +105,16 @@ export class BodyComponent implements OnInit{
   // DTO<any> переделать придумать
   // -
   // =>-ОПЦИОНАЛЬНО-<=
+  // в конце концов не забыть про i18n!
   // звездочки у лейблов требуемых контролов проставить
   // проставить toast's о создании, редактировани, ошибке
   // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
-  // в конце концов не забыть про i18n!
-  // -
-  // =>-ПОЧЕМУ ОШИБКА-<=
   // -
   // =>-ВОПРОС-<=
   // что делать с кодом то у основных справочников? автоматически формируется
   // как серчить все через /search тк нужна сортировка. pageSize в 0 как я понял.
   //  B F NOborudDTO, KomplDtoDeserializer ? (Bazis, File, Navigator, KomplDesa..это не надо в итге не нужно это даже трогать)
-  // спросить про экз оборуд в переход на модели (1 экз на 1 модель?). ДА СВЯЗЬ 1 К 1 экз к модели
+  // спросить про экз оборуд в переход на модели (1 экз на 1 модель?). ДА СВЯЗЬ 1 К  экз к модели
   // ! Неактивные показывать но с зачеркиванием, выделением другого цвета
   // код классификатора (классификатор(класс оборудрвания), вид, ПУ, габариты)
   // ! СПРОСИТЬ: при инициализации(первом открытии сайта) нужно ли выбирать 1 из списка по умолчанию выбранным. НЕ НАДО
@@ -472,14 +470,14 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickGoToRelativeModelElement(){
-    if (this.modelRelationshipSelectedElement){
+  onClickGoToRelativeModelElement(model: ModelDTO = this.modelRelationshipSelectedElement){
+    if (model){
       let newDataSearchRelative = new ModelSearchDTO();
-      newDataSearchRelative.kod = this.modelRelationshipSelectedElement.kod;
-      newDataSearchRelative.obozn = this.modelRelationshipSelectedElement.obozn;
-      newDataSearchRelative.naim = this.modelRelationshipSelectedElement.naim;
-      newDataSearchRelative.akt = this.modelRelationshipSelectedElement.akt;
-      this.mainSelectedElement = this.modelRelationshipSelectedElement;
+      newDataSearchRelative.kod = model.kod;
+      newDataSearchRelative.obozn = model.obozn;
+      newDataSearchRelative.naim = model.naim;
+      newDataSearchRelative.akt = model.akt;
+      this.mainSelectedElement = model;
       this.eventService.selectElementMainTable$(this.mainSelectedElement);
       this.onChangePage(newDataSearchRelative, TableType.MODEL, true);
     }

@@ -24,6 +24,10 @@ export class GeneralButtonsComponent implements OnInit {
   @Output()
   readonly researchPageAndMainSelectToNull = new EventEmitter<void>();
 
+  @Output()
+  goToRelativeModelElement = new EventEmitter<any>();
+
+
   constructor(private eventService: EventService,
               private openDialogService: OpenDialogService) {
   }
@@ -82,6 +86,10 @@ export class GeneralButtonsComponent implements OnInit {
         this.researchPageAndMainSelectToNull.emit();
         // this.researchPage.emit();
     })
+  }
+
+  onClickGoToRelativeModelElement(){
+    this.goToRelativeModelElement.emit(this.selectedElementTable.model);
   }
 
   onClickReport() {

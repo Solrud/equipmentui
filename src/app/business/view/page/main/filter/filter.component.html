@@ -1,7 +1,9 @@
 <div ngbAccordion class="accordion-c">
   <div ngbAccordionItem [collapsed]="isCollapsed">
     <h2 ngbAccordionHeader class="m-0">
-      <button ngbAccordionButton>Фильтрация по полям</button>
+      <button ngbAccordionButton>Фильтрация по полям
+        <span *ngIf="isFilterNotEmpty()" class="ms-auto me-auto text-danger">Фильтр задан</span>
+      </button>
     </h2>
 <!--    <h2 *ngIf="isFiltered()"></h2>-->
     <div ngbAccordionCollapse>
