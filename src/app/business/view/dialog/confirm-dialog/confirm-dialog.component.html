@@ -1,39 +1,39 @@
 <div class="modal-header d-flex justify-content-center">
   <h2 class="m-0 text-center"
       *ngIf="dialogMode == DialogMode.DELETE">
-    Вы уверены, что хотите <span class="text-danger">удалить</span> элемент из таблицы"{{selectedNavBar}}"
+    {{"WARNING.ARE-YOU-SURE" | translate}} <span class="text-danger">{{"COMMON.DELETE" | translate}}</span> {{"TABLE.ELEMENT-FROM-TABLE" | translate}}"{{selectedNavBar}}"
   </h2>
   <h2 class="m-0 text-center"
       *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY">
     <span *ngIf="selectedElement['akt'] == 0">
-      Вы уверены, что хотите сделать <span class="text-success text-decoration-underline">активным</span> элемент из таблицы" {{selectedNavBar}}"</span>
+      {{"WARNING.ARE-YOU-SURE-TO-DO" | translate}} <span class="text-success text-decoration-underline">{{"OTHER.AKTIVNIM" | translate}}</span> {{"TABLE.ELEMENT-FROM-TABLE" | translate}}" {{selectedNavBar}}"</span>
     <span *ngIf="selectedElement['akt'] == 1">
-      Вы уверены, что хотите сделать <span class="text-warning text-decoration-underline">неактивным</span> элемент из таблицы" {{selectedNavBar}}"</span>
+      {{"WARNING.ARE-YOU-SURE-TO-DO" | translate}} <span class="text-warning text-decoration-underline">{{"OTHER.UNAKTIVNIM" | translate}}</span> {{"TABLE.ELEMENT-FROM-TABLE" | translate}}" {{selectedNavBar}}"</span>
   </h2>
 </div>
 
 <div class="modal-body d-flex flex-column">
-  <h4><span class="fw-bolder">ID:</span> {{selectedElement['id']}}</h4>
-  <h4><span class="fw-bolder">Наименование:</span> {{selectedElement['naim']}}</h4>
-  <span class="text-danger" *ngIf="isKlassNotEmpty && selectedNavBar === TableType.OBORUD_KLASS">ВНИМАНИЕ!!! В этом коде оборудования содержатся виды оборудования, если вы удалите его, связанные виды тоже будут удалены!</span>
-  <span class="text-danger" *ngIf="isKlassNotEmpty && selectedNavBar === TableType.PODR">ВНИМАНИЕ!!! В этом подразделении содержатся участки, если вы удалите его, связанные участки тоже будут удалены!</span>
+  <h4><span class="fw-bolder">{{"COMMON.ID" | translate}}:</span> {{selectedElement['id']}}</h4>
+  <h4><span class="fw-bolder">{{"COMMON.NAIM" | translate}}:</span> {{selectedElement['naim']}}</h4>
+  <span class="text-danger" *ngIf="isKlassNotEmpty && selectedNavBar === TableType.OBORUD_KLASS">{{"WARNING.WARNING-KOD-OBORUD" | translate}}</span>
+  <span class="text-danger" *ngIf="isKlassNotEmpty && selectedNavBar === TableType.PODR">{{"WARNING.WARNING-PODR" | translate}}</span>
 </div>
 
 <div class="modal-footer ">
   <button type="button"
           class="btn btn-warning"
           *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY && this.newElement.akt == 1"
-          (click)="onClickChangeAkt()">Сделать неактивным</button>
+          (click)="onClickChangeAkt()">{{"BUTTON.MAKE-UNACTIVE" | translate}}</button>
   <button type="button"
           class="btn btn-success"
           *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY && this.newElement.akt == 0"
-          (click)="onClickChangeAkt()">Сделать активным</button>
+          (click)="onClickChangeAkt()">{{"BUTTON.MAKE-ACTIVE" | translate}}</button>
   <button type="button"
           class="btn btn-danger"
           *ngIf="dialogMode == DialogMode.DELETE"
-          (click)="onClickDelete()">Удалить</button>
+          (click)="onClickDelete()">{{"BUTTON.DELETE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"
           ngbAutofocus
-          (click)="onClickCloseModal()">Отмена</button>
+          (click)="onClickCloseModal()">{{"BUTTON.CANCEL" | translate}}</button>
 </div>

@@ -34,14 +34,6 @@
       </div>
 
     </div>
-<!--    <div class="d-flex flex-column col-4">-->
-<!--      <label for="kodKlass" class="form-label">Код Классифиации</label>-->
-<!--      <div id="kodKlass" class="d-flex flex-grow-1 align-items-center justify-content-center border border-dark">-->
-<!--        <span class="bg-for-kod-klass fs-4"> {{fcKodKlass[0]}} </span>-->
-<!--        <span class="bg-for-kod-vid fs-4"> {{fcKodKlass[1]}} </span>-->
-<!--        <span class="bg-for-kod-nalpu fs-4"> {{fcKodKlass[2]}} </span>-->
-<!--        <span class="bg-for-kod-gabzo fs-4"> {{fcKodKlass[3]}} </span>-->
-<!--      </div>-->
     <div>
       <label for="kodKlass" class="form-label">Код Классифиации</label>
       <div class="form-group input-group">
@@ -227,13 +219,13 @@
           class="btn btn-primary"
           [hidden]="dialogMode != DialogMode.CREATE"
           (click)="onClickCreateGruppa()"
-          [disabled]="fgGruppaElement.invalid">Создать</button>
+          [disabled]="fgGruppaElement.invalid">{{"BUTTON.CREATE" | translate}}</button>
   <button type="button"
           class="btn btn-primary"
           [hidden]="dialogMode != DialogMode.EDIT"
           (click)="onClickUpdateGruppa()"
-          [disabled]="fgGruppaElement.invalid">Редактировать</button>
+          [disabled]="fgGruppaElement.invalid">{{"BUTTON.CHANGE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"
-          (click)="onClickCloseModal()">Отмена</button>
+          (click)="onClickCloseModal()">{{"BUTTON.CANCEL" | translate}}</button>
 </div>
