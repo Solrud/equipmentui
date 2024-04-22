@@ -1,13 +1,13 @@
 <div class="modal-header d-flex justify-content-center">
-  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.CREATE">Создание группы</h2>
-  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.EDIT">Редактирование группы</h2>
-  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.VIEW">Просмотр группы</h2>
+  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.CREATE">{{"TITLE.CREATE-GRUPPA" | translate}}</h2>
+  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.EDIT">{{"TITLE.EDIT-GRUPPA" | translate}}</h2>
+  <h2 class="m-0 text-center" *ngIf="dialogMode == DialogMode.VIEW">{{"TITLE.VIEW-GRUPPA" | translate}}</h2>
 </div>
 
 <form class="modal-body d-flex flex-column gap-2"
       [formGroup]="fgGruppaElement">
   <div class="d-flex justify-content-end">
-    <label for="kod" class="form-label m-0 me-2 align-self-center">Код</label>
+    <label for="kod" class="form-label m-0 me-2 align-self-center">{{"COMMON.KOD" | translate}}</label>
     <input class="form-control w-25 border-dark"
            id="kod"
            type="text"
@@ -18,7 +18,7 @@
   </div>
   <div class="d-flex flex-row gap-2">
     <div class="d-flex flex-column col-8">
-      <label for="naim" class="form-label">Наименование</label>
+      <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}}</label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="naim"
@@ -35,7 +35,7 @@
 
     </div>
     <div>
-      <label for="kodKlass" class="form-label">Код Классифиации</label>
+      <label for="kodKlass" class="form-label">{{"COMMON.KOD-KLASS" | translate}}</label>
       <div class="form-group input-group">
         <input class="form-control border-dark text-center"
                id="kodKlass"
@@ -58,7 +58,7 @@
          container="body"
          #ddmKlass="ngbDropdown"
     >
-      <label for="klass" class="form-label">Код оборудования</label>
+      <label for="klass" class="form-label">{{"COMMON.KOD-OBORUD" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="klass"
@@ -75,8 +75,8 @@
           <i class="bi bi-x-lg"></i>
         </button>
         <div class="px-3 ngb-menu-config" ngbDropdownMenu>
-          <p *ngIf="klassListDDM && klassListDDM.length > 0">Выберите один из элементов:</p>
-          <p *ngIf="klassListDDM && klassListDDM.length == 0">Ничего не найдено</p>
+          <p *ngIf="klassListDDM && klassListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+          <p *ngIf="klassListDDM && klassListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
           <div class="dropdown-divider"></div>
           <div class="ddm-config">
             <h2 *ngIf="klassListDDM && klassListDDM.length == 0"
@@ -98,7 +98,7 @@
          container="body"
          #ddmVid="ngbDropdown"
     >
-      <label for="vid" class="form-label">Вид</label>
+      <label for="vid" class="form-label">{{"COMMON.VID" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="vid"
@@ -116,8 +116,8 @@
         </button>
       </div>
       <div class="px-3 ngb-menu-config" ngbDropdownMenu>
-        <p *ngIf="vidListDDM && vidListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="vidListDDM && vidListDDM.length == 0">Ничего не найдено</p>
+        <p *ngIf="vidListDDM && vidListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="vidListDDM && vidListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="vidListDDM && vidListDDM.length == 0"
@@ -140,7 +140,7 @@
          container="body"
          #ddmNalPu="ngbDropdown"
     >
-      <label for="nalPu" class="form-label">ПУ</label>
+      <label for="nalPu" class="form-label">{{"COMMON.PU" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="nalPu"
@@ -158,8 +158,8 @@
         </button>
       </div>
       <div class="px-3 ngb-menu-config" ngbDropdownMenu>
-        <p *ngIf="nalPuListDDM && nalPuListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="nalPuListDDM && nalPuListDDM.length == 0">Ничего не найдено</p>
+        <p *ngIf="nalPuListDDM && nalPuListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="nalPuListDDM && nalPuListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="nalPuListDDM && nalPuListDDM.length == 0"
@@ -177,7 +177,7 @@
          ngbDropdown
          container="body"
          #ddmGabZo="ngbDropdown">
-      <label for="gabZo" class="form-label">Габариты</label>
+      <label for="gabZo" class="form-label">{{"COMMON.GABARITY" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="gabZo"
@@ -195,8 +195,8 @@
         </button>
       </div>
       <div class="px-3 ngb-menu-config" ngbDropdownMenu>
-        <p *ngIf="gabZoListDDM && gabZoListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="gabZoListDDM && gabZoListDDM.length == 0">Ничего не найдено</p>
+        <p *ngIf="gabZoListDDM && gabZoListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="gabZoListDDM && gabZoListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="gabZoListDDM && gabZoListDDM.length == 0"

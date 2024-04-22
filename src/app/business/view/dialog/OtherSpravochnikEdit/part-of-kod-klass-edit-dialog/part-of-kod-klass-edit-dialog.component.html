@@ -1,11 +1,11 @@
 <div class="modal-header d-flex justify-content-center">
-  <h2 class="m-0 text-center ">{{dialogMode}} справочника "{{selectedNavBar}}"</h2>
+  <h2 class="m-0 text-center ">{{dialogMode}} {{"OTHER.SPRAVOCHNIKA" | translate}} "{{selectedNavBar}}"</h2>
 </div>
 
 <form class="modal-body d-flex flex-column gap-2"
       [formGroup]="fgKod">
   <div *ngIf="klassForVid || selectedElement?.klass">
-    <label for="klass" class="form-label">Код оборудования</label>
+    <label for="klass" class="form-label">{{"COMMON.KOD-OBORUD" | translate}}</label>
     <input class="form-control border-dark"
            id="klass"
            type="text"
@@ -16,8 +16,8 @@
   </div>
   <div class="d-flex flex-grow-1 gap-2">
     <div class="flex-grow-1 col-2">
-      <label for="kodKlass" class=" form-label ">Код <span class="text-danger">{{fcFieldIsRequired('kodKlass')}}</span>
-        <span *ngIf="isSameKodExist" class="text-danger">Такой код уже существует!</span></label>
+      <label for="kodKlass" class=" form-label ">{{"COMMON.KOD" | translate}} <span class="text-danger">{{fcFieldIsRequired('kodKlass')}}</span>
+        <span *ngIf="isSameKodExist" class="text-danger">{{"WARNING.SAME-KOD-IS-EXIST" | translate}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark "
                id="kodKlass"
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="flex-grow-1 col-10">
-      <label for="naim" class="form-label">Наименование <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
+      <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark"
                id="naim"
@@ -54,12 +54,12 @@
           class="btn btn-primary"
           [hidden]="dialogMode != DialogMode.CREATE"
           (click)="onClickCreateKodPart()"
-          [disabled]="fgKod.invalid">Создать</button>
+          [disabled]="fgKod.invalid">{{"BUTTON.CREATE" | translate}}</button>
   <button type="button"
           class="btn btn-primary"
           [hidden]="dialogMode != DialogMode.EDIT"
           (click)="onClickUpdateKodPart()"
-          [disabled]="fgKod.invalid">Редактировать</button>
+          [disabled]="fgKod.invalid">{{"BUTTON.CHANGE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"
           (click)="onClickCloseModal()">{{"BUTTON.CANCEL" | translate}}</button>

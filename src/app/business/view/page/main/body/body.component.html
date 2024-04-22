@@ -5,12 +5,12 @@
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.KOMPL">
       <div class="upper-inform-div d-flex justify-content-center align-items-center">
         <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
-        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите комплекс для отображения информации*</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*{{"ACTION.CHOOSE-KOMPL-FOR-VIEW-INFO" | translate}}*</span>
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
           <div class="d-flex flex-row">
-            <h2 class="fs-4">Группа</h2>
+            <h2 class="fs-4">{{"TITLE.GRUPPA" | translate}}</h2>
             <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
                [class.i-disabled]="!gruppaRelationshipSelectedElement"
                (click)="onClickGoToRelativeGruppaElement()"></i>
@@ -32,7 +32,7 @@
       <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
           <div class="d-flex flex-row">
-            <h2 class="fs-4">Модель</h2>
+            <h2 class="fs-4">{{"COMMON.MODEL" | translate}}</h2>
             <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
                [class.i-disabled]="!modelRelationshipSelectedElement"
                (click)="onClickGoToRelativeModelElement()"></i>
@@ -57,12 +57,12 @@
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.GRUPPA">
       <div class="upper-inform-div d-flex justify-content-center align-items-center">
         <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
-        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите группу для отображения информации*</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*{{"ACTION.CHOOSE-GRUPPA-FOR-VIEW-INFO" | translate}}*</span>
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
           <div class="d-flex flex-row">
-            <h2 class="fs-4">Комплекс</h2>
+            <h2 class="fs-4">{{"TITLE.KOMPL" | translate}}</h2>
             <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
                [class.i-disabled]="!komplRelationshipSelectedElement"
                (click)="onClickGoToRelativeKomplElement()"></i>
@@ -84,7 +84,7 @@
       <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
           <div class="d-flex flex-row">
-            <h2 class="fs-4">Модель</h2>
+            <h2 class="fs-4">{{"COMMON.MODEL" | translate}}</h2>
             <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
                [class.i-disabled]="!modelRelationshipSelectedElement"
                (click)="onClickGoToRelativeModelElement()"></i>
@@ -110,12 +110,12 @@
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.MODEL">
       <div class="upper-inform-div d-flex justify-content-center align-items-center">
         <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
-        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите модель для отображения информации*</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*{{"ACTION.CHOOSE-MODEL-FOR-VIEW-INFO" | translate}}*</span>
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
           <div class="d-flex flex-row">
-            <h2 class="fs-4">Комплекс</h2>
+            <h2 class="fs-4">{{"TITLE.KOMPL" | translate}}</h2>
             <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
                [class.i-disabled]="!komplRelationshipSelectedElement"
                (click)="onClickGoToRelativeKomplElement()"></i>
@@ -137,7 +137,7 @@
       <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
           <div class="d-flex flex-row">
-            <h2 class="fs-4">Группа</h2>
+            <h2 class="fs-4">{{"TITLE.GRUPPA" | translate}}</h2>
             <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
                [class.i-disabled]="!gruppaRelationshipSelectedElement"
                (click)="onClickGoToRelativeGruppaElement()"></i>
@@ -158,7 +158,7 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-ekz">
         <div class="d-flex justify-content-between bg-ekz-color">
-          <h2 class="fs-4">Экземпляры</h2>
+          <h2 class="fs-4">{{"COMMON.EKZS" | translate}}</h2>
           <div class="d-flex flex-row">
             <i class="bi bi-gear-fill me-3 i-add pointer"
                [class.i-disabled]="!oborudEkzRelationshipSelectedElement"

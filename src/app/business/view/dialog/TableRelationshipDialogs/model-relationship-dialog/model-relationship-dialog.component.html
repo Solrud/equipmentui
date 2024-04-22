@@ -1,10 +1,10 @@
 <div class="modal-header d-flex justify-content-center">
-  <h1 class="m-0 text-center ">Добавление моделей в {{selectedSourceSpravochnik}}</h1>
+  <h1 class="m-0 text-center ">{{"TITLE.JOIN-MODEL-IN" | translate}} {{selectedSourceSpravochnik}}</h1>
 </div>
 <div class="modal-body d-flex flex-column ">
   <div class="border border-dark mb-2 gruppa-upper-div-c">
     <div class="div-for-title div-for-title-bg-joined">
-      Текущий выбранный список связанных моделей:
+      {{"TITLE.CURRENT-JOINED-LIST-MODEL" | translate}}:
     </div>
     <app-table class="overflow-auto flex-column d-flex"
                [fieldColumnList]="modelJoinedFieldColumnList"
@@ -16,7 +16,7 @@
   </div>
   <div class="border border-dark gruppa-lower-div-c">
     <div class="div-for-title div-for-title-bg-all">
-      Все модели:
+      {{"TITLE.ALL-MODEL" | translate}}:
     </div>
     <app-table class="overflow-auto flex-column d-flex"
                [selectedSpavochnik]="selectedSourceSpravochnik"
@@ -37,7 +37,7 @@
   <button type="button"
           class="btn btn-primary"
           (click)="onClickSave()"
-  >Сохранить</button>
+  >{{"BUTTON.SAVE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"
           (click)="onClickCloseModal()"

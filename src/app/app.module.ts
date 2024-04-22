@@ -46,7 +46,6 @@ import {OborudEkzElementEditDialogComponent} from './business/view/dialog/Entity
 import {KomplRelationshipDialogComponent} from './business/view/dialog/TableRelationshipDialogs/kompl-relationship-dialog/kompl-relationship-dialog.component';
 import {GruppaRelationshipDialogComponent} from './business/view/dialog/TableRelationshipDialogs/gruppa-relationship-dialog/gruppa-relationship-dialog.component';
 import {ModelRelationshipDialogComponent} from './business/view/dialog/TableRelationshipDialogs/model-relationship-dialog/model-relationship-dialog.component';
-import {OborudEkzRelationshipDialogComponent} from './business/view/dialog/TableRelationshipDialogs/oborud-ekz-relationship-dialog/oborud-ekz-relationship-dialog.component';
 import {ConfirmDialogComponent} from './business/view/dialog/confirm-dialog/confirm-dialog.component';
 import {SettingsDialogComponent} from './business/view/dialog/settings-dialog/settings-dialog.component';
 import {PartOfKodKlassEditDialogComponent} from './business/view/dialog/OtherSpravochnikEdit/part-of-kod-klass-edit-dialog/part-of-kod-klass-edit-dialog.component';
@@ -84,7 +83,6 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     KomplRelationshipDialogComponent,
     GruppaRelationshipDialogComponent,
     ModelRelationshipDialogComponent,
-    OborudEkzRelationshipDialogComponent,
     ConfirmDialogComponent,
     SettingsDialogComponent,
     PartOfKodKlassEditDialogComponent,

@@ -1,6 +1,7 @@
 <div class="modal-header d-flex justify-content-center">
-  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.CREATE">Создание экземпляра оборудования</h2>
-  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.EDIT">Редактирование экземпляра оборудования</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.CREATE">{{"TITLE.CREATE-OBORUD-EKZ" | translate}}</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.EDIT">{{"TITLE.EDIT-OBORUD-EKZ" | translate}}</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.VIEW">{{"TITLE.VIEW-OBORUD-EKZ" | translate}}</h2>
 </div>
 
 <form class="modal-body d-flex flex-column gap-1"
@@ -9,7 +10,7 @@
   <div class="d-flex gap-2">
     <!--    ячейка 1 НАИМЕНОВАНИЕ-->
     <div class="flex-grow-1">
-      <label for="naim" class="form-label">Наименование</label>
+      <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark"
                id="naim"
@@ -33,7 +34,7 @@
          container="body"
          #ddmProizv="ngbDropdown"
     >
-      <label for="proizv" class="form-label">Производитель</label>
+      <label for="proizv" class="form-label">{{"COMMON.PROIZV" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark"
                id="proizv"
@@ -51,8 +52,8 @@
         </button>
       </div>
       <div class="px-3 ngb-menu-config" ngbDropdownMenu>
-        <p *ngIf="proizvListDDM && proizvListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="proizvListDDM && proizvListDDM.length == 0">Ничего не найдено</p>
+        <p *ngIf="proizvListDDM && proizvListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="proizvListDDM && proizvListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="proizvListDDM && proizvListDDM.length == 0"
@@ -69,7 +70,7 @@
 
 
     <div class="flex-grow-1">
-      <label for="model" class="form-label">Модель</label>
+      <label for="model" class="form-label">{{"COMMON.MODEL" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark"
                id="model"
@@ -81,7 +82,7 @@
         <button class="btn btn-light border-dark"
                 [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="onClickAttachModel()">
-          Присвоить модель
+          {{"ACTION.ATTACH-MODEL" | translate}}
           <i class="ms-1 bi bi-share"></i>
         </button>
       </div>
@@ -92,7 +93,7 @@
   <div class="d-flex gap-2">
     <!--    Индивидуальный номер -->
     <div class="flex-grow-1">
-      <label for="invNom" class="form-label">Инвентарный номер</label>
+      <label for="invNom" class="form-label">{{"COMMON.INV-NOM" | translate}}</label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="invNom"
@@ -112,7 +113,7 @@
          ngbDropdown
          container="body"
          #ddmPodr="ngbDropdown">
-      <label for="podr" class="form-label">Подразделение</label>
+      <label for="podr" class="form-label">{{"COMMON.PODR" | translate}}</label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="podr"
@@ -131,8 +132,8 @@
       </div>
       <div class="px-3 ngb-menu-config"
            ngbDropdownMenu>
-        <p *ngIf="podrListDDM && podrListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="podrListDDM && podrListDDM.length == 0">Ничего не найдено</p>
+        <p *ngIf="podrListDDM && podrListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="podrListDDM && podrListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="podrListDDM && podrListDDM.length == 0"
@@ -151,7 +152,7 @@
   <div class="d-flex gap-2">
     <!--    часть 2 ячейка 1 серийный номер-->
     <div class="flex-grow-1">
-      <label for="serNom" class="form-label">Серийный номер</label>
+      <label for="serNom" class="form-label">{{"COMMON.SER-NOM" | translate}}</label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="serNom"
@@ -171,7 +172,7 @@
          ngbDropdown
          container="body"
          #ddmUch=ngbDropdown>
-      <label for="uch" class="form-label">Участок</label>
+      <label for="uch" class="form-label">{{"COMMON.UCH" | translate}}</label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="uch"
@@ -191,8 +192,8 @@
       </div>
       <div class="px-3 ngb-menu-config"
            ngbDropdownMenu>
-        <p *ngIf="uchListDDM && uchListDDM.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="uchListDDM && uchListDDM.length == 0">Ничего не найдено</p>
+        <p *ngIf="uchListDDM && uchListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="uchListDDM && uchListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="uchListDDM && uchListDDM.length == 0"
@@ -211,7 +212,7 @@
   </div>
   <div  class="d-flex gap-2">
     <div class="flex-grow-1">
-      <label for="prim" class="form-label">Примечание</label>
+      <label for="prim" class="form-label">{{"COMMON.PRIM" | translate}}</label>
       <div class="form-group input-group">
       <textarea class="form-control txtarea-c"
                 id="prim"
@@ -235,18 +236,18 @@
 
 <div class="modal-footer justify-content-between">
     <div class="d-flex flex-column">
-      <span class="text-wrap text-danger">*Для заполнения карточки ОБЯЗАТЕЛЕН</span>
-      <span class="text-wrap text-danger">ЛИБО серийный, ЛИБО инвентарный номер</span>
+      <span class="text-wrap text-danger">*{{"WARNING.1-PART-NOMER-REQUERED" | translate}}</span>
+      <span class="text-wrap text-danger">{{"WARNING.2-PART-NOMER-REQUERED" | translate}}</span>
     </div>
     <div class="d-flex gap-2">
       <button type="button" class="btn btn-primary"
               (click)="onClickCreateOborudEkz()"
               [hidden]="dialogMode != DialogMode.CREATE"
-              [disabled]="fgOborudEkzElement.invalid">Создать</button>
+              [disabled]="fgOborudEkzElement.invalid">{{"BUTTON.CREATE" | translate}}</button>
       <button type="button" class="btn btn-primary"
               (click)="onClickUpdateOborudEkz()"
               [hidden]="dialogMode != DialogMode.EDIT"
-              [disabled]="fgOborudEkzElement.invalid">Редактировать</button>
+              [disabled]="fgOborudEkzElement.invalid">{{"BUTTON.CHANGE" | translate}}</button>
       <button type="button" class="btn btn-secondary"
               ngbAutofocus
               (click)="onClickCloseModal()">{{"BUTTON.CANCEL" | translate}}</button>

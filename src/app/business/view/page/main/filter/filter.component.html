@@ -1,8 +1,8 @@
 <div ngbAccordion class="accordion-c">
   <div ngbAccordionItem [collapsed]="isCollapsed">
     <h2 ngbAccordionHeader class="m-0">
-      <button ngbAccordionButton>Фильтрация по полям
-        <span *ngIf="isFilterNotEmpty()" class="ms-auto me-auto text-danger">Фильтр задан</span>
+      <button ngbAccordionButton>{{'TITLE.FILTER' | translate}}
+        <span *ngIf="isFilterNotEmpty()" class="ms-auto me-auto text-danger">{{'WARNING.FILTER-SET' | translate}}</span>
       </button>
     </h2>
 <!--    <h2 *ngIf="isFiltered()"></h2>-->
@@ -51,7 +51,7 @@
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
               <button id="akt" class="btn btn-primary"
                       (click)="onClickChangeAct()">
-                <span *ngIf="searchKompl?.akt == null">Все</span>
+                <span *ngIf="searchKompl?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchKompl?.akt != null">{{'BUTTON.' + searchKompl.akt.toString() | translate}}</span>
               </button>
             </div>
@@ -120,7 +120,7 @@
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
               <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
-                <span *ngIf="searchGruppa?.akt == null">Все</span>
+                <span *ngIf="searchGruppa?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchGruppa?.akt != null">{{'BUTTON.' + searchGruppa.akt.toString() | translate}}</span>
               </button>
             </div>
@@ -189,7 +189,7 @@
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
               <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
-                <span *ngIf="searchModel?.akt == null">Все</span>
+                <span *ngIf="searchModel?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchModel?.akt != null">{{'BUTTON.' + searchModel.akt.toString() | translate}}</span>
               </button>
             </div>
@@ -258,7 +258,7 @@
             <div class="d-flex flex-column btn-akt-w">
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
               <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
-                <span *ngIf="searchOborudEkz?.akt == null">Все</span>
+                <span *ngIf="searchOborudEkz?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchOborudEkz?.akt != null">{{'BUTTON.' + searchOborudEkz.akt.toString() | translate}}</span>
               </button>
             </div>

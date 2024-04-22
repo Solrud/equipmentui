@@ -44,7 +44,7 @@
             <ng-template #fieldNotObject>{{data[field]}}</ng-template>
           </div>
           <div *ngIf="originSourceTable == OriginSourceTable.PRE_RELATION_TABLE && field == 'X'">
-            <button class="btn btn-sm btn-danger" (click)="onClickRemoveFromPrerelatedDataList(data)">Удалить</button>
+            <button class="btn btn-sm btn-danger" (click)="onClickRemoveFromPrerelatedDataList(data)">{{"BUTTON.DELETE" | translate}}</button>
           </div>
         </td>
       </tr>
@@ -76,19 +76,19 @@
 
 <div *ngIf="!isDataSourceFull() && !(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH)">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Нет данных в таблице"{{selectedSpavochnik}}"</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.NO-DATA-IN-TABLE" | translate}} "{{selectedSpavochnik}}"</p>
 </div>
 <div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.OBORUD_VID) && !isUchNotEmptyInPodr">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Выберите код оборудования для отображения таблицы "{{selectedSpavochnik}}"</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.CHOOSE-KOD-OBORUD-FOR-VIEW-TABLE" | translate}} "{{selectedSpavochnik}}"</p>
 </div>
 <div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.UCH) && !isUchNotEmptyInPodr">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Выберите подразделение для отображения таблицы "{{selectedSpavochnik}}"</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.CHOOSE-PODR-FOR-VIEW-TABLE" | translate}} "{{selectedSpavochnik}}"</p>
 </div>
 <div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.UCH) && isUchNotEmptyInPodr">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Список участков пуст</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.UCH-LIST-EMPTY" | translate}}</p>
 </div>
 
 <div class="mh-paginator d-flex justify-content-end mt-2 me-4" *ngIf="toShowPaginator()">
