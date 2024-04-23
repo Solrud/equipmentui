@@ -18,7 +18,7 @@
   </div>
   <div class="d-flex flex-row gap-2">
     <div class="d-flex flex-column col-8">
-      <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}}</label>
+      <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="naim"
@@ -58,7 +58,7 @@
          container="body"
          #ddmKlass="ngbDropdown"
     >
-      <label for="klass" class="form-label">{{"COMMON.KOD-OBORUD" | translate}}</label>
+      <label for="klass" class="form-label">{{"COMMON.KOD-OBORUD" | translate}} <span class="text-danger">{{fcFieldIsRequired('klass')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="klass"
@@ -86,7 +86,7 @@
                     *ngFor="let klass of klassListDDM; index as i"
                     (click)="onClickSelectDDIKlass(klass)"
                     ngbDropdownItem>
-              <span class="bg-for-kod-klass">[ {{klass.kodKlass}} ]</span> {{klass.naim}}
+              <span class="bg-for-kod-klass text-black">[ {{klass.kodKlass}} ]</span> {{klass.naim}}
             </button>
           </div>
         </div>
@@ -98,7 +98,7 @@
          container="body"
          #ddmVid="ngbDropdown"
     >
-      <label for="vid" class="form-label">{{"COMMON.VID" | translate}}</label>
+      <label for="vid" class="form-label">{{"COMMON.VID" | translate}} <span class="text-danger">{{fcFieldIsRequired('vid')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="vid"
@@ -126,7 +126,7 @@
                   *ngFor="let vid of vidListDDM"
                   (click)="onClickSelectDDIVid(vid)"
                   ngbDropdownItem>
-            <span class="bg-for-kod-vid">[ {{vid.kodKlass}} ]</span> {{vid.naim}}
+            <span class="bg-for-kod-vid text-black">[ {{vid.kodKlass}} ]</span> {{vid.naim}}
           </button>
         </div>
       </div>
@@ -140,7 +140,7 @@
          container="body"
          #ddmNalPu="ngbDropdown"
     >
-      <label for="nalPu" class="form-label">{{"COMMON.PU" | translate}}</label>
+      <label for="nalPu" class="form-label">{{"COMMON.PU" | translate}} <span class="text-danger">{{fcFieldIsRequired('nalPu')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="nalPu"
@@ -168,7 +168,7 @@
                   *ngFor="let nalPu of nalPuListDDM"
                   (click)="onClickSelectDDINalPu(nalPu)"
                   ngbDropdownItem>
-            <span class="bg-for-kod-nalpu">[ {{nalPu.kodKlass}} ]</span> {{nalPu.naim}}
+            <span class="bg-for-kod-nalpu text-black">[ {{nalPu.kodKlass}} ]</span> {{nalPu.naim}}
           </button>
         </div>
       </div>
@@ -177,7 +177,7 @@
          ngbDropdown
          container="body"
          #ddmGabZo="ngbDropdown">
-      <label for="gabZo" class="form-label">{{"COMMON.GABARITY" | translate}}</label>
+      <label for="gabZo" class="form-label">{{"COMMON.GABARITY" | translate}} <span class="text-danger">{{fcFieldIsRequired('gabZo')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="gabZo"
@@ -205,7 +205,7 @@
                   *ngFor="let gabZo of gabZoListDDM"
                   (click)="onClickSelectDDIGabZo(gabZo)"
                   ngbDropdownItem>
-            <span class="bg-for-kod-gabzo">[ {{gabZo.kodKlass}} ]</span> {{gabZo.naim}}
+            <span class="bg-for-kod-gabzo text-black">[ {{gabZo.kodKlass}} ]</span> {{gabZo.naim}}
           </button>
         </div>
       </div>

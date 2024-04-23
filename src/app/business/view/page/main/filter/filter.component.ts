@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
+  DELAY_TIME_CLOSE_FOR_TOOLTIP,
   DELAY_TIME_FOR_FILTER,
+  DELAY_TIME_OPEN_FOR_TOOLTIP,
   FIELD_COLUMN_GRUPPA_LIST,
   FIELD_COLUMN_KOMPL_LIST,
   FIELD_COLUMN_MODEL_LIST,
@@ -20,7 +22,7 @@ import {debounceTime} from "rxjs/operators";
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })
-export class FilterComponent implements OnInit, OnChanges{
+export class FilterComponent implements OnChanges{
   komplFieldColumnList = FIELD_COLUMN_KOMPL_LIST.slice(1);
   gruppaFieldColumnList = FIELD_COLUMN_GRUPPA_LIST.slice(1);
   modelFieldColumnList = FIELD_COLUMN_MODEL_LIST.slice(1);
@@ -59,20 +61,19 @@ export class FilterComponent implements OnInit, OnChanges{
   constructor(private eventService: EventService) {
   }
 
-  ngOnInit(): void {
-    // this._subscribeToSelectedSpravochnik();
-
-
-  }
-
   public get TableType(){
     return TableType;
+  }
+  public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
+    return DELAY_TIME_OPEN_FOR_TOOLTIP;
+  }
+  public get DELAY_TIME_CLOSE_FOR_TOOLTIP(){
+    return DELAY_TIME_CLOSE_FOR_TOOLTIP;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedSpravochnik']){
       this.initFgAll();
-      console.log('selectedSprav in filter')
       this.selectedSpravochnik = changes['selectedSpravochnik'].currentValue;
       this.toDefineCurrentValues(this.selectedSpravochnik);
       this._observeFgKompl();

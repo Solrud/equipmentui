@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {DialogResult, UserRoleAuth} from "../../../../../app.constant";
+import {DELAY_TIME_CLOSE_FOR_TOOLTIP, DELAY_TIME_OPEN_FOR_TOOLTIP, DialogResult, UserRoleAuth} from "../../../../../app.constant";
 import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
 
 @Component({
@@ -15,6 +15,13 @@ export class HeaderComponent {
   readonly researchPage = new EventEmitter<void>();
 
   constructor(private openDialogService: OpenDialogService) {
+  }
+
+  public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
+    return DELAY_TIME_OPEN_FOR_TOOLTIP;
+  }
+  public get DELAY_TIME_CLOSE_FOR_TOOLTIP(){
+    return DELAY_TIME_CLOSE_FOR_TOOLTIP;
   }
 
   onClickOpenSettingsDialog(){

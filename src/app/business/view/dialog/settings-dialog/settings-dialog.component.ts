@@ -105,10 +105,6 @@ export class SettingsDialogComponent implements OnInit{
 
   dialogResult: DialogResult = DialogResult.CANCEL;
 
-  //ToDo !!!!!!!!!! при перевыборе справочника (navbar), выбранный справочник сохраняется в переменной, а нужно обнуллять
-
-  //ToDo внутри настроек у таблиц сделать overflow правильный
-
   //ToDo при открытии модального окна автоматом загружать данные для таблицы у мало заполненных таблиц,
   // также при первой загрузке данных сохранять данные таблицы и серчить только после изменения
   constructor(private activeModal: NgbActiveModal,
@@ -140,6 +136,7 @@ export class SettingsDialogComponent implements OnInit{
 
   initDialogDefault(){
     this.proizvSearch.pageSize = 0;
+    this.proizvSearch.sortColumn = "naim";
   }
 
   _subscribeOborudKlassSelectedElement(){

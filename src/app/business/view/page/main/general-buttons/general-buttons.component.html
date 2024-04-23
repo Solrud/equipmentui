@@ -1,18 +1,30 @@
 <div class="d-flex flex-row justify-content-between w-100">
   <div class="d-flex gap-4 ms-5">
     <button class="btn btn-success d-flex flex-row align-items-center"
+            ngbTooltip="{{'HINT.CREATE-ELEM-MAIN-TABLE'|translate }}"
+            [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+            [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+            placement="bottom"
             [disabled]="!selectedNavBar"
             (click)="onClickAddNewElement()">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
       &nbsp; {{ 'BUTTON.ADD'|translate }}
     </button>
     <button class="btn btn-primary d-flex flex-row align-items-center"
+            ngbTooltip="{{'HINT.EDIT-ELEM-MAIN-TABLE'|translate }}"
+            [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+            [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+            placement="bottom"
             [disabled]="!selectedElementTable"
             (click)="onClickEditElement()">
       <i class="bi bi-pencil-square i-edit"></i>
       &nbsp; {{ 'BUTTON.EDIT'|translate }}
     </button>
     <button class="btn btn-primary d-flex flex-row align-items-center"
+            ngbTooltip="{{'HINT.CHANGE-ELEMENT-MAIN-ACT'|translate }}"
+            [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+            [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+            placement="bottom"
             [disabled]="!selectedElementTable"
             (click)="onClickChangeActivityElement()">
       <span class = "d-flex flex-row align-items-center fix-width-act-button"
@@ -32,19 +44,28 @@
       </span>
     </button>
     <button class="btn btn-secondary d-flex flex-row align-items-center"
+            ngbTooltip="{{'HINT.DELETE-ELEM-MAIN-TABLE'|translate }}"
+            [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+            [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+            placement="bottom"
             [disabled]="!selectedElementTable"
             (click)="onClickDeleteElement()">
       <i class="bi bi-trash"></i>
       &nbsp; {{ 'BUTTON.DELETE'|translate }}
     </button>
     <button class="btn btn-primary d-flex flex-row align-items-center"
+            ngbTooltip="{{'HINT.TRANSIT-TO-RELATION-MODEL'|translate }}"
+            [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+            [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+            placement="bottom"
             [class.visually-hidden]="selectedNavBar != tableType.OBORUD_EKZ"
             [disabled]="!selectedElementTable"
             (click)="onClickGoToRelativeModelElement()"
     >
       <i class="bi bi-arrow-left-circle i-delete"></i>
     </button>
-    <button class="btn btn-primary" type="submit"
+    <button class="btn btn-primary"
+            type="submit"
             [disabled]="true"
             (click)="onClickReport()">
       {{ 'BUTTON.REPORT'|translate }}
@@ -53,6 +74,10 @@
 
   <div class="d-flex" *ngIf="selectedNavBar != TableType.OBORUD_EKZ">
     <i class="bi bi-arrow-{{sideNavArrow}}-square-fill me-5 i-config align-self-center"
+       ngbTooltip="{{'HINT.OPEN-CLOSE-SIDENAV'|translate }}"
+       [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+       [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+       placement="start"
        (click)="onClickOpenSideNav()">
     </i>
   </div>

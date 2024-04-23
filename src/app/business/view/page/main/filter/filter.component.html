@@ -1,8 +1,11 @@
 <div ngbAccordion class="accordion-c">
   <div ngbAccordionItem [collapsed]="isCollapsed">
-    <h2 ngbAccordionHeader class="m-0">
+    <h2 ngbAccordionHeader class="m-0"
+        ngbTooltip="{{'HINT.FILTER' | translate }}"
+        [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+        [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP">
       <button ngbAccordionButton>{{'TITLE.FILTER' | translate}}
-        <span *ngIf="isFilterNotEmpty()" class="ms-auto me-auto text-danger">{{'WARNING.FILTER-SET' | translate}}</span>
+        <span *ngIf="isFilterNotEmpty()" class="ms-auto me-auto text-danger fw-bold">{{'WARNING.FILTER-SET' | translate}}</span>
       </button>
     </h2>
 <!--    <h2 *ngIf="isFiltered()"></h2>-->
@@ -47,16 +50,24 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex flex-column btn-akt-w">
+            <div class="d-flex flex-column btn-akt-w" #tooltip1>
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-primary"
+              <button id="akt"
+                      class="btn btn-primary"
+                      ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+                      [positionTarget]="tooltip1"
                       (click)="onClickChangeAct()">
                 <span *ngIf="searchKompl?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchKompl?.akt != null">{{'BUTTON.' + searchKompl.akt.toString() | translate}}</span>
               </button>
             </div>
             <div class="d-flex flex-column justify-content-end btn-akt-w">
-              <button id="clear" class="btn btn-outline-secondary"
+              <button id="clear" class="btn btn-warning"
+                      ngbTooltip="{{'HINT.FILTER-CLEAR' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                       (click)="onClickClearAll()">
                 <span>{{'TABLE.CLEAR'| translate}}</span>
               </button>
@@ -117,15 +128,25 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex flex-column btn-akt-w">
+            <div class="d-flex flex-column btn-akt-w" #tooltip3>
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
+              <button id="akt"
+                      class="btn btn-primary"
+                      ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+                      [positionTarget]="tooltip3"
+                      (click)="onClickChangeAct()">
                 <span *ngIf="searchGruppa?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchGruppa?.akt != null">{{'BUTTON.' + searchGruppa.akt.toString() | translate}}</span>
               </button>
             </div>
             <div class="d-flex flex-column justify-content-end btn-akt-w">
-              <button id="clear" class="btn btn-outline-secondary"
+              <button id="clear"
+                      class="btn btn-warning"
+                      ngbTooltip="{{'HINT.FILTER-CLEAR' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                       (click)="onClickClearAll()">
                 <span>{{'TABLE.CLEAR'| translate}}</span>
               </button>
@@ -186,15 +207,25 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex flex-column btn-akt-w">
+            <div class="d-flex flex-column btn-akt-w" #tooltip4>
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
+              <button id="akt"
+                      class="btn btn-primary"
+                      (click)="onClickChangeAct()"
+                      ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+                      [positionTarget]="tooltip4">
                 <span *ngIf="searchModel?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchModel?.akt != null">{{'BUTTON.' + searchModel.akt.toString() | translate}}</span>
               </button>
             </div>
             <div class="d-flex flex-column justify-content-end btn-akt-w">
-              <button id="clear" class="btn btn-outline-secondary"
+              <button id="clear"
+                      class="btn btn-warning"
+                      ngbTooltip="{{'HINT.FILTER-CLEAR' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                       (click)="onClickClearAll()">
                 <span>{{'TABLE.CLEAR'| translate}}</span>
               </button>
@@ -255,15 +286,25 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex flex-column btn-akt-w">
+            <div class="d-flex flex-column btn-akt-w" #tooltip5>
               <label class="form-label" for="akt">{{'TABLE.ACT' | translate}}</label>
-              <button id="akt" class="btn btn-primary" (click)="onClickChangeAct()">
+              <button id="akt"
+                      class="btn btn-primary"
+                      (click)="onClickChangeAct()"
+                      ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+                      [positionTarget]="tooltip5">
                 <span *ngIf="searchOborudEkz?.akt == null">{{"COMMON.ALL" | translate}}</span>
                 <span *ngIf="searchOborudEkz?.akt != null">{{'BUTTON.' + searchOborudEkz.akt.toString() | translate}}</span>
               </button>
             </div>
             <div class="d-flex flex-column justify-content-end btn-akt-w">
-              <button id="clear" class="btn btn-outline-secondary"
+              <button id="clear"
+                      class="btn btn-warning"
+                      ngbTooltip="{{'HINT.FILTER-CLEAR' | translate }}"
+                      [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                      [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                       (click)="onClickClearAll()">
                 <span>{{'TABLE.CLEAR'| translate}}</span>
               </button>

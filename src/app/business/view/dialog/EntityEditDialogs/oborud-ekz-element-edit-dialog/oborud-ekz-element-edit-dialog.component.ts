@@ -106,7 +106,6 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       // if(this.selectedElement.model) this.onClickSelectDDIModel(this.selectedElement.model);
       if(this.selectedElement.podr) this.onClickSelectDDIPodr(this.selectedElement.podr);
     }
-
   }
 
   getCorrectValueFromField(field: string): any{
@@ -119,7 +118,6 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       if (field == 'proizv' && this.selectedElement?.proizv) return this.selectedElement.proizv.naim;
       if (field == 'model' && this.selectedElement?.model) return this.selectedElement.model.naim;
     }
-
     if (this.selectedElement) return this.selectedElement[field];
     return null;
   }
@@ -134,15 +132,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       invNom: new FormControl({value: this.getCorrectValueFromField('invNom'), disabled: false},
         this.selectedElement?.serNom || this.selectedElement?.invNom ? null : Validators.required),
       podr: new FormControl({value: this.getCorrectValueFromField('podr'), disabled: false}, Validators.required),
-      uch: new FormControl({value: this.getCorrectValueFromField('uch'), disabled: true}),        //Участок обязателен если есть список участков в подразделени
+      uch: new FormControl({value: this.getCorrectValueFromField('uch'), disabled: true}, Validators.required),        //Участок обязателен если есть список участков в подразделени
       proizv: new FormControl({value: this.getCorrectValueFromField('proizv'), disabled: false}),
       model: new FormControl({value: this.getCorrectValueFromField('model'), disabled: false}, Validators.required),
       prim: new FormControl({value: this.getCorrectValueFromField('prim'), disabled: false}) // максимально 250 вводимых символов
-
-      //ToDo ошибка при перевыборе подразделения
-      // Производственно-технологический отдел => Химико Техн Бюро
-
-      //ToDo при выборе модели открывать модалку с табличкой моделей и выбирать одну из них.
     })
   }
 
@@ -154,7 +147,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       this.uchList = result.content;
       this.uchListDDM = result.content;
 
-      if (result.content.length > 0) {
+      if (result && result.content.length > 0) {
         if (this.dialogMode != DialogMode.VIEW) this.changeFcEnableOrDisable('uch', true);
         this.fgOborudEkzElement.controls['uch'].setValue(null);
       }
@@ -163,7 +156,6 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
           this.onClickSelectDDIUch(this.selectedElement.uch)
       }
     })
-
   }
 
   //получить идентификаторы обязательности заполнения поля
@@ -216,16 +208,17 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   _observeFcPodr(){
     this.fgOborudEkzElement.controls['podr'].valueChanges.pipe(
       tap( (val) => {
-        this.fgOborudEkzElement.controls['uch'].setValue(null);
+        // this.fgOborudEkzElement.controls['uch'].setValue(null);
         this.changeValidators('podr', [this.validatorMinLength], false);
-        this.newUch = null;
-        this.newPodr = null
         this.changeFcEnableOrDisable('uch', false);
+        this.newUch = null;
+        this.newPodr = null;
+        this.fgOborudEkzElement.controls['uch'].setValue(null);
       })
       , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.podrListDDM = this.podrList.filter(docTyp => docTyp.naim.toLowerCase().includes(inputValue.toLowerCase()));
+        this.podrListDDM = this.podrList.filter(docTyp => docTyp.obozn.toLowerCase().includes(inputValue.toLowerCase()));
       } else {
         this.podrListDDM = this.podrList;
       }
@@ -235,13 +228,13 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   _observeFcUch(){
     this.fgOborudEkzElement.controls['uch'].valueChanges.pipe(
       tap( (val) => {
-        this.changeValidators('uch', [this.validatorMinLength, this.Validators.required], false);
+        this.changeValidators('uch', [this.validatorMinLength], false);
         this.newUch = null;
       })
       , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.uchListDDM = this.uchList.filter(docTyp => docTyp.naim.toLowerCase().includes(inputValue.toLowerCase()));
+        this.uchListDDM = this.uchList.filter(docTyp => docTyp.obozn.toLowerCase().includes(inputValue.toLowerCase()));
       } else {
         this.uchListDDM = this.uchList;
       }
@@ -270,13 +263,6 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     })
   }
 
-  //выбор из списка DDM Модели
-  // onClickSelectDDIModel(model: ModelDTO){
-  //   this.fgOborudEkzElement.controls['model'].setValue(model.naim);
-  //   this.newModel = model;
-  //   this.changeValidators('model', [this.validatorMinLength], true);
-  // }
-
   //выбор из списка DDM Производителя
   onClickSelectDDIProizv(proizv: ProizvDTO){
     this.fgOborudEkzElement.controls['proizv'].setValue(proizv.naim);
@@ -301,7 +287,6 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.changeValidators('uch', [this.validatorMinLength], true);
     if (this.isFirstTimeInit) {
       this.isFirstTimeInit = false;
-      this.changeValidators('uch', [this.Validators.required], true);
     }
   }
 

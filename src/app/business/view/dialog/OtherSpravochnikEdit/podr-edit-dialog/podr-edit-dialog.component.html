@@ -6,7 +6,7 @@
       [formGroup]="fgPodr">
   <!-- Наименование -->
   <div>
-    <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}}</label>
+    <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
     <div class="input-group">
       <input class="form-control border-dark"
              id="naim"
@@ -26,7 +26,7 @@
   <div class="d-flex gap-2">
     <!-- Код-->
     <div class="flex-grow-1">
-      <label for="kod" class=" form-label ">{{"COMMON.KOD" | translate}}
+      <label for="kod" class=" form-label ">{{"COMMON.KOD" | translate}} <span class="text-danger">{{fcFieldIsRequired('kod')}}</span>
         <span *ngIf="isSameKodExist" class="text-danger">{{"WARNING.SAME-KOD-IS-EXIST" | translate}}</span>
       </label>
       <div class="input-group">
@@ -45,7 +45,7 @@
     </div>
     <!-- Обозначение-->
     <div class="flex-grow-1">
-      <label for="obozn" class=" form-label ">{{"COMMON.OBOZN" | translate}}</label>
+      <label for="obozn" class=" form-label ">{{"COMMON.OBOZN" | translate}} <span class="text-danger">{{fcFieldIsRequired('obozn')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark "
                id="obozn"
@@ -114,7 +114,7 @@
                   *ngFor="let podr of podrDDMList"
                   (click)="onClickSelectDDIRod(podr)"
                   ngbDropdownItem>
-            <span class="bg-for-kod">[ {{podr?.kod}} ]</span> {{podr?.obozn}}
+            [ {{podr?.kod}} ] {{podr?.obozn}}
           </button>
         </div>
       </div>

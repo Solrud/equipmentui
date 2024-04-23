@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
-import {DialogMode, DialogResult, TableType} from "../../../../../app.constant";
+import {DELAY_TIME_CLOSE_FOR_TOOLTIP, DELAY_TIME_OPEN_FOR_TOOLTIP, DialogMode, DialogResult, TableType} from "../../../../../app.constant";
 import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
 
 @Component({
@@ -39,6 +39,12 @@ export class GeneralButtonsComponent implements OnInit {
 
   public get TableType() {
     return TableType;
+  }
+  public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
+    return DELAY_TIME_OPEN_FOR_TOOLTIP;
+  }
+  public get DELAY_TIME_CLOSE_FOR_TOOLTIP(){
+    return DELAY_TIME_CLOSE_FOR_TOOLTIP;
   }
 
   _subscribeSelectedElementTable() {

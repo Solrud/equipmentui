@@ -56,3 +56,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-direction: column;
   width: 100%;
 }
+.dropdown-menu{
+  --bs-dropdown-link-hover-bg: #0d6efd;
+  --bs-dropdown-link-hover-color: #fff;
+
+}

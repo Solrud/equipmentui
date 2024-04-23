@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDrawer} from "@angular/material/sidenav";
 import {
+  DELAY_TIME_CLOSE_FOR_TOOLTIP,
+  DELAY_TIME_OPEN_FOR_TOOLTIP,
   DialogMode,
   DialogResult,
   FIELD_COLUMN_GRUPPA_LIST,
@@ -101,14 +103,13 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
+  // по алфавиту выдавать в настройках подразделение и тд. при создани экз оборудования список по алфавиту
   // реализовать аутентификацию
   // DTO<any> переделать придумать
   // -
   // =>-ОПЦИОНАЛЬНО-<=
-  // в конце концов не забыть про i18n!
-  // звездочки у лейблов требуемых контролов проставить
   // проставить toast's о создании, редактировани, ошибке
-  // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
+  // хэлп и о приложении, хэлп в ворд скачиваемый или пдф веб-просмотрщик
   // -
   // =>-ВОПРОС-<=
   // что делать с кодом то у основных справочников? автоматически формируется
@@ -128,12 +129,19 @@ export class BodyComponent implements OnInit{
   // подключение к рейльной бд на проде
   // код классификатора скоро не нужно будет формировать для создания группы
   // - может стоит перейти с каскадной модели ДТО в v.2
+  // не удаляется в настройках справочник если в нем есть дети
 
   public get TableType() {
     return TableType;
   }
   public get OriginSourceTable() {
     return OriginSourceTable;
+  }
+  public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
+    return DELAY_TIME_OPEN_FOR_TOOLTIP;
+  }
+  public get DELAY_TIME_CLOSE_FOR_TOOLTIP(){
+    return DELAY_TIME_CLOSE_FOR_TOOLTIP;
   }
 
   initSearchData(){

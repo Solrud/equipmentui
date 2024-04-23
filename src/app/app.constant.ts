@@ -125,3 +125,5 @@ export const FIELD_COLUMN_UCH_LIST = ['kod', 'obozn', 'naim'];
 
 export const DELAY_TIME = 300;
 export const DELAY_TIME_FOR_FILTER = 500;
+export const DELAY_TIME_OPEN_FOR_TOOLTIP = 600;
+export const DELAY_TIME_CLOSE_FOR_TOOLTIP = 70;

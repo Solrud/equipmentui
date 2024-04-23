@@ -7,7 +7,6 @@ import {OborudEkzElementEditDialogComponent} from "../../../view/dialog/EntityEd
 import {KomplRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/kompl-relationship-dialog/kompl-relationship-dialog.component";
 import {GruppaRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/gruppa-relationship-dialog/gruppa-relationship-dialog.component";
 import {ModelRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/model-relationship-dialog/model-relationship-dialog.component";
-import {OborudEkzRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/oborud-ekz-relationship-dialog/oborud-ekz-relationship-dialog.component";
 import {DialogMode, TableType} from "../../../../app.constant";
 import {ConfirmDialogComponent} from "../../../view/dialog/confirm-dialog/confirm-dialog.component";
 import {SettingsDialogComponent} from "../../../view/dialog/settings-dialog/settings-dialog.component";

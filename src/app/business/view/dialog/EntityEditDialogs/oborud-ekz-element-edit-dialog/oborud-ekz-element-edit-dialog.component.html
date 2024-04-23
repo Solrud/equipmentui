@@ -10,7 +10,7 @@
   <div class="d-flex gap-2">
     <!--    ячейка 1 НАИМЕНОВАНИЕ-->
     <div class="flex-grow-1">
-      <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}}</label>
+      <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark"
                id="naim"
@@ -70,7 +70,7 @@
 
 
     <div class="flex-grow-1">
-      <label for="model" class="form-label">{{"COMMON.MODEL" | translate}}</label>
+      <label for="model" class="form-label">{{"COMMON.MODEL" | translate}} <span class="text-danger">{{fcFieldIsRequired('model')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark"
                id="model"
@@ -93,7 +93,7 @@
   <div class="d-flex gap-2">
     <!--    Индивидуальный номер -->
     <div class="flex-grow-1">
-      <label for="invNom" class="form-label">{{"COMMON.INV-NOM" | translate}}</label>
+      <label for="invNom" class="form-label">{{"COMMON.INV-NOM" | translate}} <span class="text-danger">{{fcFieldIsRequired('invNom')}}</span></label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="invNom"
@@ -113,7 +113,7 @@
          ngbDropdown
          container="body"
          #ddmPodr="ngbDropdown">
-      <label for="podr" class="form-label">{{"COMMON.PODR" | translate}}</label>
+      <label for="podr" class="form-label">{{"COMMON.PODR" | translate}} <span class="text-danger">{{fcFieldIsRequired('podr')}}</span></label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="podr"
@@ -138,7 +138,7 @@
         <div class="ddm-config">
           <h2 *ngIf="podrListDDM && podrListDDM.length == 0"
               ngbDropdownItem class="text-center">😟</h2>
-          <button class="text-wrap"
+          <button class="text-wrap hover-c"
                   *ngFor="let podr of podrListDDM"
                   (click)="onClickSelectDDIPodr(podr)"
                   ngbDropdownItem>
@@ -152,7 +152,7 @@
   <div class="d-flex gap-2">
     <!--    часть 2 ячейка 1 серийный номер-->
     <div class="flex-grow-1">
-      <label for="serNom" class="form-label">{{"COMMON.SER-NOM" | translate}}</label>
+      <label for="serNom" class="form-label">{{"COMMON.SER-NOM" | translate}} <span class="text-danger">{{fcFieldIsRequired('serNom')}}</span></label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="serNom"
@@ -172,7 +172,7 @@
          ngbDropdown
          container="body"
          #ddmUch=ngbDropdown>
-      <label for="uch" class="form-label">{{"COMMON.UCH" | translate}}</label>
+      <label for="uch" class="form-label">{{"COMMON.UCH" | translate}} <span class="text-danger">{{fcFieldIsRequired('uch')}}</span></label>
       <div class="form-group input-group">
         <input class="form-control border-dark"
                id="uch"
