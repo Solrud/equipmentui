@@ -36,7 +36,6 @@ export class PodrEditDialogComponent {
     this.initFgPodr();
     this.initDialogDefault();
 
-
     this._observeFcRod();
     this._observeFcKodKlass();
   }

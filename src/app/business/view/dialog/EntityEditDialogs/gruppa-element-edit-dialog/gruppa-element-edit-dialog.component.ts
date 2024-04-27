@@ -14,6 +14,7 @@ import {NalPuService} from "../../../../data/service/implements/nal-pu.service";
 import {GabZoService} from "../../../../data/service/implements/gab-zo.service";
 import {debounceTime, tap} from "rxjs/operators";
 import {ToastService} from "../../../../data/service/OptionalService/toast.service";
+import {OborudKlassSearchDTO} from "../../../../data/model/search/impl/OborudKlassSearchDTO";
 
 @Component({
   selector: 'app-gruppa-element-edit-dialog',
@@ -25,7 +26,6 @@ export class GruppaElementEditDialogComponent implements OnInit{
   selectedElement: any;
 
   fgGruppaElement: FormGroup;
-
   newGruppa: GruppaDTO;
 
   newKlass: OborudKlassDTO;
@@ -45,6 +45,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
   gabZoList: GabZoDTO[];
 
   fcKodKlass: string[] = [];
+  klassOborudSearch: OborudKlassSearchDTO;
 
   isFirstTimeInit: boolean = true;
 
@@ -100,15 +101,25 @@ export class GruppaElementEditDialogComponent implements OnInit{
     return null;
   }
 
+  beforeInitDialogDefaultValues(){
+    this.fcKodKlass = ['XX', 'XX', 'X', 'XX'];
+
+    if (!this.klassOborudSearch){
+      this.klassOborudSearch = new OborudKlassSearchDTO();
+      this.klassOborudSearch.pageSize = 0;
+      this.klassOborudSearch.sortColumn = 'kodKlass';
+    }
+  }
+
   afterInitDialogDefaultValues(){
     if (!this.dialogMode) this.dialogMode = DialogMode.VIEW;
     if (this.dialogMode === DialogMode.VIEW) this.fgGruppaElement.disable();
     if (!this.selectedElement) this.selectedElement = null;
 
-    this.klassService.searchAll().subscribe( result => {
-      if (result && result.length > 0){
-        this.klassList = result;
-        this.klassListDDM = result;
+    this.klassService.searchPage(this.klassOborudSearch).subscribe( result => {
+      if (result && result.content.length > 0){
+        this.klassList = result.content;
+        this.klassListDDM = result.content;
       }
     }, error => {
       this.toastService.showNegativeFixed('Не удалось загрузить данные класса');
@@ -143,10 +154,6 @@ export class GruppaElementEditDialogComponent implements OnInit{
     if (this.dialogMode != DialogMode.CREATE && this.selectedElement.kodKlass){
       if (this.selectedElement.klass) this.onClickSelectDDIKlass(this.selectedElement.klass);
     }
-  }
-
-  beforeInitDialogDefaultValues(){
-      this.fcKodKlass = ['XX', 'XX', 'X', 'XX'];
   }
 
   initFgGruppaElement(){
@@ -395,6 +402,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
     this.gruppaService.update(this.newGruppa).subscribe( result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT)
+        this.toastService.showPositive('Успешно изменена группа');
       }
     }, error => {
       this.toastService.showNegative('Не удалось загрузить данные таблицы Группы');
@@ -408,6 +416,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
     this.gruppaService.create(this.newGruppa).subscribe( result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT)
+        this.toastService.showPositive('Успешно создана группа');
       }
     }, error => {
       this.toastService.showNegative('Не удалось "' + this.dialogMode +'" Группы');

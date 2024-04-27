@@ -1,5 +1,5 @@
 <div class="modal-header d-flex justify-content-center">
-  <h1 class="m-0 text-center ">{{"TITLE.JOIN-GRUPPA-IN" | translate}} {{selectedSourceSpravochnik}}</h1>
+  <h1 class="m-0 text-center ">{{"TITLE.JOIN-GRUPPA-IN" | translate}} "{{selectedSourceSpravochnik}}"</h1>
 </div>
 <div class="modal-body d-flex flex-column ">
   <div class="border border-dark mb-2 gruppa-upper-div-c">
@@ -18,6 +18,13 @@
     <div class="div-for-title div-for-title-bg-all">
       {{"TITLE.ALL-GRUPPA" | translate}}:
     </div>
+    <app-filter class="w-100 mt-2"
+                [searchGruppa]="gruppaSearch"
+                [selectedSpravochnik]="TableType.GRUPPA"
+                [isCollapsed]="false"
+
+                (newSearch)="onChangePage($event)"
+    ></app-filter>
     <app-table class="overflow-auto flex-column d-flex"
                [selectedSpavochnik]="selectedSourceSpravochnik"
                [fieldColumnList]="gruppaPreSelectedFieldColumnList"

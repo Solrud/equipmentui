@@ -16,6 +16,8 @@ import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
 import {ModelService} from "../../../../data/service/implements/model.service";
 import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
 import {ToastService} from "../../../../data/service/OptionalService/toast.service";
+import {ProizvSearchDTO} from "../../../../data/model/search/impl/ProizvSearchDTO";
+import {PodrSearchDTO} from "../../../../data/model/search/impl/PodrSearchDTO";
 
 @Component({
   selector: 'app-oborud-ekz-element-edit-dialog',
@@ -46,6 +48,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   uchListDDM: UchDTO[];
   uchList: UchDTO[];
   newUch: UchDTO;
+
+  proizvSearch: ProizvSearchDTO;
+  podrSearch: PodrSearchDTO;
+  uchSearch: UchSearchDTO
 
   nomerIsFilled: boolean = false;
 
@@ -84,21 +90,32 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     if (!this.selectedElement) this.selectedElement = null;
     if (!this.newModel && this.selectedElement?.model) this.newModel = this.selectedElement.model;
 
-    // this.modelService.searchAll().subscribe( result => {
-    //   if (result && result.length > 0)
-    //     this.modelListDDM = result;
-    //   this.modelList = result;
-    // })
+    if (!this.proizvSearch){
+      this.proizvSearch = new ProizvSearchDTO();
+      this.proizvSearch.pageSize = 0;
+      this.proizvSearch.sortColumn = 'naim';
+    }
+    if (!this.podrSearch){
+      this.podrSearch = new PodrSearchDTO();
+      this.podrSearch.pageSize = 0;
+      this.podrSearch.sortColumn = 'obozn';
+      this.podrSearch.sortDirection = 'desc';
+    }
+    if (!this.uchSearch){
+      this.uchSearch = new UchSearchDTO();
+      this.uchSearch.pageSize = 0;
+      this.uchSearch.sortColumn = 'obozn';
+    }
 
-    this.proizvService.searchAll().subscribe( result => {
-      if (result && result.length > 0)
-        this.proizvListDDM = result;
-        this.proizvList = result;
+    this.proizvService.searchPage(this.proizvSearch).subscribe( result => {
+      if (result && result.content.length > 0)
+        this.proizvListDDM = result.content;
+        this.proizvList = result.content;
     })
-    this.podrService.searchAll().subscribe( result => {
-      if (result && result.length > 0)
-        this.podrListDDM = result;
-        this.podrList = result;
+    this.podrService.searchPage(this.podrSearch).subscribe( result => {
+      if (result && result.content.length > 0)
+        this.podrListDDM = result.content;
+        this.podrList = result.content;
     })
 
     if (this.dialogMode != DialogMode.CREATE){
@@ -141,9 +158,8 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   //поиск по айди подразделения участков привязанных к нему
   searchUchByPodrId(podrId: number){
-    let uchSearch = new UchSearchDTO();
-    uchSearch.podrId = podrId;
-    this.uchService.searchPage(uchSearch).subscribe( result => {
+    this.uchSearch.podrId = podrId;
+    this.uchService.searchPage(this.uchSearch).subscribe( result => {
       this.uchList = result.content;
       this.uchListDDM = result.content;
 
@@ -299,10 +315,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   onClickAttachModel(){
     this.openDialogService.openAttachedElementFromTableDialog(this.newModel, DialogMode.CREATE).closed.subscribe( result => {
-      console.log(result)
       if(result[0] == DialogResult.ACCEPT){
+        this.toastService.showPositive('Установлена связь с моделью');
         this.newModel = result[1];
-        this.fgOborudEkzElement.controls['model'].setValue(result[1].naim)
+        this.fgOborudEkzElement.controls['model'].setValue(result[1].naim);
       }
     })
   }

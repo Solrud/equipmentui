@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
-import {INIT_NAV_BAR, TableType} from "../../../../app.constant";
+import {INIT_NAV_BAR, TableType, UserRoleAuth} from "../../../../app.constant";
 
 @Injectable({
   providedIn: 'root'
@@ -86,5 +86,13 @@ export class EventService {
   hideSpinner$(): void {
     // console.log('спиннера нету');
     this.spinnerVisibility.next(false);
+  }
+
+  // -------------------------------------------- Роли пользователя--- -------------------------------------------
+  isOpenContextMenu$ = new BehaviorSubject(false);
+
+  selectedCurrentRole$ = new BehaviorSubject(null); // BehaviorSubject(null) потому что при инициализации с Subject не успевает забрать
+  selectCurrentRole$(role: UserRoleAuth){
+    this.selectedCurrentRole$.next(role);
   }
 }

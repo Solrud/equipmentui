@@ -92,6 +92,7 @@ export enum DialogResult {                   //Результат закрыти
 }
 
 export enum UserRoleAuth {                   // Роль авторизированного юзверя
+  SUPER_ADMIN = 'EQUIPMENT_SUPER_ADMIN',
   ADMIN = 'EQUIPMENT_ADMIN',
   VIEW = 'EQUIPMENT_VIEW',
 }

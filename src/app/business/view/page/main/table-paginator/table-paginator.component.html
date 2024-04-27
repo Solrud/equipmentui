@@ -7,7 +7,10 @@
 <!--size="sm/lg" : размер строки переходов по страницам-->
 <!--[disabled]="true/false" : включить/отключить переход по страницам-->
 <div class="d-flex justify-content-center">
-  <div>
+  <div
+    ngbTooltip="{{'HINT.PAGINATOR-PAGE-SIZE'|translate }}"
+    [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+    [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP">
     <span class="txt-el-page-c">{{"COMMON.ELEMENTS-ON-PAGE" | translate}}: </span>
     <select class="btn border mh-paginator m-0 me-1 "
             [ngModel]="objectSearch.pageSize"
@@ -20,6 +23,10 @@
   </div>
 
   <ngb-pagination class="m-0 p-0"
+                  ngbTooltip="{{'HINT.PAGINATOR-PAGING'|translate }}"
+                  [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+                  [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+
                   [page]="objectSearch.pageNumber + 1"
                   [pageSize]="objectSearch.pageSize"
                   [collectionSize]="totalFoundedObjects"

@@ -1,6 +1,13 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {EventService} from "../../../../data/service/OptionalService/event.service";
-import {DELAY_TIME_CLOSE_FOR_TOOLTIP, DELAY_TIME_OPEN_FOR_TOOLTIP, DialogMode, DialogResult, TableType} from "../../../../../app.constant";
+import {
+  DELAY_TIME_CLOSE_FOR_TOOLTIP,
+  DELAY_TIME_OPEN_FOR_TOOLTIP,
+  DialogMode,
+  DialogResult,
+  TableType,
+  UserRoleAuth
+} from "../../../../../app.constant";
 import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
 
 @Component({
@@ -12,6 +19,7 @@ export class GeneralButtonsComponent implements OnInit {
   sideNavArrow = 'right';
   selectedElementTable: any;
   selectedNavBar: TableType;
+  currentRole: UserRoleAuth;
 
   tableType = TableType;
 
@@ -35,16 +43,26 @@ export class GeneralButtonsComponent implements OnInit {
   ngOnInit(): void {
     this._subscribeSelectedElementTable();
     this._subscribeSelectedNavBar();
+    this._subscribeCurrentRole();
   }
 
   public get TableType() {
     return TableType;
+  }
+  public get UserRole() {
+    return UserRoleAuth;
   }
   public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
     return DELAY_TIME_OPEN_FOR_TOOLTIP;
   }
   public get DELAY_TIME_CLOSE_FOR_TOOLTIP(){
     return DELAY_TIME_CLOSE_FOR_TOOLTIP;
+  }
+
+  _subscribeCurrentRole(){
+    this.eventService.selectedCurrentRole$.subscribe( result => {
+      this.currentRole = result;
+    })
   }
 
   _subscribeSelectedElementTable() {
@@ -65,6 +83,7 @@ export class GeneralButtonsComponent implements OnInit {
   }
 
   onClickAddNewElement() {
+    console.log(this.currentRole)
     this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.CREATE).closed.subscribe(result => {
       if (result == DialogResult.ACCEPT)
         this.researchPage.emit();

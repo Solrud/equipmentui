@@ -53,9 +53,13 @@ import {ProizvEditDialogComponent} from './business/view/dialog/OtherSpravochnik
 import {PodrEditDialogComponent} from './business/view/dialog/OtherSpravochnikEdit/podr-edit-dialog/podr-edit-dialog.component';
 import {UchEditDialogComponent} from './business/view/dialog/OtherSpravochnikEdit/uch-edit-dialog/uch-edit-dialog.component';
 import {ToastComponent} from './business/view/page/toast/toast.component';
-import { TablePaginatorComponent } from './business/view/page/main/table-paginator/table-paginator.component';
-import { AttachedElementFromTableEditDialogComponent } from './business/view/dialog/attached-element-from-table-edit-dialog/attached-element-from-table-edit-dialog.component';
-import { FilterComponent } from './business/view/page/main/filter/filter.component';
+import {TablePaginatorComponent} from './business/view/page/main/table-paginator/table-paginator.component';
+import {AttachedElementFromTableEditDialogComponent} from './business/view/dialog/attached-element-from-table-edit-dialog/attached-element-from-table-edit-dialog.component';
+import {FilterComponent} from './business/view/page/main/filter/filter.component';
+import {AccessDeniedComponent} from './auth/page/access-denied/access-denied.component';
+import {AppRoutingModule} from "./app-routing.module";
+import {RequestInterceptorService} from "./business/data/service/OptionalService/request-interceptor.service";
+import {AUTH_URL_TOKEN, LOGIN_URL_TOKEN} from "./auth/service/auth.service";
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -93,6 +97,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     TablePaginatorComponent,
     AttachedElementFromTableEditDialogComponent,
     FilterComponent,
+    AccessDeniedComponent,
   ],
   imports: [
     BrowserModule,
@@ -113,24 +118,27 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     MatProgressSpinnerModule,
     FormsModule,
     MatPaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // AppRoutingModule,
   ],
   providers: [
+    {provide: AUTH_URL_TOKEN, useValue: environment.authURL + '/auth'},
+    {provide: LOGIN_URL_TOKEN, useValue: environment.loginUrl},
+
     {provide: GRUPPA_URL_TOKEN, useValue: environment.backendURL + '/gruppa'},
     {provide: KOMPL_URL_TOKEN, useValue: environment.backendURL + '/kompl'},
     {provide: MODEL_URL_TOKEN, useValue: environment.backendURL + '/model'},
     {provide: OBORUD_EKZ_URL_TOKEN, useValue: environment.backendURL + '/oborud-ekz'},
-
     {provide: OBORUD_VID_URL_TOKEN, useValue: environment.backendURL + '/oborud-vid'},
     {provide: OBORUD_KLASS_URL_TOKEN, useValue: environment.backendURL + '/oborud-klass'},
     {provide: GAB_ZO_URL_TOKEN, useValue: environment.backendURL + '/gab-zo'},
     {provide: NAL_PU_URL_TOKEN, useValue: environment.backendURL + '/nal-pu'},
-
     {provide: PODR_URL_TOKEN, useValue: environment.backendURL + '/podr'},
     {provide: PROIZV_URL_TOKEN, useValue: environment.backendURL + '/proizv'},
     {provide: UCH_URL_TOKEN, useValue: environment.backendURL + '/uch'},
 
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true},
+    // {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

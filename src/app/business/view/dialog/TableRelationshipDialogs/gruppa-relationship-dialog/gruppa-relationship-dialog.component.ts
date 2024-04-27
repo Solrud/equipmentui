@@ -84,11 +84,12 @@ export class GruppaRelationshipDialogComponent implements OnInit{
     this.gruppaDataInput = [];
     this.gruppaService.searchPage(searchObj).subscribe( result => {
       // console.log(result);
+
+      let tempMap = new Map<GruppaDTO, boolean>();
       if (result && result.content.length > 0){
         this.gruppaTotalElements = result.totalElements;
         this.gruppaDataInput = result.content;
 
-        let tempMap = new Map<GruppaDTO, boolean>();
         for(let i = 0; i < this.gruppaDataInput.length; i++){
           let isJoined = false;
           tempMap.set(this.gruppaDataInput[i], false);
@@ -99,8 +100,8 @@ export class GruppaRelationshipDialogComponent implements OnInit{
           }
           if(isJoined) tempMap.set(this.gruppaDataInput[i], true);
         }
-        this.gruppaForJoinedMap = tempMap;
       }
+      this.gruppaForJoinedMap = tempMap;
     }, error => {
       this.toastService.showNegativeFixed('Не удалось загрузить таблицу Группа');
     })

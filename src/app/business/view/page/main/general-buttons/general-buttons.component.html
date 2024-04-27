@@ -5,7 +5,7 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedNavBar"
+            [disabled]="!selectedNavBar || currentRole == UserRole.VIEW"
             (click)="onClickAddNewElement()">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
       &nbsp; {{ 'BUTTON.ADD'|translate }}
@@ -15,7 +15,7 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedElementTable"
+            [disabled]="!selectedElementTable || currentRole == UserRole.VIEW"
             (click)="onClickEditElement()">
       <i class="bi bi-pencil-square i-edit"></i>
       &nbsp; {{ 'BUTTON.EDIT'|translate }}
@@ -25,7 +25,7 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedElementTable"
+            [disabled]="!selectedElementTable || currentRole == UserRole.VIEW"
             (click)="onClickChangeActivityElement()">
       <span class = "d-flex flex-row align-items-center fix-width-act-button"
             *ngIf="selectedElementTable && selectedElementTable['akt'] == 1">
@@ -48,7 +48,7 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedElementTable"
+            [disabled]="!selectedElementTable || currentRole != UserRole.SUPER_ADMIN"
             (click)="onClickDeleteElement()">
       <i class="bi bi-trash"></i>
       &nbsp; {{ 'BUTTON.DELETE'|translate }}

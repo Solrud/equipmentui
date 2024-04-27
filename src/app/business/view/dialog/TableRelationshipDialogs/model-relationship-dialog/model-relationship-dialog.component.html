@@ -18,6 +18,13 @@
     <div class="div-for-title div-for-title-bg-all">
       {{"TITLE.ALL-MODEL" | translate}}:
     </div>
+    <app-filter class="w-100 mt-2"
+                [searchModel]="modelSearch"
+                [selectedSpravochnik]="TableType.MODEL"
+                [isCollapsed]="false"
+
+                (newSearch)="onChangePage($event)"
+    ></app-filter>
     <app-table class="overflow-auto flex-column d-flex"
                [selectedSpavochnik]="selectedSourceSpravochnik"
                [fieldColumnList]="modelPreSelectedFieldColumnList"

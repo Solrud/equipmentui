@@ -24,7 +24,7 @@
              [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
-             [class.i-disabled]="!mainSelectedElement"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
         </div>
         <div class=" p-1">
@@ -54,7 +54,7 @@
              [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
-             [class.i-disabled]="!mainSelectedElement"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenModelRelationshipDialog(TableType.KOMPL)"></i>
       </div>
         <div class="p-1">
@@ -92,11 +92,11 @@
              [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
-             [class.i-disabled]="!mainSelectedElement"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenKomplRelationshipDialog(TableType.GRUPPA)"></i>
         </div>
-        <div class="p-1">
-          <app-table class="overflow-auto"
+        <div class="p-1 d-flex d-flex flex-column">
+          <app-table class="overflow-auto d-flex flex-column"
                      [selectedSpavochnik]="TableType.KOMPL_FROM_RELATION"
                      [fieldColumnList]="komplRelationshipFieldColumnList"
                      [dataTableSource]="komplRelationshipDataInput"
@@ -122,12 +122,12 @@
              [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
-             [class.i-disabled]="!mainSelectedElement"
-             (click)="onClickOpenModelRelationshipDialog(TableType.MODEL)"></i>
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             (click)="onClickOpenModelRelationshipDialog(TableType.GRUPPA)"></i>
         </div>
         <div class="">
-          <div class="p-1">
-            <app-table
+          <div class="p-1 d-flex flex-column">
+            <app-table class="d-flex flex-column overflow-auto"
               [selectedSpavochnik]="TableType.MODEL_FROM_RELATION"
               [fieldColumnList]="modelRelationshipFieldColumnList"
               [dataTableSource]="modelRelationshipDataInput"
@@ -160,7 +160,7 @@
              [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
-             [class.i-disabled]="!mainSelectedElement"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenKomplRelationshipDialog(TableType.MODEL)"></i>
         </div>
         <div class=" p-1">
@@ -190,7 +190,7 @@
                [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
                [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                placement="start"
-               [class.i-disabled]="!mainSelectedElement"
+               [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
                (click)="onClickOpenGruppaRelationshipDialog(TableType.MODEL)"></i>
         </div>
         <div class=" p-1">
@@ -212,7 +212,7 @@
                [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
                [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                placement="start"
-               [class.i-disabled]="!oborudEkzRelationshipSelectedElement"
+               [class.i-disabled]="!oborudEkzRelationshipSelectedElement || currentRole == UserRole.VIEW"
                (click)="onClickOpenOborudEkzDialog()"></i>
           </div>
         </div>
@@ -254,29 +254,45 @@
     <!-- Вкладки навигации таблиц -->
     <div class="d-flex flex-row group-tabs-config">
       <div class="tabs-config bg-kompl-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-KOMPL'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavKompl()"
-           [class.actived-tab]="selectedSpravochnik == tableType.KOMPL" [class.add-border-bottom]="selectedSpravochnik != tableType.KOMPL">
+           [class.actived-tab]="selectedSpravochnik == tableType.KOMPL"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.KOMPL">
 
         {{'TITLE.KOMPL' | translate }}
 
       </div>
       <div class="tabs-config bg-gruppa-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-GRUPPA'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavGruppa()"
-           [class.actived-tab]="selectedSpravochnik == tableType.GRUPPA" [class.add-border-bottom]="selectedSpravochnik != tableType.GRUPPA">
+           [class.actived-tab]="selectedSpravochnik == tableType.GRUPPA"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.GRUPPA">
 
         {{'TITLE.GRUPPA' | translate}}
 
       </div>
       <div class="tabs-config bg-model-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-MODEL'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavModel()"
-           [class.actived-tab]="selectedSpravochnik == tableType.MODEL" [class.add-border-bottom]="selectedSpravochnik != tableType.MODEL">
+           [class.actived-tab]="selectedSpravochnik == tableType.MODEL"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.MODEL">
 
         {{'TITLE.MODEL' | translate}}
 
       </div>
       <div class="tabs-config bg-ekz-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-EKZ'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavOborudEkz()"
-           [class.actived-tab]="selectedSpravochnik == tableType.OBORUD_EKZ" [class.add-border-bottom]="selectedSpravochnik != tableType.OBORUD_EKZ">
+           [class.actived-tab]="selectedSpravochnik == tableType.OBORUD_EKZ"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.OBORUD_EKZ">
 
         {{'TITLE.OBORUD_EKZ' | translate}}
 

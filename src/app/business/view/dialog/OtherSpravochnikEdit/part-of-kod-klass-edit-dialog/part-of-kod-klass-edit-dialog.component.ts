@@ -11,6 +11,7 @@ import {OborudVidDTO} from "../../../../data/model/dto/impl/OborudVid";
 import {GabZoDTO} from "../../../../data/model/dto/impl/GabZoDTO";
 import {NalPuDTO} from "../../../../data/model/dto/impl/NalPuDTO";
 import {tap} from "rxjs/operators";
+import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-part-of-kod-klass-edit-dialog',
@@ -36,7 +37,8 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
               private klassService: OborudKlassService,
               private vidService: OborudVidService,
               private nalPuService: NalPuService,
-              private gabZoService: GabZoService
+              private gabZoService: GabZoService,
+              private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -166,8 +168,11 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
     //@ts-ignore
     this.currentService.update(this.currentNewKodPart).subscribe( result => {
       if (result){
-        this.activeModal.close(DialogResult.ACCEPT)
+        this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно изменен ' + this.selectedNavBar);
       }
+    }, error => {
+      this.toastService.showNegative('Не удалось изменить ' + this.selectedNavBar);
     })
   }
 
@@ -176,8 +181,11 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
     //@ts-ignore
     this.currentService.create(this.currentNewKodPart).subscribe( result => {
       if (result){
-        this.activeModal.close(DialogResult.ACCEPT)
+        this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно создан ' + this.selectedNavBar);
       }
+    }, error => {
+      this.toastService.showNegative('Не удалось создать ' + this.selectedNavBar);
     })
   }
 

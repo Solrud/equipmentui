@@ -80,12 +80,12 @@ export class KomplRelationshipDialogComponent implements OnInit{
   toSearchKompl(searchObj: KomplSearchDTO = this.komplSearch){
     this.komplDataInput = [];
     this.komplService.searchPage(searchObj).subscribe( result => {
-      // console.log(result);
+      console.log(result);
+      let tempMap = new Map<KomplDTO, boolean>();
       if (result && result.content.length > 0){
         this.komplTotalElements = result.totalElements;
         this.komplDataInput = result.content;
 
-        let tempMap = new Map<KomplDTO, boolean>();
         for(let i = 0; i < this.komplDataInput.length; i++){
           let isJoined = false;
           tempMap.set(this.komplDataInput[i], false);
@@ -96,8 +96,8 @@ export class KomplRelationshipDialogComponent implements OnInit{
           }
           if(isJoined) tempMap.set(this.komplDataInput[i], true);
         }
-        this.komplForJoinedMap = tempMap;
       }
+      this.komplForJoinedMap = tempMap;
     }, error => {
       this.toastService.showNegativeFixed('Не удалось загрузить таблицу Группа');
     })

@@ -12,3 +12,17 @@ input{
 .txtarea-c{
   /*resize: none;*/
 }
+/*СКРОЛЛБАР*/
+.ddm-config::-webkit-scrollbar {
+  width: 12px;
+}
+
+.ddm-config::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #eeeeee;
+}
+
+.ddm-config::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: linear-gradient(180deg, #00c6fb, #005bea);
+}

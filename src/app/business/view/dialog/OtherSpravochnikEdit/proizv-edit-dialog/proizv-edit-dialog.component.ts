@@ -4,6 +4,7 @@ import {DialogMode, DialogResult, TypePartOfKodKlass} from "../../../../../app.c
 import {ProizvDTO} from "../../../../data/model/dto/impl/ProizvDTO";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ProizvService} from "../../../../data/service/implements/proizv.service";
+import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 
 @Component({
   selector: 'app-proizv-edit-dialog',
@@ -18,7 +19,8 @@ export class ProizvEditDialogComponent {
   newProizv: ProizvDTO;
 
   constructor(private activeModal: NgbActiveModal,
-              private proizvService: ProizvService) {
+              private proizvService: ProizvService,
+              private toastService: ToastService) {
   }
 
   ngOnInit(): void {
@@ -74,8 +76,12 @@ export class ProizvEditDialogComponent {
     this.onSaveNewProizv();
     // console.log(this.newProizv);
     this.proizvService.update(this.newProizv).subscribe( result => {
-      if (result)
+      if (result){
         this.activeModal.close(DialogResult.ACCEPT)
+        this.toastService.showPositive('Успешно изменен производитель');
+      }
+    }, error => {
+      this.toastService.showNegative('Не удалось изменить производителя');
     })
   }
 
@@ -83,8 +89,12 @@ export class ProizvEditDialogComponent {
     this.onSaveNewProizv();
     // console.log(this.newProizv);
     this.proizvService.create(this.newProizv).subscribe( result => {
-      if (result)
-        this.activeModal.close(DialogResult.ACCEPT)
+      if (result){
+        this.activeModal.close(DialogResult.ACCEPT);
+        this.toastService.showPositive('Успешно создан производитель');
+      }
+    }, error => {
+      this.toastService.showNegative('Не удалось создать производителя');
     })
   }
 

@@ -41,3 +41,21 @@
   border: 1px solid black;
   border-radius: 0.375px !important;
 }
+/*СКРОЛЛБАР*/
+.ddm-config {
+  /*overflow-y: scroll;*/
+}
+
+.ddm-config::-webkit-scrollbar {
+  width: 12px;
+}
+
+.ddm-config::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #eeeeee;
+}
+
+.ddm-config::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: linear-gradient(180deg, #00c6fb, #005bea);
+}
