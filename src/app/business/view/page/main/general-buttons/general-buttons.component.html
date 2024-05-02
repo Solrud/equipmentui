@@ -67,6 +67,7 @@
     <button class="btn btn-primary"
             type="submit"
             [disabled]="true"
+            [class.visually-hidden]="true"
             (click)="onClickReport()">
       {{ 'BUTTON.REPORT'|translate }}
     </button>
