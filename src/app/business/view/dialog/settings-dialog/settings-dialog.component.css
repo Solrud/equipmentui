@@ -1,5 +1,5 @@
 .modal-header-config{
-  background-color: #0d6efd;
+  background-color: #1b58a3;
 }
 .modal-body-config {
   padding: 4px 16px!important;
@@ -37,5 +37,9 @@ a:hover{
 }
 .btn-success{
   --bs-btn-disabled-color: #198754;
+  --bs-btn-disabled-bg: rgba(25, 135, 84, 0);
+}
+.btn-secondary{
+  --bs-btn-disabled-color: #565e64;
   --bs-btn-disabled-bg: rgba(25, 135, 84, 0);
 }

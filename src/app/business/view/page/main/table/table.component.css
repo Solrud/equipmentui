@@ -17,6 +17,10 @@
   /*position: sticky;*/
   /*top: 0;*/
 }
+.column-config:hover{
+  /*background-color: rgb(216, 234, 239);*/
+  color: #504444;
+}
 
 .sticky-column {
   position: sticky;
@@ -61,6 +65,7 @@ tbody > tr:hover > * {
   --bs-table-bg-type: #fff5e7;
 }
 .rem-whitespace{
+  z-index: 15;
   height: 1rem;
   background-color: white;
 }

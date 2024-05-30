@@ -30,7 +30,7 @@ export enum TableType {                      // Тип таблицы
   PODR = 'Подразделение',
   UCH = 'Участки',
   PROIZV = 'Производитель',
-  OBORUD_KLASS = 'Код оборудования',
+  OBORUD_KLASS = 'Класс оборудования',
   OBORUD_VID = 'Вид оборудования',
   NAL_PU = 'Наличие программного устройства',
   GAB_ZO = 'Габариты зоны обработки',
@@ -92,6 +92,7 @@ export enum DialogResult {                   //Результат закрыти
 }
 
 export enum UserRoleAuth {                   // Роль авторизированного юзверя
+  SUPER_ADMIN = 'EQUIPMENT_SUPER_ADMIN',
   ADMIN = 'EQUIPMENT_ADMIN',
   VIEW = 'EQUIPMENT_VIEW',
 }
@@ -124,3 +125,6 @@ export const FIELD_COLUMN_PODR_LIST = ['kod', 'kodIsp', 'naim', 'obozn', 'rod'];
 export const FIELD_COLUMN_UCH_LIST = ['kod', 'obozn', 'naim'];
 
 export const DELAY_TIME = 300;
+export const DELAY_TIME_FOR_FILTER = 500;
+export const DELAY_TIME_OPEN_FOR_TOOLTIP = 600;
+export const DELAY_TIME_CLOSE_FOR_TOOLTIP = 70;

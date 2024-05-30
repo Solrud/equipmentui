@@ -24,6 +24,7 @@ export class ConfirmDialogComponent implements OnInit{
   dialogMode: DialogMode;
   selectedNavBar: TableType;
   selectedElement: any;
+  isKlassNotEmpty; boolean;
 
   newElement: any;
 
@@ -52,6 +53,10 @@ export class ConfirmDialogComponent implements OnInit{
 
   public get DialogMode(){
     return DialogMode;
+  }
+
+  public get TableType(){
+    return TableType;
   }
 
   initTableTypeService(): void{

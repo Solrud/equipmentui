@@ -34,8 +34,7 @@ export class KomplElementEditDialogComponent implements OnInit{
   ngOnInit(): void {
     this.initDialogDefaultValues();
     this.initFgKomplElement();
-    // console.log(this.dialogMode)
-    // console.log(this.selectedElement)
+    this.afterDialogValues();
   }
 
   initDialogDefaultValues(){
@@ -62,6 +61,10 @@ export class KomplElementEditDialogComponent implements OnInit{
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
       oborudovanie: new FormControl({value: this.getCorrectValueFromField('oborudovanie'), disabled: true}),
     })
+  }
+
+  afterDialogValues(){
+    if (this.dialogMode === DialogMode.VIEW) this.fgKomplElement.disable();
   }
 
   //получить идентификаторы обязательности заполнения поля

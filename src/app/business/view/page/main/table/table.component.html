@@ -1,5 +1,5 @@
 <div *ngIf="selectedSpavochnik != null && fieldColumnList.length > 0"
-     class="overflow-auto"
+     class="overflow-auto scrollbar-blue"
      [class.mh-for-kod]="selectedSpavochnik == TableType.OBORUD_KLASS ||
                          selectedSpavochnik == TableType.OBORUD_VID ||
                          selectedSpavochnik == TableType.PODR ||
@@ -25,7 +25,7 @@
     <tbody class="">
     <ng-container *ngIf="originSourceTable != OriginSourceTable.RELATION_SETTINGS">
       <tr *ngFor="let data of dataTableSource; index as i"
-          (click)="onSelectElementTable(data); onAddRelatedElement(data)"
+          (click)="onSelectElementTable(data); onAddRelatedElement(data)" (dblclick)="onClickOpenForView(data)"
           [class.active-element]="data?.id == selectedElement?.id && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE"
           [class.active-element-relation-settings]="(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH) && data == selectedElement"
           [class.active-element-relation-kompl]="selectedSpavochnik === TableType.KOMPL_FROM_RELATION && data == selectedElement"
@@ -33,7 +33,7 @@
           [class.active-element-relation-model]="selectedSpavochnik === TableType.MODEL_FROM_RELATION && data == selectedElement"
           [class.active-element-relation-ekz]="selectedSpavochnik === TableType.OBORUD_EKZ_FROM_RELATION && data == selectedElement"
           [class.striped-con]="i % 2 == 0"
-          [class.deleted-element]="originSourceTable == OriginSourceTable.MAIN_TABLE && !data['akt']"
+          [class.deleted-element]="(originSourceTable == OriginSourceTable.MAIN_TABLE || originSourceTable == OriginSourceTable.ATTACHED_TABLE) && !data['akt']"
           class="pointer">
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data[field] && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE">
@@ -44,7 +44,7 @@
             <ng-template #fieldNotObject>{{data[field]}}</ng-template>
           </div>
           <div *ngIf="originSourceTable == OriginSourceTable.PRE_RELATION_TABLE && field == 'X'">
-            <button class="btn btn-sm btn-danger" (click)="onClickRemoveFromPrerelatedDataList(data)">Удалить</button>
+            <button class="btn btn-sm btn-danger" (click)="onClickRemoveFromPrerelatedDataList(data)">{{"BUTTON.DELETE" | translate}}</button>
           </div>
         </td>
       </tr>
@@ -55,8 +55,7 @@
           (click)="onAddRelatedElement(data)"
           [class.chosen-element-settings-relation]="data.value === true"
           [class.striped-con]="i % 2 == 0"
-          [class.deleted-element]="!data.key['akt']"
-          class="pointer">
+          [class.deleted-element]="data.value['akt'] == 0" class="pointer"> <!--не подсвечивает неактивное у мап таблиц-->
         <td *ngFor="let field of fieldColumnList">
           <div *ngIf="!data.key[field]">
             <i class="bi bi-dash"></i>
@@ -77,19 +76,19 @@
 
 <div *ngIf="!isDataSourceFull() && !(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH)">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Нет данных в таблице"{{selectedSpavochnik}}"</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.NO-DATA-IN-TABLE" | translate}} "{{selectedSpavochnik}}"</p>
 </div>
 <div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.OBORUD_VID) && !isUchNotEmptyInPodr">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Выберите код оборудования для отображения таблицы "{{selectedSpavochnik}}"</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.CHOOSE-KOD-OBORUD-FOR-VIEW-TABLE" | translate}} "{{selectedSpavochnik}}"</p>
 </div>
 <div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.UCH) && !isUchNotEmptyInPodr">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Выберите подразделение для отображения таблицы "{{selectedSpavochnik}}"</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.CHOOSE-PODR-FOR-VIEW-TABLE" | translate}} "{{selectedSpavochnik}}"</p>
 </div>
 <div *ngIf="!isDataSourceFull() && (selectedSpavochnik === TableType.UCH) && isUchNotEmptyInPodr">
   <div class="rem-whitespace"></div>
-  <p class="d-flex justify-content-center text-danger border">Список участков пуст</p>
+  <p class="d-flex justify-content-center text-danger border">{{"WARNING.UCH-LIST-EMPTY" | translate}}</p>
 </div>
 
 <div class="mh-paginator d-flex justify-content-end mt-2 me-4" *ngIf="toShowPaginator()">

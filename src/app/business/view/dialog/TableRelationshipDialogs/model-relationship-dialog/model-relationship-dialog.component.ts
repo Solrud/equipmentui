@@ -89,11 +89,11 @@ export class ModelRelationshipDialogComponent implements OnInit{
     this.modelDataInput = [];
     this.modelService.searchPage(searchObj).subscribe( result => {
       console.log(result);
+      let tempMap = new Map<ModelDTO, boolean>();
       if (result && result?.content?.length > 0){
         this.modelTotalElements = result.totalElements;
         this.modelDataInput = result.content;
 
-        let tempMap = new Map<ModelDTO, boolean>();
         for(let i = 0; i < this.modelDataInput.length; i++){
           let isJoined = false;
           tempMap.set(this.modelDataInput[i], false);
@@ -104,8 +104,8 @@ export class ModelRelationshipDialogComponent implements OnInit{
           }
           if(isJoined) tempMap.set(this.modelDataInput[i], true);
         }
-        this.modelForJoinedMap = tempMap;
       }
+      this.modelForJoinedMap = tempMap;
     }, error => {
       this.toastService.showNegativeFixed('Не удалось загрузить таблицу Модель');
     })
@@ -186,7 +186,6 @@ export class ModelRelationshipDialogComponent implements OnInit{
         this.toastService.showNegative('Не удалось изменить связи в "' + this.selectedSourceSpravochnik + '" с Моделью')
       })
     }
-    // console.log(this.newObj);
   }
 
   onClickCloseModal(): void{

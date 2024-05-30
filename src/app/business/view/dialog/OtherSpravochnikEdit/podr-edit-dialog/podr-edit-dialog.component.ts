@@ -36,7 +36,6 @@ export class PodrEditDialogComponent {
     this.initFgPodr();
     this.initDialogDefault();
 
-
     this._observeFcRod();
     this._observeFcKodKlass();
   }
@@ -102,7 +101,7 @@ export class PodrEditDialogComponent {
       })
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.podrDDMList = this.podrList.filter( podr => podr.naim.toLowerCase().includes(inputValue.toLowerCase()));
+        this.podrDDMList = this.podrList.filter( podr => podr.obozn.toLowerCase().includes(inputValue.toLowerCase()));
       } else {
         this.podrDDMList = this.podrList;
       }

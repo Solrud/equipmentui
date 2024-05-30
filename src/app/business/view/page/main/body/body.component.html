@@ -5,16 +5,27 @@
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.KOMPL">
       <div class="upper-inform-div d-flex justify-content-center align-items-center">
         <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
-        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите комплекс для отображения информации*</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*{{"ACTION.CHOOSE-KOMPL-FOR-VIEW-INFO" | translate}}*</span>
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
-          <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
+            <h2 class="fs-4">{{"TITLE.GRUPPA" | translate}}</h2>
+            <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
+               ngbTooltip="{{'HINT.TRANSIT-TO-RELATION-GRUPPA'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="end"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"
+               (click)="onClickGoToRelativeGruppaElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             ngbTooltip="{{'HINT.RELATE-GRUPPA'|translate }}"
+             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+             placement="start"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
         </div>
         <div class=" p-1">
           <app-table class="overflow-auto"
@@ -28,12 +39,23 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
-        <h2 class="fs-4">Модель</h2>
-        <div class="d-flex flex-row">
+          <div class="d-flex flex-row">
+            <h2 class="fs-4">{{"COMMON.MODEL" | translate}}</h2>
+            <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
+               ngbTooltip="{{'HINT.TRANSIT-TO-RELATION-MODEL'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="end"
+               [class.i-disabled]="!modelRelationshipSelectedElement"
+               (click)="onClickGoToRelativeModelElement()"></i>
+          </div>
           <i class="bi bi-share-fill me-3 i-add pointer"
-             [class.i-disabled]="!mainSelectedElement"
+             ngbTooltip="{{'HINT.RELATE-MODEL'|translate }}"
+             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+             placement="start"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenModelRelationshipDialog(TableType.KOMPL)"></i>
-        </div>
       </div>
         <div class="p-1">
           <div class="">
@@ -51,19 +73,30 @@
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.GRUPPA">
       <div class="upper-inform-div d-flex justify-content-center align-items-center">
         <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
-        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите группу для отображения информации*</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*{{"ACTION.CHOOSE-GRUPPA-FOR-VIEW-INFO" | translate}}*</span>
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
-          <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenKomplRelationshipDialog(TableType.GRUPPA)"></i>
+            <h2 class="fs-4">{{"TITLE.KOMPL" | translate}}</h2>
+            <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
+               ngbTooltip="{{'HINT.TRANSIT-TO-RELATION-KOMPL'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="end"
+               [class.i-disabled]="!komplRelationshipSelectedElement"
+               (click)="onClickGoToRelativeKomplElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             ngbTooltip="{{'HINT.RELATE-KOMPL'|translate }}"
+             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+             placement="start"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             (click)="onClickOpenKomplRelationshipDialog(TableType.GRUPPA)"></i>
         </div>
-        <div class="p-1">
-          <app-table class="overflow-auto"
+        <div class="p-1 d-flex d-flex flex-column">
+          <app-table class="overflow-auto d-flex flex-column"
                      [selectedSpavochnik]="TableType.KOMPL_FROM_RELATION"
                      [fieldColumnList]="komplRelationshipFieldColumnList"
                      [dataTableSource]="komplRelationshipDataInput"
@@ -74,16 +107,27 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-model">
         <div class="d-flex justify-content-between bg-model-color">
-          <h2 class="fs-4">Модель</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenModelRelationshipDialog(TableType.GRUPPA)"></i>
+            <h2 class="fs-4">{{"COMMON.MODEL" | translate}}</h2>
+            <i class="bi bi-arrow-right-circle ms-2 me-3 mb-0 i-add pointer"
+               ngbTooltip="{{'HINT.TRANSIT-TO-RELATION-MODEL'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="end"
+               [class.i-disabled]="!modelRelationshipSelectedElement"
+               (click)="onClickGoToRelativeModelElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             ngbTooltip="{{'HINT.RELATE-MODEL'|translate }}"
+             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+             placement="start"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             (click)="onClickOpenModelRelationshipDialog(TableType.GRUPPA)"></i>
         </div>
         <div class="">
-          <div class="p-1">
-            <app-table
+          <div class="p-1 d-flex flex-column">
+            <app-table class="d-flex flex-column overflow-auto"
               [selectedSpavochnik]="TableType.MODEL_FROM_RELATION"
               [fieldColumnList]="modelRelationshipFieldColumnList"
               [dataTableSource]="modelRelationshipDataInput"
@@ -97,16 +141,27 @@
     <div class="d-flex flex-column h-100" *ngIf="selectedSpravochnik === TableType.MODEL">
       <div class="upper-inform-div d-flex justify-content-center align-items-center">
         <span *ngIf="mainSelectedElement" class="fs-5 upper-naim">{{mainSelectedElement?.naim}}</span>
-        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*Выберите модель для отображения информации*</span>
+        <span *ngIf="!mainSelectedElement" class="fs-5 upper-naim">*{{"ACTION.CHOOSE-MODEL-FOR-VIEW-INFO" | translate}}*</span>
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-kompl">
         <div class="d-flex justify-content-between bg-kompl-color">
-          <h2 class="fs-4">Комплекс</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenKomplRelationshipDialog(TableType.MODEL)"></i>
+            <h2 class="fs-4">{{"TITLE.KOMPL" | translate}}</h2>
+            <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
+               ngbTooltip="{{'HINT.TRANSIT-TO-RELATION-KOMPL'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="end"
+               [class.i-disabled]="!komplRelationshipSelectedElement"
+               (click)="onClickGoToRelativeKomplElement()"></i>
           </div>
+          <i class="bi bi-share-fill me-3 i-add pointer"
+             ngbTooltip="{{'HINT.RELATE-KOMPL'|translate }}"
+             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+             placement="start"
+             [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             (click)="onClickOpenKomplRelationshipDialog(TableType.MODEL)"></i>
         </div>
         <div class=" p-1">
           <app-table class="overflow-auto"
@@ -120,12 +175,23 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-gruppa">
         <div class="d-flex justify-content-between bg-gruppa-color">
-          <h2 class="fs-4">Группа</h2>
           <div class="d-flex flex-row">
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               [class.i-disabled]="!mainSelectedElement"
-               (click)="onClickOpenGruppaRelationshipDialog(TableType.MODEL)"></i>
+            <h2 class="fs-4">{{"TITLE.GRUPPA" | translate}}</h2>
+            <i class="bi bi-arrow-left-circle ms-2 me-3 mb-0 i-add pointer"
+               ngbTooltip="{{'HINT.TRANSIT-TO-RELATION-GRUPPA'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="end"
+               [class.i-disabled]="!gruppaRelationshipSelectedElement"
+               (click)="onClickGoToRelativeGruppaElement()"></i>
           </div>
+            <i class="bi bi-share-fill me-3 i-add pointer"
+               ngbTooltip="{{'HINT.RELATE-GRUPPA'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="start"
+               [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+               (click)="onClickOpenGruppaRelationshipDialog(TableType.MODEL)"></i>
         </div>
         <div class=" p-1">
           <app-table class="overflow-auto"
@@ -139,10 +205,14 @@
       </div>
       <div class="d-flex flex-column flex-grow-1 bg-ekz">
         <div class="d-flex justify-content-between bg-ekz-color">
-          <h2 class="fs-4">Экземпляры</h2>
+          <h2 class="fs-4">{{"COMMON.EKZS" | translate}}</h2>
           <div class="d-flex flex-row">
             <i class="bi bi-gear-fill me-3 i-add pointer"
-               [class.i-disabled]="!oborudEkzRelationshipSelectedElement"
+               ngbTooltip="{{'HINT.RELATE-EKZ'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="start"
+               [class.i-disabled]="!oborudEkzRelationshipSelectedElement || currentRole == UserRole.VIEW"
                (click)="onClickOpenOborudEkzDialog()"></i>
           </div>
         </div>
@@ -163,48 +233,67 @@
   <!-- Контент Body  -->
   <div class="example-sidenav-content d-flex flex-column">
     <!-- Кнопки редактирования -->
-
     <app-general-buttons class="d-flex mt-4 mb-3"
                          (openSidenav)="drawer.toggle()"
                          (researchPage)="onReSearchPage()"
                          (researchPageAndMainSelectToNull)="onReSearchAndMainSelectToNull()"
+                         (goToRelativeModelElement)="onClickGoToRelativeModelElement($event)"
     ></app-general-buttons>
 
+    <!-- Фильтр -->
     <app-filter
       [searchKompl]="komplSearch"
       [searchGruppa]="gruppaSearch"
       [searchModel]="modelSearch"
       [searchOborudEkz]="oborudEkzSearch"
+      [selectedSpravochnik]="selectedSpravochnik"
+      [isCollapsed]="false"
 
       (newSearch)="onChangePage($event)"
     ></app-filter>
 
     <!-- Вкладки навигации таблиц -->
     <div class="d-flex flex-row group-tabs-config">
-      <div class="tabs-config"
+      <div class="tabs-config bg-kompl-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-KOMPL'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavKompl()"
-           [class.actived-tab]="selectedSpravochnik == tableType.KOMPL" [class.add-border-bottom]="selectedSpravochnik != tableType.KOMPL">
+           [class.actived-tab]="selectedSpravochnik == tableType.KOMPL"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.KOMPL">
 
         {{'TITLE.KOMPL' | translate }}
 
       </div>
-      <div class="tabs-config"
+      <div class="tabs-config bg-gruppa-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-GRUPPA'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavGruppa()"
-           [class.actived-tab]="selectedSpravochnik == tableType.GRUPPA" [class.add-border-bottom]="selectedSpravochnik != tableType.GRUPPA">
+           [class.actived-tab]="selectedSpravochnik == tableType.GRUPPA"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.GRUPPA">
 
         {{'TITLE.GRUPPA' | translate}}
 
       </div>
-      <div class="tabs-config"
+      <div class="tabs-config bg-model-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-MODEL'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavModel()"
-           [class.actived-tab]="selectedSpravochnik == tableType.MODEL" [class.add-border-bottom]="selectedSpravochnik != tableType.MODEL">
+           [class.actived-tab]="selectedSpravochnik == tableType.MODEL"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.MODEL">
 
         {{'TITLE.MODEL' | translate}}
 
       </div>
-      <div class="tabs-config"
+      <div class="tabs-config bg-ekz-color"
+           ngbTooltip="{{'HINT.MAIN-TABLE-EKZ'|translate }}"
+           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
            (click)="onClickNavOborudEkz()"
-           [class.actived-tab]="selectedSpravochnik == tableType.OBORUD_EKZ" [class.add-border-bottom]="selectedSpravochnik != tableType.OBORUD_EKZ">
+           [class.actived-tab]="selectedSpravochnik == tableType.OBORUD_EKZ"
+           [class.add-border-bottom]="selectedSpravochnik != tableType.OBORUD_EKZ">
 
         {{'TITLE.OBORUD_EKZ' | translate}}
 
@@ -222,6 +311,7 @@
                [selectedElement]="mainSelectedElement"
 
                (dataSearchNew)="onChangePage($event)"
+               (chosenForViewObj)="onOpenElementForView($event)"
     ></app-table>
   </div>
 </mat-drawer-container>

@@ -5,7 +5,7 @@
 <form class="modal-body d-flex flex-column gap-2"
       [formGroup]="fgProizv">
   <div class="d-flex flex-column justify-content-start">
-    <label for="naim" class=" form-label">Наименование</label>
+    <label for="naim" class=" form-label">{{"COMMON.NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
     <div class="input-group">
       <input class="form-control border-dark "
              id="naim"
@@ -22,7 +22,7 @@
   </div>
 
   <div>
-    <label for="polnNaim" class="form-label">Полное наименование</label>
+    <label for="polnNaim" class="form-label">{{"COMMON.POLN-NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('polnNaim')}}</span></label>
     <div class="input-group">
       <input class="form-control border-dark"
              id="polnNaim"
@@ -46,15 +46,15 @@
           [hidden]="dialogMode != DialogMode.CREATE"
           (click)="onClickCreateProizv()"
           [disabled]="fgProizv.invalid"
-  >Создать</button>
+  >{{"BUTTON.CREATE" | translate}}</button>
   <button type="button"
           class="btn btn-primary"
           [hidden]="dialogMode != DialogMode.EDIT"
           (click)="onClickUpdateProizv()"
           [disabled]="fgProizv.invalid"
-  >Редактировать</button>
+  >{{"BUTTON.CHANGE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"
           (click)="onClickCloseModal()"
-  >Отмена</button>
+  >{{"BUTTON.CANCEL" | translate}}</button>
 </div>

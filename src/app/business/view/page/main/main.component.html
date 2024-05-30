@@ -1,4 +1,8 @@
-<app-header class="header-config" (researchPage)="body.onReSearchPage()"></app-header>
+<app-header class="header-config"
+            [user]="user"
+
+            (researchPage)="body.onReSearchPage()"
+></app-header>
 
 <app-body class="d-flex flex-column overflow-auto h-100" #body></app-body>
 

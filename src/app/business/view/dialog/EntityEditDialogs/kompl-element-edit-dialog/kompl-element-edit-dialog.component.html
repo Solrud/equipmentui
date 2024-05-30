@@ -1,12 +1,13 @@
 <div class="modal-header d-flex justify-content-center">
-  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.CREATE">Создание комплекса</h2>
-  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.EDIT">Редактирование комплекса</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.CREATE">{{"TITLE.CREATE-KOMPL" | translate}}</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.EDIT">{{"TITLE.EDIT-KOMPL" | translate}}</h2>
+  <h2 class="m-0 text-center " *ngIf="dialogMode == DialogMode.VIEW">{{"TITLE.VIEW-KOMPL" | translate}}</h2>
 </div>
 
 <form class="modal-body d-flex flex-column gap-1"
       [formGroup]="fgKomplElement">
   <div class="d-flex justify-content-end">
-    <label for="kod" class=" m-0 me-2 align-self-center">Код</label>
+    <label for="kod" class=" m-0 me-2 align-self-center">{{"COMMON.KOD" | translate}}</label>
     <input class="form-control w-25 border-dark"
            id="kod"
            type="text"
@@ -16,7 +17,7 @@
            readonly>
   </div>
   <div>
-    <label for="naim" class="form-label">Наименование</label>
+    <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
     <div class="form-group input-group">
       <input class="form-control border-dark"
              id="naim"
@@ -25,6 +26,7 @@
              [required]="fcFieldIsRequired('naim', true)"
              type="text">
       <button class="btn btn-light border-dark"
+              [disabled]="dialogMode === DialogMode.VIEW"
               (click)="fgKomplElement.controls['naim'].setValue(null)">
         <i class="bi bi-x-lg"></i>
       </button>
@@ -37,12 +39,12 @@
   <button type="button" class="btn btn-primary"
           (click)="onClickCreateKompl()"
           [hidden]="dialogMode != DialogMode.CREATE"
-          [disabled]="fgKomplElement.invalid">Создать</button>
+          [disabled]="fgKomplElement.invalid">{{"BUTTON.CREATE" | translate}}</button>
   <button type="button" class="btn btn-primary"
           (click)="onClickUpdateKompl()"
           [hidden]="dialogMode != DialogMode.EDIT"
-          [disabled]="fgKomplElement.invalid">Редактировать</button>
+          [disabled]="fgKomplElement.invalid">{{"BUTTON.CHANGE" | translate}}</button>
   <button type="button" class="btn btn-secondary"
           ngbAutofocus
-          (click)="onClickCloseModal()">Отмена</button>
+          (click)="onClickCloseModal()">{{"BUTTON.CANCEL" | translate}}</button>
 </div>

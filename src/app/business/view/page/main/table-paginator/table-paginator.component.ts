@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DELAY_TIME_CLOSE_FOR_TOOLTIP, DELAY_TIME_OPEN_FOR_TOOLTIP } from 'src/app/app.constant';
 import {ABaseSearchDTO} from "../../../../data/model/search/ABaseSearchDTO";
 
 @Component({
@@ -21,6 +22,13 @@ export class TablePaginatorComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
+    return DELAY_TIME_OPEN_FOR_TOOLTIP;
+  }
+  public get DELAY_TIME_CLOSE_FOR_TOOLTIP(){
+    return DELAY_TIME_CLOSE_FOR_TOOLTIP;
   }
 
   getCurrentElementNumbers(pageNumber: number, pageSize: number, totalElements: number): string {

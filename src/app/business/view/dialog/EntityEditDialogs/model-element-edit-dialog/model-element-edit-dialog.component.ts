@@ -6,6 +6,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
 import {GruppaDTO} from "../../../../data/model/dto/impl/GruppaDTO";
 import {ToastService} from "../../../../data/service/OptionalService/toast.service";
+import {ProizvSearchDTO} from "../../../../data/model/search/impl/ProizvSearchDTO";
+import {PodrService} from "../../../../data/service/implements/podr.service";
+import {PodrSearchDTO} from "../../../../data/model/search/impl/PodrSearchDTO";
+import {UchSearchDTO} from "../../../../data/model/search/impl/UchSearchDTO";
 
 @Component({
   selector: 'app-model-element-edit-dialog',
@@ -28,6 +32,7 @@ export class ModelElementEditDialogComponent implements OnInit{
   ngOnInit(): void {
     this.initDialogDefaultValues();
     this.initFgModelElement();
+    this.afterDialogDefaultValues();
   }
 
   public get DialogMode(){
@@ -62,10 +67,13 @@ export class ModelElementEditDialogComponent implements OnInit{
       obozn: new FormControl({value: this.getCorrectValueFromField('obozn'), disabled: false}),
       ekzemplary: new FormControl({value: this.getCorrectValueFromField('ekzemplary'), disabled: true}),
 
-      //ToDo полное наименование в модели? сдлеать чтоб уходило в серч ? НАДО СДЕЛАТЬ ЧТО-ЛИ 0__0
+      //ToDo полное наименование в модели? сдлеать чтоб уходило в серч ? НАДО СДЕЛАТЬ ЧТО-ЛИ 0__0 .ps. что тут имелось ввиду?
       polnNaim: new FormControl({value: this.getCorrectValueFromField('polnNaim'), disabled: true}),
     })
+  }
 
+  afterDialogDefaultValues(){
+    if (this.dialogMode === DialogMode.VIEW) this.fgModelElement.disable();
   }
 
   //получить идентификаторы обязательности заполнения поля

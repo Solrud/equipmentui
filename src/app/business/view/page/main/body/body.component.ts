@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDrawer} from "@angular/material/sidenav";
 import {
+  DELAY_TIME_CLOSE_FOR_TOOLTIP,
+  DELAY_TIME_OPEN_FOR_TOOLTIP,
   DialogMode,
   DialogResult,
   FIELD_COLUMN_GRUPPA_LIST,
@@ -8,7 +10,8 @@ import {
   FIELD_COLUMN_MODEL_LIST,
   FIELD_COLUMN_OBORUD_EKZ_LIST,
   OriginSourceTable,
-  TableType
+  TableType,
+  UserRoleAuth
 } from "../../../../../app.constant";
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {OborudEkzService} from "../../../../data/service/implements/oborud-ekz.service";
@@ -76,6 +79,7 @@ export class BodyComponent implements OnInit{
   oborudEkzRelationshipDataInput: OborudEkzDTO[] = [];
   oborudEkzRelationshipFieldColumnList: string[] = FIELD_COLUMN_OBORUD_EKZ_LIST;
 
+  currentRole: UserRoleAuth; // какая сейчас роль у юзверя
 
   @ViewChild(MatDrawer)
   private readonly drawerComponent?: MatDrawer;
@@ -98,47 +102,42 @@ export class BodyComponent implements OnInit{
     this._subscribeToGruppaRelationshipSelectedElement();
     this._subscribeToModelRelationshipSelectedElement();
     this._subscribeToOborudEkzRelationshipSelectedElement();
+    this._subscribeCurrentRole();
   }
 
   //ToDo =>
-  // фильтрация таблиц(как в журнале ртк)
-  // реализация перехода на связанный элемент: происходт переход на сущность главной таблицы, в тейбл передается выбранный элемент, в связях отображать эти связи с элементом.
-  // main HTML исправить,чтобы высота выставлялась автоматически от разрешения | +- пойдет
-  // DTO<any> переделать придумать
   // реализовать аутентификацию
+  // DTO<any> переделать придумать
   // -
   // =>-ОПЦИОНАЛЬНО-<=
-  // звездочки у лейблов требуемых контролов проставить
-  // проставить toast's о создании, редактировани, ошибке
-  // опционально добавить кнопочку новостей разработки со всплывающей модалкой. не.. запара
-  // в конце концов не забыть про i18n!
-  // -
-  // =>-ПОЧЕМУ ОШИБКА-<=
+  // таблица связей при заполнении обоих проваливается вниз сайта, нужен правильный overflow
+  // хэлп и о приложении, хэлп в ворд скачиваемый или пдф веб-просмотрщик(не скоро)
   // -
   // =>-ВОПРОС-<=
-  // что делать с кодом то у основных справочников? автоматически формируется
-  // как серчить все через /search тк нужна сортировка. pageSize в 0 как я понял.
-  //  B F NOborudDTO, KomplDtoDeserializer ? (Bazis, File, Navigator, KomplDesa..это не надо в итге не нужно это даже трогать)
-  // спросить про экз оборуд в переход на модели (1 экз на 1 модель?). ДА СВЯЗЬ 1 К 1 экз к модели
-  // ! Неактивные показывать но с зачеркиванием, выделением другого цвета
-  // код классификатора (классификатор(класс оборудрвания), вид, ПУ, габариты)
-  // ! СПРОСИТЬ: при инициализации(первом открытии сайта) нужно ли выбирать 1 из списка по умолчанию выбранным. НЕ НАДО
-  // ! СПРОСИТЬ: нужно ли выводить всем списком строки таблиц, если да, то нужно принимать урезанные данные. БУДЕТ п поумолчанию столько строк, сколько входит и "Все"
-  // ? СПРОСИТЬ: Какие поля нужны в редактировании сущностей(тз и базис димы отличается)
-  // нужны айдишники в табличках?
-  // на какие поля в модалках ставить валидаторы?
-  // КОД ИЛИ КЛАСС??
   // -
   // => ЖДУ от димы
+  // нужно попросить диму исправить ошибку. если вызывать searchPage С ПАРАМЕТОМ "родитель"ID,
+  //   (т.е. выдавать экземпляры привязанные к родителю) у вида или участков, то приходит просто список ВСЕХ запрашиваемых сущностей,
+  //     это надо чтобы работала сортировка в таблице
   // подключение к рейльной бд на проде
   // код классификатора скоро не нужно будет формировать для создания группы
   // - может стоит перейти с каскадной модели ДТО в v.2
+  // не удаляется в настройках справочник если в нем есть дети
 
   public get TableType() {
     return TableType;
   }
   public get OriginSourceTable() {
     return OriginSourceTable;
+  }
+  public get UserRole() {
+    return UserRoleAuth;
+  }
+  public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
+    return DELAY_TIME_OPEN_FOR_TOOLTIP;
+  }
+  public get DELAY_TIME_CLOSE_FOR_TOOLTIP(){
+    return DELAY_TIME_CLOSE_FOR_TOOLTIP;
   }
 
   initSearchData(){
@@ -159,6 +158,12 @@ export class BodyComponent implements OnInit{
     this.eventService.selectElementGruppaRelationshipTable$(null);
     this.eventService.selectElementModelRelationshipTable$(null);
     this.eventService.selectElementOborudEkzRelationshipTable$(null);
+  }
+
+  _subscribeCurrentRole(){
+    this.eventService.selectedCurrentRole$.subscribe( result => {
+      this.currentRole = result;
+    })
   }
 
   _subscribeToMainSelectedElement(){
@@ -242,7 +247,8 @@ export class BodyComponent implements OnInit{
     })
   }
 
-  initNavBar(selectedNavBar: TableType, newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false){
+  initNavBar(selectedNavBar: TableType, newDataSearch: ABaseSearchDTO = null,
+             reSearchPage: boolean = false, toResearchRelation: boolean = false){
     switch (selectedNavBar){
       case  TableType.KOMPL:
         this.onClickNavKompl(newDataSearch, reSearchPage , toResearchRelation);
@@ -269,7 +275,8 @@ export class BodyComponent implements OnInit{
 
   // Методы Связных таблиц
   onClickOpenKomplRelationshipDialog(originSpravochnik: TableType){
-    if ((this.selectedSpravochnik === TableType.GRUPPA || this.selectedSpravochnik === TableType.MODEL) && this.mainSelectedElement){
+    if (((this.selectedSpravochnik === TableType.GRUPPA || this.selectedSpravochnik === TableType.MODEL)
+      && this.mainSelectedElement) && this.currentRole != UserRoleAuth.VIEW){
       this.openDialogService.openKomplRelationshipDialog
       (originSpravochnik, this.mainSelectedElement, this.komplRelationshipDataInput).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -280,7 +287,8 @@ export class BodyComponent implements OnInit{
   }
 
   onClickOpenGruppaRelationshipDialog(originSpravochnik: TableType){
-    if ((this.selectedSpravochnik === TableType.KOMPL || this.selectedSpravochnik === TableType.MODEL) && this.mainSelectedElement){
+    if (((this.selectedSpravochnik === TableType.KOMPL || this.selectedSpravochnik === TableType.MODEL)
+      && this.mainSelectedElement) && this.currentRole != UserRoleAuth.VIEW){
       this.openDialogService.openGruppaRelationshipDialog
       (originSpravochnik, this.mainSelectedElement, this.gruppaRelationshipDataInput).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -291,7 +299,8 @@ export class BodyComponent implements OnInit{
   }
 
   onClickOpenModelRelationshipDialog(originSpravochnik: TableType){
-    if ((this.selectedSpravochnik === TableType.KOMPL || this.selectedSpravochnik === TableType.GRUPPA) && this.mainSelectedElement){
+    if (((this.selectedSpravochnik === TableType.KOMPL || this.selectedSpravochnik === TableType.GRUPPA)
+      && this.mainSelectedElement) && this.currentRole != UserRoleAuth.VIEW){
       this.openDialogService.openModelRelationshipDialog
       (originSpravochnik, this.mainSelectedElement, this.modelRelationshipDataInput).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -302,8 +311,9 @@ export class BodyComponent implements OnInit{
   }
 
   onClickOpenOborudEkzDialog(){
-    if (this.mainSelectedElement && this.oborudEkzRelationshipSelectedElement){
-      this.openDialogService.openElementDialog(this.oborudEkzRelationshipSelectedElement, TableType.OBORUD_EKZ, DialogMode.EDIT).closed.subscribe( result => {
+    if (this.mainSelectedElement && this.oborudEkzRelationshipSelectedElement && this.currentRole != UserRoleAuth.VIEW){
+      this.openDialogService.openElementDialog(this.oborudEkzRelationshipSelectedElement,
+        TableType.OBORUD_EKZ, DialogMode.EDIT).closed.subscribe( result => {
         if (result == DialogResult.ACCEPT)
           this.onReSearchPage(true);
       })
@@ -311,7 +321,7 @@ export class BodyComponent implements OnInit{
   }
 
   // Методы Вкладки
-  onClickNavKompl(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
+  onClickNavKompl(newDataSearch: any = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.KOMPL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.KOMPL) : this.isFirstTimeInitNav = false;
@@ -319,6 +329,10 @@ export class BodyComponent implements OnInit{
         if(!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.komplSearch);
+          if (toResearchRelation) {
+            this.komplSearch = newDataSearch;
+            this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+          }
         }
       } else {
         this.eventService.selectElementMainTable$(null);
@@ -343,7 +357,7 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickNavGruppa(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
+  onClickNavGruppa(newDataSearch: any = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.GRUPPA || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.GRUPPA) : this.isFirstTimeInitNav = false;
@@ -352,6 +366,10 @@ export class BodyComponent implements OnInit{
         if(!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.gruppaSearch);
+          if (toResearchRelation) {
+            this.gruppaSearch = newDataSearch;
+            this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+          }
         }
       } else {
         this.eventService.selectElementMainTable$(null);
@@ -375,7 +393,7 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickNavModel(newDataSearch: ABaseSearchDTO = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
+  onClickNavModel(newDataSearch: any = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
@@ -384,13 +402,16 @@ export class BodyComponent implements OnInit{
         if (!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.modelSearch);
+          if (toResearchRelation) {
+            this.modelSearch = newDataSearch;
+            this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
+          }
         }
       } else {
         this.eventService.selectElementMainTable$(null);
         this.toClearAllRelationshipDataInput();
         this.toClearAllRelationshipSelectedElement();
       }
-
       this.dataSearch = this.modelSearch;
       this.dataTableNavSource = [];
       this.modelService.searchPage(this.modelSearch).subscribe(result => {
@@ -426,7 +447,7 @@ export class BodyComponent implements OnInit{
       this.dataSearch = this.oborudEkzSearch;
       this.dataTableNavSource = [];
       this.oborudEkzService.searchPage(this.oborudEkzSearch).subscribe(result => {
-        if (result && result.content.length > 0){
+        if (result){
           this.totalFoundedElements = result.totalElements;
           this.dataTableNavSource = result.content;
 
@@ -439,18 +460,60 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
-    this.initNavBar(this.selectedSpravochnik, newDataSearch, true);
+  onClickGoToRelativeKomplElement(){
+    if (this.komplRelationshipSelectedElement){
+      let newDataSearchRelative = new KomplSearchDTO();
+      newDataSearchRelative.kod = this.komplRelationshipSelectedElement.kod;
+      newDataSearchRelative.naim = this.komplRelationshipSelectedElement.naim;
+      newDataSearchRelative.akt = this.komplRelationshipSelectedElement.akt;
+      this.mainSelectedElement = this.komplRelationshipSelectedElement;
+      this.eventService.selectElementMainTable$(this.mainSelectedElement);
+      this.onChangePage(newDataSearchRelative, TableType.KOMPL, true);
+
+      this.toastService.showWarning('Выполнен переход к связанному элементу в КОМПЛЕКС');
+    }
+  }
+
+  onClickGoToRelativeGruppaElement(){
+    if (this.gruppaRelationshipSelectedElement){
+      let newDataSearchRelative = new GruppaSearchDTO();
+      newDataSearchRelative.kod = this.gruppaRelationshipSelectedElement.kod;
+      newDataSearchRelative.naim = this.gruppaRelationshipSelectedElement.naim;
+      newDataSearchRelative.kodKlass = this.gruppaRelationshipSelectedElement.kodKlass;
+      newDataSearchRelative.akt = this.gruppaRelationshipSelectedElement.akt;
+      this.mainSelectedElement = this.gruppaRelationshipSelectedElement;
+      this.eventService.selectElementMainTable$(this.mainSelectedElement);
+      this.onChangePage(newDataSearchRelative, TableType.GRUPPA, true);
+
+      this.toastService.showWarning('Выполнен переход к связанному элементу в ГРУППУ');
+    }
+  }
+
+  onClickGoToRelativeModelElement(model: ModelDTO = this.modelRelationshipSelectedElement){
+    if (model){
+      let newDataSearchRelative = new ModelSearchDTO();
+      newDataSearchRelative.kod = model.kod;
+      newDataSearchRelative.obozn = model.obozn;
+      newDataSearchRelative.naim = model.naim;
+      newDataSearchRelative.akt = model.akt;
+      this.mainSelectedElement = model;
+      this.eventService.selectElementMainTable$(this.mainSelectedElement);
+      this.onChangePage(newDataSearchRelative, TableType.MODEL, true);
+
+      this.toastService.showWarning('Выполнен переход к связанному элементу в МОДЕЛЬ');
+    }
+  }
+
+  onChangePage(newDataSearch: ABaseSearchDTO, selectedSpravochnik: TableType = this.selectedSpravochnik,
+               toResearchRelation: boolean = false): void{ //output изменения пагинации таблицы
+    this.initNavBar(selectedSpravochnik, newDataSearch, true, toResearchRelation);
   }
 
   onReSearchPage(toResearchRelationshipTable: boolean = false){
-    console.log('onReSearchPage')
     if (this.mainSelectedElement){
-      console.log('this.mainSelectedElement')
       this.mainService.read(this.mainSelectedElement.id).subscribe( result => {
         if (result){
           this.mainSelectedElement = result;
-
           this.eventService.selectElementMainTable$(this.mainSelectedElement);
         }
       })
@@ -461,6 +524,10 @@ export class BodyComponent implements OnInit{
   onReSearchAndMainSelectToNull(){
     this.mainSelectedElement = null;
     this.initNavBar(this.selectedSpravochnik, null, true, true);
+  }
+
+  onOpenElementForView(chosenElement: any){
+    this.openDialogService.openElementDialog(chosenElement, this.selectedSpravochnik, DialogMode.VIEW);
   }
 
   // присваивает к существующему search object пагинаторные свойства

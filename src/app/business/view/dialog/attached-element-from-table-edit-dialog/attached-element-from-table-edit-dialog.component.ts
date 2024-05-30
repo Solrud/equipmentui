@@ -31,6 +31,8 @@ export class AttachedElementFromTableEditDialogComponent implements OnInit{
 
   newSelectedModel: ModelDTO;
 
+  isNewSelectedModel: boolean = false;
+
   constructor(private activeModal: NgbActiveModal,
               private komplService: KomplService,
               private modelService: ModelService,
@@ -40,8 +42,6 @@ export class AttachedElementFromTableEditDialogComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.selectedElement);
-    console.log(this.dialogMode);
     this.initDefaultValues();
     this.toSearchModel();
   }
@@ -60,14 +60,17 @@ export class AttachedElementFromTableEditDialogComponent implements OnInit{
 
   toSearchModel(modelSearch: ModelSearchDTO = this.modelSearch){
     this.modelService.searchPage(modelSearch).subscribe( result => {
-      console.log(result);
       if (result && result?.content?.length > 0){
         this.modelTotalFoundedElements = result.totalElements;
+        if(this.selectedElement)
+          this.modelTotalFoundedElements ++;
         this.modelDataInputList = result.content.filter( model => model.id != this.selectedElement?.id);
         if (result.number == 0 && this.selectedElement){
           this.modelDataInputList.unshift(this.selectedElement);
         }
       }
+    }, error => {
+      this.toastService.showNegative('Не удалось загрузить таблицу моделей');
     })
   }
 
@@ -81,11 +84,11 @@ export class AttachedElementFromTableEditDialogComponent implements OnInit{
   }
 
   toChooseElementFromSettings(newModel: ModelDTO){
+    this.isNewSelectedModel = this.selectedElement?.id != newModel?.id;
     this.newSelectedModel = newModel;
   }
 
   onSaveChosenElement(){
-    console.log(this.newSelectedModel);
     this.activeModal.close([DialogResult.ACCEPT, this.newSelectedModel]);
   }
 

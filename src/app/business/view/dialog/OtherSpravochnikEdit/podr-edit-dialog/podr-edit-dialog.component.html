@@ -1,12 +1,12 @@
 <div class="modal-header d-flex justify-content-center">
-  <h2 class="m-0 text-center ">{{dialogMode}} справочника "Подразделение"</h2>
+  <h2 class="m-0 text-center ">{{dialogMode}} {{"OTHER.SPRAVOCHNIKA" | translate}} "{{"COMMON.PODR" | translate}}"</h2>
 </div>
 
 <form class="modal-body d-flex flex-column gap-2"
       [formGroup]="fgPodr">
   <!-- Наименование -->
   <div>
-    <label for="naim" class="form-label">Наименование</label>
+    <label for="naim" class="form-label">{{"COMMON.NAIM" | translate}} <span class="text-danger">{{fcFieldIsRequired('naim')}}</span></label>
     <div class="input-group">
       <input class="form-control border-dark"
              id="naim"
@@ -26,8 +26,8 @@
   <div class="d-flex gap-2">
     <!-- Код-->
     <div class="flex-grow-1">
-      <label for="kod" class=" form-label ">Код
-        <span *ngIf="isSameKodExist" class="text-danger">Такой код уже существует!</span>
+      <label for="kod" class=" form-label ">{{"COMMON.KOD" | translate}} <span class="text-danger">{{fcFieldIsRequired('kod')}}</span>
+        <span *ngIf="isSameKodExist" class="text-danger">{{"WARNING.SAME-KOD-IS-EXIST" | translate}}</span>
       </label>
       <div class="input-group">
         <input class="form-control border-dark "
@@ -45,7 +45,7 @@
     </div>
     <!-- Обозначение-->
     <div class="flex-grow-1">
-      <label for="obozn" class=" form-label ">Обозначение</label>
+      <label for="obozn" class=" form-label ">{{"COMMON.OBOZN" | translate}} <span class="text-danger">{{fcFieldIsRequired('obozn')}}</span></label>
       <div class="input-group">
         <input class="form-control border-dark "
                id="obozn"
@@ -66,7 +66,7 @@
   <div class="d-flex gap-2">
     <!-- Код исполнителя-->
     <div class="flex-grow-1">
-      <label for="kodIsp" class=" form-label ">Код исполнителя</label>
+      <label for="kodIsp" class=" form-label ">{{"COMMON.KOD-ISP" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark "
                id="kodIsp"
@@ -86,7 +86,7 @@
          ngbDropdown
          container="body"
          #ddmRod="ngbDropdown">
-      <label for="rod" class=" form-label ">Родитель</label>
+      <label for="rod" class=" form-label ">{{"COMMON.ROD" | translate}}</label>
       <div class="input-group">
         <input class="form-control border-dark border-config"
                id="rod"
@@ -104,8 +104,8 @@
         </button>
       </div>
       <div class="px-3 ngb-menu-config" ngbDropdownMenu>
-        <p *ngIf="podrDDMList && podrDDMList.length > 0">Выберите один из элем-ов:</p>
-        <p *ngIf="podrDDMList && podrDDMList.length == 0">Ничего не найдено</p>
+        <p *ngIf="podrDDMList && podrDDMList.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="podrDDMList && podrDDMList.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
         <div class="dropdown-divider"></div>
         <div class="ddm-config">
           <h2 *ngIf="podrDDMList && podrDDMList.length == 0"
@@ -114,7 +114,7 @@
                   *ngFor="let podr of podrDDMList"
                   (click)="onClickSelectDDIRod(podr)"
                   ngbDropdownItem>
-            <span class="bg-for-kod">[ {{podr?.kod}} ]</span> {{podr?.obozn}}
+            [ {{podr?.kod}} ] {{podr?.obozn}}
           </button>
         </div>
       </div>
@@ -128,13 +128,13 @@
           class="btn btn-primary"
           [hidden]="dialogMode != DialogMode.CREATE"
           (click)="onClickCreatePodr()"
-          [disabled]="fgPodr.invalid">Создать</button>
+          [disabled]="fgPodr.invalid">{{"BUTTON.CREATE" | translate}}</button>
   <button type="button"
           class="btn btn-primary"
           [hidden]="dialogMode != DialogMode.EDIT"
           (click)="onClickUpdatePodr()"
-          [disabled]="fgPodr.invalid">Редактировать</button>
+          [disabled]="fgPodr.invalid">{{"BUTTON.CHANGE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"
-          (click)="onClickCloseModal()">Отмена</button>
+          (click)="onClickCloseModal()">{{"BUTTON.CANCEL" | translate}}</button>
 </div>

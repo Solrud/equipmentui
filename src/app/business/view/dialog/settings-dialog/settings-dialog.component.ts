@@ -11,7 +11,7 @@ import {
   FIELD_COLUMN_PROIZV_LIST,
   FIELD_COLUMN_UCH_LIST,
   OriginSourceTable,
-  TableType
+  TableType, UserRoleAuth
 } from "../../../../app.constant";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {OborudKlassSearchDTO} from "../../../data/model/search/impl/OborudKlassSearchDTO";
@@ -39,6 +39,10 @@ import {EventService} from "../../../data/service/OptionalService/event.service"
 import {OpenDialogService} from "../../../data/service/OptionalService/open-dialog.service";
 import {ToastService} from "../../../data/service/OptionalService/toast.service";
 import {ABaseSearchDTO} from "../../../data/model/search/ABaseSearchDTO";
+import {KomplSearchDTO} from "../../../data/model/search/impl/KomplSearchDTO";
+import {GruppaSearchDTO} from "../../../data/model/search/impl/GruppaSearchDTO";
+import {ModelSearchDTO} from "../../../data/model/search/impl/ModelSearchDTO";
+import {OborudEkzSearchDTO} from "../../../data/model/search/impl/OborudEkzSearchDTO";
 
 @Component({
   selector: 'app-settings-dialog',
@@ -104,10 +108,7 @@ export class SettingsDialogComponent implements OnInit{
   uchFieldColumnList: string[] = FIELD_COLUMN_UCH_LIST;
 
   dialogResult: DialogResult = DialogResult.CANCEL;
-
-  //ToDo !!!!!!!!!! при перевыборе справочника (navbar), выбранный справочник сохраняется в переменной, а нужно обнуллять
-
-  //ToDo внутри настроек у таблиц сделать overflow правильный
+  currentRole: UserRoleAuth;                             // роль юзверя
 
   //ToDo при открытии модального окна автоматом загружать данные для таблицы у мало заполненных таблиц,
   // также при первой загрузке данных сохранять данные таблицы и серчить только после изменения
@@ -126,8 +127,8 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.onClickSearchKlassOborud();
     this.initDialogDefault();
+    this.onClickSearchKlassOborud();
 
     this._subscribeOborudKlassSelectedElement();
     this._subscribeOborudVidSelectedElement();
@@ -136,10 +137,36 @@ export class SettingsDialogComponent implements OnInit{
     this._subscribeProizvSelectedElement();
     this._subscribePodrSelectedElement();
     this._subscribeUchSelectedElement();
+    this._subscribeCurrentRole();
   }
 
   initDialogDefault(){
+    this.klassSearch.pageSize = 0;
+    this.klassSearch.sortColumn = 'kodKlass';
+
+    // this.vidSearch.pageSize = 0;
+    // this.vidSearch.sortColumn = "naim";
+
+    this.nalPuSearch.pageSize = 0;
+    this.nalPuSearch.sortColumn = 'kodKlass';
+
+    this.gabZoSearch.pageSize = 0;
+    this.gabZoSearch.sortColumn = 'kodKlass';
+
     this.proizvSearch.pageSize = 0;
+    this.proizvSearch.sortColumn = "naim";
+
+    this.podrSearch.pageSize = 0;
+    this.podrSearch.sortColumn = "naim";
+
+    // this.uchSearch.pageSize = 0;
+    // this.uchSearch.sortColumn = "naim";
+  }
+
+  _subscribeCurrentRole(){
+    this.eventService.selectedCurrentRole$.subscribe( result => {
+      this.currentRole = result;
+    })
   }
 
   _subscribeOborudKlassSelectedElement(){
@@ -180,10 +207,13 @@ export class SettingsDialogComponent implements OnInit{
       this.uchSelectedElement = null;
 
       this.uchDataTableInput = [];
-      this.uchService.findByPodrId(this.podrSelectedElement.id).subscribe( result => {
-        this.uchDataTableInput = result;
+      this.uchService.findByPodrId(this.podrSelectedElement.id).subscribe( resultUch => {
+        this.uchDataTableInput = resultUch;
 
-        this.isUchNotEmptyInPodr = result.length == 0;
+        this.isUchNotEmptyInPodr = resultUch.length == 0;
+      }, error => {
+        console.log('Произошла какая-то ошибка _subscribePodrSelectedElement() в settings.');
+        this.toastService.showNegative('Произошла ошибка в загрузке данных "Участков"');
       })
     })
   }
@@ -202,14 +232,8 @@ export class SettingsDialogComponent implements OnInit{
   public get ActionMode(){
     return ActionMode;
   }
-
-  onChangePage(newDataSearch: ABaseSearchDTO): void{ //output изменения пагинации таблицы
-    Object.keys(newDataSearch).forEach(key => {
-      if (this.proizvSearch.hasOwnProperty(key)) {
-        this.proizvSearch[key] = newDataSearch[key];
-      }
-    })
-    this.onClickSearchProizv();
+  public get UserRole() {
+    return UserRoleAuth;
   }
 
   onClickActionKlassOborud(mode: ActionMode){
@@ -231,10 +255,10 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
+      let isKlassNotEmpty: boolean = this.vidDataTableInput.length > 0;
       this.openDialogService.openElementConfirmDialog
-      (this.klassSelectedElement, TableType.OBORUD_KLASS, DialogMode.DELETE).closed.subscribe( result => {
+      (this.klassSelectedElement, TableType.OBORUD_KLASS, DialogMode.DELETE, isKlassNotEmpty).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
           this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchKlassOborud();
@@ -257,10 +281,11 @@ export class SettingsDialogComponent implements OnInit{
     this.toSetAllSelectedElementsNull();
     this.klassDataTableInput = [];
     this.vidDataTableInput = [];
-    this.klassService.searchAll().subscribe( result => {
-      this.klassDataTableInput = result;
+    this.klassService.searchPage(this.klassSearch).subscribe( result => {
+      this.klassDataTableInput = result.content;
     }, error => {
       console.log('Произошла какая-то ошибка onClickSearchKlassOborud() в settings.');
+      this.toastService.showNegative('Произошла ошибка в загрузке данных "Класса Оборудования"');
     })
   }
 
@@ -283,7 +308,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog
       (this.vidSelectedElement, TableType.OBORUD_VID, DialogMode.DELETE).closed.subscribe( result => {
@@ -314,7 +338,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(
         this.nalPuSelectedElement, TableType.NAL_PU, DialogMode.DELETE).closed.subscribe( result => {
@@ -329,25 +352,12 @@ export class SettingsDialogComponent implements OnInit{
   onClickSearchNalPu(): void{
     this.toSetAllSelectedElementsNull();
     this.nalPuDataTableInput = [];
-    this.nalPuService.searchAll().subscribe( result => {
-      this.nalPuDataTableInput = result;
+    this.nalPuService.searchPage(this.nalPuSearch).subscribe( result => {
+      this.nalPuDataTableInput = result.content;
     }, error => {
-
+      this.toastService.showNegative('Произошла ошибка в загрузке данных "Наличия ПУ"');
       console.log('Произошла какая-то ошибка onClickSearchNalPuOborud() в settings.');
     })
-    // if (nalPuSearch){
-    //   this.nalPuSearch = nalPuSearch;
-    //   this.nalPuDataTableInput = [];
-    //   this.nalPuService.searchPage(this.nalPuSearch).subscribe( result => {
-    //     console.log(result);
-    //     this.nalPuDataTableInput = result.content;
-    //     this.nalPuTotalFoundedElements = result.totalElements;
-    //
-    //     this.nalPuSearch.pageSize = this.nalPuTotalFoundedElements; // временно, надо думать все ли выводить или спраляться с пагинтором
-    //   }, error => {
-    //     console.log('Произошла какая-то ошибка onClickSearchVidOborud() в settings.');
-    //   })
-    // }
   }
 
   onClickActionGabZo(mode: ActionMode){
@@ -369,7 +379,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(
         this.gabZoSelectedElement, TableType.GAB_ZO, DialogMode.DELETE).closed.subscribe( result => {
@@ -384,10 +393,11 @@ export class SettingsDialogComponent implements OnInit{
   onClickSearchGabZo(): void{
     this.toSetAllSelectedElementsNull();
     this.gabZoDataTableInput = [];
-    this.gabZoService.searchAll().subscribe( result => {
-      this.gabZoDataTableInput = result;
+    this.gabZoService.searchPage(this.gabZoSearch).subscribe( result => {
+      this.gabZoDataTableInput = result.content;
     }, error => {
       console.log('Произошла какая-то ошибка onClickSearchGabZo() в settings.');
+      this.toastService.showNegative('Произошла ошибка в загрузке данных "Габариты Зоны Обработки"');
     })
   }
 
@@ -408,7 +418,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(this.proizvSelectedElement, TableType.PROIZV, DialogMode.DELETE).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -425,13 +434,10 @@ export class SettingsDialogComponent implements OnInit{
 
     this.proizvService.searchPage(this.proizvSearch).subscribe( result => {
       this.proizvDataTableInput = result.content;
+    }, error => {
+      console.log('Произошла какая-то ошибка onClickSearchProizv() в settings.');
+      this.toastService.showNegative('Произошла ошибка в загрузке данных "Производителей"');
     })
-
-    // this.proizvService.searchAll().subscribe( result => {
-    //   this.proizvDataTableInput = result;
-    // }, error => {
-    //   console.log('Произошла какая-то ошибка onClickSearchProizv() в settings.');
-    // })
   }
 
   onClickActionPodr(mode: ActionMode){
@@ -451,9 +457,9 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
-      this.openDialogService.openElementConfirmDialog(this.podrSelectedElement, TableType.PODR, DialogMode.DELETE).closed.subscribe( result => {
+      let isPodrNotEmpty: boolean = this.uchDataTableInput.length > 0;
+      this.openDialogService.openElementConfirmDialog(this.podrSelectedElement, TableType.PODR, DialogMode.DELETE, isPodrNotEmpty).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
           this.dialogResult = DialogResult.ACCEPT;
           this.onClickSearchPodr();
@@ -467,10 +473,11 @@ export class SettingsDialogComponent implements OnInit{
     this.isUchNotEmptyInPodr = false;
     this.podrDataTableInput = [];
     this.uchDataTableInput = [];
-    this.podrService.searchAll().subscribe( result => {
-      this.podrDataTableInput = result;
+    this.podrService.searchPage(this.podrSearch).subscribe( result => {
+      this.podrDataTableInput = result.content;
     }, error => {
       console.log('Произошла какая-то ошибка onClickSearchPodr() в settings.');
+      this.toastService.showNegative('Произошла ошибка в загрузке данных "Подразделения"');
     })
   }
 
@@ -491,7 +498,6 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
-
     if (mode === ActionMode.DELETE){
       this.openDialogService.openElementConfirmDialog(this.uchSelectedElement, TableType.UCH, DialogMode.DELETE).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -500,6 +506,41 @@ export class SettingsDialogComponent implements OnInit{
         }
       })
     }
+  }
+
+  // присваивает к существующему search object пагинаторные свойства
+  toSetNewSearchFromPage(newSearchPage: ABaseSearchDTO,
+                         oldSearch: ProizvSearchDTO | OborudKlassSearchDTO | NalPuSearchDTO | GabZoSearchDTO | PodrSearchDTO){
+    Object.keys(newSearchPage).forEach(key => {
+      if (oldSearch.hasOwnProperty(key)) {
+        oldSearch[key] = newSearchPage[key];
+      }
+    })
+  }
+
+  onChangePageKlassOborud(newDataSearch: ABaseSearchDTO): void{
+    this.toSetNewSearchFromPage(newDataSearch, this.klassSearch);
+    this.onClickSearchKlassOborud();
+  }
+
+  onChangePageNalPu(newDataSearch: ABaseSearchDTO): void{
+    this.toSetNewSearchFromPage(newDataSearch, this.nalPuSearch);
+    this.onClickSearchNalPu();
+  }
+
+  onChangePageGabZo(newDataSearch: ABaseSearchDTO): void{
+    this.toSetNewSearchFromPage(newDataSearch, this.gabZoSearch);
+    this.onClickSearchGabZo();
+  }
+
+  onChangePageProizv(newDataSearch: ABaseSearchDTO): void{
+    this.toSetNewSearchFromPage(newDataSearch, this.proizvSearch);
+    this.onClickSearchProizv();
+  }
+
+  onChangePagePodr(newDataSearch: ABaseSearchDTO): void{
+    this.toSetNewSearchFromPage(newDataSearch, this.podrSearch);
+    this.onClickSearchPodr();
   }
 
   onClickCloseModal(): void{

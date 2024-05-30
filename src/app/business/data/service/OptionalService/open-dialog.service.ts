@@ -7,7 +7,6 @@ import {OborudEkzElementEditDialogComponent} from "../../../view/dialog/EntityEd
 import {KomplRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/kompl-relationship-dialog/kompl-relationship-dialog.component";
 import {GruppaRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/gruppa-relationship-dialog/gruppa-relationship-dialog.component";
 import {ModelRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/model-relationship-dialog/model-relationship-dialog.component";
-import {OborudEkzRelationshipDialogComponent} from "../../../view/dialog/TableRelationshipDialogs/oborud-ekz-relationship-dialog/oborud-ekz-relationship-dialog.component";
 import {DialogMode, TableType} from "../../../../app.constant";
 import {ConfirmDialogComponent} from "../../../view/dialog/confirm-dialog/confirm-dialog.component";
 import {SettingsDialogComponent} from "../../../view/dialog/settings-dialog/settings-dialog.component";
@@ -121,12 +120,13 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки удаления | Изменения активности |=========---
-  openElementConfirmDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode){
+  openElementConfirmDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode, isKlassNotEmpty: boolean = false){
     const confirmDialogComponent = this.modalService.open(ConfirmDialogComponent,
       {scrollable: true, size: "md", centered: this.toCenteredModal, modalDialogClass: "modal-config"});
     confirmDialogComponent.componentInstance.selectedElement = selectedElement;
     confirmDialogComponent.componentInstance.selectedNavBar = selectedNavBar;
     confirmDialogComponent.componentInstance.dialogMode = dialogMode;
+    confirmDialogComponent.componentInstance.isKlassNotEmpty = isKlassNotEmpty;
     return confirmDialogComponent;
   }
 

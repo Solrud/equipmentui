@@ -1,5 +1,5 @@
 <div class="modal-header justify-content-center d-flex modal-header-config">
-  <h2 class="m-0 text-center text-white">Настройки</h2>
+  <h2 class="m-0 text-center text-white">{{"TITLE.SETTINGS" | translate}}</h2>
 </div>
 
 <div class="modal-body d-flex modal-body-config">
@@ -10,25 +10,27 @@
     <!-- // Код и вид обрудования-->
     <ng-container ngbNavItem>
       <a ngbNavLink
-         (click)="onClickSearchKlassOborud()">Код и Вид оборудования</a>
+         (click)="onClickSearchKlassOborud()">{{"TITLE.KOD-AND-VID-OBORUD" | translate}}</a>
       <ng-template ngbNavContent>
-        <div class="line-title">Код оборудования</div>
+        <div class="line-title">{{"COMMON.KOD-OBORUD" | translate}}</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionKlassOborud(ActionMode.CREATE)">
-              <i class="bi bi-plus-square"></i> Добавить код оборудования
+                    (click)="onClickActionKlassOborud(ActionMode.CREATE)"
+                    [disabled]="currentRole == UserRole.VIEW"
+            >
+              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-KOD-OBORUD" | translate}}
             </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionKlassOborud(ActionMode.EDIT)"
-                    [disabled]="!klassSelectedElement">
-              <i class="bi bi-sliders2"></i> Изменить код оборудования
+                    [disabled]="!klassSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-KOD-OBORUD" | translate}}
             </button>
           </div>
-          <button class="btn btn-sm btn-danger mb-1"
+          <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionKlassOborud(ActionMode.DELETE)"
-                  [disabled]="!klassSelectedElement">
-            <i class="bi bi-x-octagon"></i> Удалить код оборудования
+                  [disabled]="!klassSelectedElement || currentRole == UserRole.VIEW">
+            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-KOD-OBORUD" | translate}}
           </button>
         </div>
 
@@ -39,26 +41,29 @@
           [totalFoundedElements]="klassTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.OBORUD_KLASS"
+          [selectedElement]="klassSelectedElement"
+
+          (dataSearchNew)="onChangePageKlassOborud($event)"
         ></app-table>
-        <div class="line-title border-bottom-c">Вид оборудования</div>
+        <div class="line-title border-bottom-c">{{"COMMON.VID-OBORUD" | translate}}</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionVidOborud(ActionMode.CREATE)"
-                    [disabled]="!klassSelectedElement">
-              <i class="bi bi-plus-square"></i> Добавить вид оборудования
+                    [disabled]="!klassSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-VID-OBORUD" | translate}}
             </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionVidOborud(ActionMode.EDIT)"
-                    [disabled]="!vidSelectedElement">
-              <i class="bi bi-sliders2"></i> Изменить вид оборудования
+                    [disabled]="!vidSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-VID-OBORUD" | translate}}
             </button>
           </div>
 
-          <button class="btn btn-sm btn-danger mb-1"
+          <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionVidOborud(ActionMode.DELETE)"
-                  [disabled]="!vidSelectedElement">
-            <i class="bi bi-x-octagon"></i> Удалить вид оборудования
+                  [disabled]="!vidSelectedElement || currentRole == UserRole.VIEW">
+            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-VID-OBORUD" | translate}}
           </button>
         </div>
         <app-table
@@ -68,30 +73,33 @@
           [totalFoundedElements]="vidTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.OBORUD_VID"
+          [selectedElement]="vidSelectedElement"
         ></app-table>
       </ng-template>
     </ng-container>
     <!-- // Наличие ПУ-->
     <ng-container ngbNavItem>
       <a ngbNavLink
-         (click)="onClickSearchNalPu()">Наличие ПУ</a>
+         (click)="onClickSearchNalPu()">{{"TITLE.NAL-PU" | translate}}</a>
       <ng-template ngbNavContent>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionNalPu(ActionMode.CREATE)">
-              <i class="bi bi-plus-square"></i> Добавить код наличие ПУ
+                    (click)="onClickActionNalPu(ActionMode.CREATE)"
+                    [disabled]="currentRole == UserRole.VIEW"
+            >
+              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-NAL-PU" | translate}}
             </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionNalPu(ActionMode.EDIT)"
-                    [disabled]="!nalPuSelectedElement">
-              <i class="bi bi-sliders2"></i> Изменить код наличие ПУ
+                    [disabled]="!nalPuSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-NAL-PU" | translate}}
             </button>
           </div>
-          <button class="btn btn-sm btn-danger mb-1"
+          <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionNalPu(ActionMode.DELETE)"
-                  [disabled]="!nalPuSelectedElement">
-            <i class="bi bi-x-octagon"></i> Удалить код наличие ПУ
+                  [disabled]="!nalPuSelectedElement || currentRole == UserRole.VIEW">
+            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-NAL-PU" | translate}}
           </button>
         </div>
         <app-table
@@ -101,30 +109,34 @@
           [totalFoundedElements]="nalPuTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.NAL_PU"
+          [selectedElement]="nalPuSelectedElement"
+
+          (dataSearchNew)="onChangePageNalPu($event)"
         ></app-table>
       </ng-template>
     </ng-container>
     <!--// Габариты ЗО-->
     <ng-container ngbNavItem>
       <a ngbNavLink
-         (click)="onClickSearchGabZo()">Габариты зоны обработки</a>
+         (click)="onClickSearchGabZo()">{{"TITLE.GAB-ZO" | translate}}</a>
       <ng-template ngbNavContent>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionGabZo(ActionMode.CREATE)">
-              <i class="bi bi-plus-square"></i> Добавить код Габарита З.О.
+                    (click)="onClickActionGabZo(ActionMode.CREATE)"
+                    [disabled]="currentRole == UserRole.VIEW">
+              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-GAB-ZO" | translate}}
             </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionGabZo(ActionMode.EDIT)"
-                    [disabled]="!gabZoSelectedElement">
-              <i class="bi bi-sliders2"></i> Изменить код Габарита З.О.
+                    [disabled]="!gabZoSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-GAB-ZO" | translate}}
             </button>
           </div>
-          <button class="btn btn-sm btn-danger mb-1"
+          <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionGabZo(ActionMode.DELETE)"
-                  [disabled]="!gabZoSelectedElement">
-            <i class="bi bi-x-octagon"></i> Удалить код Габарита З.О.
+                  [disabled]="!gabZoSelectedElement || currentRole == UserRole.VIEW">
+            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-GAB-ZO" | translate}}
           </button>
         </div>
         <app-table
@@ -134,29 +146,33 @@
           [totalFoundedElements]="gabZoTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.GAB_ZO"
+          [selectedElement]="gabZoSelectedElement"
+
+          (dataSearchNew)="onChangePageGabZo($event)"
         ></app-table>
       </ng-template>
     </ng-container>
     <!--// Производитель-->
     <ng-container ngbNavItem>
-      <a ngbNavLink (click)="onClickSearchProizv()">Производитель</a>
+      <a ngbNavLink (click)="onClickSearchProizv()">{{"TITLE.PROIZVS" | translate}}</a>
       <ng-template ngbNavContent class="d-flex flex-column">
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionProizv(ActionMode.CREATE)">
-              <i class="bi bi-plus-square"></i> Добавить код производителя
+                    (click)="onClickActionProizv(ActionMode.CREATE)"
+                    [disabled]="currentRole == UserRole.VIEW">
+              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-PROIZV" | translate}}
             </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionProizv(ActionMode.EDIT)"
-                    [disabled]="!proizvSelectedElement">
-              <i class="bi bi-sliders2"></i> Изменить код производителя
+                    [disabled]="!proizvSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-PROIZV" | translate}}
             </button>
           </div>
-          <button class="btn btn-sm btn-danger mb-1"
+          <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionProizv(ActionMode.DELETE)"
-                  [disabled]="!proizvSelectedElement">
-            <i class="bi bi-x-octagon"></i> Удалить код производителя
+                  [disabled]="!proizvSelectedElement || currentRole == UserRole.VIEW">
+            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-PROIZV" | translate}}
           </button>
         </div>
         <app-table class="d-flex flex-column overflow-auto"
@@ -166,32 +182,34 @@
           [totalFoundedElements]="proizvTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.PROIZV"
+          [selectedElement]="proizvSelectedElement"
 
-          (dataSearchNew)="onChangePage($event)"
+          (dataSearchNew)="onChangePageProizv($event)"
         ></app-table>
       </ng-template>
     </ng-container>
     <!--// Подразделение и вид-->
     <ng-container ngbNavItem>
-      <a ngbNavLink (click)="onClickSearchPodr()">Подразделение и участки</a>
+      <a ngbNavLink (click)="onClickSearchPodr()">{{"TITLE.PODRS-AND-UCHS" | translate}}</a>
       <ng-template ngbNavContent>
-        <div class="line-title">Подразделения</div>
+        <div class="line-title">{{"TITLE.PODRS" | translate}}</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionPodr(ActionMode.CREATE)">
-              <i class="bi bi-plus-square"></i> Добавить подразделение
+                    (click)="onClickActionPodr(ActionMode.CREATE)"
+                    [disabled]="currentRole == UserRole.VIEW">
+              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-PODR" | translate}}
             </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionPodr(ActionMode.EDIT)"
-                    [disabled]="!podrSelectedElement">
-              <i class="bi bi-sliders2"></i> Изменить подразделение
+                    [disabled]="!podrSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-PODR" | translate}}
             </button>
           </div>
-          <button class="btn btn-sm btn-danger mb-1"
+          <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionPodr(ActionMode.DELETE)"
-                  [disabled]="!podrSelectedElement">
-            <i class="bi bi-x-octagon"></i> Удалить подразделение
+                  [disabled]="!podrSelectedElement || currentRole == UserRole.VIEW">
+            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-PODR" | translate}}
           </button>
         </div>
         <app-table
@@ -201,25 +219,28 @@
           [totalFoundedElements]="podrTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.PODR"
+          [selectedElement]="podrSelectedElement"
+
+          (dataSearchNew)="onChangePagePodr($event)"
         ></app-table>
-        <div class="line-title">Участки</div>
+        <div class="line-title">{{"TITLE.UCHS" | translate}}</div>
         <div class="d-flex justify-content-between">
           <div class="d-flex gap-2">
             <button class="btn btn-sm btn-success mb-1"
                     (click)="onClickActionUch(ActionMode.CREATE)"
-                    [disabled]="!podrSelectedElement">
-              <i class="bi bi-plus-square"></i> Добавить участок
+                    [disabled]="!podrSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-UCH" | translate}}
             </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionUch(ActionMode.EDIT)"
-                    [disabled]="!uchSelectedElement">
-              <i class="bi bi-sliders2"></i> Изменить участок
+                    [disabled]="!uchSelectedElement || currentRole == UserRole.VIEW">
+              <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-UCH" | translate}}
             </button>
           </div>
-          <button class="btn btn-sm btn-danger mb-1"
+          <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionUch(ActionMode.DELETE)"
-                  [disabled]="!uchSelectedElement">
-            <i class="bi bi-x-octagon"></i> Удалить участок
+                  [disabled]="!uchSelectedElement || currentRole == UserRole.VIEW">
+            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-UCH" | translate}}
           </button>
         </div>
         <app-table
@@ -229,7 +250,9 @@
           [totalFoundedElements]="uchTotalFoundedElements"
           [originSourceTable]="OriginSourceTable.SETTINGS_TABLE"
           [selectedSpavochnik]="TableType.UCH"
-          [isUchNotEmptyInPodr]="isUchNotEmptyInPodr">
+          [isUchNotEmptyInPodr]="isUchNotEmptyInPodr"
+          [selectedElement]="uchSelectedElement"
+        >
         </app-table>
       </ng-template>
     </ng-container>
@@ -238,9 +261,7 @@
 </div>
 
 <div class="modal-footer ">
-<!--  <button type="button"-->
-<!--          class="btn btn-primary">Применить</button>-->
   <button type="button"
           class="btn btn-secondary"
-          (click)="onClickCloseModal()">Закрыть</button>
+          (click)="onClickCloseModal()">{{"BUTTON.CLOSE" | translate}}</button>
 </div>
