@@ -19,9 +19,9 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import localeRu from '@angular/common/locales/ru'
 import {registerLocaleData} from "@angular/common";
 import {HTTP_INTERCEPTORS, HttpBackend, HttpClientModule} from "@angular/common/http";
-// import {environment} from "../environment/environment";
+import {environment} from "../environment/environment";
 // import {environment} from "../environment/environment.prod";
-import {environment} from "../environment/environment.bazis.prod";
+// import {environment} from "../environment/environment.bazis.prod";
 import {
   GAB_ZO_URL_TOKEN,
   GRUPPA_URL_TOKEN,

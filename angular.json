@@ -63,8 +63,8 @@
           "options": {
             "browserTarget": "equipmentui:build",
             "ssl": true,
-            "sslCert": "src/assets/ssl/bazis.cer",
-            "sslKey": "src/assets/ssl/bazis.key"
+            "sslCert": "src/assets/ssl/localhost.cer",
+            "sslKey": "src/assets/ssl/localhost.key"
           },
           "configurations": {
             "production": {

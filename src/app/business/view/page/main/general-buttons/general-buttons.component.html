@@ -59,7 +59,7 @@
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
             [class.visually-hidden]="selectedNavBar != tableType.OBORUD_EKZ"
-            [disabled]="!selectedElementTable"
+            [disabled]="!selectedElementTable || !selectedElementTable?.model"
             (click)="onClickGoToRelativeModelElement()"
     >
       <i class="bi bi-arrow-left-circle i-delete"></i>
