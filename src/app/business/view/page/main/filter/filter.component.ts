@@ -7,7 +7,8 @@ import {
   FIELD_COLUMN_KOMPL_LIST,
   FIELD_COLUMN_MODEL_LIST,
   FIELD_COLUMN_OBORUD_EKZ_LIST,
-  TableType
+  TableType,
+  UserRoleAuth
 } from "../../../../../app.constant";
 import {EventService} from "../../../../data/service/OptionalService/event.service";
 import {FormControl, FormGroup} from "@angular/forms";
@@ -22,7 +23,7 @@ import {debounceTime} from "rxjs/operators";
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })
-export class FilterComponent implements OnChanges{
+export class FilterComponent implements OnChanges, OnInit{
   komplFieldColumnList = FIELD_COLUMN_KOMPL_LIST.slice(1);
   gruppaFieldColumnList = FIELD_COLUMN_GRUPPA_LIST.slice(1);
   modelFieldColumnList = FIELD_COLUMN_MODEL_LIST.slice(1);
@@ -58,7 +59,29 @@ export class FilterComponent implements OnChanges{
   currentIsExpanded: boolean;
   currentFg: FormGroup;
 
+  aktMap: Map<string, boolean> = new Map<string, boolean>();
+
+  currentRole: UserRoleAuth
+
   constructor(private eventService: EventService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedSpravochnik']){
+      this.initFgAll();
+      this.selectedSpravochnik = changes['selectedSpravochnik'].currentValue;
+      this.toDefineCurrentValues(this.selectedSpravochnik);
+      this._observeFgKompl();
+      this._observeFgGruppa();
+      this._observeFgModel();
+      this._observeFgOborudEkz();
+
+      this.toSetSelectAktMenuForRole();
+    }
+  }
+
+  ngOnInit(): void {
+    this._subscribeCurrentRole();
   }
 
   public get TableType(){
@@ -71,15 +94,31 @@ export class FilterComponent implements OnChanges{
     return DELAY_TIME_CLOSE_FOR_TOOLTIP;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedSpravochnik']){
-      this.initFgAll();
-      this.selectedSpravochnik = changes['selectedSpravochnik'].currentValue;
-      this.toDefineCurrentValues(this.selectedSpravochnik);
-      this._observeFgKompl();
-      this._observeFgGruppa();
-      this._observeFgModel();
-      this._observeFgOborudEkz();
+  _subscribeCurrentRole(){
+    this.eventService.selectedCurrentRole$.subscribe( result => {
+      this.currentRole = result;
+
+      this.toSetSelectAktMenuForRole();
+    })
+  }
+
+  toSetSelectAktMenuForRole(){
+    if (this.currentRole != UserRoleAuth.VIEW){
+      this.aktMap.set('Действующие', false);
+      this.aktMap.set('Все', false);
+      this.aktMap.set('Устаревшие', false);
+      if (this.currentSearch.akt == null)
+        this.aktMap.set('Все', true);
+      if (this.currentSearch.akt == 1)
+        this.aktMap.set('Действующие', true);
+      if (this.currentSearch.akt == 0)
+        this.aktMap.set('Устаревшие', true);
+    }
+
+    if(!this.currentRole || this.currentRole == UserRoleAuth.VIEW){
+      this.aktMap.clear();
+      this.aktMap.set('Действующие', true);
+      this.changeAktSelect();
     }
   }
 
@@ -108,16 +147,36 @@ export class FilterComponent implements OnChanges{
 
   getCorrectValueFromField(field: string){
     if (this.selectedSpravochnik === TableType.KOMPL){
-      if (this.searchKompl) return this.searchKompl[field];
+      if (this.searchKompl) {
+        if (field == 'akt')
+          return this.searchKompl.akt != 1 ? 1 : null;
+      } else {
+        return this.searchKompl[field];
+      }
     }
     if (this.selectedSpravochnik === TableType.GRUPPA){
-      if (this.searchGruppa) return this.searchGruppa[field];
+      if (this.searchGruppa) {
+        if (field == 'akt')
+          return this.searchGruppa.akt != 1 ? 1 : null;
+      } else {
+        return this.searchGruppa[field];
+      }
     }
     if (this.selectedSpravochnik === TableType.MODEL){
-      if (this.searchModel) return this.searchModel[field];
+      if (this.searchModel) {
+        if (field == 'akt')
+          return this.searchModel.akt != 1 ? 1 : null;
+      } else {
+        return this.searchModel[field];
+      }
     }
     if (this.selectedSpravochnik === TableType.OBORUD_EKZ){
-      if (this.searchOborudEkz) return this.searchOborudEkz[field];
+      if (this.searchOborudEkz) {
+        if (field == 'akt')
+          return this.searchOborudEkz.akt != 1 ? 1 : null;
+      } else {
+        return this.searchOborudEkz[field];
+      }
     }
     return null;
   }
@@ -144,7 +203,8 @@ export class FilterComponent implements OnChanges{
     this.fgOborudEkzFilter = new FormGroup({
       serNom: new FormControl({value: this.getCorrectValueFromField('serNom'), disabled: false}),
       invNom: new FormControl({value: this.getCorrectValueFromField('invNom'), disabled: false}),
-      naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false})
+      naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}),
+      akt: new FormControl({value: this.getCorrectValueFromField('akt'), disabled: false})
     })
   }
 
@@ -202,29 +262,53 @@ export class FilterComponent implements OnChanges{
     })
   }
 
-  onClickChangeAct(){
-    if (this.currentSearch.akt != null){
-      if (this.currentSearch.akt == 0)
-        this.currentSearch.akt = null;
-      if (this.currentSearch.akt == 1)
-        this.currentSearch.akt = 0;
-    } else {
+
+  changeAktSelect(akt: any = 'Действующие'){
+    if(akt == 'Все' || akt?.target?.value == 'Все'){
+      this.currentSearch.akt = null;
+    }
+    if(akt == 'Действующие' || akt?.target?.value == 'Действующие'){
       this.currentSearch.akt = 1;
     }
+
+    if(akt == 'Устаревшие' || akt?.target?.value == 'Устаревшие'){
+      this.currentSearch.akt = 0;
+    }
+
+    this.currentFg.controls['akt'].setValue(this.currentSearch.akt != 1 ? 1 : null);
     this.newSearch.emit(this.currentSearch);
-    //ToDo стоит ли debounceTime?
   }
 
+  // // ------------------ old for button
+  // onClickChangeAct(){
+  //   if (this.currentSearch.akt != null){
+  //     if (this.currentSearch.akt == 0)
+  //       this.currentSearch.akt = null;
+  //     if (this.currentSearch.akt == 1)
+  //       this.currentSearch.akt = 0;
+  //   } else {
+  //     this.currentSearch.akt = 1;
+  //   }
+  //   this.newSearch.emit(this.currentSearch);
+  //   //ToDo стоит ли debounceTime?
+  // }
+
   onClickClearAll(){
+    for(let key of this.aktMap.keys()){
+      this.aktMap.set(key, false);
+      if(key == 'Действующие')
+        this.aktMap.set(key, true);
+    }
+
     let tableType = this.selectedSpravochnik;
     if (tableType === TableType.KOMPL){
       this.fgKomplFilter.controls['kod'].setValue(null);
       this.fgKomplFilter.controls['naim'].setValue(null);
-      this.fgKomplFilter.controls['akt'].setValue(null);
+      this.fgKomplFilter.controls['akt'].setValue('Действующие');
       this.searchKompl = new KomplSearchDTO();
       this.searchKompl.kod = null;
       this.searchKompl.naim = null;
-      this.searchKompl.akt = null;
+      this.searchKompl.akt = 1;
       this.currentSearch = this.searchKompl;
       // this.newSearch.emit(this.searchKompl);
     }
@@ -232,12 +316,12 @@ export class FilterComponent implements OnChanges{
       this.fgGruppaFilter.controls['kod'].setValue(null);
       this.fgGruppaFilter.controls['kodKlass'].setValue(null);
       this.fgGruppaFilter.controls['naim'].setValue(null);
-      this.fgGruppaFilter.controls['akt'].setValue(null);
+      this.fgGruppaFilter.controls['akt'].setValue('Действующие');
       this.searchGruppa = new GruppaSearchDTO();
       this.searchGruppa.kod = null;
       this.searchGruppa.kodKlass = null;
       this.searchGruppa.naim = null;
-      this.searchGruppa.akt = null;
+      this.searchGruppa.akt = 1;
       this.currentSearch = this.searchGruppa;
       // this.newSearch.emit(this.searchGruppa);
     }
@@ -245,12 +329,12 @@ export class FilterComponent implements OnChanges{
       this.fgModelFilter.controls['kod'].setValue(null);
       this.fgModelFilter.controls['obozn'].setValue(null);
       this.fgModelFilter.controls['naim'].setValue(null);
-      this.fgModelFilter.controls['akt'].setValue(null);
+      this.fgModelFilter.controls['akt'].setValue('Действующие');
       this.searchModel = new ModelSearchDTO();
       this.searchModel.kod = null;
       this.searchModel.obozn = null;
       this.searchModel.naim = null;
-      this.searchModel.akt = null;
+      this.searchModel.akt = 1;
       this.currentSearch = this.searchModel;
       // this.newSearch.emit(this.searchModel);
     }
@@ -258,10 +342,11 @@ export class FilterComponent implements OnChanges{
       this.fgOborudEkzFilter.controls['serNom'].setValue(null);
       this.fgOborudEkzFilter.controls['invNom'].setValue(null);
       this.fgOborudEkzFilter.controls['naim'].setValue(null);
+      this.fgOborudEkzFilter.controls['akt'].setValue('Действующие');
       this.searchOborudEkz = new OborudEkzSearchDTO();
       this.searchOborudEkz.serNom = null;
       this.searchOborudEkz.invNom = null;
-      this.searchOborudEkz.akt = null;
+      this.searchOborudEkz.akt = 1;
       this.currentSearch = this.searchOborudEkz;
       // this.newSearch.emit(this.searchOborudEkz);
     }
@@ -276,4 +361,5 @@ export class FilterComponent implements OnChanges{
     return checkResult;
   }
 
+  // когда меняешь допустим в модели на устаревшее, переключаешься на экз, ставишь гостя и возвращаешься в модели, то там устаревшее
 }

@@ -106,9 +106,9 @@ export class BodyComponent implements OnInit{
   }
 
   //ToDo =>
-  // 3.       По умолчанию отображать актуальные записи в таблице (установить фильтр «Действующие») для пользователей и администратора.
-  // 7.       Фильтр Актуальность изменить на выпадающий список (Все записи, только действующие, только устаревшие).
-  // 8.       Гость должен видеть только Актуальные записи во вкладках (изменить настройку не может).
+  // 3.   ✅    По умолчанию отображать актуальные записи в таблице (установить фильтр «Действующие») для пользователей и администратора.
+  // 7.   ✅    Фильтр Актуальность изменить на выпадающий список (Все записи, только действующие, только устаревшие).
+  // 8.   ✅    Гость должен видеть только Актуальные записи во вкладках (изменить настройку не может).
   // 1.   ✅    Фильтрация по полям по умолчанию развернуть.
   // 2.   ✅    Исправить формулировку «Активность», «Сделать активным», «Сделать неактивным», «Неактивные» на «Действующие», «Сделать действующим», «Сделать устаревшим», «Устаревшие».
   // 4.   ✅    Не работает фильтрация по коду классификатора на вкладке «Группа». (вроде работала и рабоатет)
@@ -349,6 +349,7 @@ export class BodyComponent implements OnInit{
         this.toClearAllRelationshipSelectedElement();
       }
 
+      this.komplSearch.akt = this.komplSearch.akt !== undefined ? this.komplSearch.akt : 1;
       this.dataSearch = this.komplSearch;
       this.dataTableNavSource = [];
       this.komplService.searchPage(this.komplSearch).subscribe(result => {
@@ -386,6 +387,7 @@ export class BodyComponent implements OnInit{
         this.toClearAllRelationshipSelectedElement();
       }
 
+      this.gruppaSearch.akt = this.gruppaSearch.akt !== undefined ? this.gruppaSearch.akt : 1;
       this.dataSearch = this.gruppaSearch;
       this.dataTableNavSource = [];
       this.gruppaService.searchPage(this.gruppaSearch).subscribe(result => {
@@ -405,7 +407,9 @@ export class BodyComponent implements OnInit{
   onClickNavModel(newDataSearch: any = null, reSearchPage: boolean = false, toResearchRelation: boolean = false): void{
     if ((this.selectedSpravochnik != TableType.MODEL || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
+
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
+
       if(reSearchPage){
         // this.eventServ ice.selectElementMainTable$(this.mainSelectedElement);
         if (!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
@@ -421,6 +425,8 @@ export class BodyComponent implements OnInit{
         this.toClearAllRelationshipDataInput();
         this.toClearAllRelationshipSelectedElement();
       }
+
+      this.modelSearch.akt = this.modelSearch.akt !== undefined ? this.modelSearch.akt : 1;
       this.dataSearch = this.modelSearch;
       this.dataTableNavSource = [];
       this.modelService.searchPage(this.modelSearch).subscribe(result => {
@@ -441,6 +447,7 @@ export class BodyComponent implements OnInit{
     this.drawerComponent?.close();
     if ((this.selectedSpravochnik != TableType.OBORUD_EKZ || this.isFirstTimeInitNav || reSearchPage) && !this.temporarilyDisabledNavBar){
       this.temporarilyDisabledNavBar = true;
+
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.OBORUD_EKZ) : this.isFirstTimeInitNav = false;
 
       if(reSearchPage){
@@ -453,6 +460,7 @@ export class BodyComponent implements OnInit{
         this.toClearAllRelationshipSelectedElement();
       }
 
+      this.oborudEkzSearch.akt = this.oborudEkzSearch.akt !== undefined ? this.oborudEkzSearch.akt : 1;
       this.dataSearch = this.oborudEkzSearch;
       this.dataTableNavSource = [];
       this.oborudEkzService.searchPage(this.oborudEkzSearch).subscribe(result => {
