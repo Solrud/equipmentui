@@ -10,7 +10,7 @@ import {MatTableDataSource} from "@angular/material/table";
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnInit, OnChanges{
+export class TableComponent implements OnInit{
   tableType = TableType
 
   @Input()
@@ -50,10 +50,6 @@ export class TableComponent implements OnInit, OnChanges{
     this._subscribeMainSelectedEl();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // console.log(changes)
-  }
-
   _subscribeMainSelectedEl(){
     this.eventService.selectedElementMainTable$.subscribe( result => {
       if (this.originSourceTable === OriginSourceTable.RELATIONSHIP_TABLE){
@@ -70,26 +66,28 @@ export class TableComponent implements OnInit, OnChanges{
   }
 
   onSortTable(fieldName: string){
-    this.dataSearch.pageNumber = 0
-    if (fieldName) {
-      let sortColumnTemp;
-      let sortDirectionTemp;
-      if (fieldName != this.dataSearch.sortColumn) {
-        sortDirectionTemp = this.selectSortDirection(null);
-        sortColumnTemp = fieldName;
-      } else {
-        sortDirectionTemp = this.selectSortDirection(this.dataSearch.sortDirection);
-        if (!sortDirectionTemp) {
-          sortColumnTemp = DEFAULT_SORT_COLUMN;
-          sortDirectionTemp = DEFAULT_SORT_DIRECTION;
-        } else {
+    if (this.dataSearch){
+      this.dataSearch.pageNumber = 0
+      if (fieldName) {
+        let sortColumnTemp;
+        let sortDirectionTemp;
+        if (fieldName != this.dataSearch.sortColumn) {
+          sortDirectionTemp = this.selectSortDirection(null);
           sortColumnTemp = fieldName;
+        } else {
+          sortDirectionTemp = this.selectSortDirection(this.dataSearch.sortDirection);
+          if (!sortDirectionTemp) {
+            sortColumnTemp = DEFAULT_SORT_COLUMN;
+            sortDirectionTemp = DEFAULT_SORT_DIRECTION;
+          } else {
+            sortColumnTemp = fieldName;
+          }
         }
+        this.dataSearch.sortColumn = sortColumnTemp;
+        this.dataSearch.sortDirection = sortDirectionTemp;
       }
-      this.dataSearch.sortColumn = sortColumnTemp;
-      this.dataSearch.sortDirection = sortDirectionTemp;
+      this.dataSearchNew.emit(this.dataSearch);
     }
-    this.dataSearchNew.emit(this.dataSearch);
   }
 
   selectSortDirection(direction: string): string {

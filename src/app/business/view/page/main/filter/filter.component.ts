@@ -148,34 +148,38 @@ export class FilterComponent implements OnChanges, OnInit{
   getCorrectValueFromField(field: string){
     if (this.selectedSpravochnik === TableType.KOMPL){
       if (this.searchKompl) {
-        if (field == 'akt')
+        if (field == 'akt'){
           return this.searchKompl.akt != 1 ? 1 : null;
-      } else {
-        return this.searchKompl[field];
+        } else {
+          return this.searchKompl[field];
+        }
       }
     }
     if (this.selectedSpravochnik === TableType.GRUPPA){
       if (this.searchGruppa) {
-        if (field == 'akt')
+        if (field == 'akt'){
           return this.searchGruppa.akt != 1 ? 1 : null;
-      } else {
-        return this.searchGruppa[field];
+        } else {
+          return this.searchGruppa[field];
+        }
       }
     }
     if (this.selectedSpravochnik === TableType.MODEL){
       if (this.searchModel) {
-        if (field == 'akt')
+        if (field == 'akt'){
           return this.searchModel.akt != 1 ? 1 : null;
-      } else {
-        return this.searchModel[field];
+        } else {
+          return this.searchModel[field];
+        }
       }
     }
     if (this.selectedSpravochnik === TableType.OBORUD_EKZ){
       if (this.searchOborudEkz) {
-        if (field == 'akt')
+        if (field == 'akt') {
           return this.searchOborudEkz.akt != 1 ? 1 : null;
-      } else {
-        return this.searchOborudEkz[field];
+        } else {
+          return this.searchOborudEkz[field];
+        }
       }
     }
     return null;
@@ -229,7 +233,6 @@ export class FilterComponent implements OnChanges, OnInit{
     })
     this.fgGruppaFilter.controls['naim'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchGruppa.naim = inputValue;
-      console.log('gruppa naim emit', inputValue)
       this.newSearch.emit(this.searchGruppa);
     })
   }
@@ -264,16 +267,14 @@ export class FilterComponent implements OnChanges, OnInit{
 
 
   changeAktSelect(akt: any = 'Действующие'){
-    if(akt == 'Все' || akt?.target?.value == 'Все'){
+    if(akt == 'Все' || akt?.target?.value == 'Все')
       this.currentSearch.akt = null;
-    }
-    if(akt == 'Действующие' || akt?.target?.value == 'Действующие'){
-      this.currentSearch.akt = 1;
-    }
 
-    if(akt == 'Устаревшие' || akt?.target?.value == 'Устаревшие'){
+    if(akt == 'Действующие' || akt?.target?.value == 'Действующие')
+      this.currentSearch.akt = 1;
+
+    if(akt == 'Устаревшие' || akt?.target?.value == 'Устаревшие')
       this.currentSearch.akt = 0;
-    }
 
     this.currentFg.controls['akt'].setValue(this.currentSearch.akt != 1 ? 1 : null);
     this.newSearch.emit(this.currentSearch);
@@ -304,7 +305,7 @@ export class FilterComponent implements OnChanges, OnInit{
     if (tableType === TableType.KOMPL){
       this.fgKomplFilter.controls['kod'].setValue(null);
       this.fgKomplFilter.controls['naim'].setValue(null);
-      this.fgKomplFilter.controls['akt'].setValue('Действующие');
+      this.fgKomplFilter.controls['akt'].setValue(null);
       this.searchKompl = new KomplSearchDTO();
       this.searchKompl.kod = null;
       this.searchKompl.naim = null;
@@ -316,7 +317,7 @@ export class FilterComponent implements OnChanges, OnInit{
       this.fgGruppaFilter.controls['kod'].setValue(null);
       this.fgGruppaFilter.controls['kodKlass'].setValue(null);
       this.fgGruppaFilter.controls['naim'].setValue(null);
-      this.fgGruppaFilter.controls['akt'].setValue('Действующие');
+      this.fgGruppaFilter.controls['akt'].setValue(null);
       this.searchGruppa = new GruppaSearchDTO();
       this.searchGruppa.kod = null;
       this.searchGruppa.kodKlass = null;
@@ -329,7 +330,7 @@ export class FilterComponent implements OnChanges, OnInit{
       this.fgModelFilter.controls['kod'].setValue(null);
       this.fgModelFilter.controls['obozn'].setValue(null);
       this.fgModelFilter.controls['naim'].setValue(null);
-      this.fgModelFilter.controls['akt'].setValue('Действующие');
+      this.fgModelFilter.controls['akt'].setValue(null);
       this.searchModel = new ModelSearchDTO();
       this.searchModel.kod = null;
       this.searchModel.obozn = null;
@@ -342,7 +343,7 @@ export class FilterComponent implements OnChanges, OnInit{
       this.fgOborudEkzFilter.controls['serNom'].setValue(null);
       this.fgOborudEkzFilter.controls['invNom'].setValue(null);
       this.fgOborudEkzFilter.controls['naim'].setValue(null);
-      this.fgOborudEkzFilter.controls['akt'].setValue('Действующие');
+      this.fgOborudEkzFilter.controls['akt'].setValue(null);
       this.searchOborudEkz = new OborudEkzSearchDTO();
       this.searchOborudEkz.serNom = null;
       this.searchOborudEkz.invNom = null;
