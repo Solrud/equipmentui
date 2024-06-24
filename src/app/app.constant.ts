@@ -114,7 +114,7 @@ export enum UserRoleAuth {                   // Роль авторизиров�
 export const FIELD_COLUMN_KOMPL_LIST = ['id', 'kod', 'naim'];
 export const FIELD_COLUMN_GRUPPA_LIST = ['id', 'kod', 'naim', 'kodKlass'];       //колонки основных таблиц
 export const FIELD_COLUMN_MODEL_LIST = ['id', 'kod', 'naim', 'obozn'];
-export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'naim', 'proizv', 'serNom'];
+export const FIELD_COLUMN_OBORUD_EKZ_LIST = ['id', 'invNom', 'naim', 'proizv', 'serNom', 'podr', 'uch'];
 
 export const FIELD_COLUMN_OBORUD_KLASS_LIST = ['kodKlass', 'naim'];
 export const FIELD_COLUMN_OBORUD_VID_LIST = ['kodKlass', 'naim'];

@@ -65,6 +65,10 @@ export class TableComponent implements OnInit{
     return OriginSourceTable;
   }
 
+  ifTableCell(){
+
+  }
+
   onSortTable(fieldName: string){
     if (this.dataSearch){
       this.dataSearch.pageNumber = 0

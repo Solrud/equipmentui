@@ -338,6 +338,50 @@
               </div>
             </div>
 
+
+
+
+
+
+
+
+
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="podrObozn">{{'TABLE.PODR' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="podrObozn"
+                         autocomplete="off"
+                         formControlName="podrObozn"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgOborudEkzFilter.controls['podrObozn'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-grow-1 ">
+              <div class="flex-grow-1">
+                <label class="form-label" for="uchObozn">{{'TABLE.UCH' | translate}}</label>
+                <div class="input-group">
+                  <input type="text"
+                         class="form-control"
+                         id="uchObozn"
+                         autocomplete="off"
+                         formControlName="uchObozn"
+                  >
+                  <button class="btn btn-light border-light-subtle"
+                          (click)="fgOborudEkzFilter.controls['uchObozn'].setValue(null)">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
             <div #tooltip5 class="btn-akt-w">
               <label for="akt" class="form-label">{{'TABLE.ACT' | translate}}</label>
               <select id="akt"
@@ -367,7 +411,6 @@
 <!--                <span *ngIf="searchOborudEkz?.akt != null">{{'BUTTON.' + searchOborudEkz.akt.toString() | translate}}</span>-->
 <!--              </button>-->
 <!--            </div>-->
-
 
             <div class="d-flex flex-column justify-content-end btn-akt-w">
               <button id="clear"

@@ -40,8 +40,9 @@
             <i class="bi bi-dash"></i>
           </div>
           <div class="cell-config" *ngIf="data[field]">
-            <span *ngIf="field == 'klass' || field == 'rod' || field == 'podr' || field == 'proizv'; else fieldNotObject">{{data[field].naim}}</span>
-            <ng-template #fieldNotObject>{{data[field]}}</ng-template>
+            <span *ngIf="field == 'klass' || field == 'rod' || field == 'proizv'">{{data[field].naim}}</span>
+            <span *ngIf="field === 'podr' || field === 'uch'">{{data[field].obozn}}</span>
+            <span *ngIf="field != 'klass' && field != 'rod' && field != 'proizv' && field != 'podr' && field != 'uch'" #fieldNotObject>{{data[field]}}</span>
           </div>
           <div *ngIf="originSourceTable == OriginSourceTable.PRE_RELATION_TABLE && field == 'X'">
             <button class="btn btn-sm btn-danger" (click)="onClickRemoveFromPrerelatedDataList(data)">{{"BUTTON.DELETE" | translate}}</button>

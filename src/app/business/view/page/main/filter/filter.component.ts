@@ -208,6 +208,8 @@ export class FilterComponent implements OnChanges, OnInit{
       serNom: new FormControl({value: this.getCorrectValueFromField('serNom'), disabled: false}),
       invNom: new FormControl({value: this.getCorrectValueFromField('invNom'), disabled: false}),
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}),
+      podrObozn: new FormControl({value: this.getCorrectValueFromField('podrObozn'), disabled: false}),
+      uchObozn: new FormControl({value: this.getCorrectValueFromField('uchObozn'), disabled: false}),
       akt: new FormControl({value: this.getCorrectValueFromField('akt'), disabled: false})
     })
   }
@@ -263,8 +265,16 @@ export class FilterComponent implements OnChanges, OnInit{
       this.searchOborudEkz.naim = inputValue;
       this.newSearch.emit(this.searchOborudEkz);
     })
+    this.fgOborudEkzFilter.controls['podrObozn'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
+      console.log(inputValue)
+      this.searchOborudEkz.podrObozn = inputValue;
+      this.newSearch.emit(this.searchOborudEkz);
+    })
+    this.fgOborudEkzFilter.controls['uchObozn'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
+      this.searchOborudEkz.uchObozn = inputValue;
+      this.newSearch.emit(this.searchOborudEkz);
+    })
   }
-
 
   changeAktSelect(akt: any = 'Действующие'){
     if(akt == 'Все' || akt?.target?.value == 'Все')
@@ -343,10 +353,15 @@ export class FilterComponent implements OnChanges, OnInit{
       this.fgOborudEkzFilter.controls['serNom'].setValue(null);
       this.fgOborudEkzFilter.controls['invNom'].setValue(null);
       this.fgOborudEkzFilter.controls['naim'].setValue(null);
+      this.fgOborudEkzFilter.controls['podrObozn'].setValue(null);
+      this.fgOborudEkzFilter.controls['uchObozn'].setValue(null);
       this.fgOborudEkzFilter.controls['akt'].setValue(null);
       this.searchOborudEkz = new OborudEkzSearchDTO();
       this.searchOborudEkz.serNom = null;
       this.searchOborudEkz.invNom = null;
+      this.searchOborudEkz.naim = null;
+      this.searchOborudEkz.podrObozn = null;
+      this.searchOborudEkz.uchObozn = null;
       this.searchOborudEkz.akt = 1;
       this.currentSearch = this.searchOborudEkz;
       // this.newSearch.emit(this.searchOborudEkz);
