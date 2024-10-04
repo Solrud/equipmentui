@@ -20,8 +20,6 @@ import localeRu from '@angular/common/locales/ru'
 import {registerLocaleData} from "@angular/common";
 import {HTTP_INTERCEPTORS, HttpBackend, HttpClientModule} from "@angular/common/http";
 import {environment} from "../environment/environment";
-// import {environment} from "../environment/environment.prod";
-// import {environment} from "../environment/environment.bazis.prod";
 import {
   GAB_ZO_URL_TOKEN,
   GRUPPA_URL_TOKEN,
@@ -62,6 +60,8 @@ import {AccessDeniedComponent} from './auth/page/access-denied/access-denied.com
 import {AppRoutingModule} from "./app-routing.module";
 import {RequestInterceptorService} from "./business/data/service/OptionalService/request-interceptor.service";
 import {AUTH_URL_TOKEN, LOGIN_URL_TOKEN} from "./auth/service/auth.service";
+import { DragModalDirective } from './business/data/service/OptionalService/drag-modal.directive';
+import { ToShowSpinnerDirective } from './utils/to-show-spinner.directive';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -100,6 +100,8 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     AttachedElementFromTableEditDialogComponent,
     FilterComponent,
     AccessDeniedComponent,
+    DragModalDirective,
+    ToShowSpinnerDirective,
   ],
   imports: [
     BrowserModule,
@@ -121,7 +123,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     FormsModule,
     MatPaginatorModule,
     ReactiveFormsModule,
-    // AppRoutingModule,
+    AppRoutingModule,
   ],
   providers: [
     {provide: AUTH_URL_TOKEN, useValue: environment.authURL + '/auth'},
@@ -140,6 +142,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     {provide: UCH_URL_TOKEN, useValue: environment.backendURL + '/uch'},
 
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true},
+    // это для куков интерцептор походу, пока не нужон
     // {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

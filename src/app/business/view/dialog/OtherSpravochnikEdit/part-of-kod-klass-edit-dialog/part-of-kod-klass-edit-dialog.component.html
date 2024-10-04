@@ -26,6 +26,7 @@
                formControlName="kodKlass"
                [required]="fcFieldIsRequired('kodKlass', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgKod.controls['kodKlass'].setValue('')">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -41,6 +42,7 @@
                formControlName="naim"
                [required]="fcFieldIsRequired('naim', true)">
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgKod.controls['naim'].setValue('')">
           <i class="bi bi-x-lg"></i>
         </button>

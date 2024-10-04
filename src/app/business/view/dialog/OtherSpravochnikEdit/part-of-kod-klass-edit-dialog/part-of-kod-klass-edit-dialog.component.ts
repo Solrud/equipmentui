@@ -44,6 +44,7 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
   ngOnInit(): void {
     this.initDialogDefault();
     this.initFgKod();
+    this.afterDialogDefaultValues();
 
     this.initCurrentServiceAndKodObject();
     this._observeFcKodKlass();
@@ -54,6 +55,10 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
   }
   public get DialogMode(){
     return DialogMode;
+  }
+
+  afterDialogDefaultValues(){
+    if (this.dialogMode === DialogMode.VIEW) this.fgKod.disable();
   }
 
   initCurrentServiceAndKodObject(){

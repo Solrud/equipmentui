@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {DELAY_TIME_CLOSE_FOR_TOOLTIP, DELAY_TIME_OPEN_FOR_TOOLTIP, DialogResult, UserRoleAuth} from "../../../../../app.constant";
 import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
 import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 import {User} from "../../../../../auth/service/auth.service";
 import {EventService} from "../../../../data/service/OptionalService/event.service";
+import {FileService} from "../../../../data/service/OptionalService/file.service";
 
 @Component({
   selector: 'app-header',
@@ -30,11 +31,13 @@ export class HeaderComponent implements OnInit{
 
   constructor(private openDialogService: OpenDialogService,
               private toastService: ToastService,
-              private eventService: EventService) {
+              private eventService: EventService,
+              private fileService: FileService) {
   }
 
   ngOnInit(): void {
-    this.eventService.selectCurrentRole$(this.currentApptRoleList[0]);
+    if(this.currentApptRoleList.length > 0)
+      this.eventService.selectCurrentRole$(this.currentApptRoleList[0]);
   }
 
 
@@ -78,6 +81,10 @@ export class HeaderComponent implements OnInit{
         this.toastService.showPositive('Настройки изменены')
       }
     })
+  }
+
+  onClickOpenInstruction(): void{
+    this.fileService.openFileInNewTab('assets/files/тестовая справочник оборудования инструкция.pdf')
   }
 }
 

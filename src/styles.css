@@ -16,6 +16,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --color-blue: #5C83BA;
   --color-dark-blue: #3B4E79;
   --color-black: #0B1D35;
+  --main-color: #024d6c;
 }
 .mat-mdc-tab .mdc-tab__text-label {
   font-size: 1.1rem !important;

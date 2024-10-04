@@ -18,6 +18,10 @@ export class ToastService {
     this.toastList.push({ textOrTpl, classname: 'bg-warning', delay: 3500, autoHide: true});
   }
 
+  showPrimary(textOrTpl: string | TemplateRef<any>) {
+    this.toastList.push({ textOrTpl, classname: 'bg-primary text-white', delay: 3500, autoHide: true});
+  }
+
   //Вариант с закрытием с хедером
   // showNegative(textOrTpl: string | TemplateRef<any>) {
   //   this.fastNotificationList.push({ textOrTpl, classname: 'bg-danger text-light', delay: 3000000, header: "Ошибка!"});

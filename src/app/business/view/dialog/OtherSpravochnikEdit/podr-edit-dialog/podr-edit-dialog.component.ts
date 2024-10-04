@@ -35,6 +35,7 @@ export class PodrEditDialogComponent {
   ngOnInit(): void {
     this.initFgPodr();
     this.initDialogDefault();
+    this.afterDialogDefaultValues();
 
     this._observeFcRod();
     this._observeFcKodKlass();
@@ -77,6 +78,10 @@ export class PodrEditDialogComponent {
       rod: new FormControl({value: this.getCorrectValueFromField('rod'), disabled: false}),
       kodIsp: new FormControl({value: this.getCorrectValueFromField('kodIsp'), disabled: false})
     })
+  }
+
+  afterDialogDefaultValues(){
+    if (this.dialogMode === DialogMode.VIEW) this.fgPodr.disable();
   }
 
   //получить идентификаторы обязательности заполнения поля

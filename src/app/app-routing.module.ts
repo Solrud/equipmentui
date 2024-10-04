@@ -11,8 +11,8 @@ const routes: Routes = [
     canActivate: [RolesGuard],
     data: {
     allowedRoles: [
-      UserRoleAuth.SUPER_ADMIN,
       UserRoleAuth.ADMIN,
+      UserRoleAuth.USER,
       UserRoleAuth.VIEW,
     ]
     }

@@ -82,8 +82,11 @@ export class GeneralButtonsComponent implements OnInit {
     this.openSidenav.emit();
   }
 
+  onClickViewElement() {
+    this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.VIEW);
+  }
+
   onClickAddNewElement() {
-    console.log(this.currentRole)
     this.openDialogService.openElementDialog(this.selectedElementTable, this.selectedNavBar, DialogMode.CREATE).closed.subscribe(result => {
       if (result == DialogResult.ACCEPT)
         this.researchPage.emit();

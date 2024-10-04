@@ -18,6 +18,7 @@
                [required]="fcFieldIsRequired('kod', true)"
         >
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgUch.controls['kod'].setValue(null)">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -48,6 +49,7 @@
                [required]="fcFieldIsRequired('naim', true)"
         >
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgUch.controls['naim'].setValue(null)">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -64,6 +66,7 @@
                [required]="fcFieldIsRequired('obozn', true)"
         >
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgUch.controls['obozn'].setValue(null)">
           <i class="bi bi-x-lg"></i>
         </button>

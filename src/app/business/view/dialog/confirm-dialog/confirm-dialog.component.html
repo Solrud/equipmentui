@@ -1,14 +1,24 @@
 <div class="modal-header d-flex justify-content-center">
   <h2 class="m-0 text-center"
       *ngIf="dialogMode == DialogMode.DELETE">
-    {{"WARNING.ARE-YOU-SURE" | translate}} <span class="text-danger">{{"COMMON.DELETE" | translate}}</span> {{"TABLE.ELEMENT-FROM-TABLE" | translate}}"{{selectedNavBar}}"
+    {{"WARNING.ARE-YOU-SURE" | translate}}
+    <span class="text-danger-delete">{{"COMMON.DELETE" | translate}}</span>
+    {{"TABLE.ELEMENT-FROM-TABLE" | translate}}"{{selectedNavBar}}"?
   </h2>
   <h2 class="m-0 text-center"
       *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY">
     <span *ngIf="selectedElement['akt'] == 0">
-      {{"WARNING.ARE-YOU-SURE-TO-DO" | translate}} <span class="text-success text-decoration-underline">{{"OTHER.AKTIVNIM" | translate}}</span> {{"TABLE.ELEMENT-FROM-TABLE" | translate}}" {{selectedNavBar}}"</span>
+      {{"WARNING.ARE-YOU-SURE-TO-DO" | translate}}
+      <span class="text-success text-decoration-underline">
+      {{"OTHER.AKTIVNIM" | translate}}</span>
+      {{"TABLE.ELEMENT-FROM-TABLE" | translate}}"
+      {{selectedNavBar}}"?</span>
     <span *ngIf="selectedElement['akt'] == 1">
-      {{"WARNING.ARE-YOU-SURE-TO-DO" | translate}} <span class="text-warning text-decoration-underline">{{"OTHER.UNAKTIVNIM" | translate}}</span> {{"TABLE.ELEMENT-FROM-TABLE" | translate}}" {{selectedNavBar}}"</span>
+      {{"WARNING.ARE-YOU-SURE-TO-DO" | translate}}
+      <span class="text-warning text-decoration-underline">
+        {{"OTHER.UNAKTIVNIM" | translate}}</span>
+      {{"TABLE.ELEMENT-FROM-TABLE" | translate}}"
+      {{selectedNavBar}}"?</span>
   </h2>
 </div>
 

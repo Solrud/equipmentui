@@ -187,7 +187,6 @@ export class SettingsDialogComponent implements OnInit{
   }
   _subscribeNalPuSelectedElement(){
     this.eventService.selectedElementNalPuTable$.subscribe( result => {
-      console.log(result)
       this.nalPuSelectedElement = result;
     })
   }
@@ -237,6 +236,9 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickActionKlassOborud(mode: ActionMode){
+    if (mode === ActionMode.VIEW)
+      this.openDialogService.openPartOfKodKlassDialog(
+        this.klassSelectedElement, TableType.OBORUD_KLASS, DialogMode.VIEW, this.klassDataTableInput)
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.OBORUD_KLASS, DialogMode.CREATE, this.klassDataTableInput).closed.subscribe( result => {
@@ -290,6 +292,9 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickActionVidOborud(mode: ActionMode){
+    if (mode === ActionMode.VIEW)
+      this.openDialogService.openPartOfKodKlassDialog(
+        this.vidSelectedElement, TableType.OBORUD_VID, DialogMode.VIEW, this.vidDataTableInput, this.klassSelectedElement)
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.OBORUD_VID, DialogMode.CREATE, this.vidDataTableInput, this.klassSelectedElement).closed.subscribe( result => {
@@ -320,6 +325,9 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickActionNalPu(mode: ActionMode){
+    if (mode === ActionMode.VIEW)
+      this.openDialogService.openPartOfKodKlassDialog(
+        this.nalPuSelectedElement, TableType.NAL_PU, DialogMode.VIEW, this.nalPuDataTableInput)
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.NAL_PU, DialogMode.CREATE, this.nalPuDataTableInput).closed.subscribe( result => {
@@ -361,6 +369,9 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickActionGabZo(mode: ActionMode){
+    if (mode === ActionMode.VIEW)
+      this.openDialogService.openPartOfKodKlassDialog(
+        this.gabZoSelectedElement, TableType.GAB_ZO, DialogMode.VIEW, this.gabZoDataTableInput)
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPartOfKodKlassDialog(
         null, TableType.GAB_ZO, DialogMode.CREATE, this.gabZoDataTableInput).closed.subscribe( result => {
@@ -402,6 +413,8 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickActionProizv(mode: ActionMode){
+    if (mode === ActionMode.VIEW)
+      this.openDialogService.openProizvDialog(this.proizvSelectedElement, DialogMode.VIEW)
     if (mode === ActionMode.CREATE){
       this.openDialogService.openProizvDialog(null, DialogMode.CREATE).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -441,6 +454,8 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickActionPodr(mode: ActionMode){
+    if (mode === ActionMode.VIEW)
+      this.openDialogService.openPodrDialog(this.podrSelectedElement, DialogMode.VIEW, this.podrDataTableInput)
     if (mode === ActionMode.CREATE){
       this.openDialogService.openPodrDialog(null, DialogMode.CREATE, this.podrDataTableInput).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){
@@ -482,6 +497,8 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   onClickActionUch(mode: ActionMode){
+    if (mode === ActionMode.VIEW)
+      this.openDialogService.openUchDialog(this.uchSelectedElement, DialogMode.VIEW, this.uchDataTableInput, this.podrSelectedElement)
     if (mode === ActionMode.CREATE){
       this.openDialogService.openUchDialog(null, DialogMode.CREATE, this.uchDataTableInput, this.podrSelectedElement).closed.subscribe( result => {
         if (result === DialogResult.ACCEPT){

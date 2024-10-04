@@ -26,9 +26,7 @@ export class ProizvEditDialogComponent {
   ngOnInit(): void {
     this.initDialogDefault();
     this.initFgProizv();
-
-    console.log(this.selectedElement)
-    console.log(this.dialogMode)
+    this.afterDialogDefaultValues();
   }
   public get DialogMode(){
     return DialogMode;
@@ -55,6 +53,10 @@ export class ProizvEditDialogComponent {
       naim: new FormControl({value: this.getCorrectValueFromField('naim'), disabled: false}, Validators.required),
       polnNaim: new FormControl({value: this.getCorrectValueFromField('polnNaim'), disabled: false}, Validators.required),
     })
+  }
+
+  afterDialogDefaultValues(){
+    if (this.dialogMode === DialogMode.VIEW) this.fgProizv.disable();
   }
 
   //получить идентификаторы обязательности заполнения поля

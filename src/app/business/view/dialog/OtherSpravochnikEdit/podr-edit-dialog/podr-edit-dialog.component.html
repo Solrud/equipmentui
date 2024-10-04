@@ -16,6 +16,7 @@
              [required]="fcFieldIsRequired('naim', true)"
       >
       <button class="btn btn-light border-dark"
+              [disabled]="dialogMode === DialogMode.VIEW"
               (click)="fgPodr.controls['naim'].setValue(null)">
         <i class="bi bi-x-lg"></i>
       </button>
@@ -38,6 +39,7 @@
                [required]="fcFieldIsRequired('kod', true)"
         >
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgPodr.controls['kod'].setValue(null)">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -55,6 +57,7 @@
                [required]="fcFieldIsRequired('obozn', true)"
         >
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgPodr.controls['obozn'].setValue(null)">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -76,6 +79,7 @@
                [required]="fcFieldIsRequired('kodIsp', true)"
         >
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgPodr.controls['kodIsp'].setValue(null)">
           <i class="bi bi-x-lg"></i>
         </button>
@@ -99,6 +103,7 @@
                [required]="fcFieldIsRequired('rod', true)"
         >
         <button class="btn btn-light border-dark"
+                [disabled]="dialogMode === DialogMode.VIEW"
                 (click)="fgPodr.controls['rod'].setValue(null); newRodPodr = null">
           <i class="bi bi-x-lg"></i>
         </button>

@@ -33,6 +33,7 @@ export class UchEditDialogComponent implements OnInit{
   ngOnInit(): void {
     this.initDialogDefault();
     this.initFgUch();
+    this.afterDialogDefaultValues();
 
     this._observeFcKod();
   }
@@ -65,6 +66,10 @@ export class UchEditDialogComponent implements OnInit{
       kod: new FormControl({value: this.getCorrectValueFromField('kod'), disabled: false}, Validators.required),
       podr: new FormControl({value: this.getCorrectValueFromField('podr'), disabled: true}),
     })
+  }
+
+  afterDialogDefaultValues(){
+    if (this.dialogMode === DialogMode.VIEW) this.fgUch.disable();
   }
 
   //получить идентификаторы обязательности заполнения поля

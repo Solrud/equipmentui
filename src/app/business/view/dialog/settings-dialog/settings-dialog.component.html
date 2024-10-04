@@ -14,24 +14,36 @@
       <ng-template ngbNavContent>
         <div class="line-title">{{"COMMON.KOD-OBORUD" | translate}}</div>
         <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionKlassOborud(ActionMode.VIEW)"
+                  [disabled]="!klassSelectedElement"
+                  [class.d-none]="currentRole !== UserRole.VIEW"
+          >
+            <i class="bi bi-search"></i> {{"ACTION.VIEW-KOD-OBORUD" | translate}}
+          </button>
+
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionKlassOborud(ActionMode.CREATE)"
+                  [class.d-none]="currentRole == UserRole.VIEW"
+          >
+            <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-KOD-OBORUD" | translate}}
+          </button>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionKlassOborud(ActionMode.CREATE)"
-                    [disabled]="currentRole == UserRole.VIEW"
-            >
-              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-KOD-OBORUD" | translate}}
-            </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionKlassOborud(ActionMode.EDIT)"
-                    [disabled]="!klassSelectedElement || currentRole == UserRole.VIEW">
+                    [disabled]="!klassSelectedElement "
+                    [class.d-none]="currentRole == UserRole.VIEW"
+            >
               <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-KOD-OBORUD" | translate}}
             </button>
-          </div>
+
           <button class="btn btn-sm btn-secondary mb-1"
                   (click)="onClickActionKlassOborud(ActionMode.DELETE)"
-                  [disabled]="!klassSelectedElement || currentRole == UserRole.VIEW">
+                  [disabled]="!klassSelectedElement"
+                  [class.d-none]="currentRole == UserRole.VIEW">
             <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-KOD-OBORUD" | translate}}
           </button>
+          </div>
         </div>
 
         <app-table
@@ -47,24 +59,33 @@
         ></app-table>
         <div class="line-title border-bottom-c">{{"COMMON.VID-OBORUD" | translate}}</div>
         <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionVidOborud(ActionMode.VIEW)"
+                  [disabled]="!vidSelectedElement"
+                  [class.d-none]="currentRole !== UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.VIEW-VID-OBORUD" | translate}}
+          </button>
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionVidOborud(ActionMode.CREATE)"
+                  [disabled]="!klassSelectedElement"
+                  [class.d-none]="currentRole == UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-VID-OBORUD" | translate}}
+          </button>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionVidOborud(ActionMode.CREATE)"
-                    [disabled]="!klassSelectedElement || currentRole == UserRole.VIEW">
-              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-VID-OBORUD" | translate}}
-            </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionVidOborud(ActionMode.EDIT)"
-                    [disabled]="!vidSelectedElement || currentRole == UserRole.VIEW">
+                    [disabled]="!vidSelectedElement"
+                    [class.d-none]="currentRole == UserRole.VIEW">
               <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-VID-OBORUD" | translate}}
             </button>
-          </div>
 
-          <button class="btn btn-sm btn-secondary mb-1"
-                  (click)="onClickActionVidOborud(ActionMode.DELETE)"
-                  [disabled]="!vidSelectedElement || currentRole == UserRole.VIEW">
-            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-VID-OBORUD" | translate}}
-          </button>
+            <button class="btn btn-sm btn-secondary mb-1"
+                    (click)="onClickActionVidOborud(ActionMode.DELETE)"
+                    [disabled]="!vidSelectedElement"
+                    [class.d-none]="currentRole == UserRole.VIEW">
+              <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-VID-OBORUD" | translate}}
+            </button>
+          </div>
         </div>
         <app-table
           [fieldColumnList]="vidFieldColumnList"
@@ -83,24 +104,32 @@
          (click)="onClickSearchNalPu()">{{"TITLE.NAL-PU" | translate}}</a>
       <ng-template ngbNavContent>
         <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionNalPu(ActionMode.VIEW)"
+                  [disabled]="!nalPuSelectedElement"
+                  [class.d-none]="currentRole != UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.VIEW-NAL-PU" | translate}}
+          </button>
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionNalPu(ActionMode.CREATE)"
+                  [class.d-none]="currentRole == UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-NAL-PU" | translate}}
+          </button>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionNalPu(ActionMode.CREATE)"
-                    [disabled]="currentRole == UserRole.VIEW"
-            >
-              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-NAL-PU" | translate}}
-            </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionNalPu(ActionMode.EDIT)"
-                    [disabled]="!nalPuSelectedElement || currentRole == UserRole.VIEW">
+                    [disabled]="!nalPuSelectedElement"
+                    [class.d-none]="currentRole == UserRole.VIEW">
               <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-NAL-PU" | translate}}
             </button>
+
+            <button class="btn btn-sm btn-secondary mb-1"
+                    (click)="onClickActionNalPu(ActionMode.DELETE)"
+                    [disabled]="!nalPuSelectedElement"
+                    [class.d-none]="currentRole == UserRole.VIEW">
+              <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-NAL-PU" | translate}}
+            </button>
           </div>
-          <button class="btn btn-sm btn-secondary mb-1"
-                  (click)="onClickActionNalPu(ActionMode.DELETE)"
-                  [disabled]="!nalPuSelectedElement || currentRole == UserRole.VIEW">
-            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-NAL-PU" | translate}}
-          </button>
         </div>
         <app-table
           [fieldColumnList]="nalPuFieldColumnList"
@@ -121,23 +150,31 @@
          (click)="onClickSearchGabZo()">{{"TITLE.GAB-ZO" | translate}}</a>
       <ng-template ngbNavContent>
         <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionGabZo(ActionMode.VIEW)"
+                  [disabled]="!gabZoSelectedElement"
+                  [class.d-none]="currentRole !== UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.VIEW-GAB-ZO" | translate}}
+          </button>
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionGabZo(ActionMode.CREATE)"
+                  [class.d-none]="currentRole === UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-GAB-ZO" | translate}}
+          </button>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionGabZo(ActionMode.CREATE)"
-                    [disabled]="currentRole == UserRole.VIEW">
-              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-GAB-ZO" | translate}}
-            </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionGabZo(ActionMode.EDIT)"
-                    [disabled]="!gabZoSelectedElement || currentRole == UserRole.VIEW">
+                    [disabled]="!gabZoSelectedElement"
+                    [class.d-none]="currentRole === UserRole.VIEW">
               <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-GAB-ZO" | translate}}
             </button>
+            <button class="btn btn-sm btn-secondary mb-1"
+                    (click)="onClickActionGabZo(ActionMode.DELETE)"
+                    [disabled]="!gabZoSelectedElement"
+                    [class.d-none]="currentRole === UserRole.VIEW">
+              <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-GAB-ZO" | translate}}
+            </button>
           </div>
-          <button class="btn btn-sm btn-secondary mb-1"
-                  (click)="onClickActionGabZo(ActionMode.DELETE)"
-                  [disabled]="!gabZoSelectedElement || currentRole == UserRole.VIEW">
-            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-GAB-ZO" | translate}}
-          </button>
         </div>
         <app-table
           [fieldColumnList]="gabZoFieldColumnList"
@@ -157,23 +194,32 @@
       <a ngbNavLink (click)="onClickSearchProizv()">{{"TITLE.PROIZVS" | translate}}</a>
       <ng-template ngbNavContent class="d-flex flex-column">
         <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionProizv(ActionMode.VIEW)"
+                  [disabled]="!proizvSelectedElement"
+                  [class.d-none]="currentRole !== UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.VIEW-PROIZV" | translate}}
+          </button>
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionProizv(ActionMode.CREATE)"
+                  [class.d-none]="currentRole === UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-PROIZV" | translate}}
+          </button>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionProizv(ActionMode.CREATE)"
-                    [disabled]="currentRole == UserRole.VIEW">
-              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-PROIZV" | translate}}
-            </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionProizv(ActionMode.EDIT)"
-                    [disabled]="!proizvSelectedElement || currentRole == UserRole.VIEW">
+                    [disabled]="!proizvSelectedElement"
+                    [class.d-none]="currentRole === UserRole.VIEW">
               <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-PROIZV" | translate}}
             </button>
+
+            <button class="btn btn-sm btn-secondary mb-1"
+                    (click)="onClickActionProizv(ActionMode.DELETE)"
+                    [disabled]="!proizvSelectedElement"
+                    [class.d-none]="currentRole === UserRole.VIEW">
+              <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-PROIZV" | translate}}
+            </button>
           </div>
-          <button class="btn btn-sm btn-secondary mb-1"
-                  (click)="onClickActionProizv(ActionMode.DELETE)"
-                  [disabled]="!proizvSelectedElement || currentRole == UserRole.VIEW">
-            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-PROIZV" | translate}}
-          </button>
         </div>
         <app-table class="d-flex flex-column overflow-auto"
           [fieldColumnList]="proizvFieldColumnList"
@@ -188,29 +234,37 @@
         ></app-table>
       </ng-template>
     </ng-container>
-    <!--// Подразделение и вид-->
+    <!--// Подразделение и участки-->
     <ng-container ngbNavItem>
       <a ngbNavLink (click)="onClickSearchPodr()">{{"TITLE.PODRS-AND-UCHS" | translate}}</a>
       <ng-template ngbNavContent>
         <div class="line-title">{{"TITLE.PODRS" | translate}}</div>
         <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionPodr(ActionMode.VIEW)"
+                  [disabled]="!podrSelectedElement"
+                  [class.d-none]="currentRole !== UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.VIEW-PODR" | translate}}
+          </button>
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionPodr(ActionMode.CREATE)"
+                  [class.d-none]="currentRole === UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-PODR" | translate}}
+          </button>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionPodr(ActionMode.CREATE)"
-                    [disabled]="currentRole == UserRole.VIEW">
-              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-PODR" | translate}}
-            </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionPodr(ActionMode.EDIT)"
-                    [disabled]="!podrSelectedElement || currentRole == UserRole.VIEW">
+                    [disabled]="!podrSelectedElement"
+                    [class.d-none]="currentRole === UserRole.VIEW">
               <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-PODR" | translate}}
             </button>
+            <button class="btn btn-sm btn-secondary mb-1"
+                    (click)="onClickActionPodr(ActionMode.DELETE)"
+                    [disabled]="!podrSelectedElement"
+                    [class.d-none]="currentRole === UserRole.VIEW">
+              <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-PODR" | translate}}
+            </button>
           </div>
-          <button class="btn btn-sm btn-secondary mb-1"
-                  (click)="onClickActionPodr(ActionMode.DELETE)"
-                  [disabled]="!podrSelectedElement || currentRole == UserRole.VIEW">
-            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-PODR" | translate}}
-          </button>
         </div>
         <app-table
           [fieldColumnList]="podrFieldColumnList"
@@ -225,23 +279,32 @@
         ></app-table>
         <div class="line-title">{{"TITLE.UCHS" | translate}}</div>
         <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionUch(ActionMode.VIEW)"
+                  [disabled]="!uchSelectedElement"
+                  [class.d-none]="currentRole !== UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.VIEW-UCH" | translate}}
+          </button>
+          <button class="btn btn-sm btn-success mb-1"
+                  (click)="onClickActionUch(ActionMode.CREATE)"
+                  [disabled]="!podrSelectedElement"
+                  [class.d-none]="currentRole === UserRole.VIEW">
+            <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-UCH" | translate}}
+          </button>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-success mb-1"
-                    (click)="onClickActionUch(ActionMode.CREATE)"
-                    [disabled]="!podrSelectedElement || currentRole == UserRole.VIEW">
-              <i class="bi bi-plus-square"></i> {{"ACTION.CREATE-UCH" | translate}}
-            </button>
             <button class="btn btn-sm btn-primary mb-1"
                     (click)="onClickActionUch(ActionMode.EDIT)"
-                    [disabled]="!uchSelectedElement || currentRole == UserRole.VIEW">
+                    [disabled]="!uchSelectedElement"
+                    [class.d-none]="currentRole === UserRole.VIEW">
               <i class="bi bi-sliders2"></i> {{"ACTION.EDIT-UCH" | translate}}
             </button>
+            <button class="btn btn-sm btn-secondary mb-1"
+                    (click)="onClickActionUch(ActionMode.DELETE)"
+                    [disabled]="!uchSelectedElement "
+                    [class.d-none]="currentRole === UserRole.VIEW">
+              <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-UCH" | translate}}
+            </button>
           </div>
-          <button class="btn btn-sm btn-secondary mb-1"
-                  (click)="onClickActionUch(ActionMode.DELETE)"
-                  [disabled]="!uchSelectedElement || currentRole == UserRole.VIEW">
-            <i class="bi bi-x-octagon"></i> {{"ACTION.DELETE-UCH" | translate}}
-          </button>
         </div>
         <app-table
           [fieldColumnList]="uchFieldColumnList"

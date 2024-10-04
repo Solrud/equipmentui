@@ -5,7 +5,7 @@
 <div class="d-flex col-4 px-1 justify-content-end align-items-center">
   <div class="d-inline-block px-2" ngbDropdown
   >
-    <span class="disable-highlight-text fs-6 hover-header-config text-black"
+    <span class="disable-highlight-text fs-6 hover-header-config text-black text-capitalize"
           ngbTooltip="{{'HINT.HEADER-ROLE'|translate }}"
           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
@@ -13,7 +13,7 @@
           type="button"
           ngbDropdownToggle>
       <i class="bi bi-person-square text-black"></i>
-      {{this.getUserFIO(user)}}
+      {{user.firstName}} {{user.lastName}}
     </span>
     <div class="p-2 ddm-action-config" ngbDropdownMenu>
       <div class="mb-2 p-0 text-center">
@@ -24,7 +24,7 @@
       </div>
       <button type="button"
               ngbDropdownItem>
-        <i class="bi bi-box-arrow-right"></i> Выход</button>
+        <i class="bi bi-box-arrow-right"></i> Сменить пользователя</button>
     </div>
   </div>
   <div class="d-inline-block px-2" ngbDropdown>
@@ -36,7 +36,7 @@
        ngbDropdownToggle></i>
     <div class="p-2 ddm-action-config"
          ngbDropdownMenu>
-      <button class="btn mb-2 p-0"
+      <button class="btn  px-1 "
               type="button"
               role="option"
               ngbDropdownItem
@@ -45,14 +45,33 @@
         <i class="bi bi-gear"></i>
         Настройки
       </button>
-      <button class="btn mb-0 p-0"
+<!--      <button class="btn  px-1"-->
+<!--              type="button"-->
+<!--              role="option"-->
+<!--              ngbDropdownItem-->
+<!--              [disabled]="true"-->
+<!--      >-->
+<!--        <i class="bi bi-info-square"></i>-->
+<!--        Информация-->
+<!--      </button>-->
+      <button class="btn  px-1"
               type="button"
               role="option"
               ngbDropdownItem
-              [disabled]="true"
+              [disabled]="false"
+              (click)="onClickOpenInstruction()"
       >
-        <i class="bi bi-info-square"></i>
-        Информация
+        <i class="bi bi-file-earmark-pdf-fill"></i>
+        Инструкция
+      </button>
+      <button class="btn  px-1"
+              type="button"
+              role="option"
+              ngbDropdownItem
+              [disabled]="false"
+      >
+        <i class="bi bi-box-arrow-right"></i>
+         Выход
       </button>
     </div>
   </div>

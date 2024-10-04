@@ -15,6 +15,7 @@
              [required]="fcFieldIsRequired('naim', true)"
       >
       <button class="btn btn-light border-dark"
+              [disabled]="dialogMode === DialogMode.VIEW"
               (click)="fgProizv.controls['naim'].setValue(null)">
         <i class="bi bi-x-lg"></i>
       </button>
@@ -32,6 +33,7 @@
              [required]="fcFieldIsRequired('polnNaim', true)"
       >
       <button class="btn btn-light border-dark"
+              [disabled]="dialogMode === DialogMode.VIEW"
               (click)="fgProizv.controls['polnNaim'].setValue(null)">
         <i class="bi bi-x-lg"></i>
       </button>

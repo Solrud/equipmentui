@@ -69,11 +69,12 @@ export enum TypePartOfKodKlass{              // Тип составной час
 export enum ActionMode{
   CREATE,
   EDIT,
-  DELETE
+  DELETE,
+  VIEW
 }
 
 export enum DialogMode {                     //Режим диалогового окна
-  VIEW,
+  VIEW= 'Просмотр',
   CREATE= 'Создание',
   COPY= 2,
   EDIT= 'Редактирование',
@@ -92,8 +93,8 @@ export enum DialogResult {                   //Результат закрыти
 }
 
 export enum UserRoleAuth {                   // Роль авторизированного юзверя
-  SUPER_ADMIN = 'EQUIPMENT_SUPER_ADMIN',
   ADMIN = 'EQUIPMENT_ADMIN',
+  USER = 'EQUIPMENT_USER',
   VIEW = 'EQUIPMENT_VIEW',
 }
 

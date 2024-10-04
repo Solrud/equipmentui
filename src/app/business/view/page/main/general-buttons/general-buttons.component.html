@@ -1,11 +1,23 @@
 <div class="d-flex flex-row justify-content-between w-100">
   <div class="d-flex gap-4 ms-5">
+    <button class="btn btn-primary d-flex flex-row align-items-center"
+            ngbTooltip="{{'HINT.VIEW-ELEM-MAIN-TABLE'|translate }}"
+            [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+            [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+            placement="bottom"
+            [disabled]="!selectedElementTable"
+            [class.d-none]="currentRole != UserRole.VIEW"
+            (click)="onClickViewElement()">
+      <i class="bi bi-search"></i>
+      &nbsp; {{ 'BUTTON.VIEW'|translate }}
+    </button>
     <button class="btn btn-success d-flex flex-row align-items-center"
             ngbTooltip="{{'HINT.CREATE-ELEM-MAIN-TABLE'|translate }}"
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedNavBar || currentRole == UserRole.VIEW"
+            [disabled]="!selectedNavBar"
+            [class.d-none]="currentRole == UserRole.VIEW"
             (click)="onClickAddNewElement()">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
       &nbsp; {{ 'BUTTON.ADD'|translate }}
@@ -15,7 +27,8 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedElementTable || currentRole == UserRole.VIEW"
+            [disabled]="!selectedElementTable"
+            [class.d-none]="currentRole == UserRole.VIEW"
             (click)="onClickEditElement()">
       <i class="bi bi-pencil-square i-edit"></i>
       &nbsp; {{ 'BUTTON.EDIT'|translate }}
@@ -25,7 +38,8 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedElementTable || currentRole == UserRole.VIEW"
+            [disabled]="!selectedElementTable"
+            [class.d-none]="currentRole == UserRole.VIEW"
             (click)="onClickChangeActivityElement()">
       <span class = "d-flex flex-row align-items-center fix-width-act-button"
             *ngIf="selectedElementTable && selectedElementTable['akt'] == 1">
@@ -48,7 +62,8 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedElementTable || currentRole != UserRole.SUPER_ADMIN"
+            [disabled]="!selectedElementTable || currentRole != UserRole.ADMIN"
+            [class.d-none]="currentRole == UserRole.VIEW"
             (click)="onClickDeleteElement()">
       <i class="bi bi-trash"></i>
       &nbsp; {{ 'BUTTON.DELETE'|translate }}

@@ -487,7 +487,7 @@ export class BodyComponent implements OnInit{
       this.eventService.selectElementMainTable$(this.mainSelectedElement);
       this.onChangePage(newDataSearchRelative, TableType.KOMPL, true);
 
-      this.toastService.showWarning('Выполнен переход к связанному элементу в КОМПЛЕКС');
+      this.toastService.showPrimary('Выполнен переход к связанному элементу в КОМПЛЕКС');
     }
   }
 
@@ -502,7 +502,7 @@ export class BodyComponent implements OnInit{
       this.eventService.selectElementMainTable$(this.mainSelectedElement);
       this.onChangePage(newDataSearchRelative, TableType.GRUPPA, true);
 
-      this.toastService.showWarning('Выполнен переход к связанному элементу в ГРУППУ');
+      this.toastService.showPrimary('Выполнен переход к связанному элементу в ГРУППУ');
     }
   }
 
@@ -517,7 +517,7 @@ export class BodyComponent implements OnInit{
       this.eventService.selectElementMainTable$(this.mainSelectedElement);
       this.onChangePage(newDataSearchRelative, TableType.MODEL, true);
 
-      this.toastService.showWarning('Выполнен переход к связанному элементу в МОДЕЛЬ');
+      this.toastService.showPrimary('Выполнен переход к связанному элементу в МОДЕЛЬ');
     }
   }
 
