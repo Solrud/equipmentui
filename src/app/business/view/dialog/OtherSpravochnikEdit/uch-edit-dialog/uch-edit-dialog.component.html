@@ -74,12 +74,12 @@
 
     </div>
   </div>
-
+  <span class="text-black-50 text-end">* - Обязательные поля для заполнения</span>
 </form>
 
 <div class="modal-footer">
   <button type="button"
-          class="btn btn-primary"
+          class="btn btn-success"
           [hidden]="dialogMode != DialogMode.CREATE"
           (click)="onClickCreateUch()"
           [disabled]="fgUch.invalid">{{"BUTTON.CREATE" | translate}}</button>

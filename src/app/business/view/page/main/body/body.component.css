@@ -38,7 +38,7 @@ app-general-buttons{
   width:25%;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem 0;
+  padding: 0.45rem 0;
   font-weight: 500;
   font-size: 1.2rem;
   border: 0;
@@ -69,6 +69,7 @@ app-general-buttons{
 }
 .bi-gear-fill:hover::before { content: "\f3e5"; }
 .bi-arrow-left-circle:hover::before { content: "\f129"; }
+.bi-arrow-right-circle:hover::before { content: "\f133"; }
 .bi-node-plus-fill:hover::before { content: "\f4a7"; }
 .bi-node-plus:hover::before { content: "\f4a6"; }
 .bi-node-minus:hover::before { content: "\f4a4"; }
@@ -90,6 +91,13 @@ app-general-buttons{
 
 i{
   margin-bottom: 5px;
+}
+
+.i-bi-arrow-left-circle-disabled:hover::before{
+  content: "\f12a" !important;
+}
+.i-bi-arrow-right-circle-disabled:hover::before{
+  content: "\f134" !important;
 }
 
 .i-disabled{
@@ -166,9 +174,13 @@ h2{
   flex-basis: 60px;
   background-color: #f8f8f8;
 }
-
+.upper-naim-disabled{
+  font-weight: 500;
+  color: #767676
+}
 .upper-naim{
   font-weight: 500;
+  color: #131313
 }
 /*СКРОЛЛБАР*/
 .ddm-config {

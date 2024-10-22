@@ -52,11 +52,12 @@
   <div *ngIf="isSameKodExist" class="d-flex flex-grow-1 gap-2">
     <span  class="text-danger">{{"WARNING.SAME-KOD-IS-EXIST" | translate}}</span>
   </div>
+  <span class="text-black-50 text-end">* - Обязательные поля для заполнения</span>
 </form>
 
 <div class="modal-footer ">
   <button type="button"
-          class="btn btn-primary"
+          class="btn btn-success"
           [hidden]="dialogMode != DialogMode.CREATE"
           (click)="onClickCreateKodPart()"
           [disabled]="fgKod.invalid">{{"BUTTON.CREATE" | translate}}</button>
