@@ -51,9 +51,6 @@ export class GruppaRelationshipDialogComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    // console.log(this.selectedSourceSpravochnik)
-    // console.log(this.selectedElement)
-    // console.log(this.joinedGruppaList)
     this.initDialogDefaultValues();
     this.toSearchPageGruppa();
     this._subscribeToChosenForRemovePreRelatedElement();
@@ -83,7 +80,6 @@ export class GruppaRelationshipDialogComponent implements OnInit{
   toSearchPageGruppa(searchObj: GruppaSearchDTO = this.gruppaSearch){
     this.gruppaDataInput = [];
     this.gruppaService.searchPage(searchObj).subscribe( result => {
-      // console.log(result);
 
       let tempMap = new Map<GruppaDTO, boolean>();
       if (result && result.content.length > 0){
@@ -155,7 +151,6 @@ export class GruppaRelationshipDialogComponent implements OnInit{
       });
     }
     if (this.selectedSourceSpravochnik === TableType.MODEL) {
-      console.log(this.joinedGruppaList);
       this.modelService.setGruppyById(this.selectedElement.id.toString(), JSON.stringify(this.joinedGruppaList)).subscribe( result => {
         if (result){
           this.toastService.showPositive('Изменены связи в "' + this.selectedSourceSpravochnik + '" с Группой')
@@ -165,7 +160,6 @@ export class GruppaRelationshipDialogComponent implements OnInit{
         this.toastService.showNegative('Не удалось изменить связи в "' + this.selectedSourceSpravochnik + '" с Группой')
       })
     }
-    // console.log(this.newObj);
   }
 
   onClickCloseModal(): void{

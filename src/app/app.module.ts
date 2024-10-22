@@ -123,7 +123,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     FormsModule,
     MatPaginatorModule,
     ReactiveFormsModule,
-    AppRoutingModule,
+    // AppRoutingModule,
   ],
   providers: [
     {provide: AUTH_URL_TOKEN, useValue: environment.authURL + '/auth'},

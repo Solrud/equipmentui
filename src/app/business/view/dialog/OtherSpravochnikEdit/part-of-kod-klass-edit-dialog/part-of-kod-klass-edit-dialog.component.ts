@@ -116,7 +116,6 @@ export class PartOfKodKlassEditDialogComponent implements OnInit{
       return this.klassForVid.naim;
     }
     if (this.dialogMode != DialogMode.CREATE && this.selectedElement){
-      console.log()
       if (field == 'klass' && this.selectedNavBar == TableType.OBORUD_VID) {
         return this.selectedElement.klass.naim;
       }

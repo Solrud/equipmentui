@@ -46,7 +46,6 @@ export class TableComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    // console.log(this.dataTableSource)
     this._subscribeMainSelectedEl();
   }
 
@@ -133,7 +132,6 @@ export class TableComponent implements OnInit{
   }
 
   onSelectElementTable(selectedElement: any){
-    // console.log(selectedElement)
     this.selectedElement = selectedElement;
     switch (this.originSourceTable) {
       case OriginSourceTable.MAIN_TABLE:

@@ -43,6 +43,7 @@ import {KomplSearchDTO} from "../../../data/model/search/impl/KomplSearchDTO";
 import {GruppaSearchDTO} from "../../../data/model/search/impl/GruppaSearchDTO";
 import {ModelSearchDTO} from "../../../data/model/search/impl/ModelSearchDTO";
 import {OborudEkzSearchDTO} from "../../../data/model/search/impl/OborudEkzSearchDTO";
+import {debounceTime, filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-settings-dialog',
@@ -170,7 +171,9 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   _subscribeOborudKlassSelectedElement(){
-    this.eventService.selectedElementOborudKlassTable$.subscribe( result => {
+    this.eventService.selectedElementOborudKlassTable$
+      .pipe(filter((result) => {return this.klassSelectedElement != result}))
+      .subscribe( result => {
       this.klassSelectedElement = result;
       this.vidSelectedElement = null;
 
@@ -201,7 +204,9 @@ export class SettingsDialogComponent implements OnInit{
     })
   }
   _subscribePodrSelectedElement(){
-    this.eventService.selectedElementPodrTable$.subscribe( result => {
+    this.eventService.selectedElementPodrTable$
+      .pipe(filter((result) => {return this.podrSelectedElement != result}))
+      .subscribe( result => {
       this.podrSelectedElement = result;
       this.uchSelectedElement = null;
 

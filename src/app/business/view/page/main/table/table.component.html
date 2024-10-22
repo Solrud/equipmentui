@@ -25,7 +25,8 @@
     <tbody class="">
     <ng-container *ngIf="originSourceTable != OriginSourceTable.RELATION_SETTINGS">
       <tr *ngFor="let data of dataTableSource; index as i"
-          (click)="onSelectElementTable(data); onAddRelatedElement(data)" (dblclick)="onClickOpenForView(data)"
+          (click)="onSelectElementTable(data); onAddRelatedElement(data)"
+          (dblclick)="onClickOpenForView(data)"
           [class.active-element]="data?.id == selectedElement?.id && originSourceTable != OriginSourceTable.PRE_RELATION_TABLE"
           [class.active-element-relation-settings]="(selectedSpavochnik === TableType.OBORUD_VID || selectedSpavochnik === TableType.UCH) && data == selectedElement"
           [class.active-element-relation-kompl]="selectedSpavochnik === TableType.KOMPL_FROM_RELATION && data == selectedElement"

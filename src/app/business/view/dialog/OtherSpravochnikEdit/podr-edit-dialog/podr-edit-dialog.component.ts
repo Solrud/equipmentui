@@ -147,7 +147,6 @@ export class PodrEditDialogComponent {
 
   onClickUpdatePodr(){
     this.onSaveNewPodr();
-    console.log(this.newPodr);
     this.podrService.update(this.newPodr).subscribe( result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT);
@@ -161,7 +160,6 @@ export class PodrEditDialogComponent {
 
   onClickCreatePodr(){
     this.onSaveNewPodr();
-    console.log(this.newPodr);
     this.podrService.create(this.newPodr).subscribe( result => {
       if (result){
         this.activeModal.close(DialogResult.ACCEPT);

@@ -245,7 +245,6 @@ export class BodyComponent implements OnInit{
 
   _subscribeToSelectedSpravochnik(){
     this.eventService.selectedSpravTable$.subscribe((result: TableType) => {
-      // console.log(this.mainSelectedElement)
       this.selectedSpravochnik = result;
       this.eventService.selectElementKomplRelationshipTable$(null);
       this.eventService.selectElementGruppaRelationshipTable$(null);

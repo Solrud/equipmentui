@@ -74,7 +74,6 @@ export class ModelRelationshipDialogComponent implements OnInit{
 
   _subscribeToChosenForRemovePreRelatedElement(){
     this.eventService.selectedPreRelatedElement$.subscribe( (result: ModelDTO) => {
-      // console.log(result);
       this.joinedModelList = this.joinedModelList.filter( (obj) =>  obj.id != result.id)
 
       this.modelForJoinedMap.forEach((value, key) => {
@@ -88,7 +87,6 @@ export class ModelRelationshipDialogComponent implements OnInit{
   toSearchPageModel(searchObj: ModelSearchDTO = this.modelSearch){
     this.modelDataInput = [];
     this.modelService.searchPage(searchObj).subscribe( result => {
-      console.log(result);
       let tempMap = new Map<ModelDTO, boolean>();
       if (result && result?.content?.length > 0){
         this.modelTotalElements = result.totalElements;

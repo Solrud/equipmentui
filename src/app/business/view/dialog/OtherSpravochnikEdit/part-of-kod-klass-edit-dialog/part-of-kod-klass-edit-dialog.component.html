@@ -17,7 +17,7 @@
   <div class="d-flex flex-grow-1 gap-2">
     <div class="flex-grow-1 col-2">
       <label for="kodKlass" class=" form-label ">{{"COMMON.KOD" | translate}} <span class="text-danger">{{fcFieldIsRequired('kodKlass')}}</span>
-        <span *ngIf="isSameKodExist" class="text-danger">{{"WARNING.SAME-KOD-IS-EXIST" | translate}}</span></label>
+        </label>
       <div class="input-group">
         <input class="form-control border-dark "
                id="kodKlass"
@@ -48,6 +48,9 @@
         </button>
       </div>
     </div>
+  </div>
+  <div *ngIf="isSameKodExist" class="d-flex flex-grow-1 gap-2">
+    <span  class="text-danger">{{"WARNING.SAME-KOD-IS-EXIST" | translate}}</span>
   </div>
 </form>
 

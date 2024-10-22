@@ -234,7 +234,11 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
       , debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.podrListDDM = this.podrList.filter(docTyp => docTyp.obozn.toLowerCase().includes(inputValue.toLowerCase()));
+        let inputFormatted = inputValue;
+        const indexOfI = inputFormatted.indexOf('|')
+        if (indexOfI > 0 && inputValue.slice(indexOfI, indexOfI + 1) === '|')
+          inputFormatted = inputFormatted.slice(0, indexOfI - 1);
+        this.podrListDDM = this.podrList.filter(docTyp => docTyp.obozn.toLowerCase().includes(inputFormatted.toLowerCase()));
       } else {
         this.podrListDDM = this.podrList;
       }

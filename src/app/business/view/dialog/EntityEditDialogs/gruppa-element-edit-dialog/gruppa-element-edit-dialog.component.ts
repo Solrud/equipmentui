@@ -215,7 +215,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   _observeFcKlass(){
     this.fgGruppaElement.controls['klass'].valueChanges.pipe(
-      tap( (val) => {
+      tap( () => {
         // this.fgGruppaElement.controls['vid'].setValue()
         this.changeValidators('klass', [this.validatorMinLength], false);
         this.changeFcEnableOrDisable('vid', false);
@@ -224,7 +224,10 @@ export class GruppaElementEditDialogComponent implements OnInit{
       debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.klassListDDM = this.klassList.filter( podr => podr.naim.toLowerCase().includes(inputValue.toLowerCase()));
+        let inputFormatted = inputValue;
+        if (inputValue.slice(3,4) === '|')
+          inputFormatted = inputFormatted.slice(5);
+        this.klassListDDM = this.klassList.filter( podr => podr.naim.toLowerCase().includes(inputFormatted.toLowerCase()));
       } else {
         this.klassListDDM = this.klassList;
       }
@@ -240,7 +243,10 @@ export class GruppaElementEditDialogComponent implements OnInit{
       debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.vidListDDM = this.vidList.filter( vid => vid.naim.toLowerCase().includes(inputValue.toLowerCase()));
+        let inputFormatted = inputValue;
+        if (inputValue.slice(3,4) === '|')
+          inputFormatted = inputFormatted.slice(5);
+        this.vidListDDM = this.vidList.filter( vid => vid.naim.toLowerCase().includes(inputFormatted.toLowerCase()));
       } else {
         this.vidListDDM = this.vidList;
       }
@@ -249,14 +255,17 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   _observeFcNalPu(){
     this.fgGruppaElement.controls['nalPu'].valueChanges.pipe(
-      tap( (val) => {
+      tap( () => {
         this.changeValidators('nalPu', [this.validatorMinLength], false)
         this.onClickSetNullNalPu(false);
       }),
       debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.nalPuListDDM = this.nalPuList.filter( nalPu => nalPu.naim.toLowerCase().includes(inputValue.toLowerCase()));
+        let inputFormatted = inputValue;
+        if (inputValue.slice(3,4) === '|')
+          inputFormatted = inputFormatted.slice(5);
+        this.nalPuListDDM = this.nalPuList.filter( nalPu => nalPu.naim.toLowerCase().includes(inputFormatted.toLowerCase()));
       } else {
         this.nalPuListDDM = this.nalPuList;
       }
@@ -272,7 +281,10 @@ export class GruppaElementEditDialogComponent implements OnInit{
       debounceTime(DELAY_TIME)
     ).subscribe( inputValue => {
       if (inputValue && inputValue.length > 0){
-        this.gabZoListDDM = this.gabZoList.filter( gabZo => gabZo.naim.toLowerCase().includes(inputValue.toLowerCase()));
+        let inputFormatted = inputValue;
+        if (inputValue.slice(3,4) === '|')
+          inputFormatted = inputFormatted.slice(5);
+        this.gabZoListDDM = this.gabZoList.filter( gabZo => gabZo.naim.toLowerCase().includes(inputFormatted.toLowerCase()));
       } else {
         this.gabZoListDDM = this.gabZoList;
       }

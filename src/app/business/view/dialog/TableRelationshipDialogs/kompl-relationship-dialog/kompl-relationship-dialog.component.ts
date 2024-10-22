@@ -80,7 +80,6 @@ export class KomplRelationshipDialogComponent implements OnInit{
   toSearchKompl(searchObj: KomplSearchDTO = this.komplSearch){
     this.komplDataInput = [];
     this.komplService.searchPage(searchObj).subscribe( result => {
-      console.log(result);
       let tempMap = new Map<KomplDTO, boolean>();
       if (result && result.content.length > 0){
         this.komplTotalElements = result.totalElements;
@@ -138,7 +137,6 @@ export class KomplRelationshipDialogComponent implements OnInit{
       })
     }
     if (this.selectedSourceSpravochnik === TableType.MODEL){
-      // console.l
       this.modelService.setKompleksyById(this.selectedElement.id.toString(), this.joinedKomplList).subscribe( result => {
         if (result){
           this.toastService.showPositive('Изменены связи в "' + this.selectedSourceSpravochnik + '" с Комплексом')

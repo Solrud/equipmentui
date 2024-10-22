@@ -31,7 +31,8 @@ export class MainComponent implements OnInit{
         this.user.roleSet.push(new Role(1, UserRoleAuth.USER, 'Справочник оборудования: Пользователь'));
         this.user.roleSet.push(new Role(2, UserRoleAuth.ADMIN, 'Справочник оборудования: Администратор'));
         this.user.roleSet.push(new Role(3, UserRoleAuth.VIEW, 'Справочник оборудования: Гость'));
-    }});
+      }
+    });
   }
 
   logout(): void {

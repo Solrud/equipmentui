@@ -1,4 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {
   DELAY_TIME_CLOSE_FOR_TOOLTIP,
   DELAY_TIME_FOR_FILTER,
@@ -23,7 +34,7 @@ import {debounceTime} from "rxjs/operators";
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })
-export class FilterComponent implements OnChanges, OnInit{
+export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
   komplFieldColumnList = FIELD_COLUMN_KOMPL_LIST.slice(1);
   gruppaFieldColumnList = FIELD_COLUMN_GRUPPA_LIST.slice(1);
   modelFieldColumnList = FIELD_COLUMN_MODEL_LIST.slice(1);
@@ -44,6 +55,15 @@ export class FilterComponent implements OnChanges, OnInit{
 
   @Output()
   newSearch: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild('aktSelectKompl', { static: false })
+  aktSelectKompl: ElementRef;
+  @ViewChild('aktSelectGruppa')
+  aktSelectGruppa: ElementRef;
+  @ViewChild('aktSelectModel', { static: false })
+  aktSelectModel: ElementRef;
+  @ViewChild('aktSelectEkzOborud')
+  aktSelectEkzOborud: ElementRef;
 
   fgKomplFilter: FormGroup;
   fgGruppaFilter: FormGroup;
@@ -82,6 +102,10 @@ export class FilterComponent implements OnChanges, OnInit{
 
   ngOnInit(): void {
     this._subscribeCurrentRole();
+  }
+
+  ngAfterViewInit(): void {
+    console.log(this.aktSelectModel);
   }
 
   public get TableType(){
@@ -311,6 +335,8 @@ export class FilterComponent implements OnChanges, OnInit{
       this.searchKompl.naim = null;
       this.searchKompl.akt = 1;
       this.currentSearch = this.searchKompl;
+      console.log(this.aktSelectKompl)
+      this.aktSelectKompl.nativeElement.value = 'Действующие';
       // this.newSearch.emit(this.searchKompl);
     }
     if (tableType === TableType.GRUPPA){
