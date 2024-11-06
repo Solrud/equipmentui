@@ -75,7 +75,7 @@ export enum ActionMode{
 
 export enum DialogMode {                     //Режим диалогового окна
   VIEW= 'Просмотр',
-  CREATE= 'Создание',
+  CREATE= 'Добавление',
   COPY= 2,
   EDIT= 'Редактирование',
   AGREE=4,

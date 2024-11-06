@@ -103,6 +103,7 @@
       <a ngbNavLink
          (click)="onClickSearchNalPu()">{{"TITLE.NAL-PU" | translate}}</a>
       <ng-template ngbNavContent>
+        <div class="line-title">{{"COMMON.NAL-PU" | translate}}</div>
         <div class="d-flex justify-content-between">
           <button class="btn btn-sm btn-success mb-1"
                   (click)="onClickActionNalPu(ActionMode.VIEW)"
@@ -149,6 +150,7 @@
       <a ngbNavLink
          (click)="onClickSearchGabZo()">{{"TITLE.GAB-ZO" | translate}}</a>
       <ng-template ngbNavContent>
+        <div class="line-title">{{"COMMON.GABZO" | translate}}</div>
         <div class="d-flex justify-content-between">
           <button class="btn btn-sm btn-success mb-1"
                   (click)="onClickActionGabZo(ActionMode.VIEW)"
@@ -193,6 +195,7 @@
     <ng-container ngbNavItem>
       <a ngbNavLink (click)="onClickSearchProizv()">{{"TITLE.PROIZVS" | translate}}</a>
       <ng-template ngbNavContent class="d-flex flex-column">
+        <div class="line-title">{{"COMMON.PROIZVS" | translate}}</div>
         <div class="d-flex justify-content-between">
           <button class="btn btn-sm btn-success mb-1"
                   (click)="onClickActionProizv(ActionMode.VIEW)"
