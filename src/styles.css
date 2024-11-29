@@ -26,6 +26,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   cursor: pointer;
 }
 
+.pointer-to-input-ddm{}
+.pointer-to-input-ddm:hover{
+  /*background-color: #f2fcff !important;*/
+  background-color: #f3fff2 !important;
+}
+
 .form-label{
   margin-bottom: 4px !important;
 }

@@ -9,7 +9,7 @@
       *ngIf="dialogMode == DialogMode.CHANGE_ACTIVITY">
     <span *ngIf="selectedElement['akt'] == 0">
       {{"WARNING.ARE-YOU-SURE-TO-DO" | translate}}
-      <span class="text-success text-decoration-underline">
+      <span class="text-to-do-akt text-decoration-underline">
       {{"OTHER.AKTIVNIM" | translate}}</span>
       {{"TABLE.ELEMENT-FROM-TABLE" | translate}} "{{selectedNavBar}}"?</span>
     <span *ngIf="selectedElement['akt'] == 1">

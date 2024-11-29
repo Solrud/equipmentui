@@ -6,9 +6,9 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output,
+  Output, QueryList,
   SimpleChanges,
-  ViewChild
+  ViewChild, ViewChildren
 } from '@angular/core';
 import {
   DELAY_TIME_CLOSE_FOR_TOOLTIP,
@@ -60,8 +60,8 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
   aktSelectKompl: ElementRef;
   @ViewChild('aktSelectGruppa')
   aktSelectGruppa: ElementRef;
-  @ViewChild('aktSelectModel', { static: false })
-  aktSelectModel: ElementRef;
+  @ViewChildren('aktSelectModel')
+  aktSelectModel: QueryList<ElementRef>;
   @ViewChild('aktSelectEkzOborud')
   aktSelectEkzOborud: ElementRef;
 
@@ -353,6 +353,10 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
       // this.newSearch.emit(this.searchGruppa);
     }
     if (tableType === TableType.MODEL){
+      // const selectElement = this.aktSelectModel.first.nativeElement;
+      // selectElement.selectedIndex = 1;,
+      // selectElement.dispatchEvent(new Event('change'));
+
       this.fgModelFilter.controls['kod'].setValue(null);
       this.fgModelFilter.controls['obozn'].setValue(null);
       this.fgModelFilter.controls['naim'].setValue(null);

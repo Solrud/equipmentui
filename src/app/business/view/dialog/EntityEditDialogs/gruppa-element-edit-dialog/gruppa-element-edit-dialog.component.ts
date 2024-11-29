@@ -66,10 +66,10 @@ export class GruppaElementEditDialogComponent implements OnInit{
     this.initFgGruppaElement();
     this.afterInitDialogDefaultValues();
 
-    this._observeFcKlass();
-    this._observeFcVid();
-    this._observeFcNalPu();
-    this._observeFcGabZo();
+    // this._observeFcKlass();
+    // this._observeFcVid();
+    // this._observeFcNalPu();
+    // this._observeFcGabZo();
   }
 
   public get DialogMode(){

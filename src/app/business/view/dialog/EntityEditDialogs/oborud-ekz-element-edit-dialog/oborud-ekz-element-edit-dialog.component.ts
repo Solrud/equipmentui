@@ -71,10 +71,10 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
     this.initFgOborudEkzElement();
     this.initDialogDefaultValues();
     this._observeSerAndInvNom();
-    this._observeFcProizv();
-    this._observeFcPodr();
-    this._observeFcUch();
-    this._observeFcModel();
+    // this._observeFcProizv();
+    // this._observeFcPodr();
+    // this._observeFcUch();
+    // this._observeFcModel();
   }
 
   public get DialogMode(){

@@ -92,8 +92,10 @@
          #ddmRod="ngbDropdown">
       <label for="rod" class=" form-label ">{{"COMMON.ROD" | translate}}</label>
       <div class="input-group">
-        <input class="form-control border-dark border-config"
+        <input class="form-control border-dark border-config pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgPodr.controls['rod'].disabled"
                id="rod"
+               [readOnly]="true"
                type="text"
                autocomplete="off"
                formControlName="rod"

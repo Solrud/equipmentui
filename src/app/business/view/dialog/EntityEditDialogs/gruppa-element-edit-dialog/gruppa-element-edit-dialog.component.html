@@ -51,7 +51,6 @@
       </div>
     </div>
   </div>
-
   <div class="d-flex flex-row gap-2">
     <div class="flex-grow-1"
          ngbDropdown
@@ -60,8 +59,10 @@
     >
       <label for="klass" class="form-label">{{"COMMON.KOD-OBORUD" | translate}} <span class="text-danger">{{fcFieldIsRequired('klass')}}</span></label>
       <div class="input-group">
-        <input class="form-control border-dark border-config"
+        <input class="form-control border-dark border-config pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgGruppaElement.controls['klass'].disabled"
                id="klass"
+               [readOnly]="true"
                formControlName="klass"
                ngbDropdownToggle
                autocomplete="off"
@@ -74,24 +75,23 @@
                 (click)="onClickSetNullKlass()">
           <i class="bi bi-x-lg"></i>
         </button>
-        <div class="px-3 ngb-menu-config" ngbDropdownMenu>
-          <p *ngIf="klassListDDM && klassListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
-          <p *ngIf="klassListDDM && klassListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
-          <div class="dropdown-divider"></div>
-          <div class="ddm-config">
-            <h2 *ngIf="klassListDDM && klassListDDM.length == 0"
-                ngbDropdownItem class="text-center">😔</h2>
-            <button class="text-wrap"
-                    [class.button-odd-config]="true"
-                    *ngFor="let klass of klassListDDM; index as i"
-                    (click)="onClickSelectDDIKlass(klass)"
-                    ngbDropdownItem>
-              <span class="bg-for-kod-klass text-black">[ {{klass.kodKlass}} ]</span> {{klass.naim}}
-            </button>
-          </div>
+      </div>
+      <div class="px-3 ngb-menu-config" ngbDropdownMenu>
+        <p *ngIf="klassListDDM && klassListDDM.length > 0">{{"ACTION.CHOOSE-ONE-ELEM" | translate}}:</p>
+        <p *ngIf="klassListDDM && klassListDDM.length == 0">{{"WARNING.NO-SEARCH-DDM" | translate}}</p>
+        <div class="dropdown-divider"></div>
+        <div class="ddm-config">
+          <h2 *ngIf="klassListDDM && klassListDDM.length == 0"
+              ngbDropdownItem class="text-center">😔</h2>
+          <button class="text-wrap"
+                  [class.button-odd-config]="true"
+                  *ngFor="let klass of klassListDDM; index as i"
+                  (click)="onClickSelectDDIKlass(klass)"
+                  ngbDropdownItem>
+            <span class="bg-for-kod-klass text-black">[ {{klass.kodKlass}} ]</span> {{klass.naim}}
+          </button>
         </div>
       </div>
-
     </div>
     <div class="flex-grow-1"
          ngbDropdown
@@ -100,8 +100,10 @@
     >
       <label for="vid" class="form-label">{{"COMMON.VID" | translate}} <span class="text-danger">{{fcFieldIsRequired('vid')}}</span></label>
       <div class="input-group">
-        <input class="form-control border-dark border-config"
+        <input class="form-control border-dark border-config pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgGruppaElement.controls['vid'].disabled"
                id="vid"
+               [readOnly]="true"
                formControlName="vid"
                ngbDropdownToggle
                autocomplete="off"
@@ -130,10 +132,8 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
-
   <div class="d-flex flex-row gap-2">
     <div class="flex-grow-1"
          ngbDropdown
@@ -142,8 +142,10 @@
     >
       <label for="nalPu" class="form-label">{{"COMMON.PU" | translate}} <span class="text-danger">{{fcFieldIsRequired('nalPu')}}</span></label>
       <div class="input-group">
-        <input class="form-control border-dark border-config"
+        <input class="form-control border-dark border-config pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgGruppaElement.controls['nalPu'].disabled"
                id="nalPu"
+               [readOnly]="true"
                formControlName="nalPu"
                ngbDropdownToggle
                autocomplete="off"
@@ -179,8 +181,10 @@
          #ddmGabZo="ngbDropdown">
       <label for="gabZo" class="form-label">{{"COMMON.GABARITY" | translate}} <span class="text-danger">{{fcFieldIsRequired('gabZo')}}</span></label>
       <div class="input-group">
-        <input class="form-control border-dark border-config"
+        <input class="form-control border-dark border-config pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgGruppaElement.controls['gabZo'].disabled"
                id="gabZo"
+               [readOnly]="true"
                formControlName="gabZo"
                ngbDropdownToggle
                autocomplete="off"

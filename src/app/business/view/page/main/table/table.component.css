@@ -27,6 +27,14 @@
   top: 0;
 }
 
+:host {
+  --color-kompl: #ddeedf;
+  --color-gruppa: #dfedef;
+  --color-model: #fff8eb;
+  --color-ekz: #ecdcdc;
+}
+
+
 .active-element{
   --bs-table-bg-type: #b7efc6;
 }
@@ -34,16 +42,17 @@
   --bs-table-bg-type: #b7d0ef;
 }
 .active-element-relation-kompl{
-  --bs-table-bg-type: #93d99b;
+  --bs-table-bg-type: var(--color-kompl);
 }
 .active-element-relation-gruppa{
-  --bs-table-bg-type: #7fc7d2;
+  --bs-table-bg-type: var(--color-gruppa);
 }
+
 .active-element-relation-model{
-  --bs-table-bg-type: #d4b888;
+  --bs-table-bg-type: var(--color-model);
 }
 .active-element-relation-ekz{
-  --bs-table-bg-type: #efb4ac;
+  --bs-table-bg-type: var(--color-ekz);
 }
 .chosen-element-settings-relation{
   --bs-table-bg-type: #acd4ef;

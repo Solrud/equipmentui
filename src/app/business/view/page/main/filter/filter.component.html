@@ -1,5 +1,5 @@
 <div ngbAccordion class="accordion-c">
-  <div ngbAccordionItem [collapsed]="isCollapsed">
+  <div ngbAccordionItem [collapsed]="isCollapsed" [destroyOnHide]="false">
     <h2 ngbAccordionHeader class="m-0"
         ngbTooltip="{{'HINT.FILTER' | translate }}"
         [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
@@ -151,7 +151,7 @@
               <label for="akt" class="form-label">{{'TABLE.ACT' | translate}}</label>
               <select #aktSelectGruppa
                       id="akt"
-                      class="form-select flex-grow-1"
+                      class="form-select flex-grow-1 select-model"
                       (change)="changeAktSelect($event)"
                       ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
                       [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"

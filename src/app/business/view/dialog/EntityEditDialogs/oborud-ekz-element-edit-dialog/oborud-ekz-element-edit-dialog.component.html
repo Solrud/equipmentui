@@ -36,7 +36,9 @@
     >
       <label for="proizv" class="form-label">{{"COMMON.PROIZV" | translate}}</label>
       <div class="input-group">
-        <input class="form-control border-dark"
+        <input class="form-control border-dark pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgOborudEkzElement.controls['proizv'].disabled"
+               [readOnly]="true"
                id="proizv"
                type="text"
                autocomplete="off"
@@ -74,6 +76,7 @@
       <div class="input-group">
         <input class="form-control border-dark"
                id="model"
+               [readOnly]="true"
                type="text"
                autocomplete="off"
                formControlName="model"
@@ -115,8 +118,10 @@
          #ddmPodr="ngbDropdown">
       <label for="podr" class="form-label">{{"COMMON.PODR" | translate}} <span class="text-danger">{{fcFieldIsRequired('podr')}}</span></label>
       <div class="form-group input-group">
-        <input class="form-control border-dark"
+        <input class="form-control border-dark pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgOborudEkzElement.controls['podr'].disabled"
                id="podr"
+               [readOnly]="true"
                type="text"
                autocomplete="off"
                formControlName="podr"
@@ -174,8 +179,10 @@
          #ddmUch=ngbDropdown>
       <label for="uch" class="form-label">{{"COMMON.UCH" | translate}} <span class="text-danger">{{fcFieldIsRequired('uch')}}</span></label>
       <div class="form-group input-group">
-        <input class="form-control border-dark"
+        <input class="form-control border-dark pointer"
+               [class.pointer-to-input-ddm]="dialogMode != DialogMode.VIEW && !fgOborudEkzElement.controls['uch'].disabled"
                id="uch"
+               [readOnly]="true"
                type="text"
                formControlName="uch"
                autocomplete="off"
