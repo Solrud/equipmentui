@@ -123,10 +123,10 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     FormsModule,
     MatPaginatorModule,
     ReactiveFormsModule,
-    // AppRoutingModule,
+    AppRoutingModule,
   ],
   providers: [
-    {provide: AUTH_URL_TOKEN, useValue: environment.authURL + '/auth'},
+    {provide:   AUTH_URL_TOKEN, useValue: environment.authURL + '/auth'},
     {provide: LOGIN_URL_TOKEN, useValue: environment.loginUrl},
 
     {provide: GRUPPA_URL_TOKEN, useValue: environment.backendURL + '/gruppa'},
@@ -143,7 +143,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
 
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true},
     // это для куков интерцептор походу, пока не нужон
-    // {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

@@ -16,6 +16,11 @@
   /*padding-top: 2px;*/
 }
 
+.selectedElementDDM{
+  --bs-dropdown-bg: #a0d1ff !important;
+  /*background-color: #a2d4ff;*/
+}
+
 .button-odd-config{
   /*background-color: rgba(0, 0, 0, 0.02);*/
   /*border-bottom: 1px black solid;*/

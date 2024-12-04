@@ -84,8 +84,9 @@
           <h2 *ngIf="klassListDDM && klassListDDM.length == 0"
               ngbDropdownItem class="text-center">😔</h2>
           <button class="text-wrap"
-                  [class.button-odd-config]="true"
                   *ngFor="let klass of klassListDDM; index as i"
+                  [class.button-odd-config]="true"
+                  [class.selectedElementDDM]="selectedKlassDDM == klass"
                   (click)="onClickSelectDDIKlass(klass)"
                   ngbDropdownItem>
             <span class="bg-for-kod-klass text-black">[ {{klass.kodKlass}} ]</span> {{klass.naim}}

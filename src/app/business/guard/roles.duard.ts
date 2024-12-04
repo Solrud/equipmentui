@@ -3,7 +3,6 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTre
 import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {AuthService} from "../../auth/service/auth.service";
-import {environment} from "../../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +45,6 @@ export class RolesGuard implements CanActivate{
         }
       }),
       catchError(err => {
-        console.log(err);
         this.authService.onNavigate();
         // return of(false); // не переходить по запрошенному url
         //https://rxjs.dev/deprecations/scheduler-argument

@@ -31,18 +31,22 @@ export class GruppaElementEditDialogComponent implements OnInit{
   newKlass: OborudKlassDTO;
   klassListDDM: OborudKlassDTO[];
   klassList: OborudKlassDTO[];
+  selectedKlassDDM: OborudKlassDTO;
 
   newVid: OborudVidDTO;
   vidListDDM: OborudVidDTO[];
   vidList: OborudVidDTO[];
+  selectedVidDDM: OborudVidDTO;
 
   newNalPu: NalPuDTO;
   nalPuListDDM: NalPuDTO[];
   nalPuList: NalPuDTO[];
+  selectedNalPuDDM: NalPuDTO;
 
   newGabZo: GabZoDTO;
   gabZoListDDM: GabZoDTO[];
   gabZoList: GabZoDTO[];
+  selectedGabZoDDM: GabZoDTO;
 
   fcKodKlass: string[] = [];
   klassOborudSearch: OborudKlassSearchDTO;
@@ -315,6 +319,7 @@ export class GruppaElementEditDialogComponent implements OnInit{
 
   // Код(Класс) оборудования
   onClickSelectDDIKlass(klass: OborudKlassDTO){
+    this.selectedKlassDDM = klass;
     this.fgGruppaElement.controls['klass'].setValue(klass.kodKlass + ' | ' + klass.naim);
     this.newKlass = klass;
     this.changeValidators('klass', [this.validatorMinLength], true);

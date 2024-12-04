@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(this.currentApptRoleList.length > 0)
+    if(this.currentApptRoleList?.length > 0)
       this.eventService.selectCurrentRole$(this.currentApptRoleList[0]);
   }
 

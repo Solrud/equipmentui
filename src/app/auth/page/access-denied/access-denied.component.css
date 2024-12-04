@@ -1,0 +1,30 @@
+.kod401{
+  font-size: 80px;
+  font-weight: 600;
+  color: #e74d4d;
+  text-align: center;
+}
+.kod401warning{
+  font-size: 20px;
+  font-weight: 600;
+  color: #e74d4d;
+  text-align: center;
+}
+
+:host{
+  width: 100%;
+  height: 100%;
+  background-color: #e0e2e3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-modal-container{
+  width: 800px;
+  height: 400px;
+  background: #ffffff;
+  border: 1px #cecdcd solid;
+  display: flex;
+  flex-direction: column;
+}
