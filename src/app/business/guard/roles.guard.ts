@@ -22,7 +22,7 @@ export class RolesGuard implements CanActivate{
     // route - параметр, который хранит начение URL, по которому хотим перейти
     // 1. Залогинен ли вообще пользователь
     // 2. Есть ли у него соответствующие роли
-    if (!environment.production)
+    if (!environment.auth)
       return true;
 
     if (this.authService.isLoggedIn) { // если пользователь уже залогинен

@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:testbazis": "ng build --configuration testbazis --base-href=/equipment/",
+    "build:testbazis-test": "ng build --configuration testbazis-test --base-href=/equipment/",
     "build:bazis": "ng build --configuration bazis --base-href=/equipment/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
