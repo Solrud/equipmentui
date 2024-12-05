@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -28,13 +27,17 @@ import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSe
 import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
 import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
 import {debounceTime} from "rxjs/operators";
+import {KomplDTO} from "../../../../data/model/dto/impl/KomplDTO";
+import {GruppaDTO} from "../../../../data/model/dto/impl/GruppaDTO";
+import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
+import {OborudEkzDTO} from "../../../../data/model/dto/impl/OborudEkzDTO";
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css']
 })
-export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
+export class FilterComponent implements OnChanges, OnInit{
   komplFieldColumnList = FIELD_COLUMN_KOMPL_LIST.slice(1);
   gruppaFieldColumnList = FIELD_COLUMN_GRUPPA_LIST.slice(1);
   modelFieldColumnList = FIELD_COLUMN_MODEL_LIST.slice(1);
@@ -56,19 +59,20 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
   @Output()
   newSearch: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('aktSelectKompl', { static: false })
-  aktSelectKompl: ElementRef;
-  @ViewChild('aktSelectGruppa')
-  aktSelectGruppa: ElementRef;
-  @ViewChildren('aktSelectModel')
-  aktSelectModel: QueryList<ElementRef>;
-  @ViewChild('aktSelectEkzOborud')
-  aktSelectEkzOborud: ElementRef;
+  aktList: string[] = ['Все', 'Действующие', 'Устаревшие'];
+  aktSelectKompl: string = 'Действующие';
+  aktSelectGruppa: string = 'Действующие';
+  aktSelectModel: string = 'Действующие';
+  aktSelectEkzOborud: string = 'Действующие';
 
   fgKomplFilter: FormGroup;
+  isFgKomplFilterWasClearedByButton: boolean = false;
   fgGruppaFilter: FormGroup;
+  isFgGruppaFilterWasClearedByButton: boolean = false;
   fgModelFilter: FormGroup;
+  isFgModelFilterWasClearedByButton: boolean = false;
   fgOborudEkzFilter: FormGroup;
+  isFgOborudEkzFilterWasClearedByButton: boolean = false;
 
   komplIsExpanded: boolean = false;
   gruppaIsExpanded: boolean = false;
@@ -83,7 +87,8 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
 
   currentRole: UserRoleAuth
 
-  constructor(private eventService: EventService) {
+  constructor(private eventService: EventService,
+              private elementRef: ElementRef) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -102,10 +107,6 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this._subscribeCurrentRole();
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.aktSelectModel);
   }
 
   public get TableType(){
@@ -237,58 +238,156 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
   }
 
   _observeFgKompl(){
+    let counterFgControlsForClear: number = 0;
+
     this.fgKomplFilter.controls['kod'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchKompl.kod = inputValue;
-      this.newSearch.emit(this.searchKompl);
+      if (!this.isFgKomplFilterWasClearedByButton) this.newSearch.emit(this.searchKompl);
+      if (this.isFgKomplFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgKomplFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
     this.fgKomplFilter.controls['naim'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchKompl.naim = inputValue;
-      this.newSearch.emit(this.searchKompl);
+      if (!this.isFgKomplFilterWasClearedByButton) this.newSearch.emit(this.searchKompl);
+      if (this.isFgKomplFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgKomplFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
   }
   _observeFgGruppa(){
+    let counterFgControlsForClear: number = 0;
+
     this.fgGruppaFilter.controls['kod'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchGruppa.kod = inputValue;
-      this.newSearch.emit(this.searchGruppa);
+      if (!this.isFgGruppaFilterWasClearedByButton) this.newSearch.emit(this.searchGruppa);
+      if (this.isFgGruppaFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgGruppaFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
     this.fgGruppaFilter.controls['kodKlass'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchGruppa.kodKlass = inputValue;
-      this.newSearch.emit(this.searchGruppa);
+      if (!this.isFgGruppaFilterWasClearedByButton) this.newSearch.emit(this.searchGruppa);
+      if (this.isFgGruppaFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgGruppaFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
     this.fgGruppaFilter.controls['naim'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchGruppa.naim = inputValue;
-      this.newSearch.emit(this.searchGruppa);
+      if (!this.isFgGruppaFilterWasClearedByButton) this.newSearch.emit(this.searchGruppa);
+      if (this.isFgGruppaFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgGruppaFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
   }
   _observeFgModel(){
+    let counterFgControlsForClear: number = 0;
+
     this.fgModelFilter.controls['kod'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchModel.kod = inputValue;
-      this.newSearch.emit(this.searchModel);
+      if (!this.isFgModelFilterWasClearedByButton) this.newSearch.emit(this.searchModel);
+      if (this.isFgModelFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgModelFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
     this.fgModelFilter.controls['obozn'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchModel.obozn = inputValue;
-      this.newSearch.emit(this.searchModel);
+      if (!this.isFgModelFilterWasClearedByButton) this.newSearch.emit(this.searchModel);
+      if (this.isFgModelFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgModelFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
     this.fgModelFilter.controls['naim'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
       this.searchModel.naim = inputValue;
-      this.newSearch.emit(this.searchModel);
-    })
-  }
-  _observeFgOborudEkz(){
-    this.fgOborudEkzFilter.controls['serNom'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
-      this.searchOborudEkz.serNom = inputValue;
-      this.newSearch.emit(this.searchOborudEkz);
-    })
-    this.fgOborudEkzFilter.controls['invNom'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
-      this.searchOborudEkz.invNom = inputValue;
-      this.newSearch.emit(this.searchOborudEkz);
-    })
-    this.fgOborudEkzFilter.controls['naim'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
-      this.searchOborudEkz.naim = inputValue;
-      this.newSearch.emit(this.searchOborudEkz);
+      if (!this.isFgModelFilterWasClearedByButton) this.newSearch.emit(this.searchModel);
+      if (this.isFgModelFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgModelFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
     })
   }
 
+  _observeFgOborudEkz(){
+    let counterFgControlsForClear: number = 0;
+
+    this.fgOborudEkzFilter.controls['serNom'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
+      this.searchOborudEkz.serNom = inputValue;
+      if (!this.isFgOborudEkzFilterWasClearedByButton) this.newSearch.emit(this.searchOborudEkz);
+      if (this.isFgOborudEkzFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgOborudEkzFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
+    })
+    this.fgOborudEkzFilter.controls['invNom'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
+      this.searchOborudEkz.invNom = inputValue;
+      if (!this.isFgOborudEkzFilterWasClearedByButton) this.newSearch.emit(this.searchOborudEkz);
+      if (this.isFgOborudEkzFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgOborudEkzFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
+    })
+    this.fgOborudEkzFilter.controls['naim'].valueChanges.pipe(debounceTime(DELAY_TIME_FOR_FILTER)).subscribe( inputValue => {
+      this.searchOborudEkz.naim = inputValue;
+      if (!this.isFgOborudEkzFilterWasClearedByButton) this.newSearch.emit(this.searchOborudEkz);
+      if (this.isFgOborudEkzFilterWasClearedByButton){
+        counterFgControlsForClear ++;
+        if(counterFgControlsForClear === 3) {
+          this.toSetFalseForIsFgOborudEkzFilterWasClearedByButton();
+          counterFgControlsForClear = 0;
+        }
+      }
+    })
+  }
+
+  toSetFalseForIsFgKomplFilterWasClearedByButton(){
+    this.isFgKomplFilterWasClearedByButton = false;
+  }
+  toSetFalseForIsFgGruppaFilterWasClearedByButton(){
+    this.isFgGruppaFilterWasClearedByButton = false;
+  }
+  toSetFalseForIsFgModelFilterWasClearedByButton(){
+    this.isFgModelFilterWasClearedByButton = false;
+  }
+  toSetFalseForIsFgOborudEkzFilterWasClearedByButton(){
+    this.isFgOborudEkzFilterWasClearedByButton = false;
+  }
 
   changeAktSelect(akt: any = 'Действующие'){
     if(akt == 'Все' || akt?.target?.value == 'Все')
@@ -304,20 +403,6 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
     this.newSearch.emit(this.currentSearch);
   }
 
-  // // ------------------ old for button
-  // onClickChangeAct(){
-  //   if (this.currentSearch.akt != null){
-  //     if (this.currentSearch.akt == 0)
-  //       this.currentSearch.akt = null;
-  //     if (this.currentSearch.akt == 1)
-  //       this.currentSearch.akt = 0;
-  //   } else {
-  //     this.currentSearch.akt = 1;
-  //   }
-  //   this.newSearch.emit(this.currentSearch);
-  //   //ToDo стоит ли debounceTime?
-  // }
-
   onClickClearAll(){
     for(let key of this.aktMap.keys()){
       this.aktMap.set(key, false);
@@ -327,59 +412,69 @@ export class FilterComponent implements OnChanges, OnInit, AfterViewInit{
 
     let tableType = this.selectedSpravochnik;
     if (tableType === TableType.KOMPL){
+      const select = this.elementRef.nativeElement.querySelector('#aktSelectKompl');
+      select.selectedIndex = 1;
+
+      this.isFgKomplFilterWasClearedByButton = true;
       this.fgKomplFilter.controls['kod'].setValue(null);
       this.fgKomplFilter.controls['naim'].setValue(null);
       this.fgKomplFilter.controls['akt'].setValue(null);
+
       this.searchKompl = new KomplSearchDTO();
       this.searchKompl.kod = null;
       this.searchKompl.naim = null;
       this.searchKompl.akt = 1;
       this.currentSearch = this.searchKompl;
-      console.log(this.aktSelectKompl)
-      this.aktSelectKompl.nativeElement.value = 'Действующие';
-      // this.newSearch.emit(this.searchKompl);
     }
     if (tableType === TableType.GRUPPA){
+      const select = this.elementRef.nativeElement.querySelector('#aktSelectGruppa');
+      select.selectedIndex = 1;
+
+      this.isFgGruppaFilterWasClearedByButton = true;
       this.fgGruppaFilter.controls['kod'].setValue(null);
       this.fgGruppaFilter.controls['kodKlass'].setValue(null);
       this.fgGruppaFilter.controls['naim'].setValue(null);
       this.fgGruppaFilter.controls['akt'].setValue(null);
+
       this.searchGruppa = new GruppaSearchDTO();
       this.searchGruppa.kod = null;
       this.searchGruppa.kodKlass = null;
       this.searchGruppa.naim = null;
       this.searchGruppa.akt = 1;
       this.currentSearch = this.searchGruppa;
-      // this.newSearch.emit(this.searchGruppa);
     }
     if (tableType === TableType.MODEL){
-      // const selectElement = this.aktSelectModel.first.nativeElement;
-      // selectElement.selectedIndex = 1;,
-      // selectElement.dispatchEvent(new Event('change'));
+      const select = this.elementRef.nativeElement.querySelector('#aktSelectModel');
+      select.selectedIndex = 1;
 
+      this.isFgModelFilterWasClearedByButton = true;
       this.fgModelFilter.controls['kod'].setValue(null);
       this.fgModelFilter.controls['obozn'].setValue(null);
       this.fgModelFilter.controls['naim'].setValue(null);
       this.fgModelFilter.controls['akt'].setValue(null);
+
       this.searchModel = new ModelSearchDTO();
       this.searchModel.kod = null;
       this.searchModel.obozn = null;
       this.searchModel.naim = null;
       this.searchModel.akt = 1;
       this.currentSearch = this.searchModel;
-      // this.newSearch.emit(this.searchModel);
     }
     if (tableType === TableType.OBORUD_EKZ){
+      const select = this.elementRef.nativeElement.querySelector('#aktSelectEkzOborud');
+      select.selectedIndex = 1;
+
+      this.isFgOborudEkzFilterWasClearedByButton = true;
       this.fgOborudEkzFilter.controls['serNom'].setValue(null);
       this.fgOborudEkzFilter.controls['invNom'].setValue(null);
       this.fgOborudEkzFilter.controls['naim'].setValue(null);
       this.fgOborudEkzFilter.controls['akt'].setValue(null);
+
       this.searchOborudEkz = new OborudEkzSearchDTO();
       this.searchOborudEkz.serNom = null;
       this.searchOborudEkz.invNom = null;
       this.searchOborudEkz.akt = 1;
       this.currentSearch = this.searchOborudEkz;
-      // this.newSearch.emit(this.searchOborudEkz);
     }
     this.newSearch.emit(this.currentSearch);
   }

@@ -361,6 +361,7 @@ export class BodyComponent implements OnInit{
           this.drawerComponent?.open();
         }
       }, error => {
+        this.openDialogService.openInformationDialog('Ошибка!', error);
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Комплекс');
       })
     }
@@ -398,6 +399,7 @@ export class BodyComponent implements OnInit{
           this.drawerComponent?.open();
         }
       }, error => {
+        this.openDialogService.openInformationDialog('Ошибка!', error);
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Группа');
       })
     }
@@ -410,7 +412,6 @@ export class BodyComponent implements OnInit{
       !this.isFirstTimeInitNav ? this.eventService.selectSpravTab$(TableType.MODEL) : this.isFirstTimeInitNav = false;
 
       if(reSearchPage){
-        // this.eventServ ice.selectElementMainTable$(this.mainSelectedElement);
         if (!newDataSearch && toResearchRelation) this.toFindRelationshipDataByMainSelectedElement(this.mainSelectedElement);
         if(newDataSearch){
           this.toSetNewSearchFromPage(newDataSearch, this.modelSearch);
@@ -437,6 +438,7 @@ export class BodyComponent implements OnInit{
           this.drawerComponent?.open();
         }
       }, error => {
+        this.openDialogService.openInformationDialog('Ошибка ' + error?.name + "!",  error?.message);
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Модели');
       })
     }
@@ -471,6 +473,7 @@ export class BodyComponent implements OnInit{
           this.temporarilyDisabledNavBar = false;
         }
       }, error => {
+        this.openDialogService.openInformationDialog('Ошибка!', error);
         this.toastService.showNegativeFixed('Не удалось загрузить таблицу Экземпляры');
       })
     }
@@ -549,7 +552,7 @@ export class BodyComponent implements OnInit{
   // присваивает к существующему search object пагинаторные свойства
   toSetNewSearchFromPage(newSearchPage: ABaseSearchDTO, oldSearch: KomplSearchDTO | GruppaSearchDTO | ModelSearchDTO | OborudEkzSearchDTO){
     Object.keys(newSearchPage).forEach(key => {
-      if (oldSearch.hasOwnProperty(key)) {
+      if (newSearchPage[key] != oldSearch[key] ) {
         oldSearch[key] = newSearchPage[key];
       }
     })

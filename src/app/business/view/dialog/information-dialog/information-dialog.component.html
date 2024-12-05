@@ -1,12 +1,17 @@
 <div class="modal-header d-flex justify-content-center">
-  <h1 class="m-0 text-center text-decoration-underline">Создание/Редактирование справочника</h1>
+  <h1 class="m-0 text-center">{{dialogTitle}}</h1>
 </div>
 
 <div class="modal-body d-flex flex-column align-items-center">
-  <p>Вы уверены, что хотите удалить ... ?</p>
+  <p class="fs-6 text-break">{{dialogMessage}}</p>
 </div>
 
-<div class="modal-footer ">
-  <button type="button" class="btn btn-primary">{{"BUTTON.ACCEPT" | translate}}</button>
-  <button type="button" class="btn btn-secondary">{{"BUTTON.CANCEL" | translate}}</button>
+<div class="modal-footer justify-content-end" [class.justify-content-between]="buttonConfirm">
+  <button *ngIf="buttonConfirm"
+          type="button"
+          class="btn btn-primary"
+          (click)="onClickConfirm()">{{"BUTTON.ACCEPT" | translate}}</button>
+  <button type="button"
+          class="btn btn-secondary"
+          (click)="onClickCancel()">{{"BUTTON.CANCEL" | translate}}</button>
 </div>

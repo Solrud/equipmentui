@@ -52,9 +52,9 @@
             </div>
 
             <div #tooltip5 class="btn-akt-w">
-              <label for="akt" class="form-label">{{'TABLE.ACT' | translate}}</label>
+              <label for="aktSelectKompl" class="form-label">{{'TABLE.ACT' | translate}}</label>
               <select #aktSelectKompl
-                      id="akt"
+                      id="aktSelectKompl"
                       class="form-select flex-grow-1"
                       (change)="changeAktSelect($event)"
                       ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
@@ -148,9 +148,9 @@
             </div>
 
             <div #tooltip5 class="btn-akt-w">
-              <label for="akt" class="form-label">{{'TABLE.ACT' | translate}}</label>
+              <label for="aktSelectGruppa" class="form-label">{{'TABLE.ACT' | translate}}</label>
               <select #aktSelectGruppa
-                      id="akt"
+                      id="aktSelectGruppa"
                       class="form-select flex-grow-1 select-model"
                       (change)="changeAktSelect($event)"
                       ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
@@ -245,9 +245,9 @@
             </div>
 
             <div #tooltip5 class="btn-akt-w">
-              <label for="akt" class="form-label">{{'TABLE.ACT' | translate}}</label>
+              <label for="aktSelectModel" class="form-label">{{'TABLE.ACT' | translate}}</label>
               <select #aktSelectModel
-                      id="akt"
+                      id="aktSelectModel"
                       class="form-select flex-grow-1"
                       (change)="changeAktSelect($event)"
                       ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"
@@ -255,7 +255,8 @@
                       [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                       [positionTarget]="tooltip5">
                 <option *ngFor="let akt of aktMap | keyvalue"
-                        [selected]="akt.value">
+                        [selected]="akt.value"
+                >
                   {{akt.key}}
                 </option>
               </select>
@@ -342,9 +343,9 @@
             </div>
 
             <div #tooltip5 class="btn-akt-w">
-              <label for="akt" class="form-label">{{'TABLE.ACT' | translate}}</label>
+              <label for="aktSelectEkzOborud" class="form-label">{{'TABLE.ACT' | translate}}</label>
               <select #aktSelectEkzOborud
-                      id="akt"
+                      id="aktSelectEkzOborud"
                       class="form-select flex-grow-1"
                       (change)="changeAktSelect($event)"
                       ngbTooltip="{{'HINT.FILTER-CHANGE-ACT' | translate }}"

@@ -3,6 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTre
 import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {AuthService} from "../../auth/service/auth.service";
+import {environment} from "../../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,9 @@ export class RolesGuard implements CanActivate{
     // route - параметр, который хранит начение URL, по которому хотим перейти
     // 1. Залогинен ли вообще пользователь
     // 2. Есть ли у него соответствующие роли
+    if (!environment.production)
+      return true;
+
     if (this.authService.isLoggedIn) { // если пользователь уже залогинен
       // если у пользователя есть права на эту страницу, то вернется true и произойдет переход на запрошенный url
       return this.userHasRequiredRole(this.authService.currentUser.getValue().roleSet, route.data['allowedRoles']);

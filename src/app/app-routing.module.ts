@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {MainComponent} from "./business/view/page/main/main.component";
-import {RolesGuard} from './business/guard/roles.duard';
+import {RolesGuard} from './business/guard/roles.guard';
 import {UserRoleAuth} from "./app.constant";
 import {AccessDeniedComponent} from "./auth/page/access-denied/access-denied.component";
 

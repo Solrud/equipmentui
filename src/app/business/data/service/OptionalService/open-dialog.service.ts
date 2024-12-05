@@ -22,6 +22,7 @@ import {GruppaDTO} from "../../model/dto/impl/GruppaDTO";
 import {ModelDTO} from "../../model/dto/impl/ModelDTO";
 import {AttachedElementFromTableEditDialogComponent} from "../../../view/dialog/attached-element-from-table-edit-dialog/attached-element-from-table-edit-dialog.component";
 import {KomplDTO} from "../../model/dto/impl/KomplDTO";
+import {InformationDialogComponent} from "../../../view/dialog/information-dialog/information-dialog.component";
 
 @Injectable({
   providedIn: 'root'
@@ -184,5 +185,15 @@ export class OpenDialogService {
     openUchDialog.componentInstance.uchList = uchList;
     openUchDialog.componentInstance.podrByUch = podrByUch;
     return openUchDialog;
+  }
+
+  //---=========| Модалка информации |=========---
+  openInformationDialog(dialogTitle: string, dialogMessage: string, buttonConfirm: boolean = false){
+    const openInformationDialog = this.modalService.open(InformationDialogComponent,
+      {scrollable: true, size: "sm", centered: true});
+    openInformationDialog.componentInstance.dialogTitle = dialogTitle;
+    openInformationDialog.componentInstance.dialogMessage = dialogMessage;
+    openInformationDialog.componentInstance.buttonConfirm = buttonConfirm;
+    return openInformationDialog;
   }
 }
