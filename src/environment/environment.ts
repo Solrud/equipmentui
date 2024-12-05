@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  auth: false,
   production: false,
   frontendURL: "https://localhost:4200",
   backendURL: "https://testbazis:8698/equipment", // unsec

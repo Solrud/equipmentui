@@ -19,9 +19,9 @@ export class MainComponent implements OnInit{
 
   ngOnInit(): void {
     this.authService.currentUser.subscribe(user => {
-      if(environment.production)
+      if(environment.auth)
         this.user = user;
-      if(!environment.production){
+      if(!environment.auth){
         //создаем юзверя и кидаем ему захардкоденый тип прав, для проверки работы (следующие 5 строк потом удалить)
         this.user = new User();
         this.user.id = 1;
