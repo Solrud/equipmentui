@@ -99,6 +99,9 @@ i{
 .i-bi-arrow-right-circle-disabled:hover::before{
   content: "\f134" !important;
 }
+.i-bi-share-fill-disabled:hover::before{
+  content: "\f52d" !important;
+}
 
 .i-disabled{
   cursor: default;

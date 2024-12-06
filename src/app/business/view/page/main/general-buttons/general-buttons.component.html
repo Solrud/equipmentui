@@ -6,7 +6,7 @@
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
             [disabled]="!selectedElementTable"
-            [class.d-none]="currentRole != UserRole.VIEW"
+            [class.d-none]="!this.currentRole || currentRole != UserRole.VIEW"
             (click)="onClickViewElement()">
       <i class="bi bi-search"></i>
       &nbsp; {{ 'BUTTON.VIEW'|translate }}
@@ -17,7 +17,7 @@
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
             [disabled]="!selectedNavBar"
-            [class.d-none]="currentRole == UserRole.VIEW"
+            [class.d-none]="!this.currentRole || currentRole == UserRole.VIEW"
             (click)="onClickAddNewElement()">
       <i class="bi bi-file-earmark-plus-fill i-add"></i>
       &nbsp; {{ 'BUTTON.ADD'|translate }}
@@ -28,7 +28,7 @@
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
             [disabled]="!selectedElementTable"
-            [class.d-none]="currentRole == UserRole.VIEW"
+            [class.d-none]="!this.currentRole || currentRole == UserRole.VIEW"
             (click)="onClickEditElement()">
       <i class="bi bi-pencil-square i-edit"></i>
       &nbsp; {{ 'BUTTON.EDIT'|translate }}
@@ -39,7 +39,7 @@
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
             [disabled]="!selectedElementTable"
-            [class.d-none]="currentRole == UserRole.VIEW"
+            [class.d-none]="!this.currentRole || currentRole == UserRole.VIEW"
             (click)="onClickChangeActivityElement()">
       <span class = "d-flex flex-row align-items-center fix-width-act-button"
             *ngIf="selectedElementTable && selectedElementTable['akt'] == 1">
@@ -63,7 +63,7 @@
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
             [disabled]="!selectedElementTable || currentRole != UserRole.ADMIN"
-            [class.d-none]="currentRole == UserRole.VIEW"
+            [class.d-none]="!this.currentRole || currentRole == UserRole.VIEW"
             (click)="onClickDeleteElement()">
       <i class="bi bi-trash"></i>
       &nbsp; {{ 'BUTTON.DELETE'|translate }}

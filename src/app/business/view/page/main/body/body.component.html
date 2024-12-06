@@ -26,6 +26,7 @@
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
              [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             [class.i-bi-share-fill-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenGruppaRelationshipDialog(TableType.KOMPL)"></i>
         </div>
         <div class=" p-1">
@@ -57,6 +58,7 @@
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
              [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             [class.i-bi-share-fill-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenModelRelationshipDialog(TableType.KOMPL)"></i>
       </div>
         <div class="p-1">
@@ -96,6 +98,7 @@
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
              [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             [class.i-bi-share-fill-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenKomplRelationshipDialog(TableType.GRUPPA)"></i>
         </div>
         <div class="p-1 d-flex d-flex flex-column">
@@ -127,6 +130,7 @@
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
              [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             [class.i-bi-share-fill-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenModelRelationshipDialog(TableType.GRUPPA)"></i>
         </div>
         <div class="">
@@ -166,6 +170,7 @@
              [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
              placement="start"
              [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+             [class.i-bi-share-fill-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
              (click)="onClickOpenKomplRelationshipDialog(TableType.MODEL)"></i>
         </div>
         <div class=" p-1">
@@ -197,6 +202,7 @@
                [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                placement="start"
                [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+               [class.i-bi-share-fill-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
                (click)="onClickOpenGruppaRelationshipDialog(TableType.MODEL)"></i>
         </div>
         <div class=" p-1">

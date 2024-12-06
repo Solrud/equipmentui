@@ -78,6 +78,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .scrollbar-blue::-webkit-scrollbar {
   width: 12px;
+  height: 12px;
 }
 
 .scrollbar-blue::-webkit-scrollbar-track {
