@@ -1,7 +1,7 @@
 <div class="d-flex col-4 px-1"></div>
 <div class="d-flex col-4 px-1 justify-content-center align-items-center">
   <h2 class="my-3">{{'COMMON.NAME-PROGRAMM' | translate}}</h2>
-  <h4 class="text-black">v.1.0.6</h4>
+  <h4 class="text-black version">{{DEFAULT_APP_VERSION}}</h4>
 </div>
 <div class="d-flex col-4 px-1 justify-content-end align-items-center">
   <div class="d-inline-block px-2" ngbDropdown
@@ -14,29 +14,52 @@
           type="button"
           ngbDropdownToggle>
       <i class="bi bi-person-square text-black"></i>
-      {{user?.firstName}} {{user?.lastName}}
+      {{currentUser?.firstName}} {{currentUser?.lastName}}
     </span>
     <div class="p-2 ddm-action-config" ngbDropdownMenu>
       <div class="mb-2 p-0 text-center">
         <label class="pb-1" for="roleSelect">Текущая роль: </label>
-        <select class="form-select form-select-sm" id="roleSelect" (change)="onClickSelectRole($event)">
-          <option *ngFor="let role of currentApptRoleList" value="{{role}}">{{getRoleViewName(role)}}</option>
+        <select class="form-select form-select-sm"
+                id="roleSelect"
+                (change)="onClickSelectRole($event)">
+          <option *ngFor="let role of currentAppRoleList"
+                  [selected]="role === currentRole"
+                  value="{{role.name}}">{{getRoleViewName(role)}}</option>
         </select>
       </div>
       <button type="button"
               ngbDropdownItem>
-        <i class="bi bi-box-arrow-right"></i> Сменить пользователя</button>
+        <i class="bi bi-box-arrow-right"
+           (click)="onClickChangeUserOrLogout()"></i> Сменить пользователя</button>
     </div>
   </div>
-  <div class="d-inline-block px-2" ngbDropdown>
-    <i class="bi bi-gear me-4 i-config align-self-center"
+  <div class="d-inline-block px-2 me-3 position-relative" ngbDropdown>
+    <i class="bi bi-gear i-config align-self-center m-0"
        ngbTooltip="{{'HINT.HEADER-SETTINGS'|translate }}"
        [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
        [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
        type="button"
-       ngbDropdownToggle></i>
+       ngbDropdownToggle>
+      <img *ngIf="showNewsAttention"
+           class="news-attention-config"
+           src="assets/images/attention-fill.gif" alt="no logo"
+           height="16" width="16">
+    </i>
     <div class="p-2 ddm-action-config"
          ngbDropdownMenu>
+      <button class="btn px-1 position-relative "
+              type="button"
+              role="option"
+              ngbDropdownItem
+              (click)="onClickOpenNewsDialog()"
+      >
+        <i class="bi bi-newspaper"></i>
+        Новости
+        <img *ngIf="showNewsAttention"
+             class="news-attention-config"
+             src="assets/images/attention-fill.gif" alt="no logo"
+             height="16" width="16">
+      </button>
       <button class="btn  px-1 "
               type="button"
               role="option"
@@ -70,11 +93,11 @@
               role="option"
               ngbDropdownItem
               [disabled]="false"
+              (click)="onClickChangeUserOrLogout()"
       >
         <i class="bi bi-box-arrow-right"></i>
          Выход
       </button>
     </div>
   </div>
-
 </div>

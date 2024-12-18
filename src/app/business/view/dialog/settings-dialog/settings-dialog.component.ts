@@ -165,8 +165,8 @@ export class SettingsDialogComponent implements OnInit{
   }
 
   _subscribeCurrentRole(){
-    this.eventService.selectedCurrentRole$.subscribe( result => {
-      this.currentRole = result;
+    this.eventService.currentRole$.subscribe(result => {
+      this.currentRole = result?.name;
     })
   }
 

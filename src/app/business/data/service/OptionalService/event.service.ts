@@ -1,11 +1,47 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {INIT_NAV_BAR, TableType, UserRoleAuth} from "../../../../app.constant";
+import {Role, User} from "../../../../auth/service/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
+  // ------------------------------------------------ Кукиши -------------------------------------------------
+  currentUser$ = new BehaviorSubject<User>(null);                         //текущий пользователь
+  setCurrentUser(user: User) {
+    this.currentUser$.next(user);
+  }
+  currentLanguage$ = new BehaviorSubject<string>(null);                   //выбранный язык приложения
+  changeLanguage(selectedLanguage: string) {
+    this.currentLanguage$.next(selectedLanguage);
+  }
+
+  currentRole$ = new BehaviorSubject(null); // выбранная роль   BehaviorSubject(null) потому что при инициализации с Subject не успевает забрать
+  changeRole(role: Role){
+    this.currentRole$.next(role);
+  }
+
+  currentTableNavBar = new BehaviorSubject(null);
+  changeCurrent
+
+  currentAppVersion$ = new BehaviorSubject<string>(null);                 //текущая версия приложения
+  changeAppVersion(currentAppVersion: string) {
+    this.currentAppVersion$.next(currentAppVersion);
+  }
+  closeSettings$ = new BehaviorSubject<boolean>(false);                    //закрытие окна настроек
+  onCloseSettings() {
+    this.closeSettings$.next(true);
+  }
+  changeUser$ = new BehaviorSubject<boolean>(false);                       //смена пользователя (разлогивание)
+  logout() {
+    this.changeUser$.next(true);
+  }
+  resetCookie$ = new BehaviorSubject<boolean>(false);                      //сброс куков
+  resetCookie() {
+    this.resetCookie$.next(true);
+  }
+
   // --------------------------------------- Таблица ПРЕДпросмотра выбранных связей----------------------------
   selectedPreRelatedElement$ = new Subject();
   selectPreRelatedElement$(selectedElement: any){
@@ -73,7 +109,7 @@ export class EventService {
     this.selectedElementUchTable$.next(selectedElement);
   }
   // --------------------------------------- Справочник оборудования -------------------------------------------
-  selectedSpravTable$ = new BehaviorSubject(INIT_NAV_BAR);        // Выбранный справочник оборудования
+  selectedSpravTable$ = new BehaviorSubject(null);        // Выбранный справочник оборудования
   selectSpravTab$(navTab: TableType){
     this.selectedSpravTable$.next(navTab);
   }
@@ -88,11 +124,6 @@ export class EventService {
     this.spinnerVisibility.next(false);
   }
 
-  // -------------------------------------------- Роли пользователя--- -------------------------------------------
+// --------------------------------------------------- Остальное --------------------------------------------------
   isOpenContextMenu$ = new BehaviorSubject(false);
-
-  selectedCurrentRole$ = new BehaviorSubject(null); // BehaviorSubject(null) потому что при инициализации с Subject не успевает забрать
-  selectCurrentRole$(role: UserRoleAuth){
-    this.selectedCurrentRole$.next(role);
-  }
 }

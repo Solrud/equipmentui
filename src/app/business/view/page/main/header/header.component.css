@@ -1,3 +1,6 @@
+.version{
+  font-size: 12px;
+}
 h2{
   color: rgba(0, 0, 0, 0.82)
 }
@@ -21,4 +24,10 @@ h2{
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.news-attention-config {
+  position: absolute;
+  top: 0 !important;
+  right: 0 !important;
 }

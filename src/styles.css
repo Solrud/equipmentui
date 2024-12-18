@@ -31,7 +31,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   /*background-color: #f2fcff !important;*/
   background-color: #f3fff2 !important;
 }
-
+i.dropdown-toggle:after {
+  display: none;
+}
 .form-label{
   margin-bottom: 4px !important;
 }

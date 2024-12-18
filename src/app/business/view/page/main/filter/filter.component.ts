@@ -120,8 +120,8 @@ export class FilterComponent implements OnChanges, OnInit{
   }
 
   _subscribeCurrentRole(){
-    this.eventService.selectedCurrentRole$.subscribe( result => {
-      this.currentRole = result;
+    this.eventService.currentRole$.subscribe(result => {
+      this.currentRole = result?.name;
 
       this.toSetSelectAktMenuForRole();
     })

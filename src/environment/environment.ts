@@ -6,7 +6,17 @@ export const environment = {
   auth: false,
   production: false,
   frontendURL: "https://localhost:4200",
-  backendURL: "https://testbazis:8698/equipment", // unsec
+  backendURL: "https://testbazis:8103/equipment", // unsec getaway
   authURL: 'https://localhost:3333/api',
   loginUrl: 'https://localhost:3333',
 };
+
+
+/*      equipment
+*     prod seq 8100
+*     dev unseq 8101
+* -----------------------
+*   equipment gateway
+*     prod seq 8102
+*     dev unseq 8103
+*/

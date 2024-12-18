@@ -62,6 +62,7 @@ import {RequestInterceptorService} from "./business/data/service/OptionalService
 import {AUTH_URL_TOKEN, LOGIN_URL_TOKEN} from "./auth/service/auth.service";
 import { DragModalDirective } from './business/data/service/OptionalService/drag-modal.directive';
 import { ToShowSpinnerDirective } from './utils/to-show-spinner.directive';
+import { NewsDialogComponent } from './business/view/dialog/news-dialog/news-dialog.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -102,6 +103,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     AccessDeniedComponent,
     DragModalDirective,
     ToShowSpinnerDirective,
+    NewsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -142,7 +144,6 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     {provide: UCH_URL_TOKEN, useValue: environment.backendURL + '/uch'},
 
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptorService, multi: true},
-    // это для куков интерцептор походу, пока не нужон
     {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

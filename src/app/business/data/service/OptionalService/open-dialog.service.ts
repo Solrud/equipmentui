@@ -23,6 +23,7 @@ import {ModelDTO} from "../../model/dto/impl/ModelDTO";
 import {AttachedElementFromTableEditDialogComponent} from "../../../view/dialog/attached-element-from-table-edit-dialog/attached-element-from-table-edit-dialog.component";
 import {KomplDTO} from "../../model/dto/impl/KomplDTO";
 import {InformationDialogComponent} from "../../../view/dialog/information-dialog/information-dialog.component";
+import {NewsDialogComponent} from "../../../view/dialog/news-dialog/news-dialog.component";
 
 @Injectable({
   providedIn: 'root'
@@ -195,5 +196,11 @@ export class OpenDialogService {
     openInformationDialog.componentInstance.dialogMessage = dialogMessage;
     openInformationDialog.componentInstance.buttonConfirm = buttonConfirm;
     return openInformationDialog;
+  }
+  //---=========| Модалка NEWS24-EQUIPMENT Новостей |=========---
+  openNewsDialog(){
+    const openNewsDialog = this.modalService.open(NewsDialogComponent,
+      {scrollable: true, size: "lg", centered: this.toCenteredModal});
+    return openNewsDialog;
   }
 }
