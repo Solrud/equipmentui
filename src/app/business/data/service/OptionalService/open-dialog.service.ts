@@ -200,7 +200,7 @@ export class OpenDialogService {
   //---=========| Модалка NEWS24-EQUIPMENT Новостей |=========---
   openNewsDialog(){
     const openNewsDialog = this.modalService.open(NewsDialogComponent,
-      {scrollable: true, size: "lg", centered: this.toCenteredModal});
+      {scrollable: true, size: "xl", centered: this.toCenteredModal});
     return openNewsDialog;
   }
 }

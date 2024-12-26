@@ -63,6 +63,7 @@ import {AUTH_URL_TOKEN, LOGIN_URL_TOKEN} from "./auth/service/auth.service";
 import { DragModalDirective } from './business/data/service/OptionalService/drag-modal.directive';
 import { ToShowSpinnerDirective } from './utils/to-show-spinner.directive';
 import { NewsDialogComponent } from './business/view/dialog/news-dialog/news-dialog.component';
+import { GarlandComponent } from './business/data/model/shared/garland/garland.component';
 
 registerLocaleData(localeRu)
 function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
@@ -104,6 +105,7 @@ function HttpLoaderFactory(httpClient: HttpBackend): MultiTranslateHttpLoader {
     DragModalDirective,
     ToShowSpinnerDirective,
     NewsDialogComponent,
+    GarlandComponent,
   ],
   imports: [
     BrowserModule,

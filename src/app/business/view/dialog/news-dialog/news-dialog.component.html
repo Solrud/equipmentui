@@ -2,8 +2,36 @@
   <h1 class="m-0 text-center">Новости справочника оборудования</h1>
 </div>
 
-<div class="modal-body d-flex flex-column align-items-center">
-  <p class="fs-6 text-break">Тут будут новости</p>
+<div class="modal-body d-flex flex-column py-3 ">
+  <app-garland></app-garland>
+    <h4 class="text-title-current-version-config text-center">Текущая версия сайта:
+      <span class="text-new-version-config fw-bold">{{currentAppVersion}}</span>
+    </h4>
+    <h5 class="text-end px-3">Последняя версия с который вы работали:
+      <span [class.text-new-version-config]="oldAppVersion == currentAppVersion"
+            [class.text-old-version-config]="oldAppVersion != currentAppVersion">{{oldAppVersion}}</span>
+    </h5>
+  <div class="overflow-auto scrollbar-blue">
+    <div *ngFor="let news of allNews"
+         class="d-flex flex-column flex-grow-1 disable-highlight-text px-3"
+         [class.is-first-time-opened]="isFirstTimeOpened && news.version === currentAppVersion">
+      <p *ngIf="news.version; else ifNotNews" class="m-0 p-0 fs-6 text-decoration-underline fw-semibold">
+        Версия
+        <span [class.text-new-version-config]="news.version === currentAppVersion"
+              [class.text-old-version-config]="news.version != currentAppVersion">
+        {{news.version}}</span>
+        от
+        <span>{{news.date | date:'dd.MM.yyyy'}}</span>
+      </p>
+      <ng-template #ifNotNews class="m-0 p-0 fs-6">-</ng-template>
+      <span *ngFor="let desc of news.description; let isLast = last">
+      <span class="">{{desc}}</span>
+      <div *ngIf="isLast" class="mb-3" >
+        <div class="mb-2"></div>
+      </div>
+    </span>
+    </div>
+  </div>
 </div>
 
 <div class="modal-footer justify-content-end">

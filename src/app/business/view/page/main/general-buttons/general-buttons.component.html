@@ -62,8 +62,8 @@
             [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
             [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
             placement="bottom"
-            [disabled]="!selectedElementTable || currentRole != UserRole.ADMIN"
-            [class.d-none]="!this.currentRole || currentRole == UserRole.VIEW"
+            [disabled]="!selectedElementTable"
+            [class.d-none]="!this.currentRole || currentRole == UserRole.VIEW || currentRole != UserRole.ADMIN"
             (click)="onClickDeleteElement()">
       <i class="bi bi-trash"></i>
       &nbsp; {{ 'BUTTON.DELETE'|translate }}

@@ -27,10 +27,6 @@ import {OborudEkzSearchDTO} from "../../../../data/model/search/impl/OborudEkzSe
 import {ModelSearchDTO} from "../../../../data/model/search/impl/ModelSearchDTO";
 import {GruppaSearchDTO} from "../../../../data/model/search/impl/GruppaSearchDTO";
 import {debounceTime} from "rxjs/operators";
-import {KomplDTO} from "../../../../data/model/dto/impl/KomplDTO";
-import {GruppaDTO} from "../../../../data/model/dto/impl/GruppaDTO";
-import {ModelDTO} from "../../../../data/model/dto/impl/ModelDTO";
-import {OborudEkzDTO} from "../../../../data/model/dto/impl/OborudEkzDTO";
 
 @Component({
   selector: 'app-filter',
