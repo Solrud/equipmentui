@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Holiday} from "../../../../../app.constant";
 
 @Component({
   selector: 'app-garland',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./garland.component.css']
 })
 export class GarlandComponent {
+  @Input()
+  currentHoliday: Holiday | null = null;
 
+  get Holiday(){
+    return Holiday;
+  }
 }

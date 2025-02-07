@@ -99,6 +99,12 @@ export enum DialogResult {                   //Результат закрыти
   RETURN
 }
 
+export enum Holiday{
+  NEW_YEAR,
+  WOMANS_DAY,
+  MANS_DAY,
+}
+
 export enum UserRoleAuth {                   // Роль авторизированного юзверя
   ADMIN = 'EQUIPMENT_ADMIN',
   USER = 'EQUIPMENT_USER',

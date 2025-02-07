@@ -284,3 +284,31 @@
     color: #ab47e9
   }
 }
+
+
+.averin_march8 {
+  position: fixed;
+  right: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  z-index: 500;
+  display: block;
+  background: url(src/assets/images/garland-flowers.png) repeat-x top center;
+  background-size: contain;
+}
+
+
+.feb-23{
+  position: fixed;
+  right: 0;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 40px;
+  z-index: 500;
+  display: block;
+  background: url(src/assets/images/garland_23_february.png) repeat-x top center;
+  background-size: contain;
+}

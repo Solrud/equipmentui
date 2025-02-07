@@ -1,5 +1,11 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {DEFAULT_APP_VERSION, DELAY_TIME_CLOSE_FOR_TOOLTIP, DELAY_TIME_OPEN_FOR_TOOLTIP, DialogResult, UserRoleAuth} from "../../../../../app.constant";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  DEFAULT_APP_VERSION,
+  DELAY_TIME_CLOSE_FOR_TOOLTIP,
+  DELAY_TIME_OPEN_FOR_TOOLTIP,
+  DialogResult,
+  Holiday
+} from "../../../../../app.constant";
 import {OpenDialogService} from "../../../../data/service/OptionalService/open-dialog.service";
 import {ToastService} from "../../../../data/service/OptionalService/toast.service";
 import {Role, User} from "../../../../../auth/service/auth.service";
@@ -17,6 +23,7 @@ export class HeaderComponent implements OnInit{
   currentRole: Role;
   // currentLanguage: string;
   showNewsAttention: boolean;
+  currentHoliday: Holiday | null = null;
 
   @Input()
   currentAppRoleList: Role[];
@@ -31,12 +38,28 @@ export class HeaderComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.initHolidayEvents();
     this._getCurrentUser();
     this._changeRole();
     // this._changeLanguage();
     this._changeAppVersion();
   }
 
+  get Holiday(){
+    return Holiday;
+  }
+
+  initHolidayEvents(){
+    const todayDate = new Date();
+    const month = todayDate.getMonth() + 1;
+    const day = todayDate.getDate();
+    if (month == 12 || month == 1)
+      this.currentHoliday = Holiday.NEW_YEAR;
+    if ((month == 2 && (day == 22 || day == 23) || month == 5 && (day == 8 || day == 9)))
+      this.currentHoliday = Holiday.MANS_DAY;
+    if (month == 3)
+      this.currentHoliday = Holiday.WOMANS_DAY;
+  }
 
   public get DEFAULT_APP_VERSION(){
     return DEFAULT_APP_VERSION;

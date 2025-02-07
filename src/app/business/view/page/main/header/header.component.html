@@ -1,4 +1,4 @@
-<app-garland></app-garland>
+<app-garland [currentHoliday]="currentHoliday"></app-garland>
 <div class="d-flex col-4 px-1"></div>
 <div class="d-flex col-4 px-1 justify-content-center align-items-center">
   <h2 class="my-3">{{'COMMON.NAME-PROGRAMM' | translate}}</h2>
@@ -8,7 +8,7 @@
   <div class="d-inline-block px-2" ngbDropdown
   >
     <span class="disable-highlight-text fs-6 hover-header-config text-black text-capitalize"
-          ngbTooltip="{{'HINT.HEADER-ROLE'|translate }}"
+          ngbTooltip="{{'HINT.HEADER-ROLE'| translate }}"
           [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
           [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
           placement="bottom"
@@ -19,7 +19,7 @@
     </span>
     <div class="p-2 ddm-action-config" ngbDropdownMenu>
       <div class="mb-2 p-0 text-center">
-        <label class="pb-1" for="roleSelect">Текущая роль: </label>
+        <label class="pb-1" for="roleSelect">{{'COMMON.CURRENT-ROLE'| translate }}: </label>
         <select class="form-select form-select-sm"
                 id="roleSelect"
                 (change)="onClickSelectRole($event)">
@@ -31,12 +31,12 @@
       <button type="button"
               ngbDropdownItem>
         <i class="bi bi-box-arrow-right"
-           (click)="onClickChangeUserOrLogout()"></i> Сменить пользователя</button>
+           (click)="onClickChangeUserOrLogout()"></i> {{'COMMON.CHANGE-USER'| translate }}</button>
     </div>
   </div>
   <div class="d-inline-block px-2 me-3 position-relative" ngbDropdown>
     <i class="bi bi-gear i-config align-self-center m-0"
-       ngbTooltip="{{'HINT.HEADER-SETTINGS'|translate }}"
+       ngbTooltip="{{'HINT.HEADER-SETTINGS'| translate }}"
        [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
        [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
        type="button"
@@ -55,7 +55,7 @@
               (click)="onClickOpenNewsDialog()"
       >
         <i class="bi bi-newspaper"></i>
-        Новости
+        {{'BUTTON.NEWS'| translate }}
         <img *ngIf="showNewsAttention"
              class="news-attention-config"
              src="assets/images/attention-fill.gif" alt="no logo"
@@ -68,17 +68,8 @@
               (click)="onClickOpenSettingsDialog()"
       >
         <i class="bi bi-gear"></i>
-        Настройки
+        {{'BUTTON.SETTINGS'| translate }}
       </button>
-<!--      <button class="btn  px-1"-->
-<!--              type="button"-->
-<!--              role="option"-->
-<!--              ngbDropdownItem-->
-<!--              [disabled]="true"-->
-<!--      >-->
-<!--        <i class="bi bi-info-square"></i>-->
-<!--        Информация-->
-<!--      </button>-->
       <button class="btn  px-1"
               type="button"
               role="option"
@@ -87,7 +78,7 @@
               (click)="onClickOpenInstruction()"
       >
         <i class="bi bi-file-earmark-pdf-fill"></i>
-        Инструкция
+        {{'BUTTON.INSTRUCTION'| translate }}
       </button>
       <button class="btn  px-1"
               type="button"
@@ -97,7 +88,7 @@
               (click)="onClickChangeUserOrLogout()"
       >
         <i class="bi bi-box-arrow-right"></i>
-         Выход
+        {{'BUTTON.EXIT'| translate }}
       </button>
     </div>
   </div>
