@@ -44,11 +44,13 @@ export class RolesGuard implements CanActivate{
           // если у пользователя есть права на эту страницу, то возвращаем true и перебрасываем на запрошенный url
           return this.userHasRequiredRole(user.roleSet, route.data['allowedRoles']);
         } else { // если пользователь неавторизован, то отправить его на главную страницу
+          this.router.navigate(['/access-denied']);
           this.authService.onNavigate();
           return false; // не переходить по запрошенному url
         }
       }),
       catchError(err => {
+        this.router.navigate(['/access-denied']);
         this.authService.onNavigate();
         // return of(false); // не переходить по запрошенному url
         //https://rxjs.dev/deprecations/scheduler-argument

@@ -116,11 +116,13 @@ export class BodyComponent implements OnInit{
   // 6.   ✅    При добавлении нового вида оборудования исправить в названии окна Код оборудования на Вид оборудования.
   // 9.   ✅    Скрыть кнопку Отчет (пока).
   // 10.  ✅    При выделении экземпляра при отсутствии связанной модели кнопку перехода делать неактивной.
-  // DTO<any> переделать придумать
+  // 11.  ✅    подключение к реальной бд на проде
+  // 12.  ✅    название экземпляра складывается из naim + obozn модели, когда выбирается модель при создании самого экземпляра
+  // 13.  ✅    создание связанного экземпляра из под модели (блокируется кнопка выбора модели)
   // -
   // =>-ОПЦИОНАЛЬНО-<=
-  // таблица связей при заполнении обоих проваливается вниз сайта, нужен правильный overflow
-  // хэлп и о приложении, хэлп в ворд скачиваемый или пдф веб-просмотрщик(не скоро)
+  // ? таблица связей при заполнении обоих проваливается вниз сайта, нужен правильный overflow
+  // ?  // DTO<any> переделать придумать
   // -
   // =>-ВОПРОС-<=
   // -
@@ -128,10 +130,9 @@ export class BodyComponent implements OnInit{
   // нужно попросить диму исправить ошибку. если вызывать searchPage С ПАРАМЕТОМ "родитель"ID,
   //   (т.е. выдавать экземпляры привязанные к родителю) у вида или участков, то приходит просто список ВСЕХ запрашиваемых сущностей,
   //     это надо чтобы работала сортировка в таблице
-  // подключение к рейльной бд на проде
-  // код классификатора скоро не нужно будет формировать для создания группы
+  // ,
+  // код классификатора скоро не нужно будет формировать для создания группы (как это?)
   // - может стоит перейти с каскадной модели ДТО в v.2
-  // не удаляется в настройках справочник если в нем есть дети
 
   public get TableType() {
     return TableType;
@@ -141,6 +142,9 @@ export class BodyComponent implements OnInit{
   }
   public get UserRole() {
     return UserRoleAuth;
+  }
+  public get DialogMode() {
+    return DialogMode;
   }
   public get DELAY_TIME_OPEN_FOR_TOOLTIP(){
     return DELAY_TIME_OPEN_FOR_TOOLTIP;
@@ -318,13 +322,24 @@ export class BodyComponent implements OnInit{
     }
   }
 
-  onClickOpenOborudEkzDialog(){
-    if (this.mainSelectedElement && this.oborudEkzRelationshipSelectedElement && this.currentRole != UserRoleAuth.VIEW){
-      this.openDialogService.openElementDialog(this.oborudEkzRelationshipSelectedElement,
-        TableType.OBORUD_EKZ, DialogMode.EDIT).closed.subscribe( result => {
+  onClickOpenOborudEkzDialog(dialogMode: DialogMode){
+    if (dialogMode === DialogMode.EDIT && this.mainSelectedElement && this.oborudEkzRelationshipSelectedElement && this.currentRole != UserRoleAuth.VIEW){
+      this.openDialogService
+        .openElementDialog(this.oborudEkzRelationshipSelectedElement, TableType.OBORUD_EKZ, DialogMode.EDIT, this.mainSelectedElement)
+        .closed
+        .subscribe( result => {
         if (result == DialogResult.ACCEPT)
           this.onReSearchPage(true);
       })
+    }
+    if (dialogMode === DialogMode.CREATE && this.mainSelectedElement && this.currentRole != UserRoleAuth.VIEW){
+      this.openDialogService
+        .openElementDialog(null, TableType.OBORUD_EKZ, DialogMode.CREATE, this.mainSelectedElement)
+        .closed
+        .subscribe( result => {
+          if (result == DialogResult.ACCEPT)
+            this.onReSearchPage(true);
+        })
     }
   }
 

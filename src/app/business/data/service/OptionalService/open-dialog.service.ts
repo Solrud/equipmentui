@@ -38,7 +38,7 @@ export class OpenDialogService {
   }
 
   //---=========| Модалки изменения элементов в таблице |==========---
-  openElementDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode){
+  openElementDialog(selectedElement: any, selectedNavBar: TableType, dialogMode: DialogMode, attachedModel?: ModelDTO){
     switch (selectedNavBar) {
       case TableType.KOMPL:
         const openKomplElementEditDialog = this.modalService.open(KomplElementEditDialogComponent, {
@@ -85,6 +85,7 @@ export class OpenDialogService {
           modalDialogClass: "modal-config"
         });
         if (dialogMode != DialogMode.CREATE) openOborudEkzElementEditDialog.componentInstance.selectedElement = selectedElement;
+        openOborudEkzElementEditDialog.componentInstance.attachedModel = attachedModel;
         openOborudEkzElementEditDialog.componentInstance.dialogMode = dialogMode;
 
         return openOborudEkzElementEditDialog;

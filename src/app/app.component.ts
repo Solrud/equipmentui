@@ -16,7 +16,6 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.isProd = environment.production
-    //Todo потом что нибудь передалть с куками
     this.translateService.use(defaultLocale);
   }
 }

@@ -38,7 +38,7 @@
           (click)="onClickChangeAkt()">{{"BUTTON.MAKE-ACTIVE" | translate}}</button>
   <button type="button"
           class="btn btn-danger"
-          *ngIf="dialogMode == DialogMode.DELETE"
+          *ngIf="dialogMode == DialogMode.DELETE && !isKlassNotEmpty"
           (click)="onClickDelete()">{{"BUTTON.DELETE" | translate}}</button>
   <button type="button"
           class="btn btn-secondary"

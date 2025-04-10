@@ -27,6 +27,7 @@ import {PodrSearchDTO} from "../../../../data/model/search/impl/PodrSearchDTO";
 export class OborudEkzElementEditDialogComponent implements OnInit{
   dialogMode: DialogMode;
   selectedElement: any;
+  attachedModel: ModelDTO;
 
   fgOborudEkzElement: FormGroup;
 
@@ -86,6 +87,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
 
   initDialogDefaultValues(){
     if (!this.dialogMode) this.dialogMode = DialogMode.VIEW;
+    if (!this.attachedModel) this.attachedModel = null;
     if (this.dialogMode === DialogMode.VIEW) this.fgOborudEkzElement.disable();
     if (!this.selectedElement) this.selectedElement = null;
     if (!this.newModel && this.selectedElement?.model) this.newModel = this.selectedElement.model;
@@ -117,7 +119,14 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
         this.podrListDDM = result.content;
         this.podrList = result.content;
     })
-
+    if (this.dialogMode === DialogMode.CREATE){
+      if (this.attachedModel){
+        this.newModel = this.attachedModel;
+        this.fgOborudEkzElement.controls['model'].setValue(this.attachedModel.naim);
+        const newNaimEkzByModel = `${this.attachedModel.naim} ${this.attachedModel.obozn}`
+        this.fgOborudEkzElement.controls['naim'].setValue(newNaimEkzByModel);
+      }
+    }
     if (this.dialogMode != DialogMode.CREATE){
       if(this.selectedElement.proizv) this.onClickSelectDDIProizv(this.selectedElement.proizv);
       // if(this.selectedElement.model) this.onClickSelectDDIModel(this.selectedElement.model);
@@ -318,11 +327,16 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
   }
 
   onClickAttachModel(){
-    this.openDialogService.openAttachedElementFromTableDialog(this.newModel, DialogMode.CREATE).closed.subscribe( result => {
-      if(result[0] == DialogResult.ACCEPT){
-        this.toastService.showPositive('Установлена связь с моделью');
-        this.newModel = result[1];
-        this.fgOborudEkzElement.controls['model'].setValue(result[1].naim);
+    this.openDialogService
+      .openAttachedElementFromTableDialog(this.newModel, DialogMode.CREATE)
+      .closed
+      .subscribe( result => {
+        if(result[0] == DialogResult.ACCEPT){
+          this.toastService.showPositive('Установлена связь с моделью');
+          this.newModel = result[1];
+          this.fgOborudEkzElement.controls['model'].setValue(result[1].naim);
+          const newNaimEkzByModel = `${result[1].naim} ${result[1].obozn}`
+          this.fgOborudEkzElement.controls['naim'].setValue(newNaimEkzByModel);
       }
     })
   }
@@ -365,7 +379,7 @@ export class OborudEkzElementEditDialogComponent implements OnInit{
         this.toastService.showPositive('Успешно изменен экземпляр оборудования');
       }
     }, error => {
-      this.toastService.showPositive('Ошибка при изменении экземпляра оборудования');
+      this.toastService.showNegative('Ошибка при изменении экземпляра оборудования');
       console.log('Ошибка в OborudEkzElementEditDialogComponent onClickUpdateOborudEkz()')
     })
   }

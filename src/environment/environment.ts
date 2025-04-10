@@ -7,8 +7,8 @@ export const environment = {
   production: false,
   frontendURL: "https://localhost:4200",
   backendURL: "https://testbazis:8103/equipment", // unsec getaway
-  authURL: 'https://localhost:3333/api',
-  loginUrl: 'https://localhost:3333',
+  authURL: 'https://testbazis.avi.motor.loc:3333/api',
+  loginUrl: 'https://testbazis.avi.motor.loc:3333',
 };
 
 

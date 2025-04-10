@@ -225,7 +225,14 @@
                [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                placement="start"
                [class.i-disabled]="!oborudEkzRelationshipSelectedElement || currentRole == UserRole.VIEW"
-               (click)="onClickOpenOborudEkzDialog()"></i>
+               (click)="onClickOpenOborudEkzDialog(DialogMode.EDIT)"></i>
+            <i class="bi bi-share-fill me-3 i-add pointer"
+               ngbTooltip="{{'HINT.RELATE-EKZ'|translate }}"
+               [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
+               [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
+               placement="start"
+               [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+               (click)="onClickOpenOborudEkzDialog(DialogMode.CREATE)"></i>
           </div>
         </div>
         <div class="p-2">
@@ -242,7 +249,7 @@
     </div>
   </mat-drawer>
 
-  <!-- Контент Body  -->
+  <!-- ? Контент Body  -->
   <div class="example-sidenav-content d-flex flex-column">
     <!-- Кнопки редактирования -->
     <app-general-buttons class="d-flex mt-4 mb-3"
@@ -252,7 +259,7 @@
                          (goToRelativeModelElement)="onClickGoToRelativeModelElement($event)"
     ></app-general-buttons>
 
-    <!-- Фильтр -->
+    <!-- ? Фильтр -->
     <app-filter
       [searchKompl]="komplSearch"
       [searchGruppa]="gruppaSearch"
@@ -264,7 +271,7 @@
       (newSearch)="onChangePage($event)"
     ></app-filter>
 
-    <!-- Вкладки навигации таблиц -->
+    <!-- ? Вкладки навигации таблиц -->
     <div class="d-flex flex-row group-tabs-config">
       <div class="tabs-config bg-kompl-color"
            ngbTooltip="{{'HINT.MAIN-TABLE-KOMPL'|translate }}"

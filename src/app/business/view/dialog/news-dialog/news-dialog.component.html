@@ -25,11 +25,11 @@
       </p>
       <ng-template #ifNotNews class="m-0 p-0 fs-6">-</ng-template>
       <span *ngFor="let desc of news.description; let isLast = last">
-      <span class="">{{desc}}</span>
-      <div *ngIf="isLast" class="mb-3" >
-        <div class="mb-2"></div>
-      </div>
-    </span>
+        <span class="">{{desc}}</span>
+        <div *ngIf="isLast" class="mb-3" >
+          <div class="mb-2"></div>
+        </div>
+      </span>
     </div>
   </div>
 </div>

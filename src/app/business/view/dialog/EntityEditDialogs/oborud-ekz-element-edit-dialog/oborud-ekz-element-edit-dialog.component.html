@@ -83,7 +83,7 @@
                [required]="fcFieldIsRequired('model', true)"
         >
         <button class="btn btn-light border-dark"
-                [disabled]="dialogMode === DialogMode.VIEW"
+                [disabled]="dialogMode === DialogMode.VIEW || attachedModel"
                 (click)="onClickAttachModel()">
           {{"ACTION.ATTACH-MODEL" | translate}}
           <i class="ms-1 bi bi-share"></i>
