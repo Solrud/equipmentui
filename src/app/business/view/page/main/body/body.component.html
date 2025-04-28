@@ -226,12 +226,13 @@
                placement="start"
                [class.i-disabled]="!oborudEkzRelationshipSelectedElement || currentRole == UserRole.VIEW"
                (click)="onClickOpenOborudEkzDialog(DialogMode.EDIT)"></i>
-            <i class="bi bi-share-fill me-3 i-add pointer"
-               ngbTooltip="{{'HINT.RELATE-EKZ'|translate }}"
+            <i class="bi bi-node-plus-fill me-3 i-add pointer"
+               ngbTooltip="{{'HINT.ADD_EKZ'|translate }}"
                [openDelay]="DELAY_TIME_OPEN_FOR_TOOLTIP"
                [closeDelay]="DELAY_TIME_CLOSE_FOR_TOOLTIP"
                placement="start"
                [class.i-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
+               [class.i-bi-node-plus-fill-disabled]="!mainSelectedElement || currentRole == UserRole.VIEW"
                (click)="onClickOpenOborudEkzDialog(DialogMode.CREATE)"></i>
           </div>
         </div>

@@ -102,6 +102,9 @@ i{
 .i-bi-share-fill-disabled:hover::before{
   content: "\f52d" !important;
 }
+.i-bi-node-plus-fill-disabled:hover::before{
+  content: "\f4a6" !important;
+}
 
 .i-disabled{
   cursor: default;

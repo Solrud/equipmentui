@@ -45,7 +45,7 @@ export const CV_ROLE = 'role';
 export const CV_APP_VERSION = 'version';
 export const CV_INIT_NAV_TAB = 'selectedSpravochnik';
 
-export const DEFAULT_APP_VERSION = 'v.1.0.8';
+export const DEFAULT_APP_VERSION = 'v.1.0.9';
 export const DEFAULT_LANGUAGE = 'ru';
 
 export const DEFAULT_PAGE_NUMBER = 0;
